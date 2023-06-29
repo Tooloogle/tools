@@ -1,0 +1,15 @@
+ol li {
+    padding: 5px 15px;
+}
+
+ol li a {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.tool-container {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+}

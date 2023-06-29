@@ -1,0 +1,38 @@
+:host {
+    --t-border-color: #dee2e6;
+    --t-bg-color: #fff;
+    --t-color: #212529;
+    --t-border-radius: 0.375rem;
+    --t-border-width: 1px;
+}
+
+input,
+textarea {
+    /* display: block; */
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--t-color);
+    background-color: var(--t-bg-color);
+    background-clip: padding-box;
+    border: var(--t-border-width) solid var(--t-border-color);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: var(--t-border-radius);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+input:focus,
+textarea:focus {
+    color: var(--t-color);
+    background-color: var(--t-bg-color);
+    border-color: #86b7fe;
+    outline: 0;
+}
+
+input:placeholder-shown {
+    text-overflow: ellipsis;
+}
