@@ -6,7 +6,7 @@
     --t-border-width: 1px;
 }
 
-input,
+input:not([type="checkbox"]),
 textarea {
     /* display: block; */
     width: 100%;

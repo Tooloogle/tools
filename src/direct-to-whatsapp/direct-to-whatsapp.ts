@@ -1,8 +1,8 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { gridStyles } from "./../_styles/grid.css.js"
-import { inputStyles } from "./../_styles/input.css.js"
-import { buttonStyles } from "./../_styles/button.css.js"
+import { gridStyles } from "../_styles/grid.css.js"
+import { inputStyles } from "../_styles/input.css.js"
+import { buttonStyles } from "../_styles/button.css.js"
 import { marginUtilsStyles } from '../_styles/margin-utils.css.js';
 import { utilsStyles } from '../_styles/utils.css.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
