@@ -16,7 +16,7 @@ export class DirectToWhatsApp extends WebComponentBase<IConfigBase> {
 
   validateForm(e: FormDataEvent) {
     if (!this.phone
-      || !/^[0-9\-\+]{9,15}$/.test(this.phone)) {
+      || !/^[0-9\-+]{9,15}$/.test(this.phone)) {
       e.preventDefault();
       return false;
     }
@@ -29,7 +29,7 @@ export class DirectToWhatsApp extends WebComponentBase<IConfigBase> {
       <form action="https://api.whatsapp.com/send" method="GET" @submit=${this.validateForm}>
         <div class="row">
             <div class="col">
-                <input 
+                <input
                   name="phone"
                   class="my-2"
                   autofocus

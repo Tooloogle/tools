@@ -9,7 +9,7 @@ cssFiles.forEach(cssFile => {
         const fileName = path.parse(cssFile).name;
         const content = fs.readFileSync(cssFile);
         fs.writeFileSync(`${cssFile}.ts`, `
-//THIS IS AUTO GENERATED FILE, DO NOT MAKE ANY CHANGES HERE.
+// THIS IS AUTO GENERATED FILE, DO NOT MAKE ANY CHANGES HERE.
 import { css } from 'lit';
 export const ${fileName.replace(/-./g, val => val[1].toUpperCase())}Styles = css\`${content.toString('utf8')}\`;`);
     } catch (err) {
