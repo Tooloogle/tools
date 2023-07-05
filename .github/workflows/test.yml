@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,5 +17,5 @@ jobs:
         with:
           node-version: 'lts/*'
       - run: npm ci
-      - run: npm lint
+      - run: npm run lint
       # - run: npm test # setup test
