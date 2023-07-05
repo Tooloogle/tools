@@ -31,7 +31,7 @@ jobs:
       - name: Publish git npm package
         run: |
           npm install -g @semantic-release/changelog @semantic-release/git semantic-release 
-          GITHUB_REF=${{ github.event.workflow_run.head_branch }} semantic-release
+          GITHUB_REF=${{ github.event.workflow_run.head_branch }} semantic-release --branches ${{ github.event.workflow_run.head_branch }}
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
