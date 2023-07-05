@@ -12,6 +12,7 @@
     "lint": "eslint src css-to-ts.js",
     "lint:fix": "npm run lint -- --fix",
     "postbuild": "node postbuild.js",
+    "postinstall": "node css-to-ts.js",
     "test": "jest"
   },
   "repository": {
