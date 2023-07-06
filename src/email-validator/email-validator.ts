@@ -11,7 +11,7 @@ export class EmailValidator extends WebComponentBase<IConfigBase> {
     isValid = false;
 
     onChange(e: any) {
-        this.isValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(e.target?.value);
+        this.isValid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(e.target?.value);
     }
 
     override render() {
