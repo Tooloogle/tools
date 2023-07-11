@@ -2,17 +2,17 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import dayjs from 'dayjs/esm'
 import duration from 'dayjs/esm/plugin/duration';
-import { gridStyles } from '../_styles/grid.css.js';
-import { inputStyles } from '../_styles/input.css.js';
-import { ageCalculatorStyles } from './age-calculator.css.js';
+import gridStyles from '../_styles/grid.css.js';
+import inputStyles from '../_styles/input.css.js';
+import ageCalculatorStyles from './age-calculator.css.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
-import { marginUtilsStyles } from '../_styles/margin-utils.css.js';
-import { utilsStyles } from '../_styles/utils.css.js';
-import { buttonStyles } from '../_styles/button.css.js';
+import marginUtilsStyles from '../_styles/margin-utils.css.js';
+import utilsStyles from '../_styles/utils.css.js';
+import buttonStyles from '../_styles/button.css.js';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { formatNumber } from '../_utils/NumberHelper.js';
-import { tableStyles } from '../_styles/table.css.js';
+import tableStyles from '../_styles/table.css.js';
 
 dayjs.extend(duration);
 
@@ -73,7 +73,7 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
                 hours: diff.asHours(),
                 minutes: diff.asMinutes(),
                 seconds: diff.asSeconds(),
-                // milliseconds: formatNumber(diff.asMilliseconds(), 0),
+                // milliseconds: diff.asMilliseconds(),
             }
         };
     }

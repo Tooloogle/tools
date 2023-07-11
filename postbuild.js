@@ -7,6 +7,7 @@ const outDir = 'dist';
 [
     'package.json',
     'LICENSE',
+    'README.md',
 ].forEach(fileOrDir => {
     fs.copySync(
         resolve(fileOrDir),

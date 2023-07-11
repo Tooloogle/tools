@@ -1,10 +1,18 @@
+import { getCurrentLocale } from "./LocaleHelper.js";
+
 export function formatNumber(num: number, fraction = 2) {
-    if (num === undefined) {
+    if (num === undefined || isNaN(num)) {
         return num;
     }
 
-    // return new Intl.NumberFormat('en-IN', {
-    //     maximumFractionDigits: 2,
-    // }).format(num);
-    return `${num.toFixed(fraction)}`.replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+    try {
+        num = Number(num);
+    } catch (err) {
+        return num;
+    }
+
+    return num.toLocaleString(getCurrentLocale(), {
+        minimumFractionDigits: fraction,
+        maximumFractionDigits: fraction,
+    });
 }
