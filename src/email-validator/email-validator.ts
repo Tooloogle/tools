@@ -1,6 +1,6 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { inputStyles } from "../_styles/input.css.js"
+import inputStyles from "../_styles/input.css.js"
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 
 @customElement('email-validator')
