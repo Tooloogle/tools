@@ -6,13 +6,14 @@
   "scripts": {
     "start": "npm run serve",
     "serve": "concurrently \"tsc --watch\" \"npm run css:watch\" \"wds --watch\"",
+    "css": "node css-to-ts.js",
     "css:watch": "nodemon -e css css-to-ts.js",
-    "build": "tsc",
-    "build:watch": "tsc --watch",
+    "build": "npm run css && tsc",
+    "build:watch": "npm run css && tsc --watch",
+    "clean": "npx rimraf dist && npx rimraf src/**/*.css.ts",
     "lint": "eslint src css-to-ts.js",
     "lint:fix": "npm run lint -- --fix",
     "postbuild": "node postbuild.js",
-    "postinstall": "node css-to-ts.js",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "repository": {

@@ -28,7 +28,7 @@ jobs:
         run: npm audit signatures
       - run: npm run build
       - run: cd dist
-      - name: Publish git npm package
+      - name: Publish npm package
         run: |
           npm install -g @semantic-release/changelog @semantic-release/git semantic-release 
           GITHUB_REF=${{ github.event.workflow_run.head_branch }} semantic-release --branches ${{ github.event.workflow_run.head_branch }}
