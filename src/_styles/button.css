@@ -1,24 +1,11 @@
-:host {
-    --t-border-radius: 0.375rem;
-    --t-border-width: 1px;
+.btn {
+    @apply font-bold py-2 px-4 rounded;
 }
 
-button {
-    --t-bg-color: #0d6efd;
-    --t-color: #fff;
-    --t-border-color: #0d6efd;
-    padding: 0.375rem 0.75rem;
-    font-size: 0.875rem;
-    border-radius: var(--t-border-radius);
-    border-width: var(--t-border-width);
-    background-color: var(--t-bg-color);
-    color: var(--t-color);
+.btn-blue {
+    @apply bg-blue-500 text-white;
 }
 
-button:not(:disabled) {
-    cursor: pointer;
-}
-
-button:disabled {
-    opacity: 0.6;
+.btn-blue:hover {
+    @apply bg-blue-700;
 }
