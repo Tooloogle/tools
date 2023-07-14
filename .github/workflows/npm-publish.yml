@@ -27,10 +27,9 @@ jobs:
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
       - run: npm run build
-      - run: cd dist
       - name: Publish npm package
         run: |
-          npm install -g @semantic-release/changelog @semantic-release/git semantic-release 
+          npm install -g @semantic-release/changelog @semantic-release/git semantic-release
           GITHUB_REF=${{ github.event.workflow_run.head_branch }} semantic-release --branches ${{ github.event.workflow_run.head_branch }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
