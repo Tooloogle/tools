@@ -1,15 +1,13 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import gridStyles from "../_styles/grid.css.js"
 import inputStyles from "../_styles/input.css.js"
 import buttonStyles from "../_styles/button.css.js"
-import marginUtilsStyles from '../_styles/margin-utils.css.js';
-import utilsStyles from '../_styles/utils.css.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import directToWhatsappStyles from './direct-to-whatsapp.css.js';
 
 @customElement('direct-to-whatsapp')
 export class DirectToWhatsApp extends WebComponentBase<IConfigBase> {
-  static override styles = [gridStyles, inputStyles, buttonStyles, marginUtilsStyles, utilsStyles];
+  static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, directToWhatsappStyles];
 
   @property()
   phone = "";
@@ -27,21 +25,28 @@ export class DirectToWhatsApp extends WebComponentBase<IConfigBase> {
   override render() {
     return html`
       <form action="https://api.whatsapp.com/send" method="GET" @submit=${this.validateForm}>
-        <div class="row">
-            <div class="col">
-                <input
-                  name="phone"
-                  class="my-2"
-                  autofocus
-                  placeholder="Phone number with country code, e.g. +919876543210"
-                  .value=${this.phone}
-                  @change=${(e: any) => this.phone = e.target?.value?.replace(/ |-/g, "")} />
-                <textarea name="text" class="my-2" placeholder="Message (optional)"></textarea>
-            </div>
-        </div>
-        <div class="text-end">
-          <button type="submit" class="btn">Open in Whatsapp</button>
-        <div>
+        <div class="grid grid-cols-1 gap-4">
+          <lable class="block">
+            <span>Phone number with country code, e.g. +919876543210</span>
+            <input
+              name="phone"
+              class="form-input"
+              autofocus
+              placeholder="Phone number with country code, e.g. +919876543210"
+              .value=${this.phone}
+              @change=${(e: any) => this.phone = e.target?.value?.replace(/ |-/g, "")} />
+          </lable>
+          <lable class="block">
+            <span>Message (optional)</span>
+            <textarea 
+              name="text"
+              class="form-textarea"
+              placeholder="Message (optional)"></textarea>
+          </lable>
+          <div class="text-end">
+            <button type="submit" class="btn btn-blue">Open in Whatsapp</button>
+          </div>
+      </div>
     </form>`;
   }
 }

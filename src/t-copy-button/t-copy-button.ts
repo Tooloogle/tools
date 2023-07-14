@@ -33,7 +33,9 @@ export class TCopyButton extends WebComponentBase<IConfigBase> {
 
     override render() {
         return html`
-            <span class="inline-block px-3 cursor-pointer stroke-blue-700 fill-blue-700" @click=${this.onClick}>
+            <span 
+                class="inline-block px-3 cursor-pointer stroke-blue-700 fill-blue-700" @click=${this.onClick}
+                style="line-height: ${this.size}">
                 ${!this.copying ? svg`<?xml version="1.0" encoding="utf-8"?>
                     <svg width=${this.size} height=${this.size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M6 11C6 8.17157 6 6.75736 6.87868 5.87868C7.75736 5 9.17157 5 12 5H15C17.8284 5 19.2426 5 20.1213 5.87868C21 6.75736 21 8.17157 21 11V16C21 18.8284 21 20.2426 20.1213 21.1213C19.2426 22 17.8284 22 15 22H12C9.17157 22 7.75736 22 6.87868 21.1213C6 20.2426 6 18.8284 6 16V11Z" stroke-width="1.5"/>
