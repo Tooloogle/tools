@@ -13,7 +13,7 @@ dayjs.extend(duration);
 
 @customElement('age-calculator')
 export class AgeCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [buttonStyles, ageCalculatorStyles];
+    static override styles = [WebComponentBase.styles, buttonStyles, ageCalculatorStyles];
 
     @property()
     haveTime = false;
@@ -111,7 +111,7 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
                     <span class="text-gray-700">Date Of Birth</span>
                     <input 
                         name="birthday"
-                        class="block w-full form-input" 
+                        class="block w-full form-input rounded-lg" 
                         type="${this.haveTime ? "datetime-local" : "date"}"
                         pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
                         .value=${this.dob}
@@ -122,7 +122,7 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
                     <span class="text-gray-700">Age at the Date</span>
                     <input 
                         name="today"
-                        class="block w-full form-input" 
+                        class="block w-full form-input rounded-lg" 
                         type="${this.haveTime ? "datetime-local" : "date"}"
                         pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
                         .value=${this.today}

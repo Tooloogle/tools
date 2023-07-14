@@ -1,12 +1,6 @@
 @tailwind components;
 @tailwind utilities;
 
-*,
-::before,
-::after {
-    box-sizing: border-box;
-}
-
 .btn-close {
     font-size: 1.7rem;
     font-weight: 600;
