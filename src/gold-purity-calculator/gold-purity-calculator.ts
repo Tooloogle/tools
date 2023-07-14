@@ -2,10 +2,11 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import goldPurityCalculatorStyles from './gold-purity-calculator.css.js';
+import inputStyles from '../_styles/input.css.js';
 
 @customElement('gold-purity-calculator')
 export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, goldPurityCalculatorStyles];
+    static override styles = [WebComponentBase.styles, inputStyles, goldPurityCalculatorStyles];
 
     @property()
     karat = 24
@@ -39,15 +40,17 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
         }
 
         this.karat = this.purity * 24 / 100;
+        this.karat = Number(this.karat.toFixed(5));
     }
 
     override render() {
         return html`
             <div class="grid grid-cols-1 gap-4">
                 <lable>
+                    Karat
                     <input 
                         placeholder="Karat"
-                        class="text-end w-full sm:w-3/4 md:w-1/3 form-input rounded-lg text-sm" 
+                        class="form-input" 
                         type="number"
                         min="1"
                         max="24"
@@ -56,9 +59,10 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
                         @change=${this.onKaratChange}/>
                 </lable>
                 <lable>
+                    Gold Purity
                     <input 
                         placeholder="Purity"
-                        class="text-end w-full sm:w-3/4 md:w-1/3 form-input rounded-lg text-sm" 
+                        class="form-input" 
                         type="number"
                         min="1"
                         max="100"

@@ -8,12 +8,13 @@ import buttonStyles from '../_styles/button.css.js';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { formatNumber } from '../_utils/NumberHelper.js';
+import inputStyles from '../_styles/input.css.js';
 
 dayjs.extend(duration);
 
 @customElement('age-calculator')
 export class AgeCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, buttonStyles, ageCalculatorStyles];
+    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, ageCalculatorStyles];
 
     @property()
     haveTime = false;
@@ -108,10 +109,10 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
             
             <div class="grid grid-cols-1 gap-4">
                 <label class="block">
-                    <span class="text-gray-700">Date Of Birth</span>
+                    <span>Date Of Birth</span>
                     <input 
                         name="birthday"
-                        class="block w-full form-input rounded-lg" 
+                        class="form-input" 
                         type="${this.haveTime ? "datetime-local" : "date"}"
                         pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
                         .value=${this.dob}
@@ -119,10 +120,10 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
                         required />
                 </label>
                 <label class="block">
-                    <span class="text-gray-700">Age at the Date</span>
+                    <span>Age at the Date</span>
                     <input 
                         name="today"
-                        class="block w-full form-input rounded-lg" 
+                        class="form-input" 
                         type="${this.haveTime ? "datetime-local" : "date"}"
                         pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
                         .value=${this.today}
@@ -131,7 +132,7 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
                 </label>
                 <label class="block">
                     <input id="haveTime" type="checkbox" @change=${(e: any) => this.haveTime = e.target.checked} />
-                    <span class="text-gray-700">Have time?</span>
+                    <span>Have time?</span>
                 </label>
             </div>
             <div class="text-end">
