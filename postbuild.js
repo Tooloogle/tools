@@ -21,4 +21,6 @@ const packagePath = resolve(outDir, 'package.json');
 const packageJson = fs.readJsonSync(packagePath);
 delete packageJson.scripts;
 delete packageJson.devDependencies;
-fs.writeJSONSync(packagePath, packageJson);
+fs.writeJSONSync(packagePath, packageJson, {
+    spaces: "\t"
+});

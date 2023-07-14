@@ -1,15 +1,5 @@
-.result {
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.result>div {
-    padding: 0.75rem;
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
-    border-radius: 6px;
-    margin-bottom: 1.5rem;
-}
+@tailwind components;
+@tailwind utilities;
 
 .btn-close {
     font-size: 1.7rem;

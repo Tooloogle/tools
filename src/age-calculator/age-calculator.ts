@@ -2,23 +2,18 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import dayjs from 'dayjs/esm'
 import duration from 'dayjs/esm/plugin/duration';
-import gridStyles from '../_styles/grid.css.js';
-import inputStyles from '../_styles/input.css.js';
 import ageCalculatorStyles from './age-calculator.css.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
-import marginUtilsStyles from '../_styles/margin-utils.css.js';
-import utilsStyles from '../_styles/utils.css.js';
 import buttonStyles from '../_styles/button.css.js';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { formatNumber } from '../_utils/NumberHelper.js';
-import tableStyles from '../_styles/table.css.js';
 
 dayjs.extend(duration);
 
 @customElement('age-calculator')
 export class AgeCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [gridStyles, inputStyles, buttonStyles, tableStyles, ageCalculatorStyles, marginUtilsStyles, utilsStyles];
+    static override styles = [WebComponentBase.styles, buttonStyles, ageCalculatorStyles];
 
     @property()
     haveTime = false;
@@ -82,9 +77,9 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
         const { years, months, days, hours, minutes, seconds } = this.result;
         return html`
             ${when(this.result?.years !== undefined, () => html`
-                <div class="row">
-                    <div class="col result">
-                        <div>
+                <div class="flex justify-center">
+                    <div class="result mb-5">
+                        <div class="p-3 rounded-md shadow-md">
                             <div class="text-end">
                                 <span class="btn-close" @click=${() => this.result = {}}>
                                     &times;
@@ -95,12 +90,13 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
                             </h3>  
                             <p class="text-center">${`${years} year(s), ${months} month(s), ${days} day(s)`} 
                             ${this.haveTime ? `${hours} hour(s), ${minutes} minute(s), ${seconds} second(s)` : ""}</p>
-                            <table>
+
+                            <table class="w-full table table-auto border-collapse">
                                 <tbody>
                                     ${repeat(Object.keys(this.result.total), (key) => html`
-                                        <tr>
-                                            <td style="text-transform: capitalize">${key}</td>
-                                            <td class="text-end">${formatNumber(this.result.total[key], 0)}</td>
+                                        <tr class="border-0 border-t border-solid dark:border-gray-700">
+                                            <td class="px-6 py-2 dark:text-gray-400 capitalize">${key}</td>
+                                            <td class="px-6 py-2 text-end">${formatNumber(this.result.total[key], 0)}</td>
                                         </tr>
                                     `)}
                                 </tbody>
@@ -109,35 +105,37 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
                     </div>
                 </div>
             `)}
-            <div class="row">
-                <div class="col">
-                    <label>Date Of Birth</label>
+            
+            <div class="grid grid-cols-1 gap-4">
+                <label class="block">
+                    <span class="text-gray-700">Date Of Birth</span>
                     <input 
                         name="birthday"
-                        class="my-2" type="${this.haveTime ? "datetime-local" : "date"}"
+                        class="block w-full form-input rounded-lg" 
+                        type="${this.haveTime ? "datetime-local" : "date"}"
                         pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
                         .value=${this.dob}
                         @change=${(e: any) => this.dob = e.target.value}
                         required />
-
-                    <label>Age at the Date</label>
+                </label>
+                <label class="block">
+                    <span class="text-gray-700">Age at the Date</span>
                     <input 
                         name="today"
-                        class="my-2"
+                        class="block w-full form-input rounded-lg" 
                         type="${this.haveTime ? "datetime-local" : "date"}"
                         pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
                         .value=${this.today}
                         @change=${(e: any) => this.today = e.target.value}
                         required />
-
-                    <div class="my-2">
-                        <input id="haveTime" type="checkbox" @change=${(e: any) => this.haveTime = e.target.checked} />
-                        <label for="haveTime">Have time?</label>
-                    </div>
-                </div>
+                </label>
+                <label class="block">
+                    <input id="haveTime" type="checkbox" @change=${(e: any) => this.haveTime = e.target.checked} />
+                    <span class="text-gray-700">Have time?</span>
+                </label>
             </div>
             <div class="text-end">
-                <button .disabled=${!this.dob || !this.today} class="btn" @click=${this.calculate}>Calculate</button>
+                <button .disabled=${!this.dob || !this.today} class="btn btn-blue" @click=${this.calculate}>Calculate</button>
             </div>
         `;
     }

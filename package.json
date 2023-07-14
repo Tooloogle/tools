@@ -6,13 +6,14 @@
   "scripts": {
     "start": "npm run serve",
     "serve": "concurrently \"tsc --watch\" \"npm run css:watch\" \"wds --watch\"",
-    "css:watch": "nodemon -e css css-to-ts.js",
-    "build": "tsc",
-    "build:watch": "tsc --watch",
+    "css": "node css-to-ts.js",
+    "css:watch": "nodemon css-to-ts.js --config css.nodemon.json",
+    "build": "npm run css && tsc",
+    "build:watch": "npm run css && tsc --watch",
+    "clean": "npx rimraf dist && npx rimraf src/**/*.css.ts",
     "lint": "eslint src css-to-ts.js",
     "lint:fix": "npm run lint -- --fix",
     "postbuild": "node postbuild.js",
-    "postinstall": "node css-to-ts.js",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "repository": {
@@ -36,6 +37,7 @@
   },
   "homepage": "https://github.com/Tooloogle/tools#readme",
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.3",
     "@types/jest": "^29.5.2",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
@@ -43,6 +45,7 @@
     "@web/dev-server-legacy": "^2.0.0",
     "concurrently": "^8.2.0",
     "cross-env": "^7.0.3",
+    "cssnano": "^6.0.1",
     "eslint": "^8.44.0",
     "fs-extra": "^11.1.1",
     "glob": "^10.3.0",
@@ -50,6 +53,8 @@
     "jest-css-modules-transform": "^4.4.2",
     "jest-environment-jsdom": "^29.6.1",
     "nodemon": "^2.0.22",
+    "postcss": "^8.4.25",
+    "tailwindcss": "^3.3.2",
     "ts-jest": "^29.1.0",
     "typescript": "^5.1.6"
   },
