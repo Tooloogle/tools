@@ -61,5 +61,28 @@
   "dependencies": {
     "dayjs": "^1.11.8",
     "lit": "^2.7.5"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "./dist"
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "package.json",
+            "README.md",
+            "CHANGELOG.md",
+            "dist/**/*.{js}"
+          ]
+        }
+      ]
+    ]
   }
 }
