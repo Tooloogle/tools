@@ -7,6 +7,7 @@ import { repeat } from 'lit/directives/repeat.js';
 import { hasClipboard, isBrowser } from '../_utils/DomUtils.js';
 import "../t-copy-button/t-copy-button.js";
 import { when } from 'lit/directives/when.js';
+import inputStyles from '../_styles/input.css.js';
 
 const localStorageKey = "t-date-format-custom";
 
@@ -24,7 +25,7 @@ function setCustomFormat(format: string) {
 
 @customElement('date-format')
 export class DateFormat extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, dateFormatStyles];
+    static override styles = [WebComponentBase.styles, inputStyles, dateFormatStyles];
     private dateFormats = [
         "MM/DD/YY",
         "MM/DD/YYYY",
@@ -106,7 +107,7 @@ export class DateFormat extends WebComponentBase<IConfigBase> {
                 <input
                     name="email"
                     type="${this.withTime ? "datetime-local" : "date"}"
-                    class="block w-full form-input rounded-lg" 
+                    class="w-full form-input" 
                     autofocus
                     placeholder="Enter email to validate"
                     .value="${this.value}"
@@ -117,7 +118,7 @@ export class DateFormat extends WebComponentBase<IConfigBase> {
                 <div class="text-end">
                     <input 
                         placeholder="Custom format"
-                        class="text-end w-full sm:w-3/4 md:w-1/3 form-input rounded-lg text-sm" 
+                        class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm" 
                         .value=${this.customFormat}
                         @keyup=${this.onCustomFormatChange}/>
                 </div>
