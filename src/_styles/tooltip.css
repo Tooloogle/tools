@@ -3,7 +3,7 @@
 }
 
 .tooltip-wrapper .tooltip {
-    @apply absolute inline-block text-center px-2 py-1 text-sm text-white rounded-lg shadow-sm bg-gray-900 dark:bg-gray-700 opacity-0;
+    @apply absolute inline-block text-center px-2 py-1 text-sm text-white rounded-lg shadow-sm bg-gray-900 dark:bg-gray-800 opacity-0;
     pointer-events: none;
     width: auto;
     left: 50%;
@@ -22,7 +22,7 @@
 }
 
 .tooltip-wrapper .tooltip:after {
-    @apply absolute border-solid border-gray-900 dark:border-gray-700;
+    @apply absolute border-solid border-gray-900 dark:border-gray-800;
     border-left: solid transparent 10px;
     border-right: solid transparent 10px;
     border-top-width: 10px;
