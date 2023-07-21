@@ -1,11 +1,15 @@
 .btn {
-    @apply font-bold py-2 px-4 rounded;
+    @apply font-sans inline-block text-white bg-gradient-to-r hover:bg-gradient-to-br focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center;
 }
 
 .btn-blue {
-    @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800;
+    @apply from-blue-500 via-blue-600 to-blue-700 focus:ring-blue-300 dark:focus:ring-blue-800;
 }
 
-.btn-blue:hover {
-    @apply bg-blue-700;
+.btn-red {
+    @apply from-red-400 via-red-500 to-red-600 focus:ring-red-300 dark:focus:ring-red-800;
+}
+
+.btn-green {
+    @apply from-green-400 via-green-500 to-green-600 focus:ring-green-300 dark:focus:ring-green-800;
 }

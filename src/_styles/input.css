@@ -1,7 +1,7 @@
 input.form-input {
-    @apply w-full rounded-lg border-solid border-gray-300 text-gray-400 bg-inherit;
+    @apply w-full rounded-lg border-solid border-gray-300 text-gray-400 bg-inherit dark:border-gray-500 dark:focus:ring-gray-400 dark:focus:border-gray-400;
 }
 
 textarea.form-textarea {
-    @apply w-full rounded-lg border-solid border-gray-300 text-gray-400 bg-inherit;
+    @apply w-full rounded-lg border-solid border-gray-300 text-gray-400 bg-inherit dark:border-gray-500 dark:focus:ring-gray-400 dark:focus:border-gray-400;
 }

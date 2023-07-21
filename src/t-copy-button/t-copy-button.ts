@@ -39,7 +39,7 @@ export class TCopyButton extends WebComponentBase<IConfigBase> {
     override render() {
         return html`
             <span 
-                class="inline-block px-3 cursor-pointer stroke-blue-700 fill-blue-700 tooltip-wrapper"
+                class="inline-block px-3 cursor-pointer stroke-slate-400 fill-slate-400 tooltip-wrapper"
                 style="line-height: ${this.size}"
                 @click=${this.onClick}
                 @mouseleave=${() => this.title = "Copy to clipboard"}>
@@ -58,7 +58,7 @@ export class TCopyButton extends WebComponentBase<IConfigBase> {
                     </svg>
                 `: ""}
 
-                <div class="tooltip" style="min-width: 120px">${this.title}</div>
+                <div class="tooltip" style="min-width: 130px">${this.title}</div>
             </span>
         `;
     }
