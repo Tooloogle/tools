@@ -3,16 +3,21 @@ import { customElement, property } from 'lit/decorators.js';
 import inputStyles from "../_styles/input.css.js"
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import emailValidatorStyles from './email-validator.css.js';
+import { when } from 'lit/directives/when.js';
 
 @customElement('email-validator')
 export class EmailValidator extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, inputStyles, emailValidatorStyles];
 
     @property()
+    value = "";
+
+    @property()
     isValid = false;
 
     onChange(e: any) {
-        this.isValid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(e.target?.value);
+        this.value = e.target?.value;
+        this.isValid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.value);
     }
 
     override render() {
@@ -24,11 +29,14 @@ export class EmailValidator extends WebComponentBase<IConfigBase> {
                 class="form-input"
                 autofocus
                 placeholder="Enter email to validate"
+                .value=${this.value}
                 @keyup=${this.onChange}
                 />
         </lable>
         <div class="py-2">
-            <strong>${this.isValid ? "Valid" : "Invalid"}</strong>
+            ${when(this.value, () => html`
+                <strong>${this.isValid ? "Valid" : "Invalid"}</strong>
+            `)}
         </div>`;
     }
 }
