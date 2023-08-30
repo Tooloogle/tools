@@ -41,7 +41,7 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
         text = text.toLowerCase();
         let res = "";
         for (let i = 0; i < text.length; i++) {
-            var c = text.charAt(i);
+            const c = text.charAt(i);
             res += i % 2 ? c.toUpperCase() : c;
         }
         return res;
@@ -50,8 +50,8 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
     toInverse(text: string) {
         let res = "";
         for (let i = 0; i < text.length; i++) {
-            var c = text.charAt(i);
-            res += c == c.toUpperCase() ? c.toLowerCase() : c.toUpperCase();
+            const c = text.charAt(i);
+            res += c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase();
         }
         return res;
     }
@@ -62,8 +62,8 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
     }
 
     download() {
-        var fileBlob = new Blob([this.text], { type: "application/octet-binary" });
-        var link = document.createElement("a");
+        const fileBlob = new Blob([this.text], { type: "application/octet-binary" });
+        const link = document.createElement("a");
         link.setAttribute("href", URL.createObjectURL(fileBlob));
         link.setAttribute("download", "result.txt");
         link.click();
