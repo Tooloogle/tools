@@ -13,3 +13,7 @@ ol li a {
     padding: 1rem;
     border: 1px solid #ddd;
 }
+
+#tools-menu li.active {
+    background-color: #ddd;
+}

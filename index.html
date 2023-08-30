@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Tooloogle Web Components</title>
     <link href="./demo/_style.css" rel="stylesheet" />
-    <script src="demo/tools.js" />
+    <script src="demo/tools.js" type="module" />
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../node_modules/lit/polyfill-support.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -34,22 +34,31 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
         function initTool(tool) {
             let script = document.createElement('script');
             script.type = 'module';
             script.src = `dist/${tool}/${tool}.js`;
+            script.onload = function () {
+                document.getElementById("demo-container").innerHTML = `<${tool}></${tool}>`;
+                document.getElementById("title").innerHTML = `${tool.replace(/-/g, " ")} demo`;
+                localStorage.setItem("demo-selected-tool", tool);
+            }
+
+            script.onerror = function () {
+                document.getElementById("demo-container").innerHTML = `<p> ${tool} Not found.</p>`;
+            }
 
             document.head.appendChild(script);
-            document.getElementById("demo-container").innerHTML = `<${tool}></${tool}>`;
-            document.getElementById("title").innerHTML = `${tool.replace(/-/g, " ")} demo`;
-            localStorage.setItem("demo-selected-tool", tool);
+            document.getElementById(tool).classList.add("active");
         }
 
         const list = tools.forEach(t => {
             let li = document.createElement("li");
+            li.id = t;
             li.innerHTML = `<a class="capitalize" href="#${t}">${t.replace(/-/g, " ")}</a>`;
             li.onclick = () => {
+                document.querySelectorAll("#tools-menu li").forEach(el => el.classList.remove("active"));
                 initTool(t);
             }
 
