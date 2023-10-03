@@ -8,7 +8,9 @@ const tools = [
     "password-generator",
     "temperature-converter",
     "base64-encoder-decoder",
-    "text-case-converter"
+    "text-case-converter",
+    "base64-to-image",
+    "image-to-base64"
 ];
 
 if (typeof window !== "undefined") {
