@@ -53,10 +53,10 @@
             document.getElementById(tool).classList.add("active");
         }
 
-        const list = tools.forEach(t => {
+        const list = tools.forEach((t, i) => {
             let li = document.createElement("li");
             li.id = t;
-            li.innerHTML = `<a class="capitalize" href="#${t}">${t.replace(/-/g, " ")}</a>`;
+            li.innerHTML = `<a class="capitalize" href="#${t}">${i + 1}. ${t.replace(/-/g, " ")}</a>`;
             li.onclick = () => {
                 document.querySelectorAll("#tools-menu li").forEach(el => el.classList.remove("active"));
                 initTool(t);

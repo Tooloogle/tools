@@ -4,6 +4,7 @@ import textCaseConverterStyles from './text-case-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
+import { downloadText } from '../_utils/DomUtils.js';
 
 @customElement('text-case-converter')
 export class TextCaseConverter extends WebComponentBase<IConfigBase> {
@@ -61,14 +62,6 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
         this.placeholder = this.toLower(this.placeholder);
     }
 
-    download() {
-        const fileBlob = new Blob([this.text], { type: "application/octet-binary" });
-        const link = document.createElement("a");
-        link.setAttribute("href", URL.createObjectURL(fileBlob));
-        link.setAttribute("download", "result.txt");
-        link.click();
-    }
-
     override render() {
         return html`
         <label class="block">
@@ -106,7 +99,7 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
                 this.placeholder = this.toInverse(this.placeholder)
             }}>iNVERSE cASE</button>
 
-            <button class="btn btn-green" @click=${this.download}>Download</button>
+            <button class="btn btn-green" @click=${() => downloadText(this.text)}>Download</button>
             <button class="btn btn-red" @click=${this.clear}>Clear</button>
         </div>
         `;
