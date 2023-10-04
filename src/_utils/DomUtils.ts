@@ -17,3 +17,12 @@ export function downloadText(text: string) {
     link.setAttribute("download", "result.txt");
     link.click();
 }
+
+export function downloadImage(name: string, src: string) {
+    const a = document.createElement('a');
+    a.href = src;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
