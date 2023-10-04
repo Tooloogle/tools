@@ -10,7 +10,8 @@ const tools = [
     "base64-encoder-decoder",
     "text-case-converter",
     "base64-to-image",
-    "image-to-base64"
+    "image-to-base64",
+    "hex-rgb"
 ];
 
 if (typeof window !== "undefined") {
