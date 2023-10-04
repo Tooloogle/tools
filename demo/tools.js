@@ -11,7 +11,8 @@ const tools = [
     "text-case-converter",
     "base64-to-image",
     "image-to-base64",
-    "hex-rgb"
+    "hex-rgb",
+    "guid-generator"
 ];
 
 if (typeof window !== "undefined") {
