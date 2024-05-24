@@ -15,6 +15,10 @@ const outDir = 'dist';
     );
 });
 
+fs.copySync(
+    resolve("src/_libs"),
+    resolve(outDir, "_libs")
+);
 
 // modify distributed package.json
 const packagePath = resolve(outDir, 'package.json');

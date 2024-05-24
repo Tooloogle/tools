@@ -15,8 +15,8 @@ npm install @tooloogle/tools
 The "@tooloogle/tools" package includes the following web components:
 
 - `age-calculator`: intuitive online tool that swiftly calculates a person's age based on their birthdate, enabling users to effortlessly determine their current age or calculate the age difference between two dates.
-- `direct-to-whatsapp`: a handy online tool that enables users to send WhatsApp messages to any phone number without the need to save the contact in their mobile device, simplifying the process of initiating conversations and facilitating quick communication.
-
+- `direct-to-whatsapp`: A handy online tool that enables users to send WhatsApp messages to any phone number without the need to save the contact in their mobile device, simplifying the process of initiating conversations and facilitating quick communication.
+- `qr-code-generator`: A tool to create custom QR codes for websites, contact info, events, and more. Simply input the data, customize the design, and download instantly. Perfect for enhancing connectivity in marketing and business applications.
 
 ## Contributing
 

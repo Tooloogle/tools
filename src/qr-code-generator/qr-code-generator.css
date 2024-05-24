@@ -1,0 +1,19 @@
+@tailwind components;
+@tailwind utilities;
+
+.qr-code-generator {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-5;
+}
+
+.qr canvas {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.qr-style-list {
+    @apply flex w-full overflow-x-auto;
+}
+
+.qr-style-list span.selected canvas {
+    @apply border-solid border-2 border-blue-500;
+}

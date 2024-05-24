@@ -12,7 +12,8 @@ const tools = [
     "base64-to-image",
     "image-to-base64",
     "hex-rgb",
-    "guid-generator"
+    "guid-generator",
+    "qr-code-generator"
 ];
 
 if (typeof window !== "undefined") {

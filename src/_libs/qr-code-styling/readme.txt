@@ -1,0 +1,1 @@
+module js built from https://github.com/kozakdenys/qr-code-styling
