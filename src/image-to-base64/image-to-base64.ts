@@ -6,6 +6,7 @@ import inputStyles from '../_styles/input.css.js';
 import { downloadText } from '../_utils/DomUtils.js';
 import buttonStyles from '../_styles/button.css.js';
 import { when } from 'lit/directives/when.js';
+import "../t-copy-button/t-copy-button.js";
 
 @customElement('image-to-base64')
 export class ImageToBase64 extends WebComponentBase<IConfigBase> {
@@ -38,7 +39,7 @@ export class ImageToBase64 extends WebComponentBase<IConfigBase> {
         return html`
             <div>
                 <label class="block">
-                    <span class="inline-block py-1">Text to encode (decoded)</span>
+                    <span class="inline-block py-1">Image: </span>
                     <input
                         name="image"
                         accept="image/*"
@@ -52,7 +53,7 @@ export class ImageToBase64 extends WebComponentBase<IConfigBase> {
                     </div>
                 `)}
                 <label class="block">
-                    <span class="inline-block py-1">Base64 string to decode (encoded)</span>
+                    <span class="inline-block py-1">Base64 string</span>
                     <textarea
                         name="email"
                         class="form-textarea"
@@ -63,7 +64,8 @@ export class ImageToBase64 extends WebComponentBase<IConfigBase> {
                 </label>
 
                 <div class="text-right">
-                    <button class="btn btn-green" @click=${() => downloadText(this.base64)}>Download Base64 text</button>
+                    <button class="btn btn-blue btn-sm" @click=${() => downloadText(this.base64)}>Download Base64 text</button>
+                    <t-copy-button .isIcon=${false} .text=${this.base64}></t-copy-button>
                 </div>
             </div>
         `;

@@ -64,8 +64,7 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
 
     override render() {
         return html`
-        <label class="block">
-            <span class="inline-block py-1">Text to encode (decoded)</span>
+        <label class="block py-1">
             <textarea
                 name="email"
                 class="form-textarea"

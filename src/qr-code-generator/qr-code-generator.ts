@@ -32,6 +32,9 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
     height = 300;
 
     @property()
+    margin = 10;
+
+    @property()
     bgColor = "#ffffff";
 
     @property()
@@ -91,7 +94,8 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
             },
             cornersSquareOptions: {
                 color: this.squareColor
-            }
+            },
+            margin: this.margin
         });
     }
 
@@ -154,6 +158,16 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
                                 @keyup=${(e: any) => { this.height = e.target?.value || 300; this.qrCode.update({ height: this.height }) }} />
                         </lable>
                     </div>
+                    <lable>
+                        Margin
+                        <input
+                            class="w-full"
+                            .value=${this.margin}
+                            type="range"
+                            min="0"
+                            max="100"
+                            @change=${(e: any) => { this.margin = e?.target?.value; this.qrCode.update({ margin: this.margin }); }}></textarea>
+                    </lable>
                     <div class="grid grid-cols-3 gap-4">
                         <lable>
                             Background
@@ -191,7 +205,7 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
                         </lable>
                     </div>
                     <div>
-                        <button class="btn btn-red btn-sm" @click=${() => { this.image = ""; this.qrCode.update({ image: "" }) }}>Clear image</button>
+                        <button class="btn btn-red btn-sm" @click=${() => { this.image = ""; this.qrCode.update({ image: "" }) }}>Remove logo</button>
                     </div>
                     <div class="qr-style-list">
                         ${repeat(QrStyleList, (qr, i) => html`
