@@ -17,3 +17,7 @@
 .qr-style-list span.selected canvas {
     @apply border-solid border-2 border-blue-500;
 }
+
+.btn-remove {
+    height: 36px;
+}

@@ -194,7 +194,7 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
                                 @change=${(e: any) => { this.squareColor = e.target?.value || "#4267b2"; this.qrCode.update({ cornersSquareOptions: { color: this.squareColor } }) }} />
                         </lable>
                     </div>
-                    <div class="flex justify-between">
+                    <div class="flex justify-between items-center">
                         <lable>
                             Logo
                             <input
@@ -203,9 +203,7 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
                                 accept="image/*"
                                 @change=${this.onImageUpload} />
                         </lable>
-                    </div>
-                    <div>
-                        <button class="btn btn-red btn-sm" @click=${() => { this.image = ""; this.qrCode.update({ image: "" }) }}>Remove logo</button>
+                        <button class="btn btn-red btn-sm btn-remove" @click=${() => { this.image = ""; this.qrCode.update({ image: "" }) }}>Remove logo</button>
                     </div>
                     <div class="qr-style-list">
                         ${repeat(QrStyleList, (qr, i) => html`
