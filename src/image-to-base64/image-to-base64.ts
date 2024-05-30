@@ -58,7 +58,7 @@ export class ImageToBase64 extends WebComponentBase<IConfigBase> {
                         name="email"
                         class="form-textarea"
                         rows="5"
-                        placeholder="Enter base64 string to decode"
+                        placeholder="Base64 string"
                         .value=${this.base64}
                         readonly></textarea>
                 </label>
