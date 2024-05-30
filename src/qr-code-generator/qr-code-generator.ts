@@ -32,7 +32,7 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
     height = 300;
 
     @property()
-    margin = 10;
+    margin = 5;
 
     @property()
     bgColor = "#ffffff";
@@ -60,7 +60,7 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
             this.text = e.target.value;
         }
 
-        this.qrCode.update({ data: this.text });
+        this.qrCode.update({ data: this.text, margin: this.margin });
     }
 
     renderQrListItem(el: HTMLSpanElement, qr: IQrStyleListItem) {
@@ -82,7 +82,8 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
             width: this.width,
             height: this.height,
             data: this.text,
-            image: this.image
+            image: this.image,
+            margin: this.margin,
         });
 
         this.qrCode.update({
