@@ -48,7 +48,7 @@ export class HexColorPicker extends WebComponentBase<IConfigBase> {
         const max = Math.max(rNormalized, gNormalized, bNormalized);
         const min = Math.min(rNormalized, gNormalized, bNormalized);
 
-        let h, s, l = (max + min) / 2;
+        let h = 0, s, l = (max + min) / 2;
 
         if (max === min) {
             h = s = 0; // achromatic
@@ -66,6 +66,7 @@ export class HexColorPicker extends WebComponentBase<IConfigBase> {
                     h = (rNormalized - gNormalized) / d + 4;
                     break;
             }
+
             h /= 6;
         }
 
