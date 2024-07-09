@@ -18,7 +18,10 @@ const tools = [
     "hex-to-rgba-converter",
     "rgba-color-picker",
     "hex-color-picker",
-    "css-gradient-generator"
+    "css-gradient-generator",
+    "javascript-beautifier",
+    "css-beautifier",
+    "html-beautifier"
 ];
 
 if (typeof window !== "undefined") {

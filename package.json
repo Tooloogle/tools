@@ -40,6 +40,7 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
     "@types/jest": "^29.5.2",
+    "@types/js-beautify": "^1.14.3",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
     "@web/dev-server": "^0.2.3",
