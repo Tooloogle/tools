@@ -13,7 +13,11 @@ const tools = [
     "image-to-base64",
     "hex-rgb",
     "guid-generator",
-    "qr-code-generator"
+    "qr-code-generator",
+    "bytes-to-string-converter",
+    "hex-to-rgba-converter",
+    "rgba-color-picker",
+    "hex-color-picker"
 ];
 
 if (typeof window !== "undefined") {
