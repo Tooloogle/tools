@@ -17,7 +17,8 @@ const tools = [
     "bytes-to-string-converter",
     "hex-to-rgba-converter",
     "rgba-color-picker",
-    "hex-color-picker"
+    "hex-color-picker",
+    "css-gradient-generator"
 ];
 
 if (typeof window !== "undefined") {
