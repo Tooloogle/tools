@@ -21,7 +21,8 @@ const tools = [
     "css-gradient-generator",
     "javascript-beautifier",
     "css-beautifier",
-    "html-beautifier"
+    "html-beautifier",
+    "json-viewer"
 ];
 
 if (typeof window !== "undefined") {
