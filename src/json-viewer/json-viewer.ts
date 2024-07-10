@@ -1,4 +1,4 @@
-import { html, customElement, property, state } from 'lit-element';
+import { html, customElement, property, state, TemplateResult } from 'lit-element';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
@@ -63,7 +63,7 @@ export class JsonViewer extends WebComponentBase<IConfigBase> {
         this.requestUpdate();
     }
 
-    private renderJsonNode(node: JsonNode) {
+    private renderJsonNode(node: JsonNode): TemplateResult<1> {
         if (node.type === 'object' || node.type === 'array') {
             return html`
         <div class="json-node">
