@@ -24,7 +24,8 @@ const tools = [
     "html-beautifier",
     "json-viewer",
     "csv-to-json-converter",
-    "json-to-csv-converter"
+    "json-to-csv-converter",
+    "regex-expression-tester"
 ];
 
 if (typeof window !== "undefined") {
