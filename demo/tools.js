@@ -22,7 +22,9 @@ const tools = [
     "javascript-beautifier",
     "css-beautifier",
     "html-beautifier",
-    "json-viewer"
+    "json-viewer",
+    "csv-to-json-converter",
+    "json-to-csv-converter"
 ];
 
 if (typeof window !== "undefined") {

@@ -44,7 +44,9 @@
                 "javascript-beautifier",
                 "css-beautifier",
                 "html-beautifier",
-                "json-viewer"].includes(tool)) {
+                "json-viewer",
+                "csv-to-json-converter",
+                "json-to-csv-converter"].includes(tool)) {
                 document.getElementById("container").className = "w-full";
             } else {
                 document.getElementById("container").className = className;
@@ -73,7 +75,7 @@
                 initTool(t);
             }
 
-            document.getElementById("tools-menu").appendChild(li);
+            document.getElementById("tools-menu").prepend(li);
         });
 
         initTool(localStorage.getItem("demo-selected-tool") || tools[0]);
