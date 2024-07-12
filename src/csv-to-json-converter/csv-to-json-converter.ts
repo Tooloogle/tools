@@ -28,7 +28,7 @@ export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
     const jsonArray = rows.slice(1).map(row => {
       const values = row.split(this.separator);
       const jsonObject = headers.reduce((acc, header, index) => {
-        let value = values[index]?.trim() || '';
+        let value: number | string = values[index]?.trim() || '';
         if (this.parseNumbers && !isNaN(Number(value))) {
           value = Number(value);
         } else if (this.parseJson) {

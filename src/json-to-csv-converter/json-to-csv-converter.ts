@@ -91,7 +91,7 @@ export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
                 </select>
 
                 <label>
-                    <input type="checkbox" @change="${(e: Event) => this.includeHeader = e.target.checked}" checked />
+                    <input type="checkbox" @change="${(e: any) => this.includeHeader = e?.target?.checked}" checked />
                     Include Header
                 </label>
                 </div>
