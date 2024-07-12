@@ -61,7 +61,6 @@ export class JavascriptBeautifier extends WebComponentBase<IConfigBase> {
     render() {
         return html`
             <div class="javascript-beautifier">
-                <h2 class="text-xl font-bold mb-4">JavaScript Beautifier</h2>
                 <div class="config grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
                 <label class="flex items-center">
                     Indent size:
