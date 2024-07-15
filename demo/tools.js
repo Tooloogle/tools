@@ -13,7 +13,20 @@ const tools = [
     "image-to-base64",
     "hex-rgb",
     "guid-generator",
-    "qr-code-generator"
+    "qr-code-generator",
+    "bytes-to-string-converter",
+    "hex-to-rgba-converter",
+    "rgba-color-picker",
+    "hex-color-picker",
+    "css-gradient-generator",
+    "javascript-beautifier",
+    "css-beautifier",
+    "html-beautifier",
+    "json-viewer",
+    "csv-to-json-converter",
+    "json-to-csv-converter",
+    "regex-expression-tester",
+    "text-to-speech"
 ];
 
 if (typeof window !== "undefined") {

@@ -40,7 +40,14 @@
             script.type = 'module';
             script.src = `dist/${tool}/${tool}.js`;
             const className = "lg:w-2/5 pr-4 pl-4 md:w-3/5 pr-4 pl-4 sm:w-2/3 pr-4 pl-4 w-full";
-            if (tool === "qr-code-generator") {
+            if (["qr-code-generator",
+                "javascript-beautifier",
+                "css-beautifier",
+                "html-beautifier",
+                "json-viewer",
+                "csv-to-json-converter",
+                "json-to-csv-converter",
+                "regex-expression-tester"].includes(tool)) {
                 document.getElementById("container").className = "w-full";
             } else {
                 document.getElementById("container").className = className;
@@ -69,7 +76,7 @@
                 initTool(t);
             }
 
-            document.getElementById("tools-menu").appendChild(li);
+            document.getElementById("tools-menu").prepend(li);
         });
 
         initTool(localStorage.getItem("demo-selected-tool") || tools[0]);

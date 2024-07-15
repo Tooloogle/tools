@@ -1,0 +1,57 @@
+@tailwind components;
+@tailwind utilities;
+
+input[type=color] {
+    width: 50%;
+}
+
+.rgba-color-picker {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.preview-box {
+    width: 100%;
+    height: 150px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    position: relative;
+}
+
+input[type=color] {
+    position: absolute;
+    top: calc(100% - 5px);
+    left: 0;
+    height: 1px;
+    visibility: hidden;
+}
+
+.rgba-sliders {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.rgba-sliders label {
+    margin-bottom: 5px;
+}
+
+.rgba-sliders input[type="range"] {
+    width: calc(100% - 30px);
+}
+
+.rgba-sliders input[type="number"] {
+    width: 50px;
+    margin-left: 5px;
+}
+
+.rgba-values {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.res-item {
+    text-align: center;
+    font-size: 24px;
+}
