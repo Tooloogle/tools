@@ -16,7 +16,6 @@
 
 .editor {
     width: 100%;
-    max-width: 800px;
     display: flex;
     flex-direction: column;
     gap: 10px;

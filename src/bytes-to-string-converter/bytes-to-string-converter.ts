@@ -20,7 +20,7 @@ export class BytesToStringConverter extends WebComponentBase<IConfigBase> {
 
   convertBytesToString() {
     try {
-      const bytes = this.byteInput.split(/[,\s]/).map(byte => parseInt(byte, 10));
+      const bytes = this.byteInput.split(this.byteInput.includes(",") ? "," : " ").map(byte => parseInt(byte, 10));
       this.stringOutput = new TextDecoder().decode(new Uint8Array(bytes));
     } catch (error) {
       this.stringOutput = 'Invalid byte input';
