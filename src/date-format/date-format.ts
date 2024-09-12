@@ -7,13 +7,15 @@ import { hasClipboard, isBrowser } from '../_utils/DomUtils.js';
 import "../t-copy-button/t-copy-button.js";
 import { when } from 'lit/directives/when.js';
 import inputStyles from '../_styles/input.css.js';
-import dayjs from "./../_utils/DayjsHelper.js";
+import dayjs from '../_utils/dayjs-ssr-helper/dayjs.js';
 
 const localStorageKey = "t-date-format-custom";
 
 function getCustomFormat() {
     if (isBrowser()) {
         return localStorage.getItem(localStorageKey);
+    } else {
+        return "YYYY-MM-DD";
     }
 }
 
