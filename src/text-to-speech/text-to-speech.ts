@@ -3,6 +3,7 @@ import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBas
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
 import textToSpeechStyles from './text-to-speech.css.js';
+import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('text-to-speech')
 export class TextToSpeech extends WebComponentBase<IConfigBase> {
@@ -14,10 +15,10 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
     @property({ type: String }) selectedVoice = '';
     @property({ type: Number }) rate = 1;
     @property({ type: Number }) pitch = 1;
-    private synth: SpeechSynthesis = window.speechSynthesis;
+    private synth: SpeechSynthesis = isBrowser() ? window.speechSynthesis : {} as any;
 
-    constructor() {
-        super();
+    connectedCallback(): void {
+        super.connectedCallback();
         this.updateVoices();
         if (this.synth.onvoiceschanged !== undefined) {
             this.synth.onvoiceschanged = this.updateVoices.bind(this);
@@ -109,8 +110,8 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
                 <label for="voice">Voice:</label>
                 <select id="voice" class="form-input" @change="${this.handleVoiceChange}">
                     ${this.availableVoices.map(
-                    voice => html`<option value="${voice.name}">${voice.name} (${voice.lang})</option>`
-                )}
+            voice => html`<option value="${voice.name}">${voice.name} (${voice.lang})</option>`
+        )}
                 </select>
                 <label for="rate">Rate:</label>
                 <input

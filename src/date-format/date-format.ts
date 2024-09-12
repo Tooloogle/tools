@@ -2,12 +2,12 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import dateFormatStyles from './date-format.css.js';
-import dayjs from 'dayjs/esm'
 import { repeat } from 'lit/directives/repeat.js';
 import { hasClipboard, isBrowser } from '../_utils/DomUtils.js';
 import "../t-copy-button/t-copy-button.js";
 import { when } from 'lit/directives/when.js';
 import inputStyles from '../_styles/input.css.js';
+import dayjs from "./../_utils/DayjsHelper.js";
 
 const localStorageKey = "t-date-format-custom";
 
@@ -63,17 +63,17 @@ export class DateFormat extends WebComponentBase<IConfigBase> {
     customFormat = getCustomFormat();
 
     @property()
-    result: { format: string, value: string }[] = [];
+    result: { format: string, value: string }[] = this.getDateFormats(this.value);
 
-    connectedCallback(): void {
+    connectedCallback() {
         super.connectedCallback();
 
-        this.updateFormats(this.value);
+        this.result = this.getDateFormats(this.value);
     }
 
     onChange(e: any) {
         if (e.target?.value) {
-            this.updateFormats(e.target.value);
+            this.result = this.getDateFormats(e.target.value);
         }
     }
 
@@ -82,8 +82,8 @@ export class DateFormat extends WebComponentBase<IConfigBase> {
         setCustomFormat(e.target.value);
     }
 
-    updateFormats(value: string) {
-        this.result = this.dateFormats.map(f => {
+    getDateFormats(value: string) {
+        return this.dateFormats.map(f => {
             return {
                 format: f,
                 value: dayjs(value).format(f)

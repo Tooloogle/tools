@@ -9,12 +9,13 @@ import { repeat } from 'lit/directives/repeat.js';
 import { IQrStyleListItem, QrStyleList } from './qr-style-list.js';
 import { Logo } from './logo.js';
 import buttonStyles from '../_styles/button.css.js';
+import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('qr-code-generator')
 export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, qrCodeGeneratorStyles, inputStyles, buttonStyles];
     container: Ref<HTMLDivElement> = createRef();
-    qrCode = new QRCodeStyling({ ...QrStyleList[2].qrCfg, width: 300, height: 300 });
+    qrCode: QRCodeStyling = isBrowser() ? new QRCodeStyling({ ...QrStyleList[2].qrCfg, width: 300, height: 300 }) : {} as any;
 
     @property()
     text = "";

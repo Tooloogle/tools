@@ -1,7 +1,6 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import dayjs from 'dayjs/esm'
-import duration from 'dayjs/esm/plugin/duration';
+import dayjs, { duration } from './../_utils/DayjsHelper.js';
 import ageCalculatorStyles from './age-calculator.css.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import buttonStyles from '../_styles/button.css.js';
