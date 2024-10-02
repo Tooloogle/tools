@@ -1,9 +1,10 @@
 import * as _dayjs from 'dayjs';
 import { isBrowser } from '../DomUtils.js';
 
+declare let __webpack_require__: any;
 let dayjs: typeof _dayjs.default;
 
-if (isBrowser()) {
+if (isBrowser() && typeof __webpack_require__ !== 'function') {
     dayjs = (window as any).dayjs;
 } else {
     dayjs = _dayjs.default as any;
