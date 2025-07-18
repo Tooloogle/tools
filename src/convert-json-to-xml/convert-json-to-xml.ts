@@ -15,11 +15,11 @@ export class ConvertJsonToXml extends WebComponentBase<IConfigBase> {
     this.file = input.files?.[0] ?? null;
   }
 
-  private jsonToXml(obj: any, rootName: string = 'root'): string {
-    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-    xml += this.objectToXml(obj, rootName);
-    return xml;
-  }
+    private jsonToXml(obj: unknown, rootName = 'root'): string {
+        let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+        xml += this.objectToXml(obj, rootName);
+        return xml;
+    }
 
   private objectToXml(obj: any, nodeName: string): string {
     if (obj === null || obj === undefined) {
