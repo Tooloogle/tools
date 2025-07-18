@@ -26,7 +26,9 @@ const tools = [
     "csv-to-json-converter",
     "json-to-csv-converter",
     "regex-expression-tester",
-    "text-to-speech"
+    "text-to-speech",
+    "convert-xml-to-json",
+    "convert-json-to-xml"
 ];
 
 if (typeof window !== "undefined") {
