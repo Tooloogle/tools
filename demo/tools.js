@@ -26,7 +26,11 @@ const tools = [
     "csv-to-json-converter",
     "json-to-csv-converter",
     "regex-expression-tester",
-    "text-to-speech"
+    "text-to-speech",
+    "convert-webp-to-jpg",
+    "convert-webp-to-png",
+    "convert-jpg-to-webp",
+    "convert-png-to-webp"
 ];
 
 if (typeof window !== "undefined") {
