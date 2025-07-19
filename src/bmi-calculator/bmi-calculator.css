@@ -1,0 +1,6 @@
+@tailwind components;
+@tailwind utilities;
+
+.container {
+  @apply space-y-2;
+}
