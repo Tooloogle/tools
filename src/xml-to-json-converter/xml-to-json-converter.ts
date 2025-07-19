@@ -2,11 +2,11 @@ import { html, customElement, property } from 'lit-element'
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
-import convertXmlToJsonStyles from './convert-xml-to-json.css.js';
+import xmlToJsonConverterStyles from './xml-to-json-converter.css.js';
 
-@customElement('convert-xml-to-json')
-export class ConvertXmlToJson extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, convertXmlToJsonStyles];
+@customElement('xml-to-json-converter')
+export class XmlToJsonConverter extends WebComponentBase<IConfigBase> {
+    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, xmlToJsonConverterStyles];
 
     @property({ type: Object }) file: File | null = null;
 
@@ -109,6 +109,6 @@ export class ConvertXmlToJson extends WebComponentBase<IConfigBase> {
 
 declare global {
     interface HTMLElementTagNameMap {
-        'convert-xml-to-json': ConvertXmlToJson;
+        'xml-to-json-converter': XmlToJsonConverter;
     }
 }
