@@ -2,11 +2,11 @@ import { html, customElement, property } from 'lit-element'
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
-import convertWebpToPngStyles from './convert-webp-to-png.css.js';
+import webpToJpgConverterStyles from './webp-to-jpg-converter.css.js';
 
-@customElement('convert-webp-to-png')
-export class ConvertWebpToPng extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, convertWebpToPngStyles];
+@customElement('webp-to-jpg-converter')
+export class WebpToJpgConverter extends WebComponentBase<IConfigBase> {
+    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, webpToJpgConverterStyles];
 
     @property({ type: Object }) file: File | null = null;
 
@@ -34,11 +34,11 @@ export class ConvertWebpToPng extends WebComponentBase<IConfigBase> {
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
             if (!this.file) return;
-            const fileName = this.file.name.replace(/\.[^/.]+$/, '.png');
+            const fileName = this.file.name.replace(/\.[^/.]+$/, '.jpg');
             a.download = fileName;
             a.click();
           }
-        }, 'image/png');
+        }, 'image/jpeg');
       };
       img.src = reader.result as string;
     };
@@ -51,7 +51,7 @@ export class ConvertWebpToPng extends WebComponentBase<IConfigBase> {
         <label>Select a WebP file:</label>
         <input type="file" accept="image/webp" class="form-input" @change="${this.handleFileChange}" />
         <button class="btn" @click="${this.convert}" ?disabled="${!this.file}">
-          Convert to PNG
+          Convert to JPG
         </button>
       </div>
     `;
@@ -60,6 +60,6 @@ export class ConvertWebpToPng extends WebComponentBase<IConfigBase> {
 
 declare global {
     interface HTMLElementTagNameMap {
-        'convert-webp-to-png': ConvertWebpToPng;
+        'webp-to-jpg-converter': WebpToJpgConverter;
     }
 }

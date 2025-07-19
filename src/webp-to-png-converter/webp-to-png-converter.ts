@@ -2,11 +2,11 @@ import { html, customElement, property } from 'lit-element'
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
-import convertPngToWebpStyles from './convert-png-to-webp.css.js';
+import webpToPngConverterStyles from './webp-to-png-converter.css.js';
 
-@customElement('convert-png-to-webp')
-export class ConvertPngToWebp extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, convertPngToWebpStyles];
+@customElement('webp-to-png-converter')
+export class WebpToPngConverter extends WebComponentBase<IConfigBase> {
+    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, webpToPngConverterStyles];
 
     @property({ type: Object }) file: File | null = null;
 
@@ -34,11 +34,11 @@ export class ConvertPngToWebp extends WebComponentBase<IConfigBase> {
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
             if (!this.file) return;
-            const fileName = this.file.name.replace(/\.[^/.]+$/, '.webp');
+            const fileName = this.file.name.replace(/\.[^/.]+$/, '.png');
             a.download = fileName;
             a.click();
           }
-        }, 'image/webp');
+        }, 'image/png');
       };
       img.src = reader.result as string;
     };
@@ -48,10 +48,10 @@ export class ConvertPngToWebp extends WebComponentBase<IConfigBase> {
     override render() {
     return html`
       <div class="container">
-        <label>Select a PNG file:</label>
-        <input type="file" accept="image/png" class="form-input" @change="${this.handleFileChange}" />
+        <label>Select a WebP file:</label>
+        <input type="file" accept="image/webp" class="form-input" @change="${this.handleFileChange}" />
         <button class="btn" @click="${this.convert}" ?disabled="${!this.file}">
-          Convert to WebP
+          Convert to PNG
         </button>
       </div>
     `;
@@ -60,6 +60,6 @@ export class ConvertPngToWebp extends WebComponentBase<IConfigBase> {
 
 declare global {
     interface HTMLElementTagNameMap {
-        'convert-png-to-webp': ConvertPngToWebp;
+        'webp-to-png-converter': WebpToPngConverter;
     }
 }

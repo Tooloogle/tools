@@ -2,11 +2,11 @@ import { html, customElement, property } from 'lit-element'
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
-import convertJpgToWebpStyles from './convert-jpg-to-webp.css.js';
+import pngToWebpConverterStyles from './png-to-webp-converter.css.js';
 
-@customElement('convert-jpg-to-webp')
-export class ConvertJpgToWebp extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, convertJpgToWebpStyles];
+@customElement('png-to-webp-converter')
+export class PngToWebpConverter extends WebComponentBase<IConfigBase> {
+    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, pngToWebpConverterStyles];
 
     @property({ type: Object }) file: File | null = null;
 
@@ -48,8 +48,8 @@ export class ConvertJpgToWebp extends WebComponentBase<IConfigBase> {
     override render() {
     return html`
       <div class="container">
-        <label>Select a JPG file:</label>
-        <input type="file" accept="image/jpeg,image/jpg" class="form-input" @change="${this.handleFileChange}" />
+        <label>Select a PNG file:</label>
+        <input type="file" accept="image/png" class="form-input" @change="${this.handleFileChange}" />
         <button class="btn" @click="${this.convert}" ?disabled="${!this.file}">
           Convert to WebP
         </button>
@@ -60,6 +60,6 @@ export class ConvertJpgToWebp extends WebComponentBase<IConfigBase> {
 
 declare global {
     interface HTMLElementTagNameMap {
-        'convert-jpg-to-webp': ConvertJpgToWebp;
+        'png-to-webp-converter': PngToWebpConverter;
     }
 }
