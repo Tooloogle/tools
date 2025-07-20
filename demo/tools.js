@@ -26,7 +26,8 @@ const tools = [
     "csv-to-json-converter",
     "json-to-csv-converter",
     "regex-expression-tester",
-    "text-to-speech"
+    "text-to-speech",
+    "email-template-generator"
 ];
 
 if (typeof window !== "undefined") {
