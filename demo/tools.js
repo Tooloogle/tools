@@ -26,7 +26,8 @@ const tools = [
     "csv-to-json-converter",
     "json-to-csv-converter",
     "regex-expression-tester",
-    "text-to-speech"
+    "text-to-speech",
+    "qr-code-scanner"
 ];
 
 if (typeof window !== "undefined") {

@@ -1,0 +1,95 @@
+  .container {
+    @apply max-w-[600px] mx-auto p-4;
+  }
+
+  .title {
+    @apply text-2xl md:text-3xl font-bold text-center text-gray-100 mb-4;
+  }
+
+  .status {
+    @apply text-center p-3 mb-4 rounded-md font-semibold;
+  }
+  .status.loading {
+    @apply bg-blue-100 text-blue-800;
+  }
+  .status.ready {
+    @apply bg-green-100 text-green-800;
+  }
+  .status.error {
+    @apply bg-red-100 text-red-800;
+  }
+
+  .camera-container {
+    @apply relative w-full mb-4 rounded-lg overflow-hidden bg-gray-800 shadow-md flex flex-col items-center justify-center;
+  }
+
+  .placeholder {
+    @apply pb-8 text-center text-gray-100;
+  }
+
+  .controls {
+    @apply flex gap-2 justify-center mb-4;
+  }
+
+  .btn {
+    @apply px-6 py-3 border-none rounded-lg font-medium transition-all;
+  }
+  .btn-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700;
+  }
+  .btn-destructive {
+    @apply bg-rose-600 text-white hover:bg-rose-700;
+  }
+  .btn-secondary {
+    @apply bg-gray-600 text-gray-100 hover:bg-gray-700;
+  }
+  .btn:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  .upload-section {
+    @apply flex flex-col items-center gap-4 mb-4;
+  }
+
+  .upload-label {
+    @apply inline-block px-6 py-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-900 transition-all text-white text-center;
+  }
+  .upload-label.disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+  .upload-label input {
+    @apply hidden;
+  }
+
+  .error-message {
+    @apply bg-red-100 text-red-800 p-3 rounded-md mb-4 text-center font-semibold;
+  }
+
+  .result-section {
+    @apply flex flex-col items-center justify-center bg-emerald-600 rounded-lg p-4 gap-2;
+  }
+
+  .result-text {
+    @apply bg-emerald-100 p-2 rounded-2xl break-all font-mono mb-2 text-center;
+  }
+
+  .result-actions {
+    @apply flex gap-2 justify-center flex-wrap;
+  }
+
+  .scanning-indicator {
+    @apply text-center text-blue-200 font-semibold my-4;
+  }
+
+  .scanning-animation {
+    @apply animate-spin;
+  }
+
+  .note {
+    @apply bg-transparent rounded-lg p-4 list-disc text-gray-200 max-w-[500px] mx-auto flex flex-col gap-2 pl-6;
+  }
+
+  .text-center {
+    @apply text-center;
+  }
+

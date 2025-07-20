@@ -11,6 +11,7 @@
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../node_modules/lit/polyfill-support.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@zxing/library@latest/umd/index.min.js"></script>
     <script>
         tailwind.config = {
             // darkMode: 'class',
@@ -47,7 +48,7 @@
                 "json-viewer",
                 "csv-to-json-converter",
                 "json-to-csv-converter",
-                "regex-expression-tester"].includes(tool)) {
+                "regex-expression-tester", "qr-code-scanner"].includes(tool)) {
                 document.getElementById("container").className = "w-full";
             } else {
                 document.getElementById("container").className = className;
@@ -81,6 +82,7 @@
 
         initTool(localStorage.getItem("demo-selected-tool") || tools[0]);
     </script>
+
 </body>
 
 </html>
