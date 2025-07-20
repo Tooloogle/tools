@@ -2,5 +2,53 @@
 @tailwind utilities;
 
 .container {
-  @apply space-y-2;
+  @apply space-y-2 max-w-md mx-auto;
+}
+
+.unit-selector {
+  @apply flex items-center gap-4;
+}
+
+.unit-selector label {
+  @apply font-medium text-gray-100;
+}
+
+.input-group {
+  @apply flex items-center gap-4;
+}
+
+.input-group label {
+  @apply w-32 font-medium text-gray-100;
+}
+
+.form-input {
+  @apply border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+}
+
+.result-container {
+  @apply bg-gray-50 p-2 rounded-md mb-2;
+}
+
+.bmi-value {
+  @apply text-xl font-bold mb-2;
+}
+
+.category-display {
+  @apply text-lg;
+}
+
+.bmi-ranges {
+  @apply bg-gray-50 p-4 rounded-md mb-4;
+}
+
+.bmi-ranges h3 {
+  @apply font-bold text-lg mb-2;
+}
+
+.bmi-ranges ul {
+  @apply list-disc pl-5 space-y-1;
+}
+
+.note {
+  @apply text-sm text-gray-100 list-disc pl-5 space-y-1;
 }

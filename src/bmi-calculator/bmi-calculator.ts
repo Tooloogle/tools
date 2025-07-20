@@ -1,18 +1,16 @@
 import { html, customElement, property } from 'lit-element'
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import bmiCalculatorStyles from './bmi-calculator.css.js';
 
 @customElement('bmi-calculator')
 export class BmiCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, bmiCalculatorStyles];
+    static override styles = [WebComponentBase.styles, bmiCalculatorStyles];
     
     @property({ type: Number }) height = 0;
     @property({ type: Number }) weight = 0;
     @property({ type: Number }) bmi = 0;
     @property({ type: String }) category = '';
-    @property({ type: String }) unit = 'metric'; // 'metric' or 'imperial'
+    @property({ type: String }) unit = 'metric';
 
     private handleHeightChange(e: Event) {
         const input = e.target as HTMLInputElement;
@@ -38,11 +36,10 @@ export class BmiCalculator extends WebComponentBase<IConfigBase> {
             let weightInKg = this.weight;
 
             if (this.unit === 'imperial') {
-                // Convert feet/inches to meters and pounds to kg
-                heightInMeters = this.height * 0.3048; // feet to meters
-                weightInKg = this.weight * 0.453592; // pounds to kg
+                heightInMeters = this.height * 0.3048;
+                weightInKg = this.weight * 0.453592;
             } else {
-                heightInMeters = this.height / 100; // cm to meters
+                heightInMeters = this.height / 100;
             }
 
             this.bmi = Math.round((weightInKg / (heightInMeters * heightInMeters)) * 10) / 10;
@@ -103,9 +100,7 @@ export class BmiCalculator extends WebComponentBase<IConfigBase> {
 
                 ${this.bmi > 0 ? html`
                     <div class="result-container">
-                        <div class="bmi-display">
-                            <div class="bmi-value">BMI: <span style="color: ${this.getCategoryColor(this.category)}"> ${this.bmi}</span></div>
-                        </div>
+                        <div class="bmi-value">BMI: <span style="color: ${this.getCategoryColor(this.category)}"> ${this.bmi}</span></div>
                         <div class="category-display">
                            Category: <span style="color: ${this.getCategoryColor(this.category)}">${this.category}</span>
                         </div>
@@ -121,14 +116,15 @@ export class BmiCalculator extends WebComponentBase<IConfigBase> {
                         </ul>
                     </div>
                 ` : ''}
+                
                 <div>
-                <h3>Note:</h3>
-                <ul class="info">
-                    <li>BMI is a screening tool and not diagnostic</li>
-                    <li>Results may vary based on age, gender, and muscle mass</li>
-                    <li>Consult healthcare professionals for medical advice</li>
-                </ul>
-            </div>
+                    <h3>Note:</h3>
+                    <ul class="note">
+                        <li>BMI is a screening tool and not diagnostic</li>
+                        <li>Results may vary based on age, gender, and muscle mass</li>
+                        <li>Consult healthcare professionals for medical advice</li>
+                    </ul>
+                </div>
             </div>
         `;
     }
