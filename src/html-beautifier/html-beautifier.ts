@@ -25,12 +25,12 @@ export class HtmlBeautifier extends WebComponentBase<IConfigBase> {
     }
 
     private onBeautify() {
-        const html_beautify = isBrowser() ? (window as any).html_beautify : undefined;
-        if (!html_beautify) {
+        const htmlBeautify = isBrowser() ? (window as any).html_beautify : undefined;
+        if (!htmlBeautify) {
             return;
         }
 
-        this.codeInput = html_beautify(this.codeInput, {
+        this.codeInput = htmlBeautify(this.codeInput, {
             indent_size: this.indentSize,
             indent_with_tabs: !this.useSpaces,
             preserve_newlines: this.preserveNewlines,

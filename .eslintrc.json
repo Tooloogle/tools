@@ -5,10 +5,12 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:lit/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
+        "project": "./tsconfig.json",
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
@@ -16,7 +18,67 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "@typescript-eslint/no-explicit-any": "off",
-        "eqeqeq": "error"
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/no-floating-promises": "error",
+        "@typescript-eslint/no-misused-promises": "error",
+        "@typescript-eslint/consistent-type-definitions": [
+            "error",
+            "interface"
+        ],
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                "selector": "class",
+                "format": [
+                    "PascalCase"
+                ]
+            },
+            {
+                "selector": "variable",
+                "format": [
+                    "camelCase",
+                    "UPPER_CASE",
+                    "PascalCase"
+                ]
+            }
+        ],
+        "lit/no-invalid-html": "error",
+        "lit/no-template-arrow": "warn",
+        "lit/no-template-map": "warn",
+        "lit/binding-positions": "warn",
+        "no-console": [
+            "error",
+            {
+                "allow": [
+                    "warn",
+                    "error"
+                ]
+            }
+        ],
+        "no-debugger": "error",
+        "eqeqeq": [
+            "error",
+            "always"
+        ],
+        "complexity": [
+            "error",
+            10
+        ],
+        "max-lines": [
+            "error",
+            300
+        ],
+        "max-lines-per-function": [
+            "error",
+            {
+                "max": 50,
+                "skipBlankLines": true,
+                "skipComments": true
+            }
+        ],
+        "max-depth": [
+            "error",
+            4
+        ]
     }
 }
