@@ -70,11 +70,12 @@
 }
 
 .checkbox-group {
-  @apply flex items-center;
+  @apply flex items-center justify-start gap-2 md:mt-5;
 }
 
+
 .checkbox-group label {
-  @apply ml-2 block text-sm text-gray-700;
+  @apply block text-base text-gray-700;
 }
 
 .section-header {

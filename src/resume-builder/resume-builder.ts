@@ -547,6 +547,7 @@ private exportToWord() {
                             <div class="form-group checkbox-group">
                                 <label>
                                     <input
+                                    style="width: 1rem; height: 1rem;"
                                         type="checkbox"
                                         .checked="${exp.current}"
                                         @change="${(e: Event) => this.updateExperience(exp.id, 'current', (e.target as HTMLInputElement).checked)}"
