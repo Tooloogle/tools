@@ -286,12 +286,21 @@ export class QrCodeScanner extends WebComponentBase<IConfigBase> {
     return html`
       <div class="container">
         <h1 class="title">QR Code Scanner</h1>
-
-        ${this.scannedData ? html`
+        
+           ${this.scannedData ? html`
           <div class="result-section">
-            <h3 style="text-align:center">Scanned Data URL</h3>
-            <div class="result-content">
-              <div class="result-text">
+          <div class="result-header">
+            <h3>Scanned Data URL</h3>
+             <div class="result-actions">
+                <button class="btn btn-primary" @click="${this.copyToClipboard}">
+                  ${this.copyFeedback || 'Copy'}
+                </button>
+                <button class="btn btn-secondary" @click="${this.clearResult}">
+                  Clear
+                </button>
+              </div>
+              </div>
+              <div class="result-content">
                 ${this.isUrl(this.scannedData) ? html`
                   <a href="${this.scannedData}" target="_blank" rel="noopener noreferrer">
                     ${this.scannedData}
@@ -300,19 +309,8 @@ export class QrCodeScanner extends WebComponentBase<IConfigBase> {
                   <span>${this.scannedData}</span>
                 `}
               </div>
-              <div class="result-actions">
-                <button class="btn btn-primary" @click="${this.copyToClipboard}">
-                  ${this.copyFeedback || 'Copy'}
-                </button>
-                <button class="btn btn-secondary" @click="${this.clearResult}">
-                  Clear
-                </button>
-              </div>
-            </div>
           </div>
         ` : ''}
-        <div class="status ${this.status}">${this.statusMessage}</div>
-
         <div class="scanner-section">
           <div class="camera-container" style="position: relative; padding: 10px;">
             <div id="${this.uniqueId}" style="width: 100%; min-height: 300px;"></div>
@@ -322,12 +320,14 @@ export class QrCodeScanner extends WebComponentBase<IConfigBase> {
               </div>
             ` : ''}
           </div>
+          
         ${this.scanning ? html`
           <div class="scanning-indicator">
             <div class="scanning-animation"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-loader-circle-icon lucide-loader-circle"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></div>
             <p>Point your camera at a QR code...</p>
           </div>
         ` : ''}
+        ${!this.scanning ? html`<div class="status ${this.status}">${this.statusMessage}</div> ` : ''}
           <div class="controls">
             ${!this.scanning ? html`
               <button 
@@ -344,10 +344,13 @@ export class QrCodeScanner extends WebComponentBase<IConfigBase> {
             `}
           </div>
         </div>
-
+       
         <div class="upload-section" >
           <label class="upload-label ${this.status !== 'ready' ? 'disabled' : ''}">
+          <span class="upload-icon">
+           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-qr-code-icon lucide-qr-code"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg>
             Upload an image containing a QR code
+            </span>
             <input 
               type="file" 
               accept="image/*" 
@@ -372,30 +375,7 @@ export class QrCodeScanner extends WebComponentBase<IConfigBase> {
           </div>
         ` : ''}
 
-        ${this.scannedData ? html`
-          <div class="result-section">
-            <h3 class="text-center">Scanned Data URL</h3>
-            <div class="result-content">
-              <div class="result-text">
-                ${this.isUrl(this.scannedData) ? html`
-                  <a href="${this.scannedData}" target="_blank" rel="noopener noreferrer">
-                    ${this.scannedData}
-                  </a>
-                ` : html`
-                  <span>${this.scannedData}</span>
-                `}
-              </div>
-              <div class="result-actions">
-                <button class="btn btn-primary" @click="${this.copyToClipboard}">
-                  ${this.copyFeedback || 'Copy'}
-                </button>
-                <button class="btn btn-secondary" @click="${this.clearResult}">
-                  Clear
-                </button>
-              </div>
-            </div>
-          </div>
-        ` : ''}
+        
         <ul class="note">
           <li>Point your camera at a QR code or upload an image</li>
           <li>Scanning happens entirely in your browser</li>
