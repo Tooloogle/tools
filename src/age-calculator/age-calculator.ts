@@ -74,6 +74,7 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
         };
     }
 
+    // eslint-disable-next-line max-lines-per-function
     override render() {
         const { years, months, days, hours, minutes, seconds } = this.result;
         return html`

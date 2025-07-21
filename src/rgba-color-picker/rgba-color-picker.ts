@@ -76,7 +76,7 @@ export class RgbaColorPicker extends WebComponentBase<IConfigBase> {
     private rgbToHex(r: number, g: number, b: number) {
         const toHex = (c: number) => {
             const hex = c.toString(16);
-            return hex.length === 1 ? '0' + hex : hex;
+            return hex.length === 1 ? `0${hex}` : hex;
         };
         return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
     }
@@ -124,6 +124,12 @@ export class RgbaColorPicker extends WebComponentBase<IConfigBase> {
         return `rgb(${r}, ${g}, ${b})`;
     }
 
+    private onPreviewBoxClick() {
+        if (this.colorInputEl?.value) {
+            this.colorInputEl.value.click();
+        }
+    }
+
     render() {
         const hexColor = this.rgbToHex(this.red, this.green, this.blue);
         const hslColor = this.rgbToHsl(this.red, this.green, this.blue);
@@ -131,7 +137,7 @@ export class RgbaColorPicker extends WebComponentBase<IConfigBase> {
         return html`
       <div class="rgba-color-picker">
         <label for="colorPicker">Pick a color:</label>
-        <div class="preview-box" style="background-color: ${this.color};" @click=${() => this.colorInputEl?.value?.click()}>
+        <div class="preview-box" style="background-color: ${this.color};" @click=${this.onPreviewBoxClick}>
             <input ${ref(this.colorInputEl)} id="colorPicker" type="color" .value="${this.color}" @input=${this.onColorInputChange}>
         </div>
         

@@ -86,6 +86,7 @@ export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
     document.body.removeChild(link);
   }
 
+  // eslint-disable-next-line max-lines-per-function
   render() {
     return html`
       <div class="csv-to-json-converter">

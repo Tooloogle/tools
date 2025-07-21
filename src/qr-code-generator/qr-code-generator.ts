@@ -112,8 +112,8 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
         this.qrCode.update({ image: this.image });
     }
 
-    download() {
-        this.qrCode.download({
+    async download() {
+        await this.qrCode.download({
             name: "qr-tooloogle",
             extension: this.downloadExt
         });
@@ -128,6 +128,7 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
         });
     }
 
+    // eslint-disable-next-line max-lines-per-function
     override render() {
         return html`
             <div class="qr-code-generator">

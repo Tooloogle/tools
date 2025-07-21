@@ -24,12 +24,12 @@ export class JavascriptBeautifier extends WebComponentBase<IConfigBase> {
     }
 
     private onBeautify() {
-        const js_beautify = isBrowser() ? (window as any).js_beautify : undefined;
-        if (!js_beautify) {
+        const jsBeautify = isBrowser() ? (window as any).js_beautify : undefined;
+        if (!jsBeautify) {
             return;
         }
 
-        this.codeInput = js_beautify(this.codeInput, {
+        this.codeInput = jsBeautify(this.codeInput, {
             indent_size: this.indentSize,
             space_in_empty_paren: true,
             jslint_happy: true,
