@@ -36,7 +36,7 @@ export class HexRgb extends WebComponentBase<IConfigBase> {
 
     rgbToHex() {
         const hex = this.b | (this.g << 8) | (this.r << 16);
-        this.hex = '#' + (0x1000000 + hex).toString(16).slice(1);
+        this.hex = `#${(0x1000000 + hex).toString(16).slice(1)}`;
     }
 
     stringToDec(val: string) {

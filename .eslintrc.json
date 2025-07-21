@@ -46,6 +46,9 @@
         "lit/no-template-arrow": "warn",
         "lit/no-template-map": "warn",
         "lit/binding-positions": "warn",
+        "no-debugger": "error",
+        "prefer-const": "error",
+        "prefer-template": "error",
         "no-console": [
             "error",
             {
@@ -55,7 +58,12 @@
                 ]
             }
         ],
-        "no-debugger": "error",
+        "no-multiple-empty-lines": [
+            "error",
+            {
+                "max": 1
+            }
+        ],
         "eqeqeq": [
             "error",
             "always"

@@ -33,7 +33,6 @@ export class TemperatureConverter extends WebComponentBase<IConfigBase> {
             return;
         }
 
-
         this.c = (this.f - 32) * 5 / 9;
         this.k = (this.f + 459.67) * 5 / 9;
 
