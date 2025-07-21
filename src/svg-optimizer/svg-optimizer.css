@@ -11,8 +11,8 @@
   }
 
   .upload-area {
-    @apply border-2 border-dashed border-gray-300 rounded-lg p-6 text-center 
-           hover:border-blue-500 hover:bg-blue-50 transition-all duration-300 cursor-pointer;
+    @apply border-2 border-dashed border-gray-300 rounded-lg p-4 hover:bg-gray-200 transition-all duration-200 text-center 
+           hover:border-blue-500 space-y-2;
   }
 
   .upload-area.dragover {
@@ -20,7 +20,7 @@
   }
 
   .upload-label {
-    @apply block font-medium text-gray-700 cursor-pointer;
+    @apply block text-center font-medium text-gray-200;
   }
 
   .text-input-area {
@@ -38,11 +38,11 @@
   }
 
   .options-section {
-    @apply bg-gray-50 p-6 rounded-lg;
+    @apply bg-gray-300 p-4 rounded-lg;
   }
 
   .options-section h3 {
-    @apply text-lg font-semibold text-gray-800 mb-4;
+    @apply text-lg font-semibold text-gray-900 mb-4;
   }
 
   .options-grid {
@@ -162,5 +162,5 @@
   .form-input[type="file"] {
     @apply file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 
            file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 
-           hover:file:bg-blue-100;
+           hover:file:bg-blue-100 cursor-pointer;
   }

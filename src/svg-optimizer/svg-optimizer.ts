@@ -280,16 +280,16 @@ export class SvgOptimizer extends WebComponentBase<IConfigBase> {
         return html`
             <div class="container">
                 <div class="input-section">
+                    <label class="upload-label">
+                        Upload SVG File
+                    </label>
                     <div class="upload-area">
-                        <label class="upload-label">
-                            Upload SVG File:
                             <input 
                                 type="file" 
                                 accept=".svg,image/svg+xml" 
                                 class="form-input" 
                                 @change="${this.handleFileUpload}"
                             />
-                        </label>
                     </div>
 
                     <div class="text-input-area">
@@ -303,7 +303,76 @@ export class SvgOptimizer extends WebComponentBase<IConfigBase> {
                     </div>
                 </div>
 
-                <div class="options-section">
+                
+
+                ${this.error ? html`
+                    <div class="error-message">
+                        ${this.error}
+                    </div>
+                ` : ''}
+
+                <div class="action-section">
+                    <button 
+                        class="btn" 
+                        @click="${this.optimizeSvg}" 
+                        ?disabled="${!this.originalSvg || this.optimizing}"
+                    >
+                        ${this.optimizing ? 'Optimizing...' : 'Optimize SVG'}
+                    </button>
+                </div>
+
+                ${this.originalSize > 0 ? html`
+                    <div class="stats-section">
+                        <div class="stat">
+                            <span class="label">Original Size:</span>
+                            <span class="value">${this.formatBytes(this.originalSize)}</span>
+                        </div>
+                        ${this.optimizedSize > 0 ? html`
+                            <div class="stat">
+                                <span class="label">Optimized Size:</span>
+                                <span class="value">${this.formatBytes(this.optimizedSize)}</span>
+                            </div>
+                            <div class="stat savings">
+                                <span class="label">Savings:</span>
+                                <span class="value">${this.formatBytes(this.originalSize - this.optimizedSize)} (${this.getSavingsPercentage()}%)</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                ` : ''}
+
+                ${this.optimizedSvg ? html`
+                    <div class="result-section">
+                        <div class="result-actions">
+                            <button class="btn" @click="${this.downloadOptimized}">
+                                Download Optimized
+                            </button>
+                            <button class="btn btn-secondary" @click="${this.copyOptimized}">
+                                Copy Code
+                            </button>
+                        </div>
+
+                        <div class="svg-comparison">
+                            <div class="svg-preview">
+                                <h4>Original</h4>
+                                <div class="svg-container" .innerHTML="${this.originalSvg}"></div>
+                            </div>
+                            <div class="svg-preview">
+                                <h4>Optimized</h4>
+                                <div class="svg-container" .innerHTML="${this.optimizedSvg}"></div>
+                            </div>
+                        </div>
+
+                        <div class="code-output">
+                            <label>Optimized SVG Code:</label>
+                            <textarea 
+                                class="form-input svg-textarea" 
+                                readonly
+                                .value="${this.optimizedSvg}"
+                            ></textarea>
+                        </div>
+                    </div>
+                ` : ''}
+<div class="options-section">
                     <h3>Optimization Options:</h3>
                     <div class="options-grid">
                         <label>
@@ -380,75 +449,6 @@ export class SvgOptimizer extends WebComponentBase<IConfigBase> {
                         </label>
                     </div>
                 </div>
-
-                ${this.error ? html`
-                    <div class="error-message">
-                        ${this.error}
-                    </div>
-                ` : ''}
-
-                <div class="action-section">
-                    <button 
-                        class="btn" 
-                        @click="${this.optimizeSvg}" 
-                        ?disabled="${!this.originalSvg || this.optimizing}"
-                    >
-                        ${this.optimizing ? 'Optimizing...' : 'Optimize SVG'}
-                    </button>
-                </div>
-
-                ${this.originalSize > 0 ? html`
-                    <div class="stats-section">
-                        <div class="stat">
-                            <span class="label">Original Size:</span>
-                            <span class="value">${this.formatBytes(this.originalSize)}</span>
-                        </div>
-                        ${this.optimizedSize > 0 ? html`
-                            <div class="stat">
-                                <span class="label">Optimized Size:</span>
-                                <span class="value">${this.formatBytes(this.optimizedSize)}</span>
-                            </div>
-                            <div class="stat savings">
-                                <span class="label">Savings:</span>
-                                <span class="value">${this.formatBytes(this.originalSize - this.optimizedSize)} (${this.getSavingsPercentage()}%)</span>
-                            </div>
-                        ` : ''}
-                    </div>
-                ` : ''}
-
-                ${this.optimizedSvg ? html`
-                    <div class="result-section">
-                        <div class="result-actions">
-                            <button class="btn" @click="${this.downloadOptimized}">
-                                Download Optimized
-                            </button>
-                            <button class="btn btn-secondary" @click="${this.copyOptimized}">
-                                Copy Code
-                            </button>
-                        </div>
-
-                        <div class="svg-comparison">
-                            <div class="svg-preview">
-                                <h4>Original</h4>
-                                <div class="svg-container" .innerHTML="${this.originalSvg}"></div>
-                            </div>
-                            <div class="svg-preview">
-                                <h4>Optimized</h4>
-                                <div class="svg-container" .innerHTML="${this.optimizedSvg}"></div>
-                            </div>
-                        </div>
-
-                        <div class="code-output">
-                            <label>Optimized SVG Code:</label>
-                            <textarea 
-                                class="form-input svg-textarea" 
-                                readonly
-                                .value="${this.optimizedSvg}"
-                            ></textarea>
-                        </div>
-                    </div>
-                ` : ''}
-
                 <ul class="note">
                     <li>Optimizes SVG files by removing unnecessary elements and attributes</li>
                     <li>Preserves visual appearance while reducing file size</li>
