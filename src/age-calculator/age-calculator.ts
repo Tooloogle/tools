@@ -11,24 +11,7 @@ import dayjs from '../_utils/dayjs-ssr-helper/dayjs.js';
 import duration from '../_utils/dayjs-ssr-helper/duration.js';
 
 dayjs.extend(duration);
-interface AgeResult {
-  days: number;
-  months: number;
-  years: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-  milliseconds: number;
-  total: {
-    days: number;
-    months: string;
-    weeks: string;
-    years: number;
-    hours: number;
-    minutes: number;
-    seconds: number;
-  };
-}
+
 @customElement('age-calculator')
 export class AgeCalculator extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, ageCalculatorStyles];
@@ -43,7 +26,7 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
     dob = "";
 
     @property()
-    result: Partial<AgeResult> | null = null;
+    result: any = {};
 
     calculate() {
         // TODO: fix the date diff either in dayjs or use another lib or write our own code to calculate date diff
@@ -91,22 +74,21 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
         };
     }
 
-    private onDobChange(e: Event) {
-    this.dob = (e.target as HTMLInputElement).value;
+    private handleDobChange(e: Event) {
+        this.dob = (e.target as HTMLInputElement).value;
     }
 
-    private onTodayChange(e: Event) {
+    private handleTodayChange(e: Event) {
         this.today = (e.target as HTMLInputElement).value;
     }
 
-    private onHaveTimeChange(e: Event) {
+    private handleHaveTimeChange(e: Event) {
         this.haveTime = (e.target as HTMLInputElement).checked;
     }
 
     private clearResult() {
         this.result = {};
     }
-
     // eslint-disable-next-line max-lines-per-function
     override render() {
         const { years, months, days, hours, minutes, seconds } = this.result;
@@ -116,9 +98,9 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
                     <div class="result mb-5">
                         <div class="p-3 rounded-md shadow-md">
                             <div class="text-end">
-                            <span class="btn-close" @click=${this.clearResult}>
-                                &times;
-                            </span>
+                                 <span class="btn-close" @click=${this.clearResult}>
+                                    &times;
+                                </span>
                             </div>
                             <h3 class="m-0">
                                 Result
@@ -150,7 +132,7 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
                         type="${this.haveTime ? "datetime-local" : "date"}"
                         pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
                         .value=${this.dob}
-                        @change=${this.onDobChange}
+                         @change=${this.handleDobChange}
                         required />
                 </label>
                 <label class="block">
@@ -161,11 +143,11 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
                         type="${this.haveTime ? "datetime-local" : "date"}"
                         pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
                         .value=${this.today}
-                        @change=${this.onTodayChange}
+                         @change=${this.handleTodayChange}
                         required />
                 </label>
                 <label class="block">
-                    <input id="haveTime" type="checkbox" @change=${this.onHaveTimeChange} />
+                    <input id="haveTime" type="checkbox" @change=${this.handleHaveTimeChange} />
                     <span>Have time?</span>
                 </label>
             </div>
