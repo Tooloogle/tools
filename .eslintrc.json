@@ -87,6 +87,21 @@
         "max-depth": [
             "error",
             4
+        ],
+        "no-restricted-imports": [
+            "error",
+            {
+                "paths": [
+                    {
+                        "name": "lit-element",
+                        "message": "Do not use 'lit-element'. Use 'lit' and 'lit/decorators.js' instead."
+                    },
+                    {
+                        "name": "lit-html",
+                        "message": "Do not use 'lit-html'. Use 'lit' instead."
+                    }
+                ]
+            }
         ]
     }
 }
