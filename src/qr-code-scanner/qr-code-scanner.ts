@@ -4,15 +4,13 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
 import qrCodeScannerStyles from './qr-code-scanner.css.js';
-
-// ZXing types
-declare const ZXing: any;
+import {  QrScannerUtils, type ZXingCodeReader, type ScannerStatus, type ScanResult, QrScannerRenderer} from './qr-code-scanner.utils.js';
 
 @customElement('qr-code-scanner')
 export class QrCodeScanner extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, qrCodeScannerStyles];
     
-  @state() private status: 'loading' | 'ready' | 'error' = 'loading';
+  @state() private status: ScannerStatus = 'loading';
   @state() private statusMessage = 'Loading QR Scanner...';
   @state() private scanning = false;
   @state() private scannedData = '';
@@ -20,40 +18,37 @@ export class QrCodeScanner extends WebComponentBase<IConfigBase> {
   @state() private copyFeedback = '';
   @state() private uploadedImageSrc = '';
 
-  private codeReader: any = null;
+  private codeReader: ZXingCodeReader | null = null;
   private videoStream: MediaStream | null = null;
-  private uniqueId = `qr-reader-${Math.random().toString(36).substring(2, 9)}`;
+  private uniqueId = QrScannerUtils.generateUniqueId();
 
-  async firstUpdated() {
+  async firstUpdated(): Promise<void> {
     await this.updateComplete;
     await new Promise(resolve => requestAnimationFrame(resolve));
-    this.initializeScanner();
+    void this.initializeScanner();
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     super.disconnectedCallback();
-    this.stopScanning();
+    void this.stopScanning();
   }
 
-  private async initializeScanner() {
+  private async initializeScanner(): Promise<void> {
     this.status = 'loading';
     this.statusMessage = 'Loading QR Scanner...';
 
     try {
-      if (typeof ZXing === 'undefined') {
+      if (typeof window.ZXing === 'undefined') {
         throw new Error('ZXing library not loaded');
       }
 
       await this.updateComplete;
-      
       const scannerElement = this.shadowRoot?.getElementById(this.uniqueId);
       if (!scannerElement) {
         throw new Error('Scanner element not found in shadow DOM');
       }
 
-      // Initialize ZXing CodeReader
-      this.codeReader = new ZXing.BrowserQRCodeReader();
-
+      this.codeReader = new window.ZXing.BrowserQRCodeReader();
       this.status = 'ready';
       this.statusMessage = 'QR Scanner ready!';
       this.error = '';
@@ -61,27 +56,11 @@ export class QrCodeScanner extends WebComponentBase<IConfigBase> {
       console.error('Initialization error:', error);
       this.status = 'error';
       this.statusMessage = 'Scanner initialization failed';
-      this.error = this.getErrorMessage(error);
+      this.error = QrScannerUtils.getErrorMessage(error);
     }
   }
 
-  private getErrorMessage(error: unknown): string {
-    if (error instanceof Error) {
-      if (error.message.includes('Permission denied')) {
-        return 'Camera access denied. Please allow camera permissions.';
-      } else if (error.message.includes('NotFoundError')) {
-        return 'No camera found. Please ensure you have a camera connected.';
-      } else if (error.message.includes('NotAllowedError')) {
-        return 'Camera access denied. Please allow camera access.';
-      } else if (error.message.includes('Scanner element not found')) {
-        return 'Scanner setup failed. Please refresh the page.';
-      }
-      return `Scanner error: ${error.message}`;
-    }
-    return 'Failed to initialize QR scanner. Please refresh the page.';
-  }
-
-  private async startScanning() {
+  private async startScanning(): Promise<void> {
     if (!this.codeReader || this.status !== 'ready') {
       this.error = 'QR Scanner is not ready. Please wait for initialization to complete.';
       return;
@@ -89,43 +68,28 @@ export class QrCodeScanner extends WebComponentBase<IConfigBase> {
 
     this.error = '';
     this.scanning = true;
-
     try {
       const scannerElement = this.shadowRoot?.getElementById(this.uniqueId);
       if (!scannerElement) {
         throw new Error('Scanner element not found');
       }
 
-      // Create video element in shadow DOM
-      const videoElement = document.createElement('video');
-      videoElement.style.width = '100%';
-      videoElement.style.height = 'auto';
-      videoElement.style.maxHeight = '300px';
-      videoElement.style.objectFit = 'contain';
-      videoElement.autoplay = true;
-      videoElement.playsInline = true;
-
+      const videoElement = QrScannerUtils.createVideoElement();
       scannerElement.innerHTML = '';
       scannerElement.appendChild(videoElement);
-
-      // Start decoding from camera
-      const result = await this.codeReader.decodeOnceFromVideoDevice(
-        undefined, // deviceId - undefined will use default camera
-        videoElement
-      );
-
+      const result = await this.codeReader.decodeOnceFromVideoDevice(undefined, videoElement);
       if (result) {
         this.handleScanSuccess(result.text, result);
       }
 
     } catch (error) {
       console.error('Error starting scanner:', error);
-      this.handleScannerError(error);
+      this.error = QrScannerUtils.handleScannerError(error);
       this.scanning = false;
     }
   }
 
-  private async stopScanning() {
+  private async stopScanning(): Promise<void> {
     if (this.codeReader && this.scanning) {
       try {
         this.codeReader.reset();
@@ -134,7 +98,6 @@ export class QrCodeScanner extends WebComponentBase<IConfigBase> {
       }
     }
     
-    // Stop video stream
     if (this.videoStream) {
       this.videoStream.getTracks().forEach(track => track.stop());
       this.videoStream = null;
@@ -142,126 +105,83 @@ export class QrCodeScanner extends WebComponentBase<IConfigBase> {
 
     this.scanning = false;
     
-    // Clear the scanner element
     const scannerElement = this.shadowRoot?.getElementById(this.uniqueId);
     if (scannerElement) {
       scannerElement.innerHTML = '';
     }
   }
 
-  private handleScannerError(error: any) {
-    let errorMessage = 'Unable to access camera. ';
-    if (error instanceof Error) {
-      if (error.message.includes('Permission denied') || error.name === 'NotAllowedError') {
-        errorMessage += 'Please grant camera permissions.';
-      } else if (error.message.includes('NotFoundError') || error.name === 'NotFoundError') {
-        errorMessage += 'No camera found.';
-      } else if (error.message.includes('NotAllowedError') || error.name === 'NotAllowedError') {
-        errorMessage += 'Camera access denied.';
-      } else {
-        errorMessage += 'Please ensure camera permissions are granted.';
-      }
-    } else {
-      errorMessage += 'Please ensure camera permissions are granted.';
-    }
-    
-    this.error = errorMessage;
-  }
-
-  private handleScanSuccess(decodedText: string, decodedResult: any) {
+  private handleScanSuccess(decodedText: string, decodedResult: unknown): void {
     this.scannedData = decodedText;
-    this.stopScanning();
+    void this.stopScanning();
     this.error = '';
     
     this.dispatchEvent(new CustomEvent('qr-scanned', {
-      detail: { data: decodedText, result: decodedResult },
+      detail: { data: decodedText, result: decodedResult } as ScanResult,
       bubbles: true,
       composed: true
     }));
   }
 
-  private async handleFileUpload(e: Event) {
+  private async handleFileUpload(e: Event): Promise<void> {
     const input = e.target as HTMLInputElement;
     const file = input.files?.[0];
     
-    if (!file) return;
-
-    if (!this.codeReader || this.status !== 'ready') {
+    if (!file || !this.codeReader || this.status !== 'ready') {
+      if (!file) return;
       this.error = 'QR Scanner is not ready. Please wait for initialization to complete.';
       return;
     }
 
     this.error = '';
-    
-    // Create a URL for the uploaded image to display
     const imageUrl = URL.createObjectURL(file);
     this.uploadedImageSrc = imageUrl;
     
     try {
-      // Create an image element to load the file
-      const img = new Image();
+      const img = await QrScannerUtils.createImageFromFile(file);
       
-      img.onload = async () => {
-        try {
-          const result = await this.codeReader.decodeFromImageElement(img);
-          this.scannedData = result.text;
-          this.dispatchEvent(new CustomEvent('qr-scanned', {
-            detail: { data: result.text, source: 'file' },
-            bubbles: true,
-            composed: true
-          }));
-        } catch (error) {
-          console.error('Error scanning file:', error);
-          this.error = 'No QR code found in the uploaded image.';
-        }
-      };
-      
-      img.onerror = () => {
-        this.error = 'Failed to load the uploaded image.';
-      };
-      
-      img.src = imageUrl;
+      try {
+        const result = await this.codeReader.decodeFromImageElement(img);
+        this.scannedData = result.text;
+        this.dispatchEvent(new CustomEvent('qr-scanned', {
+          detail: { data: result.text, source: 'file' } as ScanResult,
+          bubbles: true,
+          composed: true
+        }));
+      } catch (error) {
+        console.error('Error scanning file:', error);
+        this.error = 'No QR code found in the uploaded image.';
+      }
       
     } catch (error) {
       console.error('Error processing file:', error);
       this.error = 'Failed to process the uploaded image.';
     } finally {
       input.value = '';
-      // Clean up the object URL after a delay to allow display
-      setTimeout(() => {
-        if (this.uploadedImageSrc === imageUrl) {
-          URL.revokeObjectURL(imageUrl);
-        }
-      }, 5000);
+      QrScannerUtils.cleanupObjectUrl(imageUrl);
     }
   }
 
-  private async copyToClipboard() {
+  private async copyToClipboard(): Promise<void> {
     if (!this.scannedData) return;
 
-    try {
-      await navigator.clipboard.writeText(this.scannedData);
-      this.copyFeedback = 'Copied!';
-      
+    const result = await QrScannerUtils.copyToClipboard(this.scannedData);
+    this.copyFeedback = result.message;
+    
+    if (result.success) {
       this.dispatchEvent(new CustomEvent('qr-copied', {
-        detail: { data: this.scannedData },
+        detail: { data: this.scannedData } as ScanResult,
         bubbles: true,
         composed: true
       }));
-      
-      setTimeout(() => {
-        this.copyFeedback = '';
-      }, 2000);
-    } catch (err) {
-      console.error('Failed to copy:', err);
-      this.copyFeedback = 'Copy failed';
-      setTimeout(() => {
-        this.copyFeedback = '';
-      }, 2000);
     }
+    
+    setTimeout(() => {
+      this.copyFeedback = '';
+    }, 2000);
   }
 
-  private clearResult() {
+  private clearResult(): void {
     this.scannedData = '';
     this.error = '';
     this.copyFeedback = '';
@@ -273,120 +193,99 @@ export class QrCodeScanner extends WebComponentBase<IConfigBase> {
     }));
   }
 
-  private isUrl(text: string): boolean {
-    try {
-      new URL(text);
-      return true;
-    } catch {
-      return false;
-    }
+  private renderResult() {
+    return QrScannerRenderer.renderResultSection(
+      this.scannedData, 
+      this.copyFeedback, 
+      () => void this.copyToClipboard(), 
+      () => void this.clearResult()
+    );
   }
+
+  private renderControls() {
+    return QrScannerRenderer.renderControls(
+      this.scanning,
+      this.status,
+      () => void this.startScanning(),
+      () => void this.stopScanning()
+    );
+  }
+
+  private renderUploadedImage() {
+    return QrScannerRenderer.renderUploadedImage(this.uploadedImageSrc);
+  }
+
+  private renderError() {
+    return QrScannerRenderer.renderError(this.error);
+  }
+ 
+  private renderScannerSection() {
+    return html`
+      <div class="scanner-section">
+        <div class="camera-container" style="position: relative; padding: 10px;">
+          <div id="${this.uniqueId}" style="width: 100%; min-height: 300px;"></div>
+          ${!this.scanning ? html`
+            <div class="placeholder">
+              <p>Camera scanner will appear here</p>
+            </div>
+          ` : ''}
+        </div>
+        
+        ${this.renderScanningIndicator()}
+        ${this.renderStatusMessage()}
+        ${this.renderControls()}
+      </div>
+    `;
+  }
+
+  private renderStatusMessage() {
+    if (this.scanning) return '';
+
+    return html`<div class="status ${this.status}">${this.statusMessage}</div>`;
+  }
+
+  private renderScanningIndicator() {
+  if (!this.scanning) return '';
+  return QrScannerRenderer.renderScanningIndicator();
+}
+
+private renderUploadSection() {
+  return html`
+    <div class="upload-section">
+      <label class="upload-label ${this.status !== 'ready' ? 'disabled' : ''}">
+        <span class="upload-icon">
+          ${QrScannerRenderer.renderUploadIcon()}
+          Upload an image containing a QR code
+        </span>
+        <input 
+          type="file" 
+          accept="image/*" 
+          @change="${this.handleFileUpload}"
+          ?disabled="${this.status !== 'ready'}"
+        />
+      </label>
+    </div>
+  `;
+}
+
+private renderNotes() {
+  return QrScannerRenderer.renderNotes();
+}
 
   render() {
     return html`
       <div class="container">
         <h1 class="title">QR Code Scanner</h1>
-        
-           ${this.scannedData ? html`
-          <div class="result-section">
-          <div class="result-header">
-            <h3>Scanned Data URL</h3>
-             <div class="result-actions">
-                <button class="btn btn-primary" @click="${this.copyToClipboard}">
-                  ${this.copyFeedback || 'Copy'}
-                </button>
-                <button class="btn btn-secondary" @click="${this.clearResult}">
-                  Clear
-                </button>
-              </div>
-              </div>
-              <div class="result-content">
-                ${this.isUrl(this.scannedData) ? html`
-                  <a href="${this.scannedData}" target="_blank" rel="noopener noreferrer">
-                    ${this.scannedData}
-                  </a>
-                ` : html`
-                  <span>${this.scannedData}</span>
-                `}
-              </div>
-          </div>
-        ` : ''}
-        <div class="scanner-section">
-          <div class="camera-container" style="position: relative; padding: 10px;">
-            <div id="${this.uniqueId}" style="width: 100%; min-height: 300px;"></div>
-            ${!this.scanning ? html`
-              <div class="placeholder">
-                <p>Camera scanner will appear here</p>
-              </div>
-            ` : ''}
-          </div>
-          
-        ${this.scanning ? html`
-          <div class="scanning-indicator">
-            <div class="scanning-animation"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-loader-circle-icon lucide-loader-circle"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></div>
-            <p>Point your camera at a QR code...</p>
-          </div>
-        ` : ''}
-        ${!this.scanning ? html`<div class="status ${this.status}">${this.statusMessage}</div> ` : ''}
-          <div class="controls">
-            ${!this.scanning ? html`
-              <button 
-                class="btn btn-primary" 
-                @click="${this.startScanning}"
-                ?disabled="${this.status !== 'ready'}"
-              >
-                Start Camera Scan
-              </button>
-            ` : html`
-              <button class="btn btn-destructive" @click="${this.stopScanning}">
-                Stop Scanning
-              </button>
-            `}
-          </div>
-        </div>
-       
-        <div class="upload-section" >
-          <label class="upload-label ${this.status !== 'ready' ? 'disabled' : ''}">
-          <span class="upload-icon">
-           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-qr-code-icon lucide-qr-code"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg>
-            Upload an image containing a QR code
-            </span>
-            <input 
-              type="file" 
-              accept="image/*" 
-              @change="${this.handleFileUpload}"
-              ?disabled="${this.status !== 'ready'}"
-            />
-          </label>
-        </div>
-
-        ${this.uploadedImageSrc ? html`
-          <div class="uploaded-image-section">
-            <h3 style="text-align:center">Uploaded Image</h3>
-            <div style="display: flex; items-center: center; justify-content: center; margin-bottom: 10px;">
-              <img src="${this.uploadedImageSrc}" alt="Uploaded QR code image" style="max-width: 100%; max-height: 250px; object-fit: contain;" />
-            </div>
-          </div>
-        ` : ''}
-
-        ${this.error ? html`
-          <div class="error-message">
-            ${this.error}
-          </div>
-        ` : ''}
-
-        
-        <ul class="note">
-          <li>Point your camera at a QR code or upload an image</li>
-          <li>Scanning happens entirely in your browser</li>
-          <li>Supports various QR code types</li>
-          <li>Make sure the QR code is well-lit and clearly visible</li>
-        </ul>
+        ${this.renderResult()}
+        ${this.renderScannerSection()}
+        ${this.renderUploadSection()}
+        ${this.renderUploadedImage()}
+        ${this.renderError()}
+        ${this.renderNotes()}
       </div>
     `;
   }
 }
-
 declare global {
   interface HTMLElementTagNameMap {
     'qr-code-scanner': QrCodeScanner;
