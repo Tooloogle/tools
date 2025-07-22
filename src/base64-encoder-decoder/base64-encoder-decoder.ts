@@ -13,9 +13,10 @@ export class Base64EncoderDecoder extends WebComponentBase<IConfigBase> {
 
     @property()
     decoded = "";
-
-    onDecodedChange(e: any) {
-        this.decoded = e.target?.value;
+    
+    private onDecodedChange(e: Event) {
+        const target = e.target as HTMLTextAreaElement;
+        this.decoded = target.value;
         try {
             this.encoded = btoa(this.decoded);
         } catch (err) {
@@ -23,8 +24,9 @@ export class Base64EncoderDecoder extends WebComponentBase<IConfigBase> {
         }
     }
 
-    onEncodedChange(e: any) {
-        this.encoded = e.target?.value;
+    private onEncodedChange(e: Event) {
+        const target = e.target as HTMLTextAreaElement;
+        this.encoded = target.value;
         try {
             this.decoded = atob(this.encoded);
         } catch (err) {

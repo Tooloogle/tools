@@ -7,6 +7,15 @@ import cssBeautifierStyles from './css-beautifier.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 import '../_libs/js-beautify/beautify-css.min.js';
 
+declare global {
+  interface Window {
+    css_beautify: (code: string, options: {
+      indent_size?: number;
+      space_after_comma?: boolean;
+      end_with_newline?: boolean;
+    }) => string;
+  }
+}
 @customElement('css-beautifier')
 export class CssBeautifier extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, cssBeautifierStyles];
@@ -22,7 +31,7 @@ export class CssBeautifier extends WebComponentBase<IConfigBase> {
     }
 
     private onBeautify() {
-        const cssBeautify = isBrowser() ? (window as any).css_beautify : undefined;
+        const cssBeautify = isBrowser() ? window.css_beautify : undefined;
         if (!cssBeautify) {
             return;
         }
@@ -41,7 +50,9 @@ export class CssBeautifier extends WebComponentBase<IConfigBase> {
 
     private onCheckboxChange(event: Event) {
         const inputElement = event.target as HTMLInputElement;
-        (this as any)[inputElement.name] = inputElement.checked;
+        const propName = inputElement.name as keyof Pick<CssBeautifier, 
+            'useSpaceAfterComma' | 'endWithNewline'>;
+        this[propName] = inputElement.checked;
     }
 
     render() {

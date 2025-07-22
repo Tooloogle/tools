@@ -7,6 +7,20 @@ import htmlBeautifierStyles from './html-beautifier.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 import '../_libs/js-beautify/beautify-html.min.js';
 
+interface JsBeautifyOptions {
+    indent_size?: number;
+    indent_with_tabs?: boolean;
+    preserve_newlines?: boolean;
+    max_preserve_newlines?: number;
+    wrap_line_length?: number;
+    end_with_newline?: boolean;
+    unformatted?: string[];
+}
+declare global {
+  interface Window {
+    html_beautify: (code: string, options?: JsBeautifyOptions) => string;
+  }
+}
 @customElement('html-beautifier')
 export class HtmlBeautifier extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, htmlBeautifierStyles];
@@ -26,7 +40,7 @@ export class HtmlBeautifier extends WebComponentBase<IConfigBase> {
     }
 
     private onBeautify() {
-        const htmlBeautify = isBrowser() ? (window as any).html_beautify : undefined;
+        const htmlBeautify = isBrowser() ? window.html_beautify : undefined;
         if (!htmlBeautify) {
             return;
         }
@@ -58,8 +72,10 @@ export class HtmlBeautifier extends WebComponentBase<IConfigBase> {
     }
 
     private onCheckboxChange(event: Event) {
-        const inputElement = event.target as HTMLInputElement;
-        (this as any)[inputElement.name] = inputElement.checked;
+    const inputElement = event.target as HTMLInputElement;
+    const propName = inputElement.name as keyof Pick<HtmlBeautifier, 
+        'useSpaces' | 'preserveNewlines' | 'endWithNewline'>;
+    this[propName] = inputElement.checked;
     }
 
     private onUnformattedChange(event: Event) {

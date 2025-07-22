@@ -78,6 +78,10 @@ export class HexColorPicker extends WebComponentBase<IConfigBase> {
         return `hsl(${h}, ${s}%, ${l}%)`;
     }
 
+    private handlePreviewClick() {
+    this.input?.value?.click();
+    }
+
     render() {
         const rgbColor = this.hexToRgb(this.hexColor);
         const hslColor = this.hexToHsl(this.hexColor);
@@ -85,8 +89,8 @@ export class HexColorPicker extends WebComponentBase<IConfigBase> {
         return html`
             <div class="hex-color-picker">
                 <label for="colorPicker">Pick a color:</label>
-                <div class="preview-box" style="background-color: ${this.hexColor};" @click=${() => this.input?.value?.click()}>
-                    <input ${ref(this.input)} type="color" .value="${this.hexColor}" @input=${this.onColorInputChange}>
+                 <div class="preview-box" style="background-color: ${this.hexColor};" @click=${this.handlePreviewClick}>
+                   <input ${ref(this.input)} type="color" .value="${this.hexColor}" @input=${this.onColorInputChange}>
                 </div>
                 <div class="color-values">
                 <p class="res-item">

@@ -20,10 +20,11 @@ export class CssGradientGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private initColorPickers() {
-        const colorPickers = this.shadowRoot!.querySelectorAll('input[type="color"]') as NodeListOf<HTMLInputElement>;
+        if (!this.shadowRoot) return;
+        const colorPickers = this.shadowRoot.querySelectorAll('input[type="color"]') as NodeListOf<HTMLInputElement>;
         colorPickers.forEach(picker => picker.addEventListener('input', this.onColorInputChange.bind(this)));
     }
-
+    
     private onColorInputChange(event: Event) {
         const inputElement = event.target as HTMLInputElement;
         if (inputElement.id === 'colorPicker1') {

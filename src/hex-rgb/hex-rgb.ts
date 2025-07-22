@@ -59,41 +59,65 @@ export class HexRgb extends WebComponentBase<IConfigBase> {
         return v;
     }
 
-    override render() {
-        return html`
-            <div class="py-2">
-                <lable class="block">
-                    <span class="inline-block py-1">Hex</span>
-                    <input 
-                        placeholder="Hex value"
-                        class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm" 
-                        .value=${this.hex}
-                        @keyup=${(e: any) => { this.hex = e.target?.value; this.hexToRgb() }} />
-                </lable>
-            </div>
-            <lable class="block">
-                <span class="inline-block">RGB</span>
-                <div class="grid grid-cols-3 gap-1">
-                    <input 
-                        placeholder="Custom format"
-                        class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm" 
-                        .value=${this.r}
-                        @keyup=${(e: any) => { this.r = this.validateAndParseRGBValue(e.target?.value); this.rgbToHex(); }} />
-                        
-                    <input 
-                        placeholder="Custom format"
-                        class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm" 
-                        .value=${this.g}
-                        @keyup=${(e: any) => { this.g = this.validateAndParseRGBValue(e.target?.value); this.rgbToHex(); }} />
+    private onHexInput(e: Event) {
+    const input = e.target as HTMLInputElement;
+    this.hex = input.value;
+    this.hexToRgb();
+    }
 
-                    <input 
-                        placeholder="Custom format"
-                        class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm"
-                        .value=${this.b}
-                        @keyup=${(e: any) => { this.b = this.validateAndParseRGBValue(e.target?.value); this.rgbToHex(); }} />
-                </div>
+    private onRInput(e: Event) {
+        const input = e.target as HTMLInputElement;
+        this.r = this.validateAndParseRGBValue(input.value);
+        this.rgbToHex();
+    }
+
+    private onGInput(e: Event) {
+        const input = e.target as HTMLInputElement;
+        this.g = this.validateAndParseRGBValue(input.value);
+        this.rgbToHex();
+    }
+
+    private onBInput(e: Event) {
+        const input = e.target as HTMLInputElement;
+        this.b = this.validateAndParseRGBValue(input.value);
+        this.rgbToHex();
+    }
+
+    override render() {
+    return html`
+        <div class="py-2">
+            <lable class="block">
+                <span class="inline-block py-1">Hex</span>
+                <input 
+                    placeholder="Hex value"
+                    class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm" 
+                    .value=${this.hex}
+                    @keyup=${this.onHexInput} />
             </lable>
-        `;
+        </div>
+        <lable class="block">
+            <span class="inline-block">RGB</span>
+            <div class="grid grid-cols-3 gap-1">
+                <input 
+                    placeholder="Custom format"
+                    class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm" 
+                    .value=${this.r}
+                    @keyup=${this.onRInput} />
+                    
+                <input 
+                    placeholder="Custom format"
+                    class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm" 
+                    .value=${this.g}
+                    @keyup=${this.onGInput} />
+
+                <input 
+                    placeholder="Custom format"
+                    class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm"
+                    .value=${this.b}
+                    @keyup=${this.onBInput} />
+            </div>
+        </lable>
+    `;
     }
 }
 
