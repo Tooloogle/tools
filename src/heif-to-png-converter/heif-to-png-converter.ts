@@ -6,7 +6,6 @@ import heifToPngConverterStyles from './heif-to-png-converter.css.js';
 
 // heic2any is loaded via CDN - add this to your HTML:
 declare const heic2any: any;
-
 @customElement('heif-to-png-converter') 
 export class HeifToPngConverter extends WebComponentBase<IConfigBase> { 
     static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, heifToPngConverterStyles]; 
@@ -94,7 +93,6 @@ export class HeifToPngConverter extends WebComponentBase<IConfigBase> {
         `;
     }
 }
-
 declare global {
     interface HTMLElementTagNameMap {
         'heif-to-png-converter': HeifToPngConverter; 

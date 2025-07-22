@@ -5,7 +5,6 @@ import { customElement,property } from 'lit/decorators.js';
 
 // heic2any is loaded via CDN - add this to your HTML:
 declare const heic2any: any;
-
 @customElement('heic-to-jpg-converter')
 export class HeicToJpgConverter extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, heicToJpgConverterStyles];
@@ -32,14 +31,12 @@ export class HeicToJpgConverter extends WebComponentBase<IConfigBase> {
                 throw new Error('heic2any library not loaded. Please include the script or install the package.');
             }
 
-
             // Convert HEIC/HEIF to JPEG
             const convertedBlob = await heic2any({
                 blob: this.file,
                 toType: 'image/jpeg',
                 quality: 0.9
             });
-
 
             // Handle the result (heic2any might return an array of blobs)
             const blob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
@@ -55,7 +52,6 @@ export class HeicToJpgConverter extends WebComponentBase<IConfigBase> {
             
             // Clean up
             URL.revokeObjectURL(a.href);
-            
             
         } catch (error) {
             console.error('Conversion failed:', error);
@@ -99,7 +95,6 @@ export class HeicToJpgConverter extends WebComponentBase<IConfigBase> {
         `;
     }
 }
-
 declare global {
     interface HTMLElementTagNameMap {
         'heic-to-jpg-converter': HeicToJpgConverter;

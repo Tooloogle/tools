@@ -3,10 +3,8 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import heifToJpgConverterStyles from './heif-to-jpg-converter.css.js';
 import { customElement,property } from 'lit/decorators.js';
 
-
 // heic2any is loaded via CDN - add this to your HTML:
 declare const heic2any: any;
-
 @customElement('heif-to-jpg-converter')
 export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, heifToJpgConverterStyles];
@@ -32,14 +30,12 @@ export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {
                 throw new Error('heic2any library not loaded. Please include the CDN script.');
             }
 
-
             // Convert HEIF to JPEG
             const convertedBlob = await heic2any({
                 blob: this.file,
                 toType: 'image/jpeg',
                 quality: 0.9
             });
-
 
             const blob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
             
@@ -99,7 +95,6 @@ export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {
         `;
     }
 }
-
 declare global {
     interface HTMLElementTagNameMap {
         'heif-to-jpg-converter': HeifToJpgConverter;

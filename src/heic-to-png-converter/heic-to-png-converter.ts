@@ -5,7 +5,6 @@ import { customElement,property } from 'lit/decorators.js';
 
 // heic2any is loaded via CDN - add this to your HTML:
 declare const heic2any: any;
-
 @customElement('heic-to-png-converter')
 export class HeicToPngConverter extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, heicToPngConverterStyles];
@@ -31,14 +30,12 @@ export class HeicToPngConverter extends WebComponentBase<IConfigBase> {
                 throw new Error('heic2any library not loaded. Please include the script or install the package.');
             }
 
-
             // Convert HEIC/HEIF to PNG
             const convertedBlob = await heic2any({
                 blob: this.file,
                 toType: 'image/png',
                 quality: 1.0 // PNG is lossless, so quality doesn't matter much
             });
-
 
             const blob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
             
@@ -78,9 +75,7 @@ export class HeicToPngConverter extends WebComponentBase<IConfigBase> {
                         ${this.error}
                     </div>
                 ` : ''}
-                
-           
-                
+
                 <button 
                     class="btn" 
                     @click="${this.convert}" 
@@ -98,8 +93,6 @@ export class HeicToPngConverter extends WebComponentBase<IConfigBase> {
         `;
     }
 }
-
-
 declare global {
     interface HTMLElementTagNameMap {
         'heic-to-png-converter': HeicToPngConverter;
