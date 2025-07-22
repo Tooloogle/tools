@@ -1,4 +1,5 @@
-import { html, customElement, property } from 'lit-element';
+import { html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
 import inputStyles from '../_styles/input.css.js';
 import cssGradientGeneratorStyles from './css-gradient-generator.css.js'; // Import for CSS styles
