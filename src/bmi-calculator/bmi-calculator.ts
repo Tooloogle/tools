@@ -67,68 +67,99 @@ export class BmiCalculator extends WebComponentBase<IConfigBase> {
         }
     }
 
-    override render() {
+    private renderUnitSelector() {
         return html`
-            <div class="container">
-                <div class="unit-selector">
-                    <label>Unit System:</label>
-                    <select class="form-input" @change="${this.handleUnitChange}">
-                        <option value="metric" ?selected="${this.unit === 'metric'}">Metric (cm/kg)</option>
-                        <option value="imperial" ?selected="${this.unit === 'imperial'}">Imperial (ft/lbs)</option>
-                    </select>
-                </div>
+            <div class="unit-selector">
+                <label>Unit System:</label>
+                <select class="form-input" @change="${this.handleUnitChange}">
+                    <option value="metric" ?selected="${this.unit === 'metric'}">Metric (cm/kg)</option>
+                    <option value="imperial" ?selected="${this.unit === 'imperial'}">Imperial (ft/lbs)</option>
+                </select>
+            </div>
+        `;
+    }
 
-                <div class="input-group">
-                    <label>Height (${this.unit === 'metric' ? 'cm' : 'ft'}):</label>
-                    <input 
-                        type="number" 
-                        class="form-input" 
-                        placeholder="${this.unit === 'metric' ? 'Enter height in cm' : 'Enter height in feet'}"
-                        @input="${this.handleHeightChange}" 
-                    />
-                </div>
+    private renderHeightInput() {
+        return html`
+            <div class="input-group">
+                <label>Height (${this.unit === 'metric' ? 'cm' : 'ft'}):</label>
+                <input 
+                    type="number" 
+                    class="form-input" 
+                    placeholder="${this.unit === 'metric' ? 'Enter height in cm' : 'Enter height in feet'}"
+                    @input="${this.handleHeightChange}" 
+                />
+            </div>
+        `;
+    }
 
-                <div class="input-group">
-                    <label>Weight (${this.unit === 'metric' ? 'kg' : 'lbs'}):</label>
-                    <input 
-                        type="number" 
-                        class="form-input" 
-                        placeholder="${this.unit === 'metric' ? 'Enter weight in kg' : 'Enter weight in lbs'}"
-                        @input="${this.handleWeightChange}" 
-                    />
-                </div>
+    private renderWeightInput() {
+        return html`
+            <div class="input-group">
+                <label>Weight (${this.unit === 'metric' ? 'kg' : 'lbs'}):</label>
+                <input 
+                    type="number" 
+                    class="form-input" 
+                    placeholder="${this.unit === 'metric' ? 'Enter weight in kg' : 'Enter weight in lbs'}"
+                    @input="${this.handleWeightChange}" 
+                />
+            </div>
+        `;
+    }
 
-                ${this.bmi > 0 ? html`
-                    <div class="result-container">
-                        <div class="bmi-value">BMI: <span style="color: ${this.getCategoryColor(this.category)}"> ${this.bmi}</span></div>
-                        <div class="category-display">
-                           Category: <span style="color: ${this.getCategoryColor(this.category)}">${this.category}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="bmi-ranges">
-                        <h3>BMI Categories:</h3>
-                        <ul>
-                            <li style="color: #3498db">Underweight: Below 18.5</li>
-                            <li style="color: #27ae60">Normal weight: 18.5-24.9</li>
-                            <li style="color: #f39c12">Overweight: 25-29.9</li>
-                            <li style="color: #e74c3c">Obese: 30 or above</li>
-                        </ul>
-                    </div>
-                ` : ''}
-                
-                <div>
-                    <h3>Note:</h3>
-                    <ul class="note">
-                        <li>BMI is a screening tool and not diagnostic</li>
-                        <li>Results may vary based on age, gender, and muscle mass</li>
-                        <li>Consult healthcare professionals for medical advice</li>
-                    </ul>
+    private renderResults() {
+        return html`
+            <div class="result-container">
+                <div class="bmi-value">BMI: <span style="color: ${this.getCategoryColor(this.category)}"> ${this.bmi}</span></div>
+                <div class="category-display">
+                    Category: <span style="color: ${this.getCategoryColor(this.category)}">${this.category}</span>
                 </div>
             </div>
         `;
     }
-}
+
+    private renderBMIRanges() {
+        return html`
+            <div class="bmi-ranges">
+                <h3>BMI Categories:</h3>
+                <ul>
+                    <li style="color: #3498db">Underweight: Below 18.5</li>
+                    <li style="color: #27ae60">Normal weight: 18.5-24.9</li>
+                    <li style="color: #f39c12">Overweight: 25-29.9</li>
+                    <li style="color: #e74c3c">Obese: 30 or above</li>
+                </ul>
+            </div>
+        `;
+    }
+
+    private renderNotes() {
+        return html`
+            <div>
+                <h3>Note:</h3>
+                <ul class="note">
+                    <li>BMI is a screening tool and not diagnostic</li>
+                    <li>Results may vary based on age, gender, and muscle mass</li>
+                    <li>Consult healthcare professionals for medical advice</li>
+                </ul>
+            </div>
+        `;
+    }
+
+    override render() {
+        return html`
+            <div class="container">
+                ${this.renderUnitSelector()}
+                ${this.renderHeightInput()}
+                ${this.renderWeightInput()}
+                ${this.bmi > 0 ? html`
+                    ${this.renderResults()}
+                    ${this.renderBMIRanges()}
+                ` : ''}
+                ${this.renderNotes()}
+            </div>
+        `;
+    }
+  }
 
 declare global {
     interface HTMLElementTagNameMap {
