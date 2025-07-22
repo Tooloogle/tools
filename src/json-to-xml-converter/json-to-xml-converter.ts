@@ -4,6 +4,14 @@ import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
 import jsonToXmlConverterStyles from './json-to-xml-converter.css.js';
 
+interface JsonObject {
+  [key: string]: unknown;
+  '@attributes'?: Record<string, string>;
+  '#text'?: string;
+}
+
+type JsonValue = string | number | boolean | null | undefined | JsonObject | JsonValue[];
+
 @customElement('json-to-xml-converter')
 export class JsonToXmlConverter extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, jsonToXmlConverterStyles];
@@ -16,62 +24,113 @@ export class JsonToXmlConverter extends WebComponentBase<IConfigBase> {
   }
 
     private jsonToXml(obj: unknown, rootName = 'root'): string {
-        let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-        xml += this.objectToXml(obj, rootName);
-        return xml;
+        const xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+        return xml + this.objectToXml(obj as JsonValue, rootName);
     }
 
-  private objectToXml(obj: any, nodeName: string): string {
+  private objectToXml(obj: JsonValue, nodeName: string): string {
     if (obj === null || obj === undefined) {
-      return `<${nodeName}></${nodeName}>`;
+      return this.createEmptyElement(nodeName);
     }
     
-    if (typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean') {
-      return `<${nodeName}>${this.escapeXml(obj.toString())}</${nodeName}>`;
+    if (this.isPrimitive(obj)) {
+      return this.createPrimitiveElement(obj, nodeName);
     }
     
     if (Array.isArray(obj)) {
-      return obj.map(item => this.objectToXml(item, nodeName)).join('\n');
+      return this.handleArrayValue(obj, nodeName);
     }
     
     if (typeof obj === 'object') {
-      let xml = `<${nodeName}`;
-      let content = '';
-      
-      // Handle attributes
-      if (obj['@attributes']) {
-        for (const [key, value] of Object.entries(obj['@attributes'])) {
-          xml += ` ${key}="${this.escapeXml(value as string)}"`;
-        }
-      }
-      
-      xml += '>';
-      
-      // Handle text content
-      if (obj['#text']) {
-        content += this.escapeXml(obj['#text']);
-      }
-      
-      // Handle child elements
-      for (const [key, value] of Object.entries(obj)) {
-        if (key !== '@attributes' && key !== '#text') {
-          if (Array.isArray(value)) {
-            content += '\n' + value.map(item => this.objectToXml(item, key)).join('\n');
-          } else {
-            content += '\n' + this.objectToXml(value, key);
-          }
-        }
-      }
-      
-      if (content) {
-        xml += content + '\n';
-      }
-      
-      xml += `</${nodeName}>`;
-      return xml;
+      return this.handleObjectValue(obj as JsonObject, nodeName);
     }
     
-    return `<${nodeName}>${this.escapeXml(obj.toString())}</${nodeName}>`;
+    return this.createPrimitiveElement(obj, nodeName);
+  }
+
+  private createEmptyElement(nodeName: string): string {
+    return `<${nodeName}></${nodeName}>`;
+  }
+
+  private isPrimitive(obj: JsonValue): obj is string | number | boolean {
+    return typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean';
+  }
+
+  private createPrimitiveElement(obj: JsonValue, nodeName: string): string {
+    const content = this.escapeXml(String(obj));
+    return `<${nodeName}>${content}</${nodeName}>`;
+  }
+
+  private handleArrayValue(arr: JsonValue[], nodeName: string): string {
+    return arr.map(item => this.objectToXml(item, nodeName)).join('\n');
+  }
+
+  private handleObjectValue(obj: JsonObject, nodeName: string): string {
+    const openingTag = this.buildOpeningTag(nodeName, obj);
+    const content = this.buildElementContent(obj, nodeName);
+    const closingTag = `</${nodeName}>`;
+    
+    if (content) {
+      return `${openingTag}${content}\n${closingTag}`;
+    }
+    
+    return `${openingTag}${closingTag}`;
+  }
+
+  private buildOpeningTag(nodeName: string, obj: JsonObject): string {
+    let tag = `<${nodeName}`;
+    
+    const attributes = obj['@attributes'];
+    if (attributes && typeof attributes === 'object') {
+      for (const [key, value] of Object.entries(attributes)) {
+        tag += ` ${key}="${this.escapeXml(value)}"`;
+      }
+    }
+    
+    return `${tag}>`;
+  }
+
+  private buildElementContent(obj: JsonObject, nodeName: string): string {
+    let content = '';
+    
+    // Handle text content
+    const textContent = obj['#text'];
+    if (textContent && typeof textContent === 'string') {
+      content += this.escapeXml(textContent);
+    }
+    
+    // Handle child elements
+    content += this.processChildElements(obj);
+    
+    return content;
+  }
+
+  private processChildElements(obj: JsonObject): string {
+    let content = '';
+    
+    for (const [key, value] of Object.entries(obj)) {
+      if (this.isSpecialKey(key)) {
+        continue;
+      }
+      
+      content += this.processChildElement(key, value);
+    }
+    
+    return content;
+  }
+
+  private isSpecialKey(key: string): boolean {
+    return key === '@attributes' || key === '#text';
+  }
+
+  private processChildElement(key: string, value: unknown): string {
+    if (Array.isArray(value)) {
+      const childElements = value.map(item => this.objectToXml(item, key)).join('\n');
+      return `\n${childElements}`;
+    }
+    
+    const childElement = this.objectToXml(value as JsonValue, key);
+    return `\n${childElement}`;
   }
 
   private escapeXml(text: string): string {
@@ -88,24 +147,38 @@ export class JsonToXmlConverter extends WebComponentBase<IConfigBase> {
 
     try {
       const text = await this.file.text();
-      const jsonObj = JSON.parse(text);
+      const jsonObj = JSON.parse(text) as JsonObject;
       
-      // Determine root element name
-      const rootName = Object.keys(jsonObj).length === 1 ? Object.keys(jsonObj)[0] : 'root';
-      const dataToConvert = Object.keys(jsonObj).length === 1 ? jsonObj[rootName] : jsonObj;
-      
+      const { rootName, dataToConvert } = this.determineRootElement(jsonObj);
       const xmlString = this.jsonToXml(dataToConvert, rootName);
       
-      const blob = new Blob([xmlString], { type: 'application/xml' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      const fileName = this.file.name.replace(/\.[^/.]+$/, '.xml');
-      a.download = fileName;
-      a.click();
+      this.downloadXml(xmlString);
     } catch (error) {
       console.error('Conversion failed:', error);
       alert('Failed to convert JSON file. Please check if the JSON is valid.');
     }
+  }
+
+  private determineRootElement(jsonObj: JsonObject): { rootName: string; dataToConvert: unknown } {
+    const keys = Object.keys(jsonObj);
+    
+    if (keys.length === 1) {
+      const rootName = keys[0];
+      return { rootName, dataToConvert: jsonObj[rootName] };
+    }
+    
+    return { rootName: 'root', dataToConvert: jsonObj };
+  }
+
+  private downloadXml(xmlString: string): void {
+    if (!this.file) return;
+    
+    const blob = new Blob([xmlString], { type: 'application/xml' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    const fileName = this.file.name.replace(/\.[^/.]+$/, '.xml');
+    a.download = fileName;
+    a.click();
   }
 
     override render() {
@@ -120,7 +193,6 @@ export class JsonToXmlConverter extends WebComponentBase<IConfigBase> {
     `;
   }
 }
-
 declare global {
     interface HTMLElementTagNameMap {
         'json-to-xml-converter': JsonToXmlConverter;
