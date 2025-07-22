@@ -12,8 +12,9 @@ export class UrlEncoderDecoder extends WebComponentBase<IConfigBase> {
     @property()
     value = "";
 
-    onChange(e: any) {
-        this.value = e.target?.value;
+    onChange(e: Event) {
+    const target = e.target as HTMLTextAreaElement;
+    this.value = target.value;
     }
 
     encode() {

@@ -7,6 +7,28 @@ import javascriptBeautifierStyles from './javascript-beautifier.css.js';
 import '../_libs/js-beautify/beautify.min.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 
+interface JsBeautifyOptions {
+    indent_size?: number;
+    space_in_empty_paren?: boolean;
+    jslint_happy?: boolean;
+    indent_with_tabs?: boolean;
+    space_after_anon_function?: boolean;
+    end_with_newline?: boolean;
+    brace_style?: string;
+    break_chained_methods?: boolean;
+    keep_array_indentation?: boolean;
+    unescape_strings?: boolean;
+    wrap_line_length?: number;
+    e4x?: boolean;
+    comma_first?: boolean;
+    operator_position?: string;
+    space_before_conditional?: boolean;
+}
+declare global {
+    interface Window {
+        js_beautify: (code: string, options?: JsBeautifyOptions) => string;
+    }
+}
 @customElement('javascript-beautifier')
 export class JavascriptBeautifier extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, javascriptBeautifierStyles];
@@ -25,7 +47,7 @@ export class JavascriptBeautifier extends WebComponentBase<IConfigBase> {
     }
 
     private onBeautify() {
-        const jsBeautify = isBrowser() ? (window as any).js_beautify : undefined;
+        const jsBeautify = isBrowser() ? window.js_beautify : undefined;
         if (!jsBeautify) {
             return;
         }
@@ -55,9 +77,11 @@ export class JavascriptBeautifier extends WebComponentBase<IConfigBase> {
     }
 
     private onCheckboxChange(event: Event) {
-        const inputElement = event.target as HTMLInputElement;
-        (this as any)[inputElement.name] = inputElement.checked;
-    }
+    const inputElement = event.target as HTMLInputElement;
+    const propName = inputElement.name as keyof Pick<JavascriptBeautifier, 
+        'addNewlines' | 'spaceBeforeConditional' | 'breakChainedMethods' | 'commaFirst' | 'keepArrayIndentation'>;
+    this[propName] = inputElement.checked;
+}
 
     render() {
         return html`

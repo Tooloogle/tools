@@ -60,7 +60,8 @@ export class RegexExpressionTester extends WebComponentBase<IConfigBase> {
                 let lastIndex = 0;
                 this.resultString = matches.reduce((acc, match, index) => {
                     const [matchedText] = match;
-                    const start = match.index!;
+                    const start = match.index; 
+                    if (start === undefined) return acc;
                     const end = start + matchedText.length;
 
                     acc += `${this.testString.slice(lastIndex, start)}<mark title="Match ${index + 1}: ${matchedText} at position ${start}">${matchedText}</mark>`;
@@ -75,46 +76,50 @@ export class RegexExpressionTester extends WebComponentBase<IConfigBase> {
             this.resultString = 'Invalid regex pattern.';
         }
     }
+    
+    private getFlagOptions() {
+    return this.flagsList.map(
+        flag => html`<option value="${flag.value}" title="${flag.description}">${flag.value}</option>`
+    );
+    }
 
     render() {
-        return html`
-      <div class="regex-expression-tester">
-        <div class="editor mb-4">
-          <label for="pattern">Pattern:</label>
-          <input
-            id="pattern"
-            class="form-input"
-            type="text"
-            .value="${this.pattern}"
-            @input="${this.onPatternInputChange}"
-            placeholder="Enter regex pattern"
-            ${ref(this.inputRef)}
-          />
-          <label for="flags">Flags:</label>
-          <select id="flags" class="form-input" @change="${this.onFlagsInputChange}" multiple>
-            ${this.flagsList.map(
-            flag => html`<option value="${flag.value}" title="${flag.description}">${flag.value}</option>`
-        )}
-          </select>
-          <label for="testString">Test String:</label>
-          <textarea
-            id="testString"
-            class="form-textarea"
-            .value="${this.testString}"
-            @input="${this.onTestStringInputChange}"
-            placeholder="Enter the string to test the regex against"
-            rows="10"
-            ${ref(this.testStringRef)}
-          ></textarea>
-        </div>
+    return html`
+        <div class="regex-expression-tester">
+            <div class="editor mb-4">
+                <label for="pattern">Pattern:</label>
+                <input
+                    id="pattern"
+                    class="form-input"
+                    type="text"
+                    .value=${this.pattern}
+                    @input=${this.onPatternInputChange}
+                    placeholder="Enter regex pattern"
+                    ${ref(this.inputRef)}
+                />
+                <label for="flags">Flags:</label>
+                <select id="flags" class="form-input" @change=${this.onFlagsInputChange} multiple>
+                    ${this.getFlagOptions()}
+                </select>
+                <label for="testString">Test String:</label>
+                <textarea
+                    id="testString"
+                    class="form-textarea"
+                    .value=${this.testString}
+                    @input=${this.onTestStringInputChange}
+                    placeholder="Enter the string to test the regex against"
+                    rows="10"
+                    ${ref(this.testStringRef)}
+                ></textarea>
+            </div>
 
-        <div class="editor mb-4 result-container">
-          <label for="resultString">Result:</label>
-          <div id="resultString" class="result-string" .innerHTML="${this.resultString}"></div>
+            <div class="editor mb-4 result-container">
+                <label for="resultString">Result:</label>
+                <div id="resultString" class="result-string" .innerHTML=${this.resultString}></div>
+            </div>
         </div>
-      </div>
     `;
-    }
+}
 }
 
 declare global {

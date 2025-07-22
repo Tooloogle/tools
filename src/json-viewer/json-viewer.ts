@@ -7,7 +7,7 @@ import jsonViewerStyles from './json-viewer.css.js';
 
 interface JsonNode {
     key: string;
-    value: any;
+    value: unknown;
     type: string;
     expanded: boolean;
     children: JsonNode[];
@@ -40,7 +40,7 @@ export class JsonViewer extends WebComponentBase<IConfigBase> {
         }
     }
 
-    private parseJsonToNode(key: string, value: any): JsonNode {
+    private parseJsonToNode(key: string, value: unknown): JsonNode {
         const type = Array.isArray(value) ? 'array' : typeof value;
         const node: JsonNode = {
             key,
@@ -51,9 +51,11 @@ export class JsonViewer extends WebComponentBase<IConfigBase> {
         };
 
         if (type === 'object' && value !== null) {
-            node.children = Object.keys(value).map((childKey) => this.parseJsonToNode(childKey, value[childKey]));
+            const objValue = value as Record<string, unknown>;
+            node.children = Object.keys(objValue).map((childKey) => this.parseJsonToNode(childKey, objValue[childKey]));
         } else if (type === 'array') {
-            node.children = value.map((item: any, index: number) => this.parseJsonToNode(index.toString(), item));
+            const arrValue = value as unknown[];
+            node.children = arrValue.map((item: unknown, index: number) => this.parseJsonToNode(index.toString(), item));
         }
 
         return node;
@@ -62,28 +64,6 @@ export class JsonViewer extends WebComponentBase<IConfigBase> {
     private toggleExpand(node: JsonNode) {
         node.expanded = !node.expanded;
         this.requestUpdate();
-    }
-
-    private renderJsonNode(node: JsonNode): TemplateResult<1> {
-        if (node.type === 'object' || node.type === 'array') {
-            return html`
-        <div class="json-node">
-          <div class="json-key" @click="${() => this.toggleExpand(node)}">
-            ${node.expanded ? '▼' : '▶'} ${node.key}: ${node.type === 'array' ? '[]' : '{}'}
-          </div>
-          ${node.expanded
-                    ? html`<div class="json-children">${node.children.map((child) => this.renderJsonNode(child))}</div>`
-                    : null}
-        </div>
-      `;
-        } else {
-            return html`
-        <div class="json-node">
-          <div class="json-key">${node.key}:</div>
-          <div class="json-value">${JSON.stringify(node.value)}</div>
-        </div>
-      `;
-        }
     }
 
     private expandAll() {
@@ -120,31 +100,64 @@ export class JsonViewer extends WebComponentBase<IConfigBase> {
         }
     }
 
-    render() {
+    private renderNodeChildren(children: JsonNode[]): TemplateResult[] {
+    return children.map(child => this.renderJsonNode(child));
+    }
+
+    private renderJsonNode(node: JsonNode): TemplateResult {
+    if (node.type === 'object' || node.type === 'array') {
+        const childrenTemplates = this.renderNodeChildren(node.children);
         return html`
-            <div class="json-viewer">
-                <div class="editor mb-4">
-                    <div class="text-end">
-                        <button class="btn btn-blue btn-sm mb-2" @click="${this.formatJson}">Format</button>
-                    </div>
-                    <textarea
-                        class="form-textarea"
-                        .value="${this.jsonString}"
-                        @input="${this.onJsonInputChange}"
-                        placeholder="Enter JSON string"
-                        rows="10"
-                    ></textarea>
+            <div class="json-node">
+                <div class="json-key" @click=${this.toggleExpand.bind(this, node)}>
+                    ${node.expanded ? '▼' : '▶'} ${node.key}: ${node.type === 'array' ? '[]' : '{}'}
                 </div>
-                <div class="json-display bg-gray-600 overflow-x-auto relative">
-                    ${this.jsonObject ? html`
-                        <div class="flex justify-end absolute end-1 top-1">
-                            <button class="btn btn-blue btn-sm" @click="${this.expandAll}">Expand All</button>
-                            <button class="btn btn-blue btn-sm ml-2" @click="${this.collapseAll}">Collapse All</button>
-                        </div>` : ''}
-                    ${this.jsonObject ? this.renderJsonNode(this.jsonObject) : 'Invalid JSON'}
-                </div>
+                ${node.expanded ? html`<div class="json-children">${childrenTemplates}</div>` : null}
             </div>
         `;
+    } else {
+        return html`
+            <div class="json-node">
+                <div class="json-key">${node.key}:</div>
+                <div class="json-value">${JSON.stringify(node.value)}</div>
+            </div>
+        `;
+    }
+   }
+
+    render() {
+    const hasJsonObject = !!this.jsonObject;
+    const controlButtons = hasJsonObject ? html`
+        <div class="flex justify-end absolute end-1 top-1">
+            <button class="btn btn-blue btn-sm" @click=${this.expandAll}>Expand All</button>
+            <button class="btn btn-blue btn-sm ml-2" @click=${this.collapseAll}>Collapse All</button>
+        </div>
+    ` : null;
+
+    const jsonContent = hasJsonObject && this.jsonObject 
+        ? this.renderJsonNode(this.jsonObject) 
+        : 'Invalid JSON';
+
+    return html`
+        <div class="json-viewer">
+            <div class="editor mb-4">
+                <div class="text-end">
+                    <button class="btn btn-blue btn-sm mb-2" @click=${this.formatJson}>Format</button>
+                </div>
+                <textarea
+                    class="form-textarea"
+                    .value=${this.jsonString}
+                    @input=${this.onJsonInputChange}
+                    placeholder="Enter JSON string"
+                    rows="10"
+                ></textarea>
+            </div>
+            <div class="json-display bg-gray-600 overflow-x-auto relative">
+                ${controlButtons}
+                ${jsonContent}
+            </div>
+        </div>
+    `;
     }
 }
 

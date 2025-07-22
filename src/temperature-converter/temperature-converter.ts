@@ -17,8 +17,9 @@ export class TemperatureConverter extends WebComponentBase<IConfigBase> {
     @property()
     k = 273.15;
 
-    onCelsiusChange(e: any) {
-        this.c = parseFloat(e.target?.value);
+    onCelsiusChange(e: Event) {
+        const target = e.target as HTMLInputElement;
+        this.c = parseFloat(target.value);
         if (isNaN(this.c)) {
             return;
         }
@@ -27,26 +28,26 @@ export class TemperatureConverter extends WebComponentBase<IConfigBase> {
         this.k = this.c + 273.15;
     }
 
-    onFahrenheitChange(e: any) {
-        this.f = parseFloat(e.target?.value);
+    onFahrenheitChange(e: Event) {
+        const target = e.target as HTMLInputElement;
+        this.f = parseFloat(target.value);
         if (isNaN(this.f)) {
             return;
         }
 
         this.c = (this.f - 32) * 5 / 9;
         this.k = (this.f + 459.67) * 5 / 9;
-
     }
 
-    onKelvinChange(e: any) {
-        this.k = parseFloat(e.target?.value);
+    onKelvinChange(e: Event) {
+        const target = e.target as HTMLInputElement;
+        this.k = parseFloat(target.value);
         if (isNaN(this.k)) {
             return;
         }
 
         this.c = this.k - 273.15;
         this.f = this.k * 9 / 5 - 459.67;
-
     }
 
     toNumber(num: number) {
@@ -54,43 +55,38 @@ export class TemperatureConverter extends WebComponentBase<IConfigBase> {
     }
 
     override render() {
-        return html`
-            <lable class="block">
-                <span class="inline-block py-1">Degree Celsius</span>
-                <input
-                    name="email"
-                    class="form-input text-center"
-                    autofocus
-                    placeholder="Enter email to validate"
-                    .value=${this.toNumber(this.c)}
-                    @keyup=${this.onCelsiusChange}
-                    />
-            </lable>
+    return html`
+        <label class="block">
+            <span class="inline-block py-1">Degree Celsius</span>
+            <input
+                class="form-input text-center"
+                autofocus
+                placeholder="Enter temperature in °C"
+                .value=${this.toNumber(this.c)}
+                @keyup=${this.onCelsiusChange}
+                />
+        </label>
 
-            <lable class="block">
-                <span class="inline-block py-1">Fahrenheit</span>
-                <input
-                    name="email"
-                    class="form-input text-center"
-                    autofocus
-                    placeholder="Enter email to validate"
-                    .value=${this.toNumber(this.f)}
-                    @keyup=${this.onFahrenheitChange}
-                    />
-            </lable>
+        <label class="block">
+            <span class="inline-block py-1">Fahrenheit</span>
+            <input
+                class="form-input text-center"
+                placeholder="Enter temperature in °F"
+                .value=${this.toNumber(this.f)}
+                @keyup=${this.onFahrenheitChange}
+                />
+        </label>
 
-            <lable class="block">
-                <span class="inline-block py-1">Kelvin</span>
-                <input
-                    name="email"
-                    class="form-input text-center"
-                    autofocus
-                    placeholder="Enter email to validate"
-                    .value=${this.toNumber(this.k)}
-                    @keyup=${this.onKelvinChange}
-                    />
-            </lable>
-        `;
+        <label class="block">
+            <span class="inline-block py-1">Kelvin</span>
+            <input
+                class="form-input text-center"
+                placeholder="Enter temperature in K"
+                .value=${this.toNumber(this.k)}
+                @keyup=${this.onKelvinChange}
+                />
+        </label>
+    `;
     }
 }
 

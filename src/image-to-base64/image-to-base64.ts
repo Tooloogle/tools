@@ -18,8 +18,11 @@ export class ImageToBase64 extends WebComponentBase<IConfigBase> {
     @property()
     base64 = "";
 
-    async onImageChange(e: any) {
-        this.base64 = await this.getBase64(e.target.files[0]) || "";
+    async onImageChange(e: Event) {
+        const input = e.target as HTMLInputElement;
+        if (input.files && input.files[0]) {
+            this.base64 = await this.getBase64(input.files[0]) || "";
+        }
     }
 
     getBase64(file: File): Promise<string | undefined> {
@@ -33,6 +36,10 @@ export class ImageToBase64 extends WebComponentBase<IConfigBase> {
                 reject(error);
             };
         });
+    }
+
+     private downloadBase64() {
+        downloadText(this.base64);
     }
 
     override render() {
@@ -64,7 +71,7 @@ export class ImageToBase64 extends WebComponentBase<IConfigBase> {
                 </label>
 
                 <div class="text-right">
-                    <button class="btn btn-blue btn-sm" @click=${() => downloadText(this.base64)}>Download Base64 text</button>
+                    <button class="btn btn-blue btn-sm" @click=${this.downloadBase64}>Download Base64 text</button>
                     <t-copy-button .isIcon=${false} .text=${this.base64}></t-copy-button>
                 </div>
             </div>
