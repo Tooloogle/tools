@@ -1,7 +1,7 @@
 import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import md5HashGeneratorStyles from './md5-hash-generator.css.js';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import buttonStyles from '../_styles/button.css.js';
 import inputStyles from "../_styles/input.css.js";
 
@@ -11,7 +11,8 @@ declare const md5: (input: string) => string;
 @customElement('md5-hash-generator')
 export class Md5HashGenerator extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, md5HashGeneratorStyles];
-
+    @state() private copied = false;
+    private copyTimeout?: number;
     @property()
     input = "";
 
@@ -44,12 +45,32 @@ export class Md5HashGenerator extends WebComponentBase<IConfigBase> {
         }
     }
 
-    copyHash() {
-        if (this.hash) {
-            navigator.clipboard.writeText(this.hash);
-        }
-    }
+    async copyHash() {
+        if (!this.hash) return;
 
+        try {
+            await navigator.clipboard.writeText(this.hash);
+            
+            this.copied = true;
+            
+            if (this.copyTimeout) {
+                clearTimeout(this.copyTimeout);
+            }
+            
+            // Auto-reset after 2 seconds
+            this.copyTimeout = window.setTimeout(() => {
+                this.copied = false;
+                this.requestUpdate(); 
+            }, 2000);
+            
+        } catch (err) {
+            console.error('Copy failed:', err);
+            this.copied = false;
+        }
+        
+        this.requestUpdate();
+    }
+    
     clearAll() {
         this.input = '';
         this.hash = '';
@@ -89,8 +110,8 @@ export class Md5HashGenerator extends WebComponentBase<IConfigBase> {
                 </label>
                 
                 <div class="button-group">
-                    <button class="btn secondary" @click=${this.copyHash}>
-                        Copy Hash
+                    <button @click=${this.copyHash} class="btn secondary">
+                        ${this.copied ? '✓ Copied!' : 'Copy Hash'}
                     </button>
                 </div>
 
