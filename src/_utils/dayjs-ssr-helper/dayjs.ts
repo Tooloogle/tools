@@ -13,9 +13,9 @@ declare global {
 let dayjs: typeof _dayjs.default;
 
 if (isBrowser() && typeof __webpack_require__ !== 'function') {
-    dayjs = window.dayjs;
+  dayjs = window.dayjs;
 } else {
-    dayjs = _dayjs.default;
+  dayjs = _dayjs.default;
 }
 
 export default dayjs;

@@ -23,12 +23,12 @@ export class Base64ToImage extends WebComponentBase<IConfigBase> {
     }
 
     private onBase64Input(e: Event) {
-    const target = e.target as HTMLTextAreaElement;
-    this.base64 = target.value;
+        const target = e.target as HTMLTextAreaElement;
+        this.base64 = target.value;
     }
 
     private downloadImage() {
-    downloadImage(`result.${this.getFileType(this.base64)}`, this.base64);
+        downloadImage(`result.${this.getFileType(this.base64)}`, this.base64);
     }
 
     override render() {

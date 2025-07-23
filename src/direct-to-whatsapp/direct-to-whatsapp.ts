@@ -24,7 +24,7 @@ export class DirectToWhatsApp extends WebComponentBase<IConfigBase> {
 
   private onPhoneChange(e: Event) {
     const target = e.target as HTMLInputElement;
-    this.phone = target.value?.replace(/ |-/g, "");
+    this.phone = target?.value?.replace(/ |-/g, "") || "";
   }
 
   override render() {

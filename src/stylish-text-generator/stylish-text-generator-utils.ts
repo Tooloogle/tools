@@ -28,23 +28,23 @@ export const fontOptions: FontOption[] = [
     { name: 'Lato', category: 'sans-serif' },
     { name: 'Raleway', category: 'sans-serif' },
     { name: 'Nunito', category: 'sans-serif' },
-    
+
     // Serif (classic)
     { name: 'Playfair Display', category: 'serif' },
     { name: 'Merriweather', category: 'serif' },
     { name: 'Georgia', category: 'serif' },
     { name: 'Times New Roman', category: 'serif' },
-    
+
     // Display (bold/attention-grabbing)
     { name: 'Impact', category: 'display' },
     { name: 'Oswald', category: 'display' },
     { name: 'Arial Black', category: 'display' },
-    
+
     // Handwriting (casual)
     { name: 'Dancing Script', category: 'handwriting' },
     { name: 'Pacifico', category: 'handwriting' },
     { name: 'Caveat', category: 'handwriting' },
-    
+
     // System fallbacks
     { name: 'Arial', category: 'system' },
     { name: 'Helvetica', category: 'system' },
@@ -60,8 +60,8 @@ export async function loadWebFonts(): Promise<void> {
 }
 
 export function generateImageOnCanvas(
-    canvas: HTMLCanvasElement, 
-    ctx: CanvasRenderingContext2D, 
+    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D,
     settings: TextSettings
 ): void {
     // Set canvas size
@@ -80,28 +80,28 @@ export function generateImageOnCanvas(
     // Split text into lines
     const lines = settings.text.split('\n');
     const lineHeight = settings.fontSize * 1.2; // Adjust line spacing as needed
-    
+
     // Calculate total text height for vertical centering
     const totalTextHeight = (lines.length - 1) * lineHeight + settings.fontSize;
     const startY = (settings.canvasHeight - totalTextHeight) / 2 + settings.fontSize;
-    
+
     // Draw each line
     lines.forEach((line, index) => {
         const y = startY + (index * lineHeight);
-        
+
         // Set shadow properties for this line
         ctx.shadowBlur = settings.shadowBlur;
         ctx.shadowColor = settings.shadowColor;
         ctx.shadowOffsetX = settings.shadowOffsetX;
         ctx.shadowOffsetY = settings.shadowOffsetY;
-        
+
         // Draw stroke if enabled
         if (settings.strokeWidth > 0) {
             ctx.strokeStyle = settings.strokeColor;
             ctx.lineWidth = settings.strokeWidth;
             ctx.strokeText(line, settings.canvasWidth / 2, y);
         }
-        
+
         // Draw fill text
         ctx.fillStyle = settings.textColor;
         ctx.fillText(line, settings.canvasWidth / 2, y);
@@ -143,24 +143,25 @@ export function initializeCanvas(shadowRoot: ShadowRoot | null): { canvas: HTMLC
     if (!ctx) {
         throw new Error('Failed to get 2D context from canvas.');
     }
+
     return { canvas, ctx };
 }
 
-export function createEventHandler<T extends HTMLInputElement | HTMLTextAreaElement |HTMLSelectElement >(
+export function createEventHandler<T extends HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
     callback: (value: string) => void,
     transform?: (value: string) => string
 ) {
-    return function(e: Event) {
+    return function (e: Event) {
         const target = e.target as T;
-        const value = transform ? transform(target.value) : target.value;
+        const value = transform ? transform(target?.value) : target?.value;
         callback(value);
     };
 }
 
 export function createRangeHandler(callback: (value: number) => void) {
-    return function(e: Event) {
+    return function (e: Event) {
         const target = e.target as HTMLInputElement;
-        callback(parseInt(target.value));
+        callback(parseInt(target?.value));
     };
 }
 

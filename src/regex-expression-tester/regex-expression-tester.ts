@@ -60,7 +60,7 @@ export class RegexExpressionTester extends WebComponentBase<IConfigBase> {
                 let lastIndex = 0;
                 this.resultString = matches.reduce((acc, match, index) => {
                     const [matchedText] = match;
-                    const start = match.index; 
+                    const start = match.index;
                     if (start === undefined) return acc;
                     const end = start + matchedText.length;
 
@@ -76,15 +76,15 @@ export class RegexExpressionTester extends WebComponentBase<IConfigBase> {
             this.resultString = 'Invalid regex pattern.';
         }
     }
-    
+
     private getFlagOptions() {
-    return this.flagsList.map(
-        flag => html`<option value="${flag.value}" title="${flag.description}">${flag.value}</option>`
-    );
+        return this.flagsList.map(
+            flag => html`<option value="${flag.value}" title="${flag.description}">${flag.value}</option>`
+        );
     }
 
     render() {
-    return html`
+        return html`
         <div class="regex-expression-tester">
             <div class="editor mb-4">
                 <label for="pattern">Pattern:</label>
@@ -119,7 +119,7 @@ export class RegexExpressionTester extends WebComponentBase<IConfigBase> {
             </div>
         </div>
     `;
-}
+    }
 }
 
 declare global {

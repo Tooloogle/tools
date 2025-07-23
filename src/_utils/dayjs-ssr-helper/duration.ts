@@ -12,9 +12,9 @@ declare global {
 let duration: typeof _duration.default;
 
 if (isBrowser() && typeof __webpack_require__ !== 'function') {
-    duration = window.dayjs_plugin_duration;
+  duration = window.dayjs_plugin_duration;
 } else {
-    duration = _duration.default;
+  duration = _duration.default;
 }
 
 export default duration;

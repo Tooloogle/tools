@@ -79,7 +79,7 @@ export class HexColorPicker extends WebComponentBase<IConfigBase> {
     }
 
     private handlePreviewClick() {
-    this.input?.value?.click();
+        this.input?.value?.click();
     }
 
     render() {

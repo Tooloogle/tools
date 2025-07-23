@@ -17,9 +17,9 @@ interface JsBeautifyOptions {
     unformatted?: string[];
 }
 declare global {
-  interface Window {
-    html_beautify: (code: string, options?: JsBeautifyOptions) => string;
-  }
+    interface Window {
+        html_beautify: (code: string, options?: JsBeautifyOptions) => string;
+    }
 }
 @customElement('html-beautifier')
 export class HtmlBeautifier extends WebComponentBase<IConfigBase> {
@@ -72,10 +72,10 @@ export class HtmlBeautifier extends WebComponentBase<IConfigBase> {
     }
 
     private onCheckboxChange(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const propName = inputElement.name as keyof Pick<HtmlBeautifier, 
-        'useSpaces' | 'preserveNewlines' | 'endWithNewline'>;
-    this[propName] = inputElement.checked;
+        const inputElement = event.target as HTMLInputElement;
+        const propName = inputElement.name as keyof Pick<HtmlBeautifier,
+            'useSpaces' | 'preserveNewlines' | 'endWithNewline'>;
+        this[propName] = inputElement.checked;
     }
 
     private onUnformattedChange(event: Event) {

@@ -19,7 +19,7 @@ export class TemperatureConverter extends WebComponentBase<IConfigBase> {
 
     onCelsiusChange(e: Event) {
         const target = e.target as HTMLInputElement;
-        this.c = parseFloat(target.value);
+        this.c = parseFloat(target?.value);
         if (isNaN(this.c)) {
             return;
         }
@@ -30,7 +30,7 @@ export class TemperatureConverter extends WebComponentBase<IConfigBase> {
 
     onFahrenheitChange(e: Event) {
         const target = e.target as HTMLInputElement;
-        this.f = parseFloat(target.value);
+        this.f = parseFloat(target?.value);
         if (isNaN(this.f)) {
             return;
         }
@@ -41,7 +41,7 @@ export class TemperatureConverter extends WebComponentBase<IConfigBase> {
 
     onKelvinChange(e: Event) {
         const target = e.target as HTMLInputElement;
-        this.k = parseFloat(target.value);
+        this.k = parseFloat(target?.value);
         if (isNaN(this.k)) {
             return;
         }
@@ -55,7 +55,7 @@ export class TemperatureConverter extends WebComponentBase<IConfigBase> {
     }
 
     override render() {
-    return html`
+        return html`
         <label class="block">
             <span class="inline-block py-1">Degree Celsius</span>
             <input

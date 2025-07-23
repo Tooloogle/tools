@@ -48,21 +48,24 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
     }
 
     onTextChange(e?: Event) {
-    if (e?.target) {
-        const target = e.target as HTMLTextAreaElement;
-        this.text = target.value;
-    }
-    this.qrCode.update({ data: this.text, margin: this.margin });
+        if (e?.target) {
+            const target = e.target as HTMLTextAreaElement;
+            this.text = target?.value;
+        }
+
+        this.qrCode.update({ data: this.text, margin: this.margin });
     }
 
     renderQrListItem(el: HTMLSpanElement, qr: IQrStyleListItem) {
         if (!el || el.querySelector("canvas")) {
             return;
         }
+
         const qrCode = new QRCodeStyling({
             ...qr.qrCfg,
             image: this.image
         });
+
         qrCode.append(el);
     }
 
@@ -92,12 +95,13 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
     }
 
     async onImageUpload(e: Event) {
-    const target = e.target as HTMLInputElement;
-    if (!target.files?.length) {
-        return;
-    }
-    this.image = await this.fileToBase64(target.files[0]);
-    this.qrCode.update({ image: this.image });
+        const target = e.target as HTMLInputElement;
+        if (!target.files?.length) {
+            return;
+        }
+
+        this.image = await this.fileToBase64(target.files[0]);
+        this.qrCode.update({ image: this.image });
     }
 
     async download() {
@@ -118,43 +122,43 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
 
     private handleWidthChange(e: Event) {
         const target = e.target as HTMLInputElement;
-        this.width = target.value ? parseInt(target.value) : 300;
+        this.width = target?.value ? parseInt(target?.value) : 300;
         this.qrCode.update({ width: this.width });
     }
 
     private handleHeightChange(e: Event) {
         const target = e.target as HTMLInputElement;
-        this.height = target.value ? parseInt(target.value) : 300;
+        this.height = target?.value ? parseInt(target?.value) : 300;
         this.qrCode.update({ height: this.height });
     }
 
     private handleMarginChange(e: Event) {
         const target = e.target as HTMLInputElement;
-        this.margin = parseInt(target.value);
+        this.margin = parseInt(target?.value);
         this.qrCode.update({ margin: this.margin });
     }
 
     private handleBgColorChange(e: Event) {
         const target = e.target as HTMLInputElement;
-        this.bgColor = target.value || "#ffffff";
+        this.bgColor = target?.value || "#ffffff";
         this.qrCode.update({ backgroundOptions: { color: this.bgColor } });
     }
 
     private handleDotColorChange(e: Event) {
         const target = e.target as HTMLInputElement;
-        this.dotColor = target.value || "#4267b2";
+        this.dotColor = target?.value || "#4267b2";
         this.qrCode.update({ dotsOptions: { color: this.dotColor } });
     }
 
     private handleSquareColorChange(e: Event) {
         const target = e.target as HTMLInputElement;
-        this.squareColor = target.value || "#4267b2";
+        this.squareColor = target?.value || "#4267b2";
         this.qrCode.update({ cornersSquareOptions: { color: this.squareColor } });
     }
 
     private handleDownloadExtChange(e: Event) {
         const target = e.target as HTMLSelectElement;
-        this.downloadExt = target.value as Extension || "jpeg";
+        this.downloadExt = target?.value as Extension || "jpeg";
     }
 
     private removeLogo() {
@@ -163,9 +167,9 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private handleQrStyleRef(el: Element | undefined, qr: IQrStyleListItem) {
-    if (el) {
-        this.renderQrListItem(el as HTMLSpanElement, qr);
-     }
+        if (el) {
+            this.renderQrListItem(el as HTMLSpanElement, qr);
+        }
     }
 
     private handleQrStyleClick(qr: IQrStyleListItem, index: number) {
@@ -173,7 +177,7 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private createQrStyleClickHandler(qr: IQrStyleListItem, index: number) {
-    return () => this.handleQrStyleClick(qr, index);
+        return () => this.handleQrStyleClick(qr, index);
     }
 
     private createQrStyleRefHandler(qr: IQrStyleListItem) {
@@ -182,7 +186,7 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
 
     // eslint-disable-next-line max-lines-per-function
     override render() {
-    return html`
+        return html`
         <div class="qr-code-generator">
             <div class="grid grid-cols-1 gap-4">
                 <label>
@@ -284,7 +288,7 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
             </div>
         </div>
     `;
-    }   
+    }
 }
 
 declare global {

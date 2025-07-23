@@ -20,7 +20,7 @@ export class ImageToBase64 extends WebComponentBase<IConfigBase> {
 
     async onImageChange(e: Event) {
         const input = e.target as HTMLInputElement;
-        if (input.files && input.files[0]) {
+        if (input?.files?.length && input.files[0]) {
             this.base64 = await this.getBase64(input.files[0]) || "";
         }
     }
@@ -32,13 +32,14 @@ export class ImageToBase64 extends WebComponentBase<IConfigBase> {
             reader.onload = function () {
                 resove(reader.result?.toString());
             };
+
             reader.onerror = function (error) {
                 reject(error);
             };
         });
     }
 
-     private downloadBase64() {
+    private downloadBase64() {
         downloadText(this.base64);
     }
 

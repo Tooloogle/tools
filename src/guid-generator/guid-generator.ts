@@ -26,7 +26,7 @@ export class GuidGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private onGuidChange(e: Event) {
-    this.guid = (e.target as HTMLInputElement).value;
+        this.guid = (e.target as HTMLInputElement).value;
     }
 
     private regenerateGuid() {

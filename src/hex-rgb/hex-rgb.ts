@@ -60,9 +60,9 @@ export class HexRgb extends WebComponentBase<IConfigBase> {
     }
 
     private onHexInput(e: Event) {
-    const input = e.target as HTMLInputElement;
-    this.hex = input.value;
-    this.hexToRgb();
+        const input = e.target as HTMLInputElement;
+        this.hex = input.value;
+        this.hexToRgb();
     }
 
     private onRInput(e: Event) {
@@ -84,7 +84,7 @@ export class HexRgb extends WebComponentBase<IConfigBase> {
     }
 
     override render() {
-    return html`
+        return html`
         <div class="py-2">
             <lable class="block">
                 <span class="inline-block py-1">Hex</span>

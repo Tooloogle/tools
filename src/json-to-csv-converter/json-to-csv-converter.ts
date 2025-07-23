@@ -28,6 +28,7 @@ export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
             reader.onload = (e) => {
                 this.jsonString = e.target?.result as string;
             };
+
             reader.readAsText(file);
         }
     }

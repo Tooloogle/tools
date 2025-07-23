@@ -2,7 +2,7 @@
 @tailwind utilities;
 
 .generator-container {
-    @apply max-w-[800px] mx-auto p-5;
+    @apply w-full p-5;
 }
 
 .text-input-section {
@@ -34,7 +34,7 @@
 }
 
 .preview-section {
-    @apply my-5 text-center border border-dashed border-gray-400 p-2 rounded-lg;
+    @apply my-5 w-fit mx-auto text-center border border-dashed border-gray-400 p-2 rounded-lg;
 }
 
 .canvas-container {

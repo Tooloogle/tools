@@ -45,6 +45,7 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
             const c = text.charAt(i);
             res += i % 2 ? c.toUpperCase() : c;
         }
+
         return res;
     }
 
@@ -54,6 +55,7 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
             const c = text.charAt(i);
             res += c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase();
         }
+
         return res;
     }
 
@@ -96,7 +98,7 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
     }
 
     override render() {
-    return html`
+        return html`
     <label class="block py-1">
         <textarea
             name="email"

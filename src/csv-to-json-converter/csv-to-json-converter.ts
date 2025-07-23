@@ -39,6 +39,7 @@ export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
             // Keep as string if JSON parsing fails
           }
         }
+
         acc[header.trim()] = value;
         return acc;
       }, {} as Record<string, unknown>);
@@ -71,6 +72,7 @@ export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
       reader.onload = (e) => {
         this.csvString = e.target?.result as string;
       };
+
       reader.readAsText(file);
     }
   }
@@ -92,15 +94,15 @@ export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
   }
 
   private onOutputAsArrayChange(e: Event) {
-      this.outputAsArray = (e.target as HTMLInputElement).checked;
+    this.outputAsArray = (e.target as HTMLInputElement).checked;
   }
 
   private onMinifyOutputChange(e: Event) {
-      this.minifyOutput = (e.target as HTMLInputElement).checked;
+    this.minifyOutput = (e.target as HTMLInputElement).checked;
   }
 
   private onSeparatorChange(e: Event) {
-      this.separator = (e.target as HTMLSelectElement).value;
+    this.separator = (e.target as HTMLSelectElement).value;
   }
   // eslint-disable-next-line max-lines-per-function
   render() {

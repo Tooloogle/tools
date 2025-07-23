@@ -47,6 +47,7 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
             reader.onload = (e) => {
                 this.text = e.target?.result as string;
             };
+
             reader.readAsText(file);
         }
     }
@@ -74,6 +75,7 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
         if (selectedVoice) {
             utterance.voice = selectedVoice;
         }
+
         utterance.rate = this.rate;
         utterance.pitch = this.pitch;
 
@@ -94,9 +96,9 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
     }
 
     private getVoiceOptions() {
-    return this.availableVoices.map(voice => 
-        html`<option value="${voice.name}">${voice.name} (${voice.lang})</option>`
-    );
+        return this.availableVoices.map(voice =>
+            html`<option value="${voice.name}">${voice.name} (${voice.lang})</option>`
+        );
     }
 
     render() {

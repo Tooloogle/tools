@@ -16,10 +16,10 @@ export class EmailValidator extends WebComponentBase<IConfigBase> {
     isValid = false;
 
     private onChange(e: Event) {
-    const target = e.target as HTMLInputElement;
-    this.value = target.value;
-    this.isValid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.value);
-}
+        const target = e.target as HTMLInputElement;
+        this.value = target?.value;
+        this.isValid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.value);
+    }
 
     override render() {
         return html`

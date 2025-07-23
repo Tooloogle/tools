@@ -38,9 +38,9 @@ export class TCopyButton extends WebComponentBase<IConfigBase> {
             }, 100);
         }
     }
-    
+
     private renderIconContent() {
-    return html`
+        return html`
         <span class="text-lg">
             ${!this.copying ? "❏" : ""}
             ${this.copying ? "✅" : ""}
@@ -52,11 +52,11 @@ export class TCopyButton extends WebComponentBase<IConfigBase> {
     }
 
     private resetTitle() {
-    this.title = "Copy to clipboard";
+        this.title = "Copy to clipboard";
     }
-    
+
     override render() {
-    return html`
+        return html`
         <span 
             class="inline-block ${this.isIcon ? "px-1" : ""} cursor-pointer text-slate-400 tooltip-wrapper"
             @click=${this.onClick}

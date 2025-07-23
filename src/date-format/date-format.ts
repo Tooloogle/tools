@@ -74,18 +74,17 @@ export class DateFormat extends WebComponentBase<IConfigBase> {
     }
 
     onChange(e: Event) {
-    const target = e.target as HTMLInputElement;
-      if (target?.value) {
-        this.result = this.getDateFormats(target.value);
-     }
-    }
-
-     onCustomFormatChange(e: Event) {
         const target = e.target as HTMLInputElement;
-        this.customFormat = target.value || "";
-        setCustomFormat(target.value);
+        if (target?.value) {
+            this.result = this.getDateFormats(target.value);
+        }
     }
 
+    onCustomFormatChange(e: Event) {
+        const target = e.target as HTMLInputElement;
+        this.customFormat = target?.value || "";
+        setCustomFormat(target?.value || "");
+    }
     getDateFormats(value: string) {
         return this.dateFormats.map(f => {
             return {

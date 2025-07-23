@@ -77,11 +77,11 @@ export class JavascriptBeautifier extends WebComponentBase<IConfigBase> {
     }
 
     private onCheckboxChange(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const propName = inputElement.name as keyof Pick<JavascriptBeautifier, 
-        'addNewlines' | 'spaceBeforeConditional' | 'breakChainedMethods' | 'commaFirst' | 'keepArrayIndentation'>;
-    this[propName] = inputElement.checked;
-}
+        const inputElement = event.target as HTMLInputElement;
+        const propName = inputElement.name as keyof Pick<JavascriptBeautifier,
+            'addNewlines' | 'spaceBeforeConditional' | 'breakChainedMethods' | 'commaFirst' | 'keepArrayIndentation'>;
+        this[propName] = inputElement.checked;
+    }
 
     render() {
         return html`

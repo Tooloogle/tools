@@ -24,12 +24,12 @@ export class PasswordGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private handleLengthChange(e: Event) {
-    const target = e.target as HTMLInputElement;
-    this.length = Number(target.value);
+        const target = e.target as HTMLInputElement;
+        this.length = Number(target?.value);
     }
 
     private renderPasswordWithCopyButton() {
-    return html`
+        return html`
         <strong class="break-all">${this.password}</strong>
         <t-copy-button .text=${this.password}></t-copy-button>
         `;

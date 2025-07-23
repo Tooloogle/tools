@@ -101,13 +101,13 @@ export class JsonViewer extends WebComponentBase<IConfigBase> {
     }
 
     private renderNodeChildren(children: JsonNode[]): TemplateResult[] {
-    return children.map(child => this.renderJsonNode(child));
+        return children.map(child => this.renderJsonNode(child));
     }
 
     private renderJsonNode(node: JsonNode): TemplateResult {
-    if (node.type === 'object' || node.type === 'array') {
-        const childrenTemplates = this.renderNodeChildren(node.children);
-        return html`
+        if (node.type === 'object' || node.type === 'array') {
+            const childrenTemplates = this.renderNodeChildren(node.children);
+            return html`
             <div class="json-node">
                 <div class="json-key" @click=${this.toggleExpand.bind(this, node)}>
                     ${node.expanded ? '▼' : '▶'} ${node.key}: ${node.type === 'array' ? '[]' : '{}'}
@@ -115,30 +115,30 @@ export class JsonViewer extends WebComponentBase<IConfigBase> {
                 ${node.expanded ? html`<div class="json-children">${childrenTemplates}</div>` : null}
             </div>
         `;
-    } else {
-        return html`
+        } else {
+            return html`
             <div class="json-node">
                 <div class="json-key">${node.key}:</div>
                 <div class="json-value">${JSON.stringify(node.value)}</div>
             </div>
         `;
+        }
     }
-   }
 
     render() {
-    const hasJsonObject = !!this.jsonObject;
-    const controlButtons = hasJsonObject ? html`
+        const hasJsonObject = !!this.jsonObject;
+        const controlButtons = hasJsonObject ? html`
         <div class="flex justify-end absolute end-1 top-1">
             <button class="btn btn-blue btn-sm" @click=${this.expandAll}>Expand All</button>
             <button class="btn btn-blue btn-sm ml-2" @click=${this.collapseAll}>Collapse All</button>
         </div>
     ` : null;
 
-    const jsonContent = hasJsonObject && this.jsonObject 
-        ? this.renderJsonNode(this.jsonObject) 
-        : 'Invalid JSON';
+        const jsonContent = hasJsonObject && this.jsonObject
+            ? this.renderJsonNode(this.jsonObject)
+            : 'Invalid JSON';
 
-    return html`
+        return html`
         <div class="json-viewer">
             <div class="editor mb-4">
                 <div class="text-end">
