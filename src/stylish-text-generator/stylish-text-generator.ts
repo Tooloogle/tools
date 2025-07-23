@@ -175,9 +175,9 @@ export class StylishTextGenerator extends WebComponentBase<IConfigBase> {
 
     private renderActionButtons() {
         return html`
-            <div class="btns">
-                <button class="btn btn-primary" @click=${this.downloadImage}>Download PNG</button>
-                <button class="btn btn-secondary" @click=${this.resetSettings}>Reset Settings</button>
+            <div class="btns-container">
+                 <button class="btn btn-blue" @click=${this.downloadImage}>Download PNG</button>
+                <button class="btn btn-red btn-sm" @click=${this.resetSettings}>Reset Settings</button> 
             </div>
         `;
     }

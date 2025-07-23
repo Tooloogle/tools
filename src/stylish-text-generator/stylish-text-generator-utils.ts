@@ -75,27 +75,37 @@ export function generateImageOnCanvas(
     // Set text properties
     ctx.font = `${settings.fontSize}px ${settings.fontFamily}`;
     ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+    ctx.textBaseline = 'alphabetic'; // Better for multi-line text
 
-    // Set shadow
-    ctx.shadowBlur = settings.shadowBlur;
-    ctx.shadowColor = settings.shadowColor;
-    ctx.shadowOffsetX = settings.shadowOffsetX;
-    ctx.shadowOffsetY = settings.shadowOffsetY;
-
-    const centerX = settings.canvasWidth / 2;
-    const centerY = settings.canvasHeight / 2;
-
-    // Draw stroke if enabled
-    if (settings.strokeWidth > 0) {
-        ctx.strokeStyle = settings.strokeColor;
-        ctx.lineWidth = settings.strokeWidth;
-        ctx.strokeText(settings.text, centerX, centerY);
-    }
-
-    // Draw fill text
-    ctx.fillStyle = settings.textColor;
-    ctx.fillText(settings.text, centerX, centerY);
+    // Split text into lines
+    const lines = settings.text.split('\n');
+    const lineHeight = settings.fontSize * 1.2; // Adjust line spacing as needed
+    
+    // Calculate total text height for vertical centering
+    const totalTextHeight = (lines.length - 1) * lineHeight + settings.fontSize;
+    const startY = (settings.canvasHeight - totalTextHeight) / 2 + settings.fontSize;
+    
+    // Draw each line
+    lines.forEach((line, index) => {
+        const y = startY + (index * lineHeight);
+        
+        // Set shadow properties for this line
+        ctx.shadowBlur = settings.shadowBlur;
+        ctx.shadowColor = settings.shadowColor;
+        ctx.shadowOffsetX = settings.shadowOffsetX;
+        ctx.shadowOffsetY = settings.shadowOffsetY;
+        
+        // Draw stroke if enabled
+        if (settings.strokeWidth > 0) {
+            ctx.strokeStyle = settings.strokeColor;
+            ctx.lineWidth = settings.strokeWidth;
+            ctx.strokeText(line, settings.canvasWidth / 2, y);
+        }
+        
+        // Draw fill text
+        ctx.fillStyle = settings.textColor;
+        ctx.fillText(line, settings.canvasWidth / 2, y);
+    });
 
     // Reset shadow for future draws
     ctx.shadowBlur = 0;
