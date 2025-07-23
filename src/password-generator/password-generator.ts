@@ -23,9 +23,21 @@ export class PasswordGenerator extends WebComponentBase<IConfigBase> {
         this.password = Array(Number(this.length)).fill(passwordChars).map((x) => { return x[(Math.floor(Math.random() * passwordChars.length))] }).join('');
     }
 
+    private handleLengthChange(e: Event) {
+        const target = e.target as HTMLInputElement;
+        this.length = Number(target?.value);
+    }
+
+    private renderPasswordWithCopyButton() {
+        return html`
+        <strong class="break-all">${this.password}</strong>
+        <t-copy-button .text=${this.password}></t-copy-button>
+        `;
+    }
+
     override render() {
         return html`
-        <lable class="block">
+        <label class="block">
             <span class="inline-block py-1">Password length</span>
             <input
                 name="email"
@@ -34,14 +46,11 @@ export class PasswordGenerator extends WebComponentBase<IConfigBase> {
                 max="100"
                 autofocus
                 .value=${this.length}
-                @keyup=${(e: any) => this.length = e.target?.value}
+                @keyup=${this.handleLengthChange}
                 />
-        </lable>
+        </label>
         <div class="py-2 flex content-center">
-            ${when(this.password, () => html`
-                <strong class="break-all">${this.password}</strong>
-                <t-copy-button .text=${this.password}></t-copy-button>
-            `)}
+            ${when(this.password, this.renderPasswordWithCopyButton)}
         </div>
         <div class="text-end">
             <button class="btn btn-blue" @click=${this.generate}>Generate Strong Password</button>

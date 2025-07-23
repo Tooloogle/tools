@@ -39,18 +39,19 @@ export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
             // Keep as string if JSON parsing fails
           }
         }
+
         acc[header.trim()] = value;
         return acc;
-      }, {} as Record<string, any>);
+      }, {} as Record<string, unknown>);
       return jsonObject;
     });
 
     this.jsonString = this.outputAsArray
       ? JSON.stringify(jsonArray, null, this.minifyOutput ? 0 : 2)
-      : JSON.stringify(jsonArray.reduce((acc, obj) => {
-        acc[obj[headers[0]] || ''] = obj;
+      : JSON.stringify(jsonArray.reduce((acc: Record<string, unknown>, obj) => {
+        acc[String(obj[headers[0]] || '')] = obj;
         return acc;
-      }, {}), null, this.minifyOutput ? 0 : 2);
+      }, {} as Record<string, unknown>), null, this.minifyOutput ? 0 : 2);
   }
 
   private formatJson() {
@@ -71,6 +72,7 @@ export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
       reader.onload = (e) => {
         this.csvString = e.target?.result as string;
       };
+
       reader.readAsText(file);
     }
   }
@@ -87,6 +89,21 @@ export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
     document.body.removeChild(link);
   }
 
+  private onParseNumbersChange(e: Event) {
+    this.parseNumbers = (e.target as HTMLInputElement).checked;
+  }
+
+  private onOutputAsArrayChange(e: Event) {
+    this.outputAsArray = (e.target as HTMLInputElement).checked;
+  }
+
+  private onMinifyOutputChange(e: Event) {
+    this.minifyOutput = (e.target as HTMLInputElement).checked;
+  }
+
+  private onSeparatorChange(e: Event) {
+    this.separator = (e.target as HTMLSelectElement).value;
+  }
   // eslint-disable-next-line max-lines-per-function
   render() {
     return html`
@@ -105,26 +122,27 @@ export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
 
         <div class="config mb-4">
           <label for="separator">Separator:</label>
-          <select class="form-select" id="separator" @change="${(e: Event) => this.separator = (e.target as HTMLSelectElement).value}">
+          <select class="form-select" id="separator" @change=${this.onSeparatorChange}>
             <option value=",">Comma</option>
             <option value=";">Semicolon</option>
             <option value="\t">Tab</option>
           </select>
 
           <label>
-            <input type="checkbox" @change="${(e: any) => this.parseNumbers = e?.target?.checked}" />
+            <input type="checkbox" @change=${this.onParseNumbersChange} />
             Parse Numbers
           </label>
           
           <label>
-            <input type="checkbox" @change="${(e: any) => this.outputAsArray = e?.target?.checked}" checked />
+            <input type="checkbox" @change=${this.onOutputAsArrayChange} checked />
             Output as Array
           </label>
 
           <label>
-            <input type="checkbox" @change="${(e: any) => this.minifyOutput = e?.target?.checked}" />
+            <input type="checkbox" @change=${this.onMinifyOutputChange} />
             Minify Output
           </label>
+          
         </div>
 
         <div class="editor mb-4 relative">

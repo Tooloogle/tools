@@ -14,33 +14,30 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
     @property()
     purity = 100;
 
-    onKaratChange(e: any) {
-        if (!e.target?.value) {
-            return;
-        }
-        this.karat = e.target.value;
+    onKaratChange(e: Event) {
+        const target = e.target as HTMLInputElement;
+        if (!target?.value) return;
+
+        this.karat = Number(target?.value);
         if (this.karat < 1 || this.karat > 24) {
             this.karat = 24;
             this.purity = 100;
         }
 
-        this.purity = this.karat / 24 * 100;
-        this.purity = Number(this.purity.toFixed(5));
+        this.purity = Number((this.karat / 24 * 100).toFixed(5));
     }
 
-    onPurityChange(e: any) {
-        if (!e.target?.value) {
-            return;
-        }
+    onPurityChange(e: Event) {
+        const target = e.target as HTMLInputElement;
+        if (!target?.value) return;
 
-        this.purity = e.target.value;
+        this.purity = Number(target?.value);
         if (this.purity < 1 || this.purity > 100) {
             this.karat = 24;
             this.purity = 100;
         }
 
-        this.karat = this.purity * 24 / 100;
-        this.karat = Number(this.karat.toFixed(5));
+        this.karat = Number((this.purity * 24 / 100).toFixed(5));
     }
 
     override render() {

@@ -74,6 +74,21 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
         };
     }
 
+    private handleDobChange(e: Event) {
+        this.dob = (e.target as HTMLInputElement).value;
+    }
+
+    private handleTodayChange(e: Event) {
+        this.today = (e.target as HTMLInputElement).value;
+    }
+
+    private handleHaveTimeChange(e: Event) {
+        this.haveTime = (e.target as HTMLInputElement).checked;
+    }
+
+    private clearResult() {
+        this.result = {};
+    }
     // eslint-disable-next-line max-lines-per-function
     override render() {
         const { years, months, days, hours, minutes, seconds } = this.result;
@@ -83,7 +98,7 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
                     <div class="result mb-5">
                         <div class="p-3 rounded-md shadow-md">
                             <div class="text-end">
-                                <span class="btn-close" @click=${() => this.result = {}}>
+                                 <span class="btn-close" @click=${this.clearResult}>
                                     &times;
                                 </span>
                             </div>
@@ -117,7 +132,7 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
                         type="${this.haveTime ? "datetime-local" : "date"}"
                         pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
                         .value=${this.dob}
-                        @change=${(e: any) => this.dob = e.target.value}
+                         @change=${this.handleDobChange}
                         required />
                 </label>
                 <label class="block">
@@ -128,11 +143,11 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
                         type="${this.haveTime ? "datetime-local" : "date"}"
                         pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
                         .value=${this.today}
-                        @change=${(e: any) => this.today = e.target.value}
+                         @change=${this.handleTodayChange}
                         required />
                 </label>
                 <label class="block">
-                    <input id="haveTime" type="checkbox" @change=${(e: any) => this.haveTime = e.target.checked} />
+                    <input id="haveTime" type="checkbox" @change=${this.handleHaveTimeChange} />
                     <span>Have time?</span>
                 </label>
             </div>

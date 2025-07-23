@@ -14,13 +14,13 @@ export class HexToRgbaConverter extends WebComponentBase<IConfigBase> {
 
     handleHexInputChange(event: Event) {
         const target = event.target as HTMLInputElement;
-        this.hexInput = target.value;
+        this.hexInput = target?.value;
         this.convertHexToRgba();
     }
 
     handleRgbaInputChange(event: Event) {
         const target = event.target as HTMLInputElement;
-        this.rgbaInput = target.value;
+        this.rgbaInput = target?.value;
         this.convertRgbaToHex();
     }
 

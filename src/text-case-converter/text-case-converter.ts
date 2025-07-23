@@ -45,6 +45,7 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
             const c = text.charAt(i);
             res += i % 2 ? c.toUpperCase() : c;
         }
+
         return res;
     }
 
@@ -54,6 +55,7 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
             const c = text.charAt(i);
             res += c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase();
         }
+
         return res;
     }
 
@@ -62,46 +64,63 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
         this.placeholder = this.toLower(this.placeholder);
     }
 
+    private handleLowerClick() {
+        this.text = this.toLower(this.text);
+        this.placeholder = this.toLower(this.placeholder);
+    }
+
+    private handleUpperClick() {
+        this.text = this.toUpper(this.text);
+        this.placeholder = this.toUpper(this.placeholder);
+    }
+
+    private handleCapitalizeClick() {
+        this.text = this.toCapitalize(this.text);
+        this.placeholder = this.toCapitalize(this.placeholder);
+    }
+
+    private handleAlternateClick() {
+        this.text = this.toAlternate(this.text);
+        this.placeholder = this.toAlternate(this.placeholder);
+    }
+
+    private handleInverseClick() {
+        this.text = this.toInverse(this.text);
+        this.placeholder = this.toInverse(this.placeholder);
+    }
+
+    private handleDownloadClick() {
+        downloadText(this.text);
+    }
+
+    private handleTextChange(e: Event) {
+        this.text = (e.target as HTMLTextAreaElement).value;
+    }
+
     override render() {
         return html`
-        <label class="block py-1">
-            <textarea
-                name="email"
-                class="form-textarea"
-                autofocus
-                .placeholder=${this.placeholder}
-                rows="5"
-                .value=${this.text}
-                @change=${(e: any) => this.text = e.target?.value}></textarea>
-        </label>
+    <label class="block py-1">
+        <textarea
+            name="email"
+            class="form-textarea"
+            autofocus
+            .placeholder=${this.placeholder}
+            rows="5"
+            .value=${this.text}
+            @change=${this.handleTextChange}></textarea>
+    </label>
 
-        <div class="col btns">
-            <button class="btn btn-blue" @click=${() => {
-                this.text = this.toLower(this.text);
-                this.placeholder = this.toLower(this.placeholder)
-            }}>lower case</button>
-            <button class="btn btn-blue" @click=${() => {
-                this.text = this.toUpper(this.text);
-                this.placeholder = this.toUpper(this.placeholder)
-            }}>UPPER CASE</button>
-            <button class="btn btn-blue"  @click=${() => {
-                this.text = this.toCapitalize(this.text);
-                this.placeholder = this.toCapitalize(this.placeholder)
-            }}>Capitalized Case</button>
-            <!-- <button class="btn btn-blue" id="title">Title Case</button> -->
-            <button class="btn btn-blue"  @click=${() => {
-                this.text = this.toAlternate(this.text);
-                this.placeholder = this.toAlternate(this.placeholder)
-            }}>aLtErNaTiNg cAsE</button>
-            <button class="btn btn-blue" @click=${() => {
-                this.text = this.toInverse(this.text);
-                this.placeholder = this.toInverse(this.placeholder)
-            }}>iNVERSE cASE</button>
+    <div class="col btns">
+        <button class="btn btn-blue" @click=${this.handleLowerClick}>lower case</button>
+        <button class="btn btn-blue" @click=${this.handleUpperClick}>UPPER CASE</button>
+        <button class="btn btn-blue" @click=${this.handleCapitalizeClick}>Capitalized Case</button>
+        <button class="btn btn-blue" @click=${this.handleAlternateClick}>aLtErNaTiNg cAsE</button>
+        <button class="btn btn-blue" @click=${this.handleInverseClick}>iNVERSE cASE</button>
 
-            <button class="btn btn-green" @click=${() => downloadText(this.text)}>Download</button>
-            <button class="btn btn-red" @click=${this.clear}>Clear</button>
-        </div>
-        `;
+        <button class="btn btn-green" @click=${this.handleDownloadClick}>Download</button>
+        <button class="btn btn-red" @click=${this.clear}>Clear</button>
+    </div>
+    `;
     }
 }
 
