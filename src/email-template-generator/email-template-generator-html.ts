@@ -19,7 +19,6 @@ export class EmailTemplateHtml {
         const ctaSection = this.generateCtaSection(
             params.ctaText,
             params.ctaUrl,
-            params.companyColor
         );
 
         return `
