@@ -93,13 +93,13 @@ export class DateFormat extends WebComponentBase<IConfigBase> {
         });
     }
 
-    copyText(text: string) {
+    async copyText(text: string) {
         if (!text) {
             return;
         }
 
         if (hasClipboard()) {
-            navigator.clipboard.writeText(text);
+            await navigator.clipboard.writeText(text);
         }
     }
 
@@ -122,7 +122,7 @@ export class DateFormat extends WebComponentBase<IConfigBase> {
                         placeholder="Custom format"
                         class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm" 
                         .value=${this.customFormat}
-                        @keyup=${this.onCustomFormatChange}/>
+                        @keyup=${this.onCustomFormatChange} />
                 </div>
                 <span class="p-2 flex content-center">
                     ${this.customFormat ? dayjs(this.value).format(this.customFormat) : ""}

@@ -31,9 +31,10 @@ export class TCopyButton extends WebComponentBase<IConfigBase> {
         this.copying = true;
         if (hasClipboard()) {
             setTimeout(() => {
-                navigator.clipboard.writeText(this.text);
-                this.copying = false;
-                this.title = "Copied to clipboard!";
+                navigator.clipboard.writeText(this.text).finally(() => {
+                    this.copying = false;
+                    this.title = "Copied to clipboard!";
+                });
             }, 100);
         }
     }

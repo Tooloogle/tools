@@ -24,6 +24,8 @@ jobs:
           node-version: 'lts/*'
       - name: Install dependencies
         run: npm ci
+      - name: Run lint
+        run: npm run lint
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
       - run: npm run build

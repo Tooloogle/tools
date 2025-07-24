@@ -1,6 +1,7 @@
 import * as _duration from 'dayjs/plugin/duration.js';
 import { isBrowser } from '../DomUtils.js';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 declare let __webpack_require__: any;
 let duration: typeof _duration.default;
 

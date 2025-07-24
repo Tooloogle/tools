@@ -36,7 +36,7 @@ export class HexRgb extends WebComponentBase<IConfigBase> {
 
     rgbToHex() {
         const hex = this.b | (this.g << 8) | (this.r << 16);
-        this.hex = '#' + (0x1000000 + hex).toString(16).slice(1);
+        this.hex = `#${(0x1000000 + hex).toString(16).slice(1)}`;
     }
 
     stringToDec(val: string) {
@@ -78,19 +78,19 @@ export class HexRgb extends WebComponentBase<IConfigBase> {
                         placeholder="Custom format"
                         class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm" 
                         .value=${this.r}
-                        @keyup=${(e: any) => { this.r = this.validateAndParseRGBValue(e.target?.value); this.rgbToHex(); }}/>
+                        @keyup=${(e: any) => { this.r = this.validateAndParseRGBValue(e.target?.value); this.rgbToHex(); }} />
                         
                     <input 
                         placeholder="Custom format"
                         class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm" 
                         .value=${this.g}
-                        @keyup=${(e: any) => { this.g = this.validateAndParseRGBValue(e.target?.value); this.rgbToHex(); }}/>
+                        @keyup=${(e: any) => { this.g = this.validateAndParseRGBValue(e.target?.value); this.rgbToHex(); }} />
 
                     <input 
                         placeholder="Custom format"
                         class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm"
                         .value=${this.b}
-                        @keyup=${(e: any) => { this.b = this.validateAndParseRGBValue(e.target?.value); this.rgbToHex(); }}/>
+                        @keyup=${(e: any) => { this.b = this.validateAndParseRGBValue(e.target?.value); this.rgbToHex(); }} />
                 </div>
             </lable>
         `;

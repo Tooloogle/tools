@@ -1,4 +1,5 @@
-import { html, customElement, property, state } from 'lit-element';
+import { html } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
@@ -21,12 +22,12 @@ export class CssBeautifier extends WebComponentBase<IConfigBase> {
     }
 
     private onBeautify() {
-        const css_beautify = isBrowser() ? (window as any).css_beautify : undefined;
-        if (!css_beautify) {
+        const cssBeautify = isBrowser() ? (window as any).css_beautify : undefined;
+        if (!cssBeautify) {
             return;
         }
 
-        this.codeInput = css_beautify(this.codeInput, {
+        this.codeInput = cssBeautify(this.codeInput, {
             indent_size: this.indentSize,
             space_after_comma: this.useSpaceAfterComma,
             end_with_newline: this.endWithNewline

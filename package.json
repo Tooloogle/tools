@@ -43,12 +43,13 @@
     "@types/js-beautify": "^1.14.3",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
-    "@web/dev-server": "^0.2.3",
+    "@web/dev-server": "^0.4.6",
     "@web/dev-server-legacy": "^2.0.0",
     "concurrently": "^8.2.0",
     "cross-env": "^7.0.3",
     "cssnano": "^6.0.1",
     "eslint": "^8.44.0",
+    "eslint-plugin-lit": "^2.1.1",
     "fs-extra": "^11.1.1",
     "glob": "^10.3.0",
     "jest": "^29.5.0",
@@ -58,6 +59,7 @@
     "postcss": "^8.4.25",
     "tailwindcss": "^3.3.2",
     "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.1.6"
   },
   "dependencies": {

@@ -1,4 +1,5 @@
-import { html, customElement, property, state, TemplateResult } from 'lit-element';
+import { html, TemplateResult } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';

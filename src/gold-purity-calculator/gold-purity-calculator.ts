@@ -56,7 +56,7 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
                         max="24"
                         .value=${this.karat}
                         @keyup=${this.onKaratChange}
-                        @change=${this.onKaratChange}/>
+                        @change=${this.onKaratChange} />
                 </lable>
                 <lable>
                     Gold Purity
@@ -68,7 +68,7 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
                         max="100"
                         .value=${this.purity}
                         @keyup=${this.onPurityChange}
-                        @change=${this.onPurityChange}/>
+                        @change=${this.onPurityChange} />
                 </lable>
             </div>`;
     }
