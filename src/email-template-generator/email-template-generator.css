@@ -1,81 +1,57 @@
 @tailwind components;
 @tailwind utilities;
 
-    .container {
-        @apply max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md;
-    }
-
-    .settings-section {
-        @apply mb-8 p-6 bg-gray-50 rounded-lg;
-    }
-
-    .section-title {
-        @apply text-xl font-semibold mb-6 text-gray-800 border-b pb-2;
-    }
-
-    .row {
-        @apply flex flex-wrap -mx-3 my-5;
-    }
-
-    .input-group {
-        @apply w-full px-3 mb-2 md:mb-0;
-    }
-
-    @media (min-width: 768px) {
-        .input-group {
-            @apply w-1/2;
-        }
-    }
-
-    .input-label {
-        @apply block text-sm font-medium text-sky-600 mb-1;
-    }
-
-    .form-input {
-        @apply w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
-    }
-
-    .color-input {
-        @apply h-10 p-1;
-    }
-
-    .content-textarea {
-        @apply h-40;
-    }
-
-    .footer-textarea {
-        @apply h-20;
-    }
-
-    .html-output {
-        @apply h-64 font-mono text-sm;
-    }
-
-    .actions-section {
-        @apply flex flex-wrap items-center justify-end gap-5 mb-8;
-    }
-
-    .btn {
-        @apply px-4 py-2 rounded-md text-base border-none font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
-    }
-   
-    .btn-secondary {
-    @apply bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200;
+.container {
+  @apply max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md;
 }
 
-    .output-section {
-        @apply mb-8;
-    }
+.section-title {
+  @apply text-xl font-semibold mb-6 text-gray-800 border-b pb-2;
+}
 
-    .info {
-        @apply text-sm text-gray-600 space-y-2;
-    }
+.row {
+  @apply w-full flex items-center flex-col lg:flex-row gap-3 lg:gap-5 my-5;
+}
 
-    .info li {
-        @apply flex items-start;
-    }
+.input-group {
+  @apply w-full;
+}
 
-    .info li::before {
-        content: "•";
-        @apply mr-2 text-blue-500;
-    }
+.input-label {
+  @apply block text-sm font-medium text-sky-600 mb-1;
+}
+
+.form-input {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+}
+
+.color-input {
+  @apply h-10 p-1;
+}
+
+.content-textarea {
+  @apply h-40;
+}
+
+.footer-section{
+    @apply space-y-2
+}
+.footer-textarea {
+  @apply h-20;
+}
+
+.html-output {
+  @apply h-64 font-mono text-sm;
+}
+
+.actions-section {
+  @apply flex flex-wrap items-center justify-end gap-5 mb-8;
+}
+
+.btn {
+  @apply px-4 py-2 rounded-md text-base border-none font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer;
+}
+
+.btn-secondary {
+  @apply bg-gray-600 hover:bg-gray-700 focus:ring-gray-500;
+}
