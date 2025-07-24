@@ -43,7 +43,7 @@ export class SvgOptimizerTemplates {
         return html`
             <div class="action-section">
                 <button 
-                    class="btn" 
+                    class="btn btn-blue" 
                     @click="${optimizeSvg}" 
                     ?disabled="${!originalSvg || optimizing}"
                 >
@@ -60,7 +60,7 @@ export class SvgOptimizerTemplates {
         getSavingsPercentage: () => number
     ): TemplateResult {
         if (originalSize === 0) return html``;
-        
+
         return html`
             <div class="stats-section">
                 <div class="stat">
@@ -91,14 +91,14 @@ export class SvgOptimizerTemplates {
         copyOptimized: () => void
     ): TemplateResult {
         if (!optimizedSvg) return html``;
-        
+
         return html`
             <div class="result-section">
                 <div class="result-actions">
-                    <button class="btn" @click="${downloadOptimized}">
+                    <button class="btn btn-green" @click="${downloadOptimized}">
                         Download Optimized
                     </button>
-                    <button class="btn btn-secondary" @click="${copyOptimized}">
+                    <button class="btn btn-blue" @click="${copyOptimized}">
                         Copy Code
                     </button>
                 </div>
@@ -143,16 +143,16 @@ export class SvgOptimizerTemplates {
             { key: 'collapseGroups', label: 'Collapse empty groups' }
         ];
 
-        const optionCheckboxes = optionConfigs.map(({ key, label }) => 
+        const optionCheckboxes = optionConfigs.map(({ key, label }) =>
             this.renderOptionCheckbox(
-                key as keyof OptimizationOptions, 
-                label, 
-                options, 
+                key as keyof OptimizationOptions,
+                label,
+                options,
                 handleOptionChange
             )
         );
 
-    return html`
+        return html`
         <div class="options-section">
             <h3>Optimization Options:</h3>
             <div class="options-grid">
@@ -160,7 +160,7 @@ export class SvgOptimizerTemplates {
             </div>
         </div>
     `;
-        }
+    }
 
     static renderOptionCheckbox(
         optionName: keyof OptimizationOptions,

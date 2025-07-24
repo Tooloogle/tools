@@ -18,37 +18,37 @@ export interface OptimizationOptions {
 export class SvgOptimizerUtils {
     static removeBasicElements(optimized: string, options: OptimizationOptions): string {
         let result = optimized;
-        
+
         // Remove XML declarations and DOCTYPE if present
         result = result.replace(/<\?xml[^>]*\?>/gi, '');
         result = result.replace(/<!DOCTYPE[^>]*>/gi, '');
-        
+
         if (options.removeComments) {
             result = result.replace(/<!--[\s\S]*?-->/g, '');
         }
-        
+
         if (options.removeMetadata) {
             result = result.replace(/<metadata[\s\S]*?<\/metadata>/gi, '');
         }
-        
+
         if (options.removeTitle) {
             result = result.replace(/<title[\s\S]*?<\/title>/gi, '');
         }
-        
+
         if (options.removeDesc) {
             result = result.replace(/<desc[\s\S]*?<\/desc>/gi, '');
         }
-        
+
         if (options.removeViewBox) {
             result = result.replace(/\s*viewBox="[^"]*"/gi, '');
         }
-        
+
         return result;
     }
 
     static minifyStyles(optimized: string, options: OptimizationOptions): string {
         if (!options.minifyStyles) return optimized;
-        
+
         return optimized.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (match, content) => {
             const minified = content
                 .replace(/\/\*[\s\S]*?\*\//g, '') // Remove CSS comments
@@ -65,12 +65,12 @@ export class SvgOptimizerUtils {
 
     static convertStylesToAttributes(optimized: string, options: OptimizationOptions): string {
         if (!options.convertStyleToAttrs) return optimized;
-        
+
         return optimized.replace(/style="([^"]*)"/gi, (match, styleContent) => {
             const styles = styleContent.split(';').filter((s: string) => s.trim());
             let attrs = '';
             const remainingStyles: string[] = [];
-            
+
             styles.forEach((style: string) => {
                 const [prop, value] = style.split(':').map((s: string) => s.trim());
                 if (prop && value) {
@@ -80,7 +80,7 @@ export class SvgOptimizerUtils {
                         'stroke-width': `stroke-width="${value}"`,
                         'opacity': `opacity="${value}"`
                     };
-                    
+
                     if (attrMap[prop]) {
                         attrs += ` ${attrMap[prop]}`;
                     } else {
@@ -88,18 +88,18 @@ export class SvgOptimizerUtils {
                     }
                 }
             });
-            
+
             if (remainingStyles.length > 0) {
                 attrs += ` style="${remainingStyles.join(';')}"`;
             }
-            
+
             return attrs || match;
         });
     }
 
     static removeUselessAttributes(optimized: string, options: OptimizationOptions): string {
         if (!options.removeUselessStrokeAndFill) return optimized;
-        
+
         let result = optimized;
         result = result.replace(/\s*stroke-width="0"/gi, '');
         result = result.replace(/\s*fill="black"\s/gi, ' ');
@@ -109,23 +109,23 @@ export class SvgOptimizerUtils {
 
     static cleanupIds(optimized: string, options: OptimizationOptions): string {
         if (!options.cleanupIds) return optimized;
-        
+
         let result = optimized;
         const ids = [...result.matchAll(/id="([^"]+)"/gi)];
-        
+
         ids.forEach(([, id]) => {
             const references = [...result.matchAll(new RegExp(`(#${id}|url\\(#${id}\\))`, 'gi'))];
             if (references.length <= 1) {
                 result = result.replace(new RegExp(`\\s*id="${id}"`, 'gi'), '');
             }
         });
-        
+
         return result;
     }
 
     static cleanupNumericValues(optimized: string, options: OptimizationOptions): string {
         if (!options.cleanupNumericValues) return optimized;
-        
+
         return optimized.replace(/(\d+\.\d{3,})/g, (match) => {
             const num = parseFloat(match);
             return num.toFixed(2).replace(/\.?0+$/, '');
@@ -134,23 +134,23 @@ export class SvgOptimizerUtils {
 
     static removeUnusedNamespaces(optimized: string, options: OptimizationOptions): string {
         if (!options.removeUnusedNS) return optimized;
-        
+
         let result = optimized;
         const namespaces = [...result.matchAll(/xmlns:([^=]+)="[^"]*"/gi)];
-        
+
         namespaces.forEach(([fullMatch, prefix]) => {
             const isUsed = new RegExp(`${prefix}:`).test(result.replace(fullMatch, ''));
             if (!isUsed) {
                 result = result.replace(fullMatch, '');
             }
         });
-        
+
         return result;
     }
 
     static collapseEmptyGroups(optimized: string, options: OptimizationOptions): string {
         if (!options.collapseGroups) return optimized;
-        
+
         return optimized.replace(/<g>([\s\S]*?)<\/g>/gi, '$1');
     }
 
@@ -164,7 +164,7 @@ export class SvgOptimizerUtils {
 
     static async processOptimization(svgContent: string, options: OptimizationOptions): Promise<string> {
         let optimized = svgContent;
-        
+
         optimized = this.removeBasicElements(optimized, options);
         optimized = this.minifyStyles(optimized, options);
         optimized = this.convertStylesToAttributes(optimized, options);
@@ -223,6 +223,7 @@ export class FileUtils {
         if (!file.type.includes('svg') && !file.name.endsWith('.svg')) {
             return { isValid: false, error: 'Please select an SVG file.' };
         }
+
         return { isValid: true };
     }
 
@@ -234,4 +235,24 @@ export class FileUtils {
             reader.readAsText(file);
         });
     }
+
+    static validateSvgContent(content: string): { isValid: boolean; error?: string } {
+        const trimmed = content.trim();
+
+        if (!trimmed) {
+            return { isValid: false, error: 'Please enter SVG content.' };
+        }
+
+        if (!trimmed.includes('<svg')) {
+            return { isValid: false, error: 'Content does not appear to be valid SVG.' };
+        }
+
+        // Basic XML structure check
+        if (!trimmed.startsWith('<') || !trimmed.endsWith('>')) {
+            return { isValid: false, error: 'Invalid XML/SVG format.' };
+        }
+
+        return { isValid: true };
+    }
 }
+

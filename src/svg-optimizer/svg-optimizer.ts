@@ -10,7 +10,7 @@ import { SvgOptimizerTemplates } from './svg-optimizer-templates.js';
 @customElement('svg-optimizer')
 export class SvgOptimizer extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, svgOptimizerStyles];
-    
+
     @property({ type: String }) originalSvg = '';
     @property({ type: String }) optimizedSvg = '';
     @property({ type: Number }) originalSize = 0;
@@ -23,42 +23,50 @@ export class SvgOptimizer extends WebComponentBase<IConfigBase> {
         removeDesc: true,
         removeComments: true,
         removeMetadata: true,
-        removeUselessStrokeAndFill: false, 
-        cleanupIds: false, 
+        removeUselessStrokeAndFill: false,
+        cleanupIds: false,
         minifyStyles: true,
-        convertStyleToAttrs: false, 
+        convertStyleToAttrs: false,
         removeUnusedNS: true,
         cleanupNumericValues: true,
-        collapseGroups: false, 
-        mergePaths: false 
+        collapseGroups: false,
+        mergePaths: false
     };
 
     private handleFileUpload(e: Event) {
-    const input = e.target as HTMLInputElement;
-    const file = input.files?.[0];
-    
-    if (!file) return;
+        const input = e.target as HTMLInputElement;
+        const file = input.files?.[0];
 
-    const validation = FileUtils.validateSvgFile(file);
-    if (!validation.isValid) {
-        this.error = validation.error || 'Invalid file';
-        return;
-    }
+        if (!file) return;
 
-    // Don't await here, handle the promise properly
-    FileUtils.readFileAsText(file)
-        .then(content => {
-            this.error = '';
-            this.setSvgContent(content);
-        })
-        .catch(() => {
-            this.error = 'Failed to read file';
-        });
+        const validation = FileUtils.validateSvgFile(file);
+        if (!validation.isValid) {
+            this.error = validation.error || 'Invalid file';
+            return;
+        }
+
+        // Don't await here, handle the promise properly
+        FileUtils.readFileAsText(file)
+            .then(content => {
+                this.error = '';
+                this.setSvgContent(content);
+            })
+            .catch(() => {
+                this.error = 'Failed to read file';
+            });
     }
 
     private handleSvgTextInput(e: Event) {
         const textarea = e.target as HTMLTextAreaElement;
-        this.setSvgContent(textarea.value);
+        const content = textarea.value;
+
+        const validation = FileUtils.validateSvgContent(content);
+        if (!validation.isValid && content.trim()) {
+            this.error = validation.error || 'Invalid SVG content';
+            return;
+        }
+
+        this.setSvgContent(content);
         this.error = '';
     }
 
@@ -79,26 +87,26 @@ export class SvgOptimizer extends WebComponentBase<IConfigBase> {
     }
 
     private optimizeSvg() {
-    if (!this.originalSvg.trim()) {
-        this.error = 'Please provide an SVG to optimize.';
-        return;
-    }
+        if (!this.originalSvg.trim()) {
+            this.error = 'Please provide an SVG to optimize.';
+            return;
+        }
 
-    this.optimizing = true;
-    this.error = '';
+        this.optimizing = true;
+        this.error = '';
 
-    // Handle the promise properly instead of making the function async
-    SvgOptimizerUtils.processOptimization(this.originalSvg, this.optimizationOptions)
-        .then(optimized => {
-            this.optimizedSvg = optimized;
-            this.optimizedSize = new Blob([this.optimizedSvg]).size;
-        })
-        .catch(() => {
-            this.error = 'Failed to optimize SVG. Please check if the SVG is valid.';
-        })
-        .finally(() => {
-            this.optimizing = false;
-        });
+        // Handle the promise properly instead of making the function async
+        SvgOptimizerUtils.processOptimization(this.originalSvg, this.optimizationOptions)
+            .then(optimized => {
+                this.optimizedSvg = optimized;
+                this.optimizedSize = new Blob([this.optimizedSvg]).size;
+            })
+            .catch(() => {
+                this.error = 'Failed to optimize SVG. Please check if the SVG is valid.';
+            })
+            .finally(() => {
+                this.optimizing = false;
+            });
     }
 
     private downloadOptimized() {
@@ -108,7 +116,7 @@ export class SvgOptimizer extends WebComponentBase<IConfigBase> {
 
     private copyOptimized() {
         if (!this.optimizedSvg) return;
-        
+
         FileUtils.copyToClipboard(this.optimizedSvg)
             .catch(() => {
                 console.warn('Failed to copy to clipboard');
@@ -127,37 +135,37 @@ export class SvgOptimizer extends WebComponentBase<IConfigBase> {
         return html`
             <div class="container">
                 ${SvgOptimizerTemplates.renderUploadSection(
-                    this.originalSvg,
-                    this.handleFileUpload.bind(this),
-                    this.handleSvgTextInput.bind(this)
-                )}
+            this.originalSvg,
+            this.handleFileUpload.bind(this),
+            this.handleSvgTextInput.bind(this)
+        )}
                 
                 ${SvgOptimizerTemplates.renderErrorMessage(this.error)}
                 
                 ${SvgOptimizerTemplates.renderActionSection(
-                    this.originalSvg,
-                    this.optimizing,
-                    this.optimizeSvg.bind(this)
-                )}
+            this.originalSvg,
+            this.optimizing,
+            this.optimizeSvg.bind(this)
+        )}
                 
                 ${SvgOptimizerTemplates.renderStatsSection(
-                    this.originalSize,
-                    this.optimizedSize,
-                    this.formatBytes.bind(this),
-                    this.getSavingsPercentage.bind(this)
-                )}
+            this.originalSize,
+            this.optimizedSize,
+            this.formatBytes.bind(this),
+            this.getSavingsPercentage.bind(this)
+        )}
                 
                 ${SvgOptimizerTemplates.renderResultSection(
-                    this.optimizedSvg,
-                    this.originalSvg,
-                    this.downloadOptimized.bind(this),
-                    this.copyOptimized.bind(this)
-                )}
+            this.optimizedSvg,
+            this.originalSvg,
+            this.downloadOptimized.bind(this),
+            this.copyOptimized.bind(this)
+        )}
                 
                 ${SvgOptimizerTemplates.renderOptionsSection(
-                    this.optimizationOptions,
-                    this.handleOptionChange.bind(this)
-                )}
+            this.optimizationOptions,
+            this.handleOptionChange.bind(this)
+        )}
                 
                 ${SvgOptimizerTemplates.renderNotes()}
             </div>
