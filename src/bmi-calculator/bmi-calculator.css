@@ -2,53 +2,75 @@
 @tailwind utilities;
 
 .container {
-  @apply space-y-2 max-w-md mx-auto;
-}
+    @apply space-y-4 max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg;
+  }
 
-.unit-selector {
-  @apply flex items-center gap-4;
-}
+  .unit-selector {
+    @apply flex items-center gap-4;
+  }
 
-.unit-selector label {
-  @apply font-medium text-gray-100;
-}
+  .unit-selector label {
+    @apply font-medium text-gray-700 min-w-fit;
+  }
 
-.input-group {
-  @apply flex items-center gap-4;
-}
+  .input-wrapper {
+    @apply flex flex-col gap-1;
+  }
 
-.input-group label {
-  @apply w-32 font-medium text-gray-100;
-}
+  .input-group {
+    @apply flex flex-col sm:flex-row sm:items-center gap-2 w-full;
+  }
 
-.form-input {
-  @apply border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
-}
+  .input-group label {
+    @apply font-medium text-gray-700 w-40;
+  }
 
-.result-container {
-  @apply bg-gray-50 p-2 rounded-md mb-2;
-}
+  .form-input {
+    @apply w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200;
+  }
 
-.bmi-value {
-  @apply text-xl font-bold mb-2;
-}
+  .form-input.error {
+    @apply border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50;
+  }
 
-.category-display {
-  @apply text-lg;
-}
+  .error-message {
+    @apply text-red-600 text-sm font-medium;
+  }
 
-.bmi-ranges {
-  @apply bg-gray-50 p-4 rounded-md mb-4;
-}
+  .result-container {
+    @apply bg-gradient-to-r from-blue-50 to-green-50 p-4 rounded-lg border border-gray-200 shadow-sm;
+  }
 
-.bmi-ranges h3 {
-  @apply font-bold text-lg mb-2;
-}
+  .bmi-value {
+    @apply text-2xl font-bold mb-2 text-gray-800;
+  }
 
-.bmi-ranges ul {
-  @apply list-disc pl-5 space-y-1;
-}
+  .category-display {
+    @apply text-lg font-semibold text-gray-700;
+  }
 
-.note {
-  @apply text-sm text-gray-100 list-disc pl-5 space-y-1;
-}
+  .bmi-ranges {
+    @apply bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4;
+  }
+
+  .bmi-ranges h3 {
+    @apply font-bold text-lg mb-3 text-gray-800;
+  }
+
+  .bmi-ranges ul {
+    @apply list-disc pl-5 space-y-1;
+  }
+
+  .bmi-ranges li {
+    @apply font-medium;
+  }
+
+  .note {
+    @apply text-sm text-gray-600 list-disc pl-5 space-y-1 bg-yellow-50 p-3 rounded-lg border border-yellow-200;
+  }
+
+  .note li {
+    @apply leading-relaxed;
+  }
+
+
