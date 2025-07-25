@@ -47,7 +47,7 @@
                 "json-viewer",
                 "csv-to-json-converter",
                 "json-to-csv-converter",
-                "regex-expression-tester"].includes(tool)) {
+                "regex-expression-tester", "qr-code-scanner"].includes(tool)) {
                 document.getElementById("container").className = "w-full";
             } else {
                 document.getElementById("container").className = className;
@@ -81,6 +81,7 @@
 
         initTool(localStorage.getItem("demo-selected-tool") || tools[0]);
     </script>
+
 </body>
 
 </html>
