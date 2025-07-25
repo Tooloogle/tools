@@ -26,7 +26,11 @@ const tools = [
     "csv-to-json-converter",
     "json-to-csv-converter",
     "regex-expression-tester",
-    "text-to-speech"
+    "text-to-speech",
+    "heif-to-png-converter",
+    "heif-to-jpg-converter",
+    "heic-to-png-converter",
+    "heic-to-jpg-converter"
 ];
 
 if (typeof window !== "undefined") {
