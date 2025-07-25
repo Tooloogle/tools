@@ -1,69 +1,53 @@
-import { html } from "lit";
+import { ZXingCodeReader, ZXingLibrary } from "./zxing-loader.util.js";
 
-interface ZXingCodeReader {
-  decodeOnceFromVideoDevice: (deviceId: string | undefined, videoElement: HTMLVideoElement) => Promise<ZXingResult>;
-  decodeFromImageElement: (imageElement: HTMLImageElement) => Promise<ZXingResult>;
-  reset: () => void;
-}
-
-interface ZXingResult {
-  text: string;
-  result?: unknown;
-}
-
-interface ZXingLibrary {
-  BrowserQRCodeReader: new () => ZXingCodeReader;
-}
-
-declare global {
-  interface Window {
-    ZXing: ZXingLibrary;
-  }
-}
-
-export type { ZXingCodeReader, ZXingResult, ZXingLibrary };
-
-export type ScannerStatus = 'loading' | 'ready' | 'error';
+export type ScannerStatus = "loading" | "ready" | "error";
 
 export interface ScanResult {
   data: string;
   result?: unknown;
-  source?: string;
+  source?: 'camera' | 'file';
+}
+
+export interface CopyResult {
+  success: boolean;
+  message: string;
 }
 
 export class QrScannerUtils {
   static getErrorMessage(error: unknown): string {
     if (error instanceof Error) {
-      if (error.message.includes('Permission denied')) {
-        return 'Camera access denied. Please allow camera permissions.';
-      } else if (error.message.includes('NotFoundError')) {
-        return 'No camera found. Please ensure you have a camera connected.';
-      } else if (error.message.includes('NotAllowedError')) {
-        return 'Camera access denied. Please allow camera access.';
-      } else if (error.message.includes('Scanner element not found')) {
-        return 'Scanner setup failed. Please refresh the page.';
+      if (error.message.includes("Permission denied")) {
+        return "Camera access denied. Please allow camera permissions.";
+      } else if (error.message.includes("NotFoundError")) {
+        return "No camera found. Please ensure you have a camera connected.";
+      } else if (error.message.includes("NotAllowedError")) {
+        return "Camera access denied. Please allow camera access.";
+      } else if (error.message.includes("Scanner element not found")) {
+        return "Scanner setup failed. Please refresh the page.";
       }
+
       return `Scanner error: ${error.message}`;
     }
-    return 'Failed to initialize QR scanner. Please refresh the page.';
+
+    return "Failed to initialize QR scanner. Please refresh the page.";
   }
 
   static handleScannerError(error: unknown): string {
-    let errorMessage = 'Unable to access camera. ';
+    let errorMessage = "Unable to access camera. ";
     if (error instanceof Error) {
-      if (error.message.includes('Permission denied') || error.name === 'NotAllowedError') {
-        errorMessage += 'Please grant camera permissions.';
-      } else if (error.message.includes('NotFoundError') || error.name === 'NotFoundError') {
-        errorMessage += 'No camera found.';
-      } else if (error.message.includes('NotAllowedError') || error.name === 'NotAllowedError') {
-        errorMessage += 'Camera access denied.';
+      if (error.message.includes("Permission denied") || error.name === "NotAllowedError") {
+        errorMessage += "Please grant camera permissions.";
+      } else if (error.message.includes("NotFoundError") || error.name === "NotFoundError") {
+        errorMessage += "No camera found.";
+      } else if (error.message.includes("NotAllowedError") || error.name === "NotAllowedError") {
+        errorMessage += "Camera access denied.";
       } else {
-        errorMessage += 'Please ensure camera permissions are granted.';
+        errorMessage += "Please ensure camera permissions are granted.";
       }
     } else {
-      errorMessage += 'Please ensure camera permissions are granted.';
+      errorMessage += "Please ensure camera permissions are granted.";
     }
-    
+
     return errorMessage;
   }
 
@@ -77,11 +61,11 @@ export class QrScannerUtils {
   }
 
   static createVideoElement(): HTMLVideoElement {
-    const videoElement = document.createElement('video');
-    videoElement.style.width = '100%';
-    videoElement.style.height = 'auto';
-    videoElement.style.maxHeight = '300px';
-    videoElement.style.objectFit = 'contain';
+    const videoElement = document.createElement("video");
+    videoElement.style.width = "100%";
+    videoElement.style.height = "auto";
+    videoElement.style.maxHeight = "300px";
+    videoElement.style.objectFit = "contain";
     videoElement.autoplay = true;
     videoElement.playsInline = true;
     return videoElement;
@@ -91,13 +75,13 @@ export class QrScannerUtils {
     return `qr-reader-${Math.random().toString(36).substring(2, 9)}`;
   }
 
-  static async copyToClipboard(text: string): Promise<{ success: boolean; message: string }> {
+  static async copyToClipboard(text: string): Promise<CopyResult> {
     try {
       await navigator.clipboard.writeText(text);
-      return { success: true, message: 'Copied!' };
+      return { success: true, message: "Copied!" };
     } catch (error) {
-      console.error('Failed to copy:', error);
-      return { success: false, message: 'Copy failed' };
+      console.error("Failed to copy:", error);
+      return { success: false, message: "Copy failed" };
     }
   }
 
@@ -105,141 +89,119 @@ export class QrScannerUtils {
     return new Promise((resolve, reject) => {
       const img = new Image();
       const imageUrl = URL.createObjectURL(file);
-      
-      img.onload = () => {
-        resolve(img);
-      };
-      
+
+      img.onload = () => resolve(img);
       img.onerror = () => {
         URL.revokeObjectURL(imageUrl);
-        reject(new Error('Failed to load the uploaded image.'));
+        reject(new Error("Failed to load the uploaded image."));
       };
-      
+
       img.src = imageUrl;
     });
   }
 
   static cleanupObjectUrl(url: string, delay = 5000): void {
-    setTimeout(() => {
-      URL.revokeObjectURL(url);
-    }, delay);
-  }
-}
-
-export class QrScannerRenderer {
-  static renderScanningIndicator() {
-    return html`
-      <div class="scanning-indicator">
-        <div class="scanning-animation">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-loader-circle-icon lucide-loader-circle">
-            <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
-          </svg>
-        </div>
-        <p>Point your camera at a QR code...</p>
-      </div>
-    `;
+    setTimeout(() => URL.revokeObjectURL(url), delay);
   }
 
-  static renderUploadIcon() {
-    return html`
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-qr-code-icon lucide-qr-code">
-        <rect width="5" height="5" x="3" y="3" rx="1"/>
-        <rect width="5" height="5" x="16" y="3" rx="1"/>
-        <rect width="5" height="5" x="3" y="16" rx="1"/>
-        <path d="M21 16h-3a2 2 0 0 0-2 2v3"/>
-        <path d="M21 21v.01"/>
-        <path d="M12 7v3a2 2 0 0 1-2 2H7"/>
-        <path d="M3 12h.01"/>
-        <path d="M12 3h.01"/>
-        <path d="M12 16v.01"/>
-        <path d="M16 12h1"/>
-        <path d="M21 12v.01"/>
-        <path d="M12 21v-1"/>
-      </svg>
-    `;
+  static async initializeZXing(zxingLoader: { loadZXing: () => Promise<ZXingLibrary> }): Promise<ZXingCodeReader> {
+    const ZXing = await zxingLoader.loadZXing();
+    return new ZXing.BrowserQRCodeReader();
   }
 
-  static renderNotes() {
-    return html`
-      <ul class="note">
-        <li>Point your camera at a QR code or upload an image</li>
-        <li>Scanning happens entirely in your browser</li>
-        <li>Supports various QR code types</li>
-        <li>Make sure the QR code is well-lit and clearly visible</li>
-      </ul>
-    `;
+  static async startCameraScan(
+    codeReader: ZXingCodeReader,
+    containerId: string,
+    shadowRoot?: ShadowRoot | null
+  ): Promise<{ result: ScanResult; videoStream: MediaStream }> {
+    const findScannerElement = () => {
+      if (shadowRoot) {
+        const shadowElement = shadowRoot.getElementById(containerId);
+        if (shadowElement) return shadowElement;
+      }
+
+      return document.getElementById(containerId);
+    };
+
+    const scannerElement = findScannerElement();
+    if (!scannerElement) {
+      throw new Error('Scanner element not found');
+    }
+
+    const videoElement = this.createVideoElement();
+    scannerElement.innerHTML = '';
+    scannerElement.appendChild(videoElement);
+
+    try {
+      const result = await codeReader.decodeOnceFromVideoDevice(undefined, videoElement);
+      const videoStream = videoElement.srcObject as MediaStream;
+
+      return {
+        result: {
+          data: result.text,
+          result: result.result,
+          source: 'camera'
+        },
+        videoStream
+      };
+    } catch (error) {
+      if (videoElement.srcObject) {
+        const stream = videoElement.srcObject as MediaStream;
+        stream.getTracks().forEach(track => track.stop());
+      }
+
+      if (videoElement.parentNode === scannerElement) {
+        scannerElement.removeChild(videoElement);
+      }
+
+      throw error;
+    }
   }
 
-  static renderResultSection(scannedData: string, copyFeedback: string, onCopy: () => void, onClear: () => void) {
-    if (!scannedData) return '';
-
-    return html`
-      <div class="result-section">
-        <div class="result-header">
-          <h3>Scanned Data URL</h3>
-          <div class="result-actions">
-            <button class="btn btn-primary" @click="${onCopy}">
-              ${copyFeedback || 'Copy'}
-            </button>
-            <button class="btn btn-secondary" @click="${onClear}">
-              Clear
-            </button>
-          </div>
-        </div>
-        <div class="result-content">
-          ${QrScannerUtils.isUrl(scannedData) ? html`
-            <a href="${scannedData}" target="_blank" rel="noopener noreferrer">
-              ${scannedData}
-            </a>
-          ` : html`
-            <span>${scannedData}</span>
-          `}
-        </div>
-      </div>
-    `;
+  static async scanImageFile(
+    codeReader: ZXingCodeReader,
+    file: File
+  ): Promise<ScanResult> {
+    const img = await this.createImageFromFile(file);
+    const result = await codeReader.decodeFromImageElement(img);
+    return {
+      data: result.text,
+      result: result.result,
+      source: 'file'
+    };
   }
 
-  static renderControls(scanning: boolean, status: ScannerStatus, onStart: () => void, onStop: () => void) {
-    return html`
-      <div class="controls">
-        ${!scanning ? html`
-          <button 
-            class="btn btn-primary" 
-            @click="${onStart}"
-            ?disabled="${status !== 'ready'}"
-          >
-            Start Camera Scan
-          </button>
-        ` : html`
-          <button class="btn btn-destructive" @click="${onStop}">
-            Stop Scanning
-          </button>
-        `}
-      </div>
-    `;
+  static cleanupScanner(
+    codeReader: ZXingCodeReader | null,
+    videoStream: MediaStream | null,
+    containerId: string,
+    shadowRoot?: ShadowRoot | null
+  ): void {
+    if (codeReader) {
+      try {
+        codeReader.reset();
+      } catch (error) {
+        console.error('Error stopping scanner:', error);
+      }
+    }
+
+    if (videoStream) {
+      videoStream.getTracks().forEach(track => track.stop());
+    }
+
+    // Helper function to find element in either shadow or light DOM
+    const findScannerElement = () => {
+      if (shadowRoot) {
+        const shadowElement = shadowRoot.getElementById(containerId);
+        if (shadowElement) return shadowElement;
+      }
+
+      return document.getElementById(containerId);
+    };
+
+    const scannerElement = findScannerElement();
+    if (scannerElement) {
+      scannerElement.innerHTML = '';
+    }
   }
-
-  static renderUploadedImage(uploadedImageSrc: string) {
-    if (!uploadedImageSrc) return '';
-
-    return html`
-      <div class="uploaded-image-section">
-        <h3 style="text-align:center">Uploaded Image</h3>
-        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
-          <img src="${uploadedImageSrc}" alt="Uploaded QR code image" style="max-width: 100%; max-height: 250px; object-fit: contain;" />
-        </div>
-      </div>
-    `;
-  }
-
-  static renderError(error: string) {
-    if (!error) return '';
-
-    return html`
-      <div class="error-message">
-        ${error}
-      </div>
-    `;
-  }
-  
 }
