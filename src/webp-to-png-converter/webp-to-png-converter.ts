@@ -1,14 +1,23 @@
-import { html, customElement, property } from 'lit-element'
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import webpToPngConverterStyles from './webp-to-png-converter.css.js';
+import { html } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import {
+  IConfigBase,
+  WebComponentBase,
+} from "../_web-component/WebComponentBase.js";
+import inputStyles from "../_styles/input.css.js";
+import buttonStyles from "../_styles/button.css.js";
+import webpToPngConverterStyles from "./webp-to-png-converter.css.js";
 
-@customElement('webp-to-png-converter')
+@customElement("webp-to-png-converter")
 export class WebpToPngConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, webpToPngConverterStyles];
+  static override styles = [
+    WebComponentBase.styles,
+    inputStyles,
+    buttonStyles,
+    webpToPngConverterStyles,
+  ];
 
-    @property({ type: Object }) file: File | null = null;
+  @property({ type: Object }) file: File | null = null;
 
   private handleFileChange(e: Event) {
     const input = e.target as HTMLInputElement;
@@ -22,35 +31,46 @@ export class WebpToPngConverter extends WebComponentBase<IConfigBase> {
     reader.onload = () => {
       const img = new Image();
       img.onload = () => {
-        const canvas = document.createElement('canvas');
+        const canvas = document.createElement("canvas");
         canvas.width = img.width;
         canvas.height = img.height;
 
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         ctx?.drawImage(img, 0, 0);
 
-        canvas.toBlob((blob) => {
+        canvas.toBlob(blob => {
           if (blob) {
-            const a = document.createElement('a');
+            const a = document.createElement("a");
             a.href = URL.createObjectURL(blob);
             if (!this.file) return;
-            const fileName = this.file.name.replace(/\.[^/.]+$/, '.png');
+            const fileName = this.file.name.replace(/\.[^/.]+$/, ".png");
             a.download = fileName;
             a.click();
           }
-        }, 'image/png');
+        }, "image/png");
       };
+
       img.src = reader.result as string;
     };
+
     reader.readAsDataURL(this.file);
   }
 
-    override render() {
+  override render() {
     return html`
-      <div class="container">
+      <div class="space-y-3">
         <label>Select a WebP file:</label>
-        <input type="file" accept="image/webp" class="form-input" @change="${this.handleFileChange}" />
-        <button class="btn" @click="${this.convert}" ?disabled="${!this.file}">
+        <input
+          type="file"
+          accept="image/webp"
+          class="form-input"
+          @change="${this.handleFileChange}"
+        />
+        <button
+          class="btn btn-blue"
+          @click="${this.convert}"
+          ?disabled="${!this.file}"
+        >
           Convert to PNG
         </button>
       </div>
@@ -59,7 +79,7 @@ export class WebpToPngConverter extends WebComponentBase<IConfigBase> {
 }
 
 declare global {
-    interface HTMLElementTagNameMap {
-        'webp-to-png-converter': WebpToPngConverter;
-    }
+  interface HTMLElementTagNameMap {
+    "webp-to-png-converter": WebpToPngConverter;
+  }
 }
