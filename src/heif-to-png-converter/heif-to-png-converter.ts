@@ -1,100 +1,163 @@
-import { html, customElement, property } from 'lit-element'
+import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import heifToPngConverterStyles from './heif-to-png-converter.css.js';
+import { customElement, state } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
-import heifToPngConverterStyles from './heif-to-png-converter.css.js'; 
 
-// heic2any is loaded via CDN - add this to your HTML:
-declare const heic2any: any;
-@customElement('heif-to-png-converter') 
-export class HeifToPngConverter extends WebComponentBase<IConfigBase> { 
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, heifToPngConverterStyles]; 
-    
-    @property({ type: Object }) file: File | null = null;
-    @property({ type: Boolean }) converting = false;
-    @property({ type: String }) error = '';
+interface Heic2Any {
+    (options: {
+        blob: Blob;
+        toType: 'image/jpeg' | 'image/png';
+        quality?: number;
+    }): Promise<Blob | Blob[]>;
+}
 
-    private handleFileChange(e: Event) {
+declare global {
+    interface Window {
+        heic2any: Heic2Any;
+    }
+}
+
+@customElement('heif-to-png-converter')
+export class HeifToPngConverter extends WebComponentBase<IConfigBase> {
+    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, heifToPngConverterStyles];
+
+    @state() file: File | null = null;
+    @state() converting = false;
+    @state() error = '';
+    @state() libLoaded = false;
+
+    override async connectedCallback() {
+        super.connectedCallback();
+        await this.loadLibrary();
+    }
+
+    private async loadLibrary(): Promise<void> {
+        if (typeof window.heic2any !== 'undefined') {
+            this.libLoaded = true;
+            return;
+        }
+
+        try {
+            await this.loadScript('/src/_libs/heic-heif-to-jpg-png/heic2any.js');
+            if (typeof window.heic2any === 'undefined') {
+                throw new Error('Library not initialized');
+            }
+
+            this.libLoaded = true;
+        } catch (err) {
+            console.error('Library load failed:', err);
+            this.error = 'Failed to load converter. Please refresh.';
+        }
+    }
+
+    private loadScript(src: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (document.querySelector(`script[src="${src}"]`)) {
+                resolve();
+                return;
+            }
+
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = () => setTimeout(resolve, 100);
+            script.onerror = () => reject(new Error(`Script load failed: ${src}`));
+            document.head.appendChild(script);
+        });
+    }
+
+    private handleFileChange(e: Event): void {
         const input = e.target as HTMLInputElement;
-        this.file = input.files?.[0] ?? null;
+        const file = input.files?.[0] ?? null;
+
+        if (file && !file.name.match(/\.heif$/i)) {
+            this.error = 'Only HEIF files are supported';
+            this.file = null;
+            return;
+        }
+
+        this.file = file;
         this.error = '';
     }
 
-    private async convert() {
-        if (!this.file) return;
-        
+    private async convert(): Promise<void> {
+        if (!this.file || !this.libLoaded) return;
+
         this.converting = true;
         this.error = '';
 
         try {
-            if (typeof heic2any === 'undefined') {
-                throw new Error('heic2any library not loaded. Please include the CDN script.');
-            }
-
-            // Convert HEIF to PNG
-            const convertedBlob = await heic2any({
+            const result = await window.heic2any({
                 blob: this.file,
                 toType: 'image/png',
-                quality: 1.0 // PNG is lossless
+                quality: 1.0
             });
 
-            const blob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
-            
-            // Create download link
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            const fileName = this.file.name.replace(/\.(heic|heif)$/i, '.png');
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            
-            URL.revokeObjectURL(a.href);
-            
-        } catch (error) {
-            console.error('Conversion failed:', error);
-            this.error = error instanceof Error ? error.message : 'Failed to convert HEIF file. Please try another file.';
+            const blob = Array.isArray(result) ? result[0] : result;
+            this.downloadImage(blob);
+        } catch (err) {
+            this.error = err instanceof Error ? err.message : 'Conversion failed';
+            console.error('Conversion error:', err);
         } finally {
             this.converting = false;
         }
     }
 
+    private downloadImage(blob: Blob): void {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = this.getConvertedFilename();
+        document.body.appendChild(a);
+        a.click();
+
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 100);
+    }
+
+    private getConvertedFilename(): string {
+        if (!this.file) return 'converted.png';
+        return this.file.name.replace(/\.heif$/i, '.png');
+    }
+
     override render() {
         return html`
-            <div class="container">
-                <label>Select a HEIF file:</label>
-                <input 
-                    type="file" 
-                    accept="image/heif,.heif" 
-                    class="form-input" 
-                    @change="${this.handleFileChange}" 
+            <div class="space-y-3">
+                <label>Select HEIF file:</label>
+                <input
+                    type="file"
+                    accept=".heif,image/heif"
+                    class="form-input"
+                    @change=${this.handleFileChange}
+                    ?disabled=${!this.libLoaded}
                 />
                 
-                ${this.error ? html`
-                    <div class="error-message" style="color: red; margin: 10px 0;">
-                        ${this.error}
-                    </div>
-                ` : ''}
+                ${this.error ? html`<div class="text-rose-500">${this.error}</div>` : ''}
+                ${!this.libLoaded ? html`<div class="text-amber-500">Loading converter...</div>` : ''}
                 
-                <button 
-                    class="btn" 
-                    @click="${this.convert}" 
-                    ?disabled="${!this.file || this.converting}"
+                <button
+                    class="btn btn-blue"
+                    @click=${this.convert}
+                    ?disabled=${!this.file || this.converting || !this.libLoaded}
                 >
-                    ${this.converting ? `Converting...` : 'Convert to PNG'}
+                    ${this.converting ? 'Converting...' : 'Convert to PNG'}
                 </button>
                 
-                <ul class="info">
-                    <li>PNG format preserves transparency and quality</li>
-                    <li>Conversion happens entirely in your browser - no uploads</li>
-                    <li>Converted file downloads automatically</li>
+                <ul class="list-disc pl-5 text-sm">
+                    <li>Supports HEIF files from modern devices</li>
+                    <li>Preserves transparency in PNG output</li>
+                    <li>100% browser-based - no server upload</li>
                 </ul>
             </div>
         `;
     }
 }
+
 declare global {
     interface HTMLElementTagNameMap {
-        'heif-to-png-converter': HeifToPngConverter; 
+        'heif-to-png-converter': HeifToPngConverter;
     }
 }
