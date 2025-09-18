@@ -4,8 +4,7 @@ import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBas
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
 import htmlBeautifierStyles from './html-beautifier.css.js';
-import { isBrowser } from '../_utils/DomUtils.js';
-import '../_libs/js-beautify/beautify-html.min.js';
+import jsBeautify from "js-beautify";
 
 @customElement('html-beautifier')
 export class HtmlBeautifier extends WebComponentBase<IConfigBase> {
@@ -26,12 +25,7 @@ export class HtmlBeautifier extends WebComponentBase<IConfigBase> {
     }
 
     private onBeautify() {
-        const htmlBeautify = isBrowser() ? (window as any).html_beautify : undefined;
-        if (!htmlBeautify) {
-            return;
-        }
-
-        this.codeInput = htmlBeautify(this.codeInput, {
+        this.codeInput = jsBeautify.html_beautify(this.codeInput, {
             indent_size: this.indentSize,
             indent_with_tabs: !this.useSpaces,
             preserve_newlines: this.preserveNewlines,

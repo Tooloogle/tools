@@ -6,8 +6,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Tooloogle Web Components</title>
-    <link href="./demo/_style.css" rel="stylesheet" />
-    <script src="demo/tools.js" type="module" />
+    <link href="_style.css" rel="stylesheet" />
+    <script src="tools.js" type="module" />
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../node_modules/lit/polyfill-support.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -36,9 +36,6 @@
 
     <script type="module">
         function initTool(tool) {
-            let script = document.createElement('script');
-            script.type = 'module';
-            script.src = `dist/${tool}/${tool}.js`;
             const className = "lg:w-2/5 pr-4 pl-4 md:w-3/5 pr-4 pl-4 sm:w-2/3 pr-4 pl-4 w-full";
             if (["qr-code-generator",
                 "javascript-beautifier",
@@ -53,18 +50,17 @@
                 document.getElementById("container").className = className;
             }
 
-            script.onload = function () {
+            import(`../src/${tool}/${tool}.ts`).then((mod) => {
+                console.log("Loaded", tool, mod);
+                mod?.default?.();
+
                 document.getElementById("demo-container").innerHTML = `<${tool}></${tool}>`;
                 document.getElementById("title").innerHTML = `${tool.replace(/-/g, " ")} demo`;
                 localStorage.setItem("demo-selected-tool", tool);
-            }
-
-            script.onerror = function () {
+            }).catch((err) => {
+                console.error("Error loading", tool, err);
                 document.getElementById("demo-container").innerHTML = `<p> ${tool} Not found.</p>`;
-            }
-
-            document.head.appendChild(script);
-            document.getElementById(tool).classList.add("active");
+            });
         }
 
         const list = tools.forEach((t, i) => {
