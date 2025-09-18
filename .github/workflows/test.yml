@@ -18,6 +18,7 @@ jobs:
           node-version: 'lts/*'
       - run: npm ci
       - run: npm run lint
+      - run: npm run css
       - run: npm run test
       - run: npm run build:tools
       - run: npm run build:demo
