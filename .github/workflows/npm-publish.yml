@@ -1,11 +1,7 @@
 name: Publish @tooloogle/tools NPM Package
 
 on:
-  workflow_run:
-    workflows: ['Build and Test @tooloogle/tools NPM Package']
-    branches: [release]
-    types:
-      - completed
+  workflow_dispatch:
 
 jobs:
   publish-npm:
