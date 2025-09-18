@@ -4,8 +4,7 @@ import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBas
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
 import cssBeautifierStyles from './css-beautifier.css.js';
-import { isBrowser } from '../_utils/DomUtils.js';
-import '../_libs/js-beautify/beautify-css.min.js';
+import jsBeautify from "js-beautify";
 
 @customElement('css-beautifier')
 export class CssBeautifier extends WebComponentBase<IConfigBase> {
@@ -13,7 +12,6 @@ export class CssBeautifier extends WebComponentBase<IConfigBase> {
 
     @property({ type: String }) codeInput = '';
     @state() indentSize = 4;
-    @state() useSpaceAfterComma = true;
     @state() endWithNewline = true;
 
     private onInputChange(event: Event) {
@@ -22,15 +20,9 @@ export class CssBeautifier extends WebComponentBase<IConfigBase> {
     }
 
     private onBeautify() {
-        const cssBeautify = isBrowser() ? (window as any).css_beautify : undefined;
-        if (!cssBeautify) {
-            return;
-        }
-
-        this.codeInput = cssBeautify(this.codeInput, {
+        this.codeInput = jsBeautify.css(this.codeInput, {
             indent_size: this.indentSize,
-            space_after_comma: this.useSpaceAfterComma,
-            end_with_newline: this.endWithNewline
+            end_with_newline: this.endWithNewline,
         });
     }
 
@@ -51,10 +43,6 @@ export class CssBeautifier extends WebComponentBase<IConfigBase> {
                 <label class="flex items-center">
                     Indent size:
                     <input type="number" class="ml-2 form-input" .value="${this.indentSize}" @input="${this.onIndentSizeChange}" min="1" />
-                </label>
-                <label class="flex items-center">
-                    Use space after comma:
-                    <input type="checkbox" class="ml-2 form-checkbox" name="useSpaceAfterComma" .checked="${this.useSpaceAfterComma}" @change="${this.onCheckboxChange}" />
                 </label>
                 <label class="flex items-center">
                     End with newline:

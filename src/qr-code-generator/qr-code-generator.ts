@@ -2,7 +2,6 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import qrCodeGeneratorStyles from './qr-code-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import { Extension, QRCodeStyling } from "../_libs/qr-code-styling/qr-code-styling.js";
 import { Ref, createRef, ref } from 'lit/directives/ref.js';
 import inputStyles from '../_styles/input.css.js';
 import { repeat } from 'lit/directives/repeat.js';
@@ -10,6 +9,7 @@ import { IQrStyleListItem, QrStyleList } from './qr-style-list.js';
 import { Logo } from './logo.js';
 import buttonStyles from '../_styles/button.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
+import QRCodeStyling, { FileExtension } from 'qr-code-styling';
 
 @customElement('qr-code-generator')
 export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
@@ -45,7 +45,7 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
     squareColor = "#4267b2";
 
     @property()
-    downloadExt: Extension = "jpeg";
+    downloadExt: FileExtension = "jpeg";
 
     async connectedCallback() {
         super.connectedCallback();
