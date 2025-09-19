@@ -11,22 +11,26 @@ jobs:
       issues: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.workflow_run.head_branch }}
+      - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v3
         with:
           node-version: 'lts/*'
+
       - name: Install dependencies
         run: npm ci
+
       - name: Run lint
         run: npm run lint
+
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
+
       - run: npm run build:tools
+
       - name: Publish npm package
         run: |
+          cp package.json dist/package.json
           npm install -g @semantic-release/changelog @semantic-release/git semantic-release
           semantic-release
         env:
