@@ -1,18 +1,21 @@
-import { html, TemplateResult } from "lit";
+import { html, TemplateResult } from 'lit';
 import {
   PersonalInfo,
   Experience,
   Education,
   Skill,
-} from "./resume-builder-types.js";
-import { ResumeBuilderIcons } from "./resume-builder-icons.js";
-import { ExperienceTemplate } from "./resume-builder-experience-template.js";
-import { EducationTemplate } from "./resume-builder-education-template.js";
-import { PersonalInfoTemplate } from "./resume-builder-personal-template.js";
-import { SkillTemplate } from "./resume-builder-skills-template.js";
+} from './resume-builder-types.js';
+import { ResumeBuilderIcons } from './resume-builder-icons.js';
+import { ExperienceTemplate } from './resume-builder-experience-template.js';
+import { EducationTemplate } from './resume-builder-education-template.js';
+import { PersonalInfoTemplate } from './resume-builder-personal-template.js';
+import { SkillTemplate } from './resume-builder-skills-template.js';
 
 export interface TemplateHandlers {
-  handlePersonalInfoChange: (e: Event) => void;
+  handlePersonalInfoChange: (update: {
+    name: keyof PersonalInfo;
+    value: string;
+  }) => void;
   addExperience: () => void;
   updateExperience: (
     id: string,
@@ -32,22 +35,22 @@ export interface TemplateHandlers {
 export class ResumeBuilderTemplates {
   private static navItems = [
     {
-      id: "personal",
+      id: 'personal',
       icon: ResumeBuilderIcons.getPersonalIcon(),
-      label: "Personal Info",
+      label: 'Personal Info',
     },
     {
-      id: "experience",
+      id: 'experience',
       icon: ResumeBuilderIcons.getBriefcaseIcon(),
-      label: "Experience",
+      label: 'Experience',
     },
     {
-      id: "education",
+      id: 'education',
       icon: ResumeBuilderIcons.getGraduationIcon(),
-      label: "Education",
+      label: 'Education',
     },
-    { id: "skills", icon: ResumeBuilderIcons.getAwardIcon(), label: "Skills" },
-    { id: "preview", icon: ResumeBuilderIcons.getEyeIcon(), label: "Preview" },
+    { id: 'skills', icon: ResumeBuilderIcons.getAwardIcon(), label: 'Skills' },
+    { id: 'preview', icon: ResumeBuilderIcons.getEyeIcon(), label: 'Preview' },
   ];
 
   static renderNavigation(
@@ -79,7 +82,7 @@ export class ResumeBuilderTemplates {
 
     return html`
       <button
-        class="nav-item ${activeSection === item.id ? "active" : ""}"
+        class="nav-item ${activeSection === item.id ? 'active' : ''}"
         @click="${handleNavClick}"
       >
         ${item.icon} ${item.label}
@@ -91,7 +94,10 @@ export class ResumeBuilderTemplates {
     personalInfo: PersonalInfo,
     handlers: TemplateHandlers
   ): TemplateResult {
-    return PersonalInfoTemplate.renderPersonalInfoSection(personalInfo, handlers);
+    return PersonalInfoTemplate.renderPersonalInfoSection(
+      personalInfo,
+      handlers
+    );
   }
 
   static renderExperienceSection(

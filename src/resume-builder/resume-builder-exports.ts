@@ -1,81 +1,81 @@
-import { PersonalInfo } from "./resume-builder-types.js";
+import { PersonalInfo } from './resume-builder-types.js';
 
 export class ResumeBuilderUtils {
-    static generateId(): string {
-        return Math.random().toString(36).substr(2, 9);
-    }
+  static generateId(): string {
+    return Math.random().toString(36).substring(2, 11);
+  }
 
-    static formatDate(dateString: string): string {
-        if (!dateString) return "";
-        const date = new Date(dateString);
-        return date.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-        });
-    }
+  static formatDate(dateString: string): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+    });
+  }
 
-    static exportToHTML(
-        personalInfo: PersonalInfo,
-        resumePreview: HTMLElement | null
-    ) {
-        if (!resumePreview) return;
+  static exportToHTML(
+    personalInfo: PersonalInfo,
+    resumePreview: HTMLElement | null
+  ) {
+    if (!resumePreview) return;
 
-        const styles = this.getHTMLExportStyles();
-        const htmlContent = this.buildHTMLContent(
-            personalInfo,
-            resumePreview,
-            styles
-        );
-        this.downloadFile(
-            htmlContent,
-            `${personalInfo.fullName || "resume"}.html`,
-            "text/html"
-        );
-    }
+    const styles = this.getHTMLExportStyles();
+    const htmlContent = this.buildHTMLContent(
+      personalInfo,
+      resumePreview,
+      styles
+    );
+    this.downloadFile(
+      htmlContent,
+      `${personalInfo.fullName || 'resume'}.html`,
+      'text/html'
+    );
+  }
 
-    static exportToPDF(
-        personalInfo: PersonalInfo,
-        resumePreview: HTMLElement | null
-    ) {
-        if (!resumePreview) return;
+  static exportToPDF(
+    personalInfo: PersonalInfo,
+    resumePreview: HTMLElement | null
+  ) {
+    if (!resumePreview) return;
 
-        const printWindow = window.open("", "_blank");
-        if (!printWindow) return;
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
 
-        const styles = this.getPDFExportStyles();
-        const content = this.buildPDFContent(personalInfo, resumePreview, styles);
+    const styles = this.getPDFExportStyles();
+    const content = this.buildPDFContent(personalInfo, resumePreview, styles);
 
-        printWindow.document.write(content);
-        printWindow.document.close();
-        printWindow.focus();
+    printWindow.document.write(content);
+    printWindow.document.close();
+    printWindow.focus();
 
-        setTimeout(() => {
-            printWindow.print();
-            printWindow.close();
-        }, 250);
-    }
+    setTimeout(() => {
+      printWindow.print();
+      printWindow.close();
+    }, 250);
+  }
 
-    static exportToWord(
-        personalInfo: PersonalInfo,
-        resumePreview: HTMLElement | null
-    ) {
-        if (!resumePreview) return;
+  static exportToWord(
+    personalInfo: PersonalInfo,
+    resumePreview: HTMLElement | null
+  ) {
+    if (!resumePreview) return;
 
-        const wordContent = this.buildWordContent(personalInfo, resumePreview);
-        const blob = new Blob(["\ufeff", wordContent], {
-            type: "application/msword",
-        });
+    const wordContent = this.buildWordContent(personalInfo, resumePreview);
+    const blob = new Blob(['\ufeff', wordContent], {
+      type: 'application/msword',
+    });
 
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${personalInfo.fullName || "resume"}.doc`;
-        a.click();
-        URL.revokeObjectURL(url);
-    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${personalInfo.fullName || 'resume'}.doc`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
-    private static getHTMLExportStyles(): string {
-        return `
+  private static getHTMLExportStyles(): string {
+    return `
             <style>
                 body { margin: 0; padding: 20px; font-family: system-ui, -apple-system, sans-serif; }
                 .resume-preview { max-width: 8.5in; margin: 0 auto; padding:1rem }
@@ -84,7 +84,7 @@ export class ResumeBuilderUtils {
                 .contact-info { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; font-size: 0.875rem; }
                 .contact-info span { display: flex; align-items: center; gap: 0.25rem; }
                 .contact-info svg { width: 16px; height: 16px; }
-                
+
                 .preview-section h2 { font-size: 1.25rem; font-weight: 600; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
                 .preview-section h2 svg { width: 20px; height: 20px; }
                 .experience-entry, .education-entry { margin-bottom: 1rem; }
@@ -128,19 +128,19 @@ export class ResumeBuilderUtils {
                 }
             </style>
         `;
-    }
+  }
 
-    private static getPDFExportStyles(): string {
-        return `
+  private static getPDFExportStyles(): string {
+    return `
             <style>
-                @page { 
-                    size: A4; 
-                    margin: 0.5in; 
+                @page {
+                    size: A4;
+                    margin: 0.5in;
                 }
-                body { 
-                    margin: 0; 
-                    padding: 0; 
-                    font-family: system-ui, -apple-system, sans-serif; 
+                body {
+                    margin: 0;
+                    padding: 0;
+                    font-family: system-ui, -apple-system, sans-serif;
                     font-size: 12px;
                     line-height: 1.4;
                 }
@@ -181,20 +181,20 @@ export class ResumeBuilderUtils {
                 .template-modern .skill-tag { background: #6366f1; color: white; }
             </style>
         `;
-    }
+  }
 
-    private static buildHTMLContent(
-        personalInfo: PersonalInfo,
-        resumePreview: HTMLElement,
-        styles: string
-    ): string {
-        return `
+  private static buildHTMLContent(
+    personalInfo: PersonalInfo,
+    resumePreview: HTMLElement,
+    styles: string
+  ): string {
+    return `
             <!DOCTYPE html>
             <html lang="en">
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>${personalInfo.fullName || "Resume"}</title>
+                <title>${personalInfo.fullName || 'Resume'}</title>
                 ${styles}
             </head>
             <body>
@@ -202,18 +202,18 @@ export class ResumeBuilderUtils {
             </body>
             </html>
         `;
-    }
+  }
 
-    private static buildPDFContent(
-        personalInfo: PersonalInfo,
-        resumePreview: HTMLElement,
-        styles: string
-    ): string {
-        return `
+  private static buildPDFContent(
+    personalInfo: PersonalInfo,
+    resumePreview: HTMLElement,
+    styles: string
+  ): string {
+    return `
             <!DOCTYPE html>
             <html>
             <head>
-                <title>${personalInfo.fullName || "Resume"}</title>
+                <title>${personalInfo.fullName || 'Resume'}</title>
                 ${styles}
             </head>
             <body>
@@ -221,17 +221,17 @@ export class ResumeBuilderUtils {
             </body>
             </html>
         `;
-    }
+  }
 
-    private static buildWordContent(
-        personalInfo: PersonalInfo,
-        resumePreview: HTMLElement
-    ): string {
-        return `
+  private static buildWordContent(
+    personalInfo: PersonalInfo,
+    resumePreview: HTMLElement
+  ): string {
+    return `
             <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
             <head>
                 <meta charset="utf-8">
-                <title>${personalInfo.fullName || "Resume"}</title>
+                <title>${personalInfo.fullName || 'Resume'}</title>
                 <!--[if gte mso 9]>
                 <xml>
                     <w:WordDocument>
@@ -243,10 +243,10 @@ export class ResumeBuilderUtils {
                 </xml>
                 <![endif]-->
                 <style>
-                    body { 
-                        font-family: 'Times New Roman', serif; 
-                        font-size: 12pt; 
-                        line-height: 1.4; 
+                    body {
+                        font-family: 'Times New Roman', serif;
+                        font-size: 12pt;
+                        line-height: 1.4;
                         margin: 1in;
                     }
                     .resume-preview { max-width: none; }
@@ -262,7 +262,7 @@ export class ResumeBuilderUtils {
                     .entry-description { margin-bottom: 8pt; }
                     .skills-preview span { margin-right: 15pt; }
                     .skill-tag { display: inline-block; margin-right: 10pt; margin-bottom: 5pt; }
-                    
+
                     /* Remove SVG icons for Word compatibility */
                     svg { display: none; }
                 </style>
@@ -272,19 +272,19 @@ export class ResumeBuilderUtils {
             </body>
             </html>
         `;
-    }
+  }
 
-    private static downloadFile(
-        content: string,
-        filename: string,
-        mimeType: string
-    ) {
-        const blob = new Blob([content], { type: mimeType });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = filename;
-        a.click();
-        URL.revokeObjectURL(url);
-    }
+  private static downloadFile(
+    content: string,
+    filename: string,
+    mimeType: string
+  ) {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 }

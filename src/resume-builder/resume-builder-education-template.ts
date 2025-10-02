@@ -1,6 +1,6 @@
-import { html, TemplateResult } from "lit";
-import { Education } from "./resume-builder-types.js";
-import { TemplateHandlers } from "./resume-builder-templates.js";
+import { html, TemplateResult } from 'lit';
+import { Education } from './resume-builder-types.js';
+import { TemplateHandlers } from './resume-builder-templates.js';
 
 export class EducationTemplate {
   static renderEducationSection(
@@ -8,16 +8,16 @@ export class EducationTemplate {
     handlers: TemplateHandlers
   ): TemplateResult {
     return html`
-          <div class="section education">
-            <div class="section-header">
-              <h3>Education</h3>
-              <button class="btn btn-primary" @click="${handlers.addEducation}">
-                Add Education
-              </button>
-            </div>
-            ${this.renderEducationItems(education, handlers)}
-          </div>
-        `;
+      <div class="section education">
+        <div class="section-header">
+          <h3>Education</h3>
+          <button class="btn btn-primary" @click="${handlers.addEducation}">
+            Add Education
+          </button>
+        </div>
+        ${this.renderEducationItems(education, handlers)}
+      </div>
+    `;
   }
 
   private static renderEducationItems(
@@ -31,25 +31,23 @@ export class EducationTemplate {
     edu: Education,
     handlers: TemplateHandlers
   ): TemplateResult {
-    const handleDelete = function (this: EducationTemplate) {
+    const handleDelete = () => {
       handlers.deleteEducation(edu.id);
-    }.bind(this);
+    };
+
     return html`
-          <div class="education-item" key="${edu.id}">
-            <div class="item-header">
-              <h4>Education Entry</h4>
-              <button
-                class="btn btn-danger"
-                @click="${handleDelete}"
-              >
-                Delete
-              </button>
-            </div>
-            <div class="form-grid">
-              ${this.renderEducationFields(edu, handlers)}
-            </div>
-          </div>
-        `;
+      <div class="education-item" key="${edu.id}">
+        <div class="item-header">
+          <h4>Education Entry</h4>
+          <button class="btn btn-danger" @click="${handleDelete}">
+            Delete
+          </button>
+        </div>
+        <div class="form-grid">
+          ${this.renderEducationFields(edu, handlers)}
+        </div>
+      </div>
+    `;
   }
 
   private static renderEducationFields(
@@ -62,32 +60,32 @@ export class EducationTemplate {
       label: string;
       placeholder?: string;
     }> = [
-        {
-          field: "institution",
-          type: "text",
-          label: "Institution",
-          placeholder: "University Name",
-        },
-        {
-          field: "degree",
-          type: "text",
-          label: "Degree",
-          placeholder: "Bachelor's, Master's, etc.",
-        },
-        {
-          field: "field",
-          type: "text",
-          label: "Field of Study",
-          placeholder: "Computer Science, Business, etc.",
-        },
-        { field: "graduationDate", type: "date", label: "Graduation Date" },
-        {
-          field: "gpa",
-          type: "text",
-          label: "GPA (Optional)",
-          placeholder: "3.8/4.0",
-        },
-      ];
+      {
+        field: 'institution',
+        type: 'text',
+        label: 'Institution',
+        placeholder: 'University Name',
+      },
+      {
+        field: 'degree',
+        type: 'text',
+        label: 'Degree',
+        placeholder: "Bachelor's, Master's, etc.",
+      },
+      {
+        field: 'field',
+        type: 'text',
+        label: 'Field of Study',
+        placeholder: 'Computer Science, Business, etc.',
+      },
+      { field: 'graduationDate', type: 'date', label: 'Graduation Date' },
+      {
+        field: 'gpa',
+        type: 'text',
+        label: 'GPA (Optional)',
+        placeholder: '3.8/4.0',
+      },
+    ];
 
     return fields.map(field => this.renderEducationField(field, edu, handlers));
   }
@@ -111,16 +109,15 @@ export class EducationTemplate {
     };
 
     return html`
-          <div class="form-group">
-            <label>${fieldInfo.label}</label>
-            <input
-              type="${fieldInfo.type}"
-              .value="${edu[fieldInfo.field]}"
-              @input="${handleFieldChange}"
-              placeholder="${fieldInfo.placeholder || ""}"
-            />
-          </div>
-        `;
+      <div class="form-group">
+        <label>${fieldInfo.label}</label>
+        <input
+          type="${fieldInfo.type}"
+          .value="${edu[fieldInfo.field]}"
+          @input="${handleFieldChange}"
+          placeholder="${fieldInfo.placeholder || ''}"
+        />
+      </div>
+    `;
   }
-
 }

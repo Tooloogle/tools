@@ -1,7 +1,7 @@
-import { html, TemplateResult } from "lit";
-import { Skill } from "./resume-builder-types.js";
-import { TemplateHandlers } from "./resume-builder-templates.js";
-import { ResumeBuilderIcons } from "./resume-builder-icons.js";
+import { html, TemplateResult } from 'lit';
+import { Skill } from './resume-builder-types.js';
+import { TemplateHandlers } from './resume-builder-templates.js';
+import { ResumeBuilderIcons } from './resume-builder-icons.js';
 
 export class SkillTemplate {
   static renderSkillSection(
@@ -37,7 +37,7 @@ export class SkillTemplate {
     const handleNameChange = (e: Event) => {
       handlers.updateSkill(
         skill.id,
-        "name",
+        'name',
         (e.target as HTMLInputElement).value
       );
     };
@@ -45,14 +45,14 @@ export class SkillTemplate {
     const handleLevelChange = (e: Event) => {
       handlers.updateSkill(
         skill.id,
-        "level",
+        'level',
         (e.target as HTMLSelectElement).value
       );
     };
 
-    const handleDelete = function (this: SkillTemplate) {
+    const handleDelete = () => {
       handlers.deleteSkill(skill.id);
-    }.bind(this);
+    };
 
     return html`
       <div class="skill-item" key="${skill.id}">
@@ -72,10 +72,7 @@ export class SkillTemplate {
             <option value="Expert">Expert</option>
           </select>
         </div>
-        <button
-          class="btn btn-danger btn-sm"
-          @click="${handleDelete}"
-        >
+        <button class="btn btn-danger btn-sm" @click="${handleDelete}">
           ${ResumeBuilderIcons.getTrashIcon()}
         </button>
       </div>

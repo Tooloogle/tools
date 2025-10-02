@@ -1,6 +1,6 @@
-import { html, TemplateResult } from "lit";
-import { Experience } from "./resume-builder-types.js";
-import { TemplateHandlers } from "./resume-builder-templates.js";
+import { html, TemplateResult } from 'lit';
+import { Experience } from './resume-builder-types.js';
+import { TemplateHandlers } from './resume-builder-templates.js';
 
 export class ExperienceTemplate {
   static renderExperienceSection(
@@ -8,16 +8,16 @@ export class ExperienceTemplate {
     handlers: TemplateHandlers
   ): TemplateResult {
     return html`
-        <div class="section experience">
-          <div class="section-header">
-            <h3>Work Experience</h3>
-            <button class="btn btn-primary" @click="${handlers.addExperience}">
-              Add Experience
-            </button>
-          </div>
-          ${this.renderExperienceItems(experiences, handlers)}
+      <div class="section experience">
+        <div class="section-header">
+          <h3>Work Experience</h3>
+          <button class="btn btn-primary" @click="${handlers.addExperience}">
+            Add Experience
+          </button>
         </div>
-      `;
+        ${this.renderExperienceItems(experiences, handlers)}
+      </div>
+    `;
   }
 
   private static renderExperienceItems(
@@ -31,25 +31,22 @@ export class ExperienceTemplate {
     exp: Experience,
     handlers: TemplateHandlers
   ): TemplateResult {
-    const handleDelete = function (this: ExperienceTemplate) {
+    const handleDelete = () => {
       handlers.deleteExperience(exp.id);
-    }.bind(this);
+    };
     return html`
-        <div class="experience-item" key="${exp.id}">
-          <div class="item-header">
-            <h4>Experience Entry</h4>
-            <button
-              class="btn btn-danger"
-              @click="${handleDelete}"
-            >
-              Delete
-            </button>
-          </div>
-          <div class="form-grid">
-            ${this.renderExperienceFields(exp, handlers)}
-          </div>
+      <div class="experience-item" key="${exp.id}">
+        <div class="item-header">
+          <h4>Experience Entry</h4>
+          <button class="btn btn-danger" @click="${handleDelete}">
+            Delete
+          </button>
         </div>
-      `;
+        <div class="form-grid">
+          ${this.renderExperienceFields(exp, handlers)}
+        </div>
+      </div>
+    `;
   }
 
   private static renderExperienceFields(
@@ -64,21 +61,48 @@ export class ExperienceTemplate {
       disabled?: boolean;
       isCheckbox?: boolean;
     }> = [
-        { field: 'company', type: 'text', label: 'Company', placeholder: 'Company Name' },
-        { field: 'position', type: 'text', label: 'Position', placeholder: 'Job Title' },
-        { field: 'location', type: 'text', label: 'Location', placeholder: 'City, State' },
-        { field: 'startDate', type: 'date', label: 'Start Date' },
-        { field: 'endDate', type: 'date', label: 'End Date', disabled: exp.current },
-        { field: 'current', type: 'checkbox', label: 'Current Position', isCheckbox: true },
-        {
-          field: 'description',
-          type: 'textarea',
-          label: 'Job Description',
-          placeholder: 'Describe your responsibilities and achievements...',
-        }
-      ];
+      {
+        field: 'company',
+        type: 'text',
+        label: 'Company',
+        placeholder: 'Company Name',
+      },
+      {
+        field: 'position',
+        type: 'text',
+        label: 'Position',
+        placeholder: 'Job Title',
+      },
+      {
+        field: 'location',
+        type: 'text',
+        label: 'Location',
+        placeholder: 'City, State',
+      },
+      { field: 'startDate', type: 'date', label: 'Start Date' },
+      {
+        field: 'endDate',
+        type: 'date',
+        label: 'End Date',
+        disabled: exp.current,
+      },
+      {
+        field: 'current',
+        type: 'checkbox',
+        label: 'Current Position',
+        isCheckbox: true,
+      },
+      {
+        field: 'description',
+        type: 'textarea',
+        label: 'Job Description',
+        placeholder: 'Describe your responsibilities and achievements...',
+      },
+    ];
 
-    return fields.map(field => this.renderExperienceField(field, exp, handlers));
+    return fields.map(field =>
+      this.renderExperienceField(field, exp, handlers)
+    );
   }
 
   private static renderExperienceField(
@@ -94,42 +118,54 @@ export class ExperienceTemplate {
     handlers: TemplateHandlers
   ): TemplateResult {
     const handleFieldChange = (e: Event) => {
-      const value = fieldInfo.type === 'checkbox'
-        ? (e.target as HTMLInputElement).checked
-        : (e.target as HTMLInputElement).value;
+      const value =
+        fieldInfo.type === 'checkbox'
+          ? (e.target as HTMLInputElement).checked
+          : (e.target as HTMLInputElement).value;
       handlers.updateExperience(exp.id, fieldInfo.field, value);
     };
 
-    if (fieldInfo.type === "textarea") {
+    if (fieldInfo.type === 'textarea') {
       return html`
-      <div class="form-group full-width">
-        <label>${fieldInfo.label}</label>
-        <textarea .value="${exp[fieldInfo.field] as string}" @input="${handleFieldChange}"
-          placeholder="${fieldInfo.placeholder || ""}"
-          rows="4"
-          ?disabled="${fieldInfo.disabled}"></textarea>
-      </div>
-    `;
+        <div class="form-group full-width">
+          <label>${fieldInfo.label}</label>
+          <textarea
+            .value="${exp[fieldInfo.field] as string}"
+            @input="${handleFieldChange}"
+            placeholder="${fieldInfo.placeholder || ''}"
+            rows="4"
+            ?disabled="${fieldInfo.disabled}"
+          ></textarea>
+        </div>
+      `;
     }
 
-    if (fieldInfo.type === "checkbox" || fieldInfo.isCheckbox) {
+    if (fieldInfo.type === 'checkbox' || fieldInfo.isCheckbox) {
       return html`
-      <div class="form-group">
-        <label class="checkbox-group-label">
-          <input type="checkbox" .checked="${exp.current}" @change="${handleFieldChange}"/>
-          ${fieldInfo.label}
-        </label>
-      </div>
-    `;
+        <div class="form-group">
+          <label class="checkbox-group-label">
+            <input
+              type="checkbox"
+              .checked="${exp.current}"
+              @change="${handleFieldChange}"
+            />
+            ${fieldInfo.label}
+          </label>
+        </div>
+      `;
     }
 
     return html`
-    <div class="form-group">
-      <label>${fieldInfo.label}</label>
-      <input  type="${fieldInfo.type}" .value="${exp[fieldInfo.field] as string}" @input="${handleFieldChange}"
-        placeholder="${fieldInfo.placeholder || ""}"
-        ?disabled="${fieldInfo.disabled}"/>
-    </div>
-  `;
+      <div class="form-group">
+        <label>${fieldInfo.label}</label>
+        <input
+          type="${fieldInfo.type}"
+          .value="${exp[fieldInfo.field] as string}"
+          @input="${handleFieldChange}"
+          placeholder="${fieldInfo.placeholder || ''}"
+          ?disabled="${fieldInfo.disabled}"
+        />
+      </div>
+    `;
   }
 }
