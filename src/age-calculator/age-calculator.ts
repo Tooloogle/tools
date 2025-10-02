@@ -7,8 +7,8 @@ import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { formatNumber } from '../_utils/NumberHelper.js';
 import inputStyles from '../_styles/input.css.js';
-import dayjs from '../_utils/dayjs-ssr-helper/dayjs.js';
-import duration from '../_utils/dayjs-ssr-helper/duration.js';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration.js';
 
 dayjs.extend(duration);
 

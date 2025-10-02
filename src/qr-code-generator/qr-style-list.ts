@@ -1,4 +1,4 @@
-import { Options } from "../_libs/qr-code-styling/qr-code-styling.js";
+import { Options } from "qr-code-styling";
 import { Logo } from "./logo.js";
 
 const url = "https://www.tooloogle.com/";

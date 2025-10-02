@@ -7,7 +7,7 @@ import { hasClipboard, isBrowser } from '../_utils/DomUtils.js';
 import "../t-copy-button/t-copy-button.js";
 import { when } from 'lit/directives/when.js';
 import inputStyles from '../_styles/input.css.js';
-import dayjs from '../_utils/dayjs-ssr-helper/dayjs.js';
+import dayjs from 'dayjs';
 
 const localStorageKey = "t-date-format-custom";
 

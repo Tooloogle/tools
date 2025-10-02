@@ -7,8 +7,8 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <title>Tooloogle Web Components</title>
-    <link href="./demo/_style.css" rel="stylesheet" />
-    <script src="demo/tools.js" type="module"></script>
+    <link href="_style.css" rel="stylesheet" />
+    <script src="tools.js" type="module"></script>
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../node_modules/lit/polyfill-support.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -28,14 +28,14 @@
       <!-- Logo on the left -->
       <div class="flex-shrink-0">
         <img
-          src="./src/_images/brand-logo.png"
+          src="/brand-logo.png"
           width="256"
           height="50"
           class="w-52 h-auto object-contain"
         />
       </div>
 
-      <!-- Search box in center -->
+      <!-- Search box in right -->
       <div class="max-w-2xl ml-auto w-full">
         <div class="relative">
           <svg
@@ -79,9 +79,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Empty space for symmetry -->
-      <!-- <div class="flex-shrink-0 w-24 hidden sm:block"></div> -->
     </header>
 
     <!-- Tool Container -->
@@ -95,45 +92,34 @@
     </div>
 
     <script type="module">
-      function initTool(tool) {
-        let script = document.createElement('script');
-        script.type = 'module';
-        script.src = `dist/${tool}/${tool}.js`;
-        const className =
-          'lg:w-2/5 pr-4 pl-4 md:w-3/5 pr-4 pl-4 sm:w-2/3 pr-4 pl-4 w-full';
-        if (
-          [
-            'qr-code-generator',
-            'javascript-beautifier',
-            'css-beautifier',
-            'html-beautifier',
-            'json-viewer',
-            'csv-to-json-converter',
-            'json-to-csv-converter',
-            'regex-expression-tester',
-            'stylish-text-generator',
-          ].includes(tool)
-        ) {
-          document.getElementById('container').className = 'w-full';
-        } else {
-          document.getElementById('container').className = className;
-        }
+      async function initTool(tool) {
+        const container = document.getElementById('demo-container');
+        const wrapper = document.getElementById('container');
 
-        script.onload = function () {
-          document.getElementById(
-            'demo-container'
-          ).innerHTML = `<${tool}></${tool}>`;
-          // Store the selected tool in localStorage
+        const fullWidthTools = [
+          'qr-code-generator',
+          'javascript-beautifier',
+          'css-beautifier',
+          'html-beautifier',
+          'json-viewer',
+          'csv-to-json-converter',
+          'json-to-csv-converter',
+          'regex-expression-tester',
+          'stylish-text-generator',
+        ];
+        wrapper.className = fullWidthTools.includes(tool)
+          ? 'w-full'
+          : 'lg:w-2/5 pr-4 pl-4 md:w-3/5 pr-4 pl-4 sm:w-2/3 pr-4 pl-4 w-full';
+
+        try {
+          const mod = await import(`../src/${tool}/${tool}.ts`);
+          mod?.default?.();
+          container.innerHTML = `<${tool}></${tool}>`;
           localStorage.setItem('demo-selected-tool', tool);
-        };
-
-        script.onerror = function () {
-          document.getElementById(
-            'demo-container'
-          ).innerHTML = `<p> ${tool} Not found.</p>`;
-        };
-
-        document.head.appendChild(script);
+        } catch (err) {
+          console.error('Error loading tool:', tool, err);
+          container.innerHTML = `<p>${tool} Not found.</p>`;
+        }
       }
 
       const searchInput = document.getElementById('search-input');
@@ -158,11 +144,13 @@
         });
       }
 
+      // Show dropdown on focus
       searchInput.addEventListener('focus', () => {
         dropdown.classList.remove('hidden');
         renderTools(tools);
       });
 
+      // Filter tools as user types
       searchInput.addEventListener('input', e => {
         const query = e.target.value.toLowerCase();
         const filtered = tools.filter(t =>
@@ -170,14 +158,10 @@
         );
         renderTools(filtered);
         dropdown.classList.remove('hidden');
-
-        if (e.target.value) {
-          clearIcon.classList.remove('hidden');
-        } else {
-          clearIcon.classList.add('hidden');
-        }
+        clearIcon.classList.toggle('hidden', !e.target.value);
       });
 
+      // Clear search input
       clearIcon.addEventListener('click', () => {
         searchInput.value = '';
         clearIcon.classList.add('hidden');
@@ -186,21 +170,20 @@
         searchInput.focus();
       });
 
+      // Hide dropdown if clicking outside
       document.addEventListener('click', e => {
         if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
           dropdown.classList.add('hidden');
         }
       });
 
-      // Load last selected tool on page load
+      // Initialize last selected tool or default
       const lastSelectedTool = localStorage.getItem('demo-selected-tool');
       if (lastSelectedTool && tools.includes(lastSelectedTool)) {
-        // Set the search input to show the last selected tool
         searchInput.value = lastSelectedTool.replace(/-/g, ' ');
         clearIcon.classList.remove('hidden');
         initTool(lastSelectedTool);
       } else if (tools.length > 0) {
-        // Load first tool if no previous selection
         initTool(tools[tools.length - 1]);
       }
     </script>

@@ -2,15 +2,15 @@
   "name": "@tooloogle/tools",
   "version": "1.0.0",
   "description": "Web components library for the tooloogle.com",
-  "type": "module",
   "scripts": {
-    "start": "npm run serve",
-    "serve": "concurrently \"tsc --watch\" \"npm run css:watch\" \"wds --watch\"",
+    "dev": "vite --config vite.config.demo.js",
+    "start": "npm run dev",
     "css": "node css-to-ts.js",
-    "css:watch": "nodemon css-to-ts.js --config css.nodemon.json",
-    "build": "npm run css && tsc",
-    "build:watch": "npm run css && tsc --watch",
-    "clean": "npx rimraf dist && npx rimraf src/**/*.css.ts",
+    "build:demo": "npm run css && vite build --config vite.config.demo.js",
+    "build:tools": "npm run css && npm run build:tools:esm && npm run build:tools:cjs",
+    "build:tools:esm": "tsc -p tsconfig.json --outDir dist",
+    "build:tools:cjs": "tsc -p tsconfig.json --module commonjs --outDir dist/cjs",
+    "clean": "npx rimraf dist* && npx rimraf src/**/*.css.ts",
     "lint": "eslint src/**/*.ts css-to-ts.js",
     "lint:fix": "npm run lint -- --fix",
     "new": "node create-new-tool.js",
@@ -43,9 +43,6 @@
     "@types/js-beautify": "^1.14.3",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
-    "@web/dev-server": "^0.4.6",
-    "@web/dev-server-legacy": "^2.0.0",
-    "concurrently": "^8.2.0",
     "cross-env": "^7.0.3",
     "cssnano": "^6.0.1",
     "eslint": "^8.44.0",
@@ -55,16 +52,18 @@
     "jest": "^29.5.0",
     "jest-css-modules-transform": "^4.4.2",
     "jest-environment-jsdom": "^29.6.1",
-    "nodemon": "^3.1.0",
     "postcss": "^8.4.25",
     "tailwindcss": "^3.3.2",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vite": "^7.1.5"
   },
   "dependencies": {
     "dayjs": "^1.11.8",
-    "lit": "^2.7.5"
+    "js-beautify": "^1.15.4",
+    "lit": "^2.7.5",
+    "qr-code-styling": "^1.9.2"
   },
   "release": {
     "plugins": [
@@ -81,6 +80,7 @@
         {
           "assets": [
             "package.json",
+            "package-lock.json",
             "README.md",
             "CHANGELOG.md",
             "dist/**/*.{js}"
