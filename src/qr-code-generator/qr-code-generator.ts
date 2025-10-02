@@ -44,6 +44,7 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
   @property() bgColor = '#ffffff';
 
   @property() dotColor = '#4267b2';
+  @property() squareColor = '#4267b2';
 
   @property()
   downloadExt: FileExtension = 'jpeg';
@@ -168,7 +169,7 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
 
   private handleDownloadExtChange(e: Event) {
     const target = e.target as HTMLSelectElement;
-    this.downloadExt = (target?.value as Extension) || 'jpeg';
+    this.downloadExt = (target?.value as FileExtension) || 'jpeg';
   }
 
   private removeLogo() {

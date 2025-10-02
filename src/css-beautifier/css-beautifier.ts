@@ -33,6 +33,7 @@ export class CssBeautifier extends WebComponentBase<IConfigBase> {
   @property({ type: String }) codeInput = '';
   @state() indentSize = 4;
   @state() endWithNewline = true;
+  @state() useSpaceAfterComma = false;
 
   private onInputChange(event: Event) {
     const inputElement = event.target as HTMLTextAreaElement;
