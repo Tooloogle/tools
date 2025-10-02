@@ -87,6 +87,7 @@ export class HtmlBeautifier extends WebComponentBase<IConfigBase> {
     this.unformatted = inputElement.value;
   }
 
+  // eslint-disable-next-line max-lines-per-function
   render() {
     return html`
       <div class="html-beautifier">

@@ -93,6 +93,7 @@ export class JavascriptBeautifier extends WebComponentBase<IConfigBase> {
     this[propName] = inputElement.checked;
   }
 
+  // eslint-disable-next-line max-lines-per-function
   render() {
     return html`
       <div class="javascript-beautifier">

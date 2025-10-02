@@ -14,6 +14,7 @@ import buttonStyles from '../_styles/button.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 import QRCodeStyling, { FileExtension } from 'qr-code-styling';
 
+/* eslint-disable max-lines */
 @customElement('qr-code-generator')
 export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
