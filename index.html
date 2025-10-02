@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
   <head>
     <meta charset="utf-8" />
@@ -9,7 +8,7 @@
     />
     <title>Tooloogle Web Components</title>
     <link href="./demo/_style.css" rel="stylesheet" />
-    <script src="demo/tools.js" type="module" />
+    <script src="demo/tools.js" type="module"></script>
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../node_modules/lit/polyfill-support.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -21,53 +20,71 @@
     </script>
   </head>
 
-  <body class="p-5 sm:p-10 dark:bg-gray-800 dark:text-slate-400">
-    <h1 id="title" class="font-bold text-4xl text-center p-5 mb-5 capitalize">
-      Tools demo
-    </h1>
-    <div class="max-w-2xl mx-auto mb-8">
-      <div class="relative">
-        <svg
-          class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          ></path>
-        </svg>
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Search and select a tool..."
-          class="w-full pl-10 pr-10 py-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  <body class="p-5 dark:bg-gray-800 dark:text-slate-400">
+    <!-- Header with Logo and Search -->
+    <header
+      class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4 border-b dark:border-gray-500 pb-5"
+    >
+      <!-- Logo on the left -->
+      <div class="flex-shrink-0">
+        <img
+          src="./src/_images/brand-logo.png"
+          width="256"
+          height="50"
+          class="w-52 h-auto object-contain"
         />
-        <svg
-          id="clear-icon"
-          class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 cursor-pointer hover:text-gray-600 dark:hover:text-gray-200 hidden"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          ></path>
-        </svg>
-        <div
-          id="dropdown"
-          class="absolute z-10 w-full mt-2 bg-white dark:bg-gray-700 border dark:border-gray-600 rounded-lg shadow-lg max-h-96 overflow-y-auto hidden"
-        >
-          <div id="tools-list"></div>
+      </div>
+
+      <!-- Search box in center -->
+      <div class="max-w-2xl ml-auto w-full">
+        <div class="relative">
+          <svg
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            ></path>
+          </svg>
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search and select a tool..."
+            class="w-full pl-10 pr-10 py-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <svg
+            id="clear-icon"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 cursor-pointer hover:text-gray-600 dark:hover:text-gray-200 hidden"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+          <div
+            id="dropdown"
+            class="absolute z-10 w-full mt-2 bg-white dark:bg-gray-700 border dark:border-gray-600 rounded-lg shadow-lg max-h-96 overflow-y-auto hidden"
+          >
+            <div id="tools-list"></div>
+          </div>
         </div>
       </div>
-    </div>
+
+      <!-- Empty space for symmetry -->
+      <!-- <div class="flex-shrink-0 w-24 hidden sm:block"></div> -->
+    </header>
+
+    <!-- Tool Container -->
     <div class="flex justify-center">
       <div id="container">
         <div
@@ -106,10 +123,7 @@
           document.getElementById(
             'demo-container'
           ).innerHTML = `<${tool}></${tool}>`;
-          document.getElementById('title').innerHTML = `${tool.replace(
-            /-/g,
-            ' '
-          )} demo`;
+          // Store the selected tool in localStorage
           localStorage.setItem('demo-selected-tool', tool);
         };
 
@@ -167,9 +181,9 @@
       clearIcon.addEventListener('click', () => {
         searchInput.value = '';
         clearIcon.classList.add('hidden');
-        dropdown.classList.add('hidden');
-        const randomTool = tools[Math.floor(Math.random() * tools.length)];
-        initTool(randomTool);
+        dropdown.classList.remove('hidden');
+        renderTools(tools);
+        searchInput.focus();
       });
 
       document.addEventListener('click', e => {
@@ -178,10 +192,17 @@
         }
       });
 
-      initTool(
-        localStorage.getItem('demo-selected-tool') ||
-          tools[Math.floor(Math.random() * tools.length)]
-      );
+      // Load last selected tool on page load
+      const lastSelectedTool = localStorage.getItem('demo-selected-tool');
+      if (lastSelectedTool && tools.includes(lastSelectedTool)) {
+        // Set the search input to show the last selected tool
+        searchInput.value = lastSelectedTool.replace(/-/g, ' ');
+        clearIcon.classList.remove('hidden');
+        initTool(lastSelectedTool);
+      } else if (tools.length > 0) {
+        // Load first tool if no previous selection
+        initTool(tools[tools.length - 1]);
+      }
     </script>
   </body>
 </html>
