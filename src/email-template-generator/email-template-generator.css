@@ -33,8 +33,8 @@
   @apply h-40;
 }
 
-.footer-section{
-    @apply space-y-2
+.footer-section {
+  @apply space-y-2;
 }
 .footer-textarea {
   @apply h-20;
