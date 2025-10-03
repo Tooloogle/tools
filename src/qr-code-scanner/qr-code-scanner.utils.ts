@@ -1,6 +1,6 @@
-import { ZXingCodeReader, ZXingLibrary } from "./zxing-loader.util.js";
+import { ZXingCodeReader, ZXingLibrary } from './zxing-loader.util.js';
 
-export type ScannerStatus = "loading" | "ready" | "error";
+export type ScannerStatus = 'loading' | 'ready' | 'error';
 
 export interface ScanResult {
   data: string;
@@ -16,36 +16,40 @@ export interface CopyResult {
 export class QrScannerUtils {
   static getErrorMessage(error: unknown): string {
     if (error instanceof Error) {
-      if (error.message.includes("Permission denied")) {
-        return "Camera access denied. Please allow camera permissions.";
-      } else if (error.message.includes("NotFoundError")) {
-        return "No camera found. Please ensure you have a camera connected.";
-      } else if (error.message.includes("NotAllowedError")) {
-        return "Camera access denied. Please allow camera access.";
-      } else if (error.message.includes("Scanner element not found")) {
-        return "Scanner setup failed. Please refresh the page.";
+      if (error.message.includes('Permission denied')) {
+        return 'Camera access denied. Please allow camera permissions.';
+      } else if (error.message.includes('NotFoundError')) {
+        return 'No camera found. Please ensure you have a camera connected.';
+      } else if (error.message.includes('NotAllowedError')) {
+        return 'Camera access denied. Please allow camera access.';
+      } else if (error.message.includes('Scanner element not found')) {
+        return 'Scanner setup failed. Please refresh the page.';
       }
 
       return `Scanner error: ${error.message}`;
     }
 
-    return "Failed to initialize QR scanner. Please refresh the page.";
+    return 'Failed to initialize QR scanner. Please refresh the page.';
   }
 
   static handleScannerError(error: unknown): string {
-    let errorMessage = "Unable to access camera. ";
+    let errorMessage = 'Unable to access camera. ';
     if (error instanceof Error) {
-      if (error.message.includes("Permission denied") || error.name === "NotAllowedError") {
-        errorMessage += "Please grant camera permissions.";
-      } else if (error.message.includes("NotFoundError") || error.name === "NotFoundError") {
-        errorMessage += "No camera found.";
-      } else if (error.message.includes("NotAllowedError") || error.name === "NotAllowedError") {
-        errorMessage += "Camera access denied.";
+      if (
+        error.message.includes('Permission denied') ||
+        error.name === 'NotAllowedError'
+      ) {
+        errorMessage += 'Please grant camera permissions.';
+      } else if (
+        error.message.includes('NotFoundError') ||
+        error.name === 'NotFoundError'
+      ) {
+        errorMessage += 'No camera found.';
       } else {
-        errorMessage += "Please ensure camera permissions are granted.";
+        errorMessage += 'Please ensure camera permissions are granted.';
       }
     } else {
-      errorMessage += "Please ensure camera permissions are granted.";
+      errorMessage += 'Please ensure camera permissions are granted.';
     }
 
     return errorMessage;
@@ -61,11 +65,11 @@ export class QrScannerUtils {
   }
 
   static createVideoElement(): HTMLVideoElement {
-    const videoElement = document.createElement("video");
-    videoElement.style.width = "100%";
-    videoElement.style.height = "auto";
-    videoElement.style.maxHeight = "300px";
-    videoElement.style.objectFit = "contain";
+    const videoElement = document.createElement('video');
+    videoElement.style.width = '100%';
+    videoElement.style.height = 'auto';
+    videoElement.style.maxHeight = '300px';
+    videoElement.style.objectFit = 'contain';
     videoElement.autoplay = true;
     videoElement.playsInline = true;
     return videoElement;
@@ -78,10 +82,10 @@ export class QrScannerUtils {
   static async copyToClipboard(text: string): Promise<CopyResult> {
     try {
       await navigator.clipboard.writeText(text);
-      return { success: true, message: "Copied!" };
+      return { success: true, message: 'Copied!' };
     } catch (error) {
-      console.error("Failed to copy:", error);
-      return { success: false, message: "Copy failed" };
+      console.error('Failed to copy:', error);
+      return { success: false, message: 'Copy failed' };
     }
   }
 
@@ -93,7 +97,7 @@ export class QrScannerUtils {
       img.onload = () => resolve(img);
       img.onerror = () => {
         URL.revokeObjectURL(imageUrl);
-        reject(new Error("Failed to load the uploaded image."));
+        reject(new Error('Failed to load the uploaded image.'));
       };
 
       img.src = imageUrl;
@@ -104,7 +108,9 @@ export class QrScannerUtils {
     setTimeout(() => URL.revokeObjectURL(url), delay);
   }
 
-  static async initializeZXing(zxingLoader: { loadZXing: () => Promise<ZXingLibrary> }): Promise<ZXingCodeReader> {
+  static async initializeZXing(zxingLoader: {
+    loadZXing: () => Promise<ZXingLibrary>;
+  }): Promise<ZXingCodeReader> {
     const ZXing = await zxingLoader.loadZXing();
     return new ZXing.BrowserQRCodeReader();
   }
@@ -133,16 +139,19 @@ export class QrScannerUtils {
     scannerElement.appendChild(videoElement);
 
     try {
-      const result = await codeReader.decodeOnceFromVideoDevice(undefined, videoElement);
+      const result = await codeReader.decodeOnceFromVideoDevice(
+        undefined,
+        videoElement
+      );
       const videoStream = videoElement.srcObject as MediaStream;
 
       return {
         result: {
           data: result.text,
           result: result.result,
-          source: 'camera'
+          source: 'camera',
         },
-        videoStream
+        videoStream,
       };
     } catch (error) {
       if (videoElement.srcObject) {
@@ -167,7 +176,7 @@ export class QrScannerUtils {
     return {
       data: result.text,
       result: result.result,
-      source: 'file'
+      source: 'file',
     };
   }
 
