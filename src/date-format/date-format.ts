@@ -7,7 +7,7 @@ import { hasClipboard, isBrowser } from '../_utils/DomUtils.js';
 import "../t-copy-button/t-copy-button.js";
 import { when } from 'lit/directives/when.js';
 import inputStyles from '../_styles/input.css.js';
-import dayjs from '../_utils/dayjs-ssr-helper/dayjs.js';
+import dayjs from 'dayjs';
 
 const localStorageKey = "t-date-format-custom";
 
@@ -73,17 +73,18 @@ export class DateFormat extends WebComponentBase<IConfigBase> {
         this.result = this.getDateFormats(this.value);
     }
 
-    onChange(e: any) {
-        if (e.target?.value) {
-            this.result = this.getDateFormats(e.target.value);
+    onChange(e: Event) {
+        const target = e.target as HTMLInputElement;
+        if (target?.value) {
+            this.result = this.getDateFormats(target.value);
         }
     }
 
-    onCustomFormatChange(e: any) {
-        this.customFormat = e.target.value || "";
-        setCustomFormat(e.target.value);
+    onCustomFormatChange(e: Event) {
+        const target = e.target as HTMLInputElement;
+        this.customFormat = target?.value || "";
+        setCustomFormat(target?.value || "");
     }
-
     getDateFormats(value: string) {
         return this.dateFormats.map(f => {
             return {

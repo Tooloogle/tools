@@ -8,7 +8,11 @@ import cssnanoPlugin from "cssnano";
 
 const cssFiles = globSync("./src/**/*.css");
 
-cssFiles.forEach(async cssFile => {
+cssFiles.forEach(cssFile => {
+    transformCssToTs(cssFile);
+});
+
+export async function transformCssToTs(cssFile) {
     try {
         const fileName = path.parse(cssFile).name;
         const filenameWithoutExtension = path.parse(cssFile).name;
@@ -33,4 +37,4 @@ export default ${variableName}`);
     } catch (err) {
         console.error(err);
     }
-});
+}
