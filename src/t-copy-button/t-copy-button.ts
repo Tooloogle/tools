@@ -1,4 +1,4 @@
-import { html, svg } from 'lit';
+import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import { hasClipboard } from '../_utils/DomUtils.js';
@@ -39,26 +39,33 @@ export class TCopyButton extends WebComponentBase<IConfigBase> {
         }
     }
 
+    private renderIconContent() {
+        return html`
+        <span class="text-lg">
+            ${!this.copying ? "❏" : ""}
+            ${this.copying ? "✅" : ""}
+        </span>`;
+    }
+
+    private renderButtonContent() {
+        return html`<button class="btn btn-green btn-sm">Copy</button>`;
+    }
+
+    private resetTitle() {
+        this.title = "Copy to clipboard";
+    }
+
     override render() {
         return html`
-            <span 
-                class="inline-block ${this.isIcon ? "px-1" : ""} cursor-pointer text-slate-400 tooltip-wrapper"
-                @click=${this.onClick}
-                @mouseleave=${() => this.title = "Copy to clipboard"}>
-                ${when(this.isIcon, () => html`
-                    <span class="text-lg">
-                        ${!this.copying ? "❏" : ""}
-                        ${this.copying ? "✅" : ""}
-                    </span>
-                `)}
-
-                ${when(!this.isIcon, () => html`
-                    <button class="btn btn-green btn-sm">Copy</button>
-                `)}
-
-                <div class="tooltip" style="min-width: 130px">${this.title}</div>
-            </span>
-        `;
+        <span 
+            class="inline-block ${this.isIcon ? "px-1" : ""} cursor-pointer text-slate-400 tooltip-wrapper"
+            @click=${this.onClick}
+            @mouseleave=${this.resetTitle}>    
+            ${when(this.isIcon, this.renderIconContent)}
+            ${when(!this.isIcon, this.renderButtonContent)}
+            <div class="tooltip" style="min-width: 130px">${this.title}</div>
+        </span>
+    `;
     }
 }
 

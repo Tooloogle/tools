@@ -25,18 +25,26 @@ export class GuidGenerator extends WebComponentBase<IConfigBase> {
         });
     }
 
+    private onGuidChange(e: Event) {
+        this.guid = (e.target as HTMLInputElement).value;
+    }
+
+    private regenerateGuid() {
+        this.guid = this.uuidv4();
+    }
+
     override render() {
         return html`
             <input 
                 class="form-input"
                 readonly
                 .value="${this.guid}"
-                @change=${(e: any) => this.guid = e.target?.value} />
+                @change=${this.onGuidChange} />
 
-            <div class="py-2 text-right">
-                <button class="btn btn-blue btn-sm" @click=${() => this.guid = this.uuidv4()}>Re-generate</button>
+              <div class="py-2 text-right">
+                <button class="btn btn-blue btn-sm" @click=${this.regenerateGuid}>Re-generate</button>
                 <t-copy-button .isIcon=${false} .text=${this.guid}></t-copy-button>
-            </div>
+             </div>
         `;
     }
 }
