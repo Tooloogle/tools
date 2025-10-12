@@ -17,6 +17,7 @@ export class PersonalInfoTemplate {
     `;
   }
 
+  // eslint-disable-next-line max-lines-per-function
   private static renderPersonalInfoFields(
     personalInfo: PersonalInfo,
     handlers: TemplateHandlers

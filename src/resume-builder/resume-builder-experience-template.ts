@@ -34,6 +34,7 @@ export class ExperienceTemplate {
     const handleDelete = () => {
       handlers.deleteExperience(exp.id);
     };
+
     return html`
       <div class="experience-item" key="${exp.id}">
         <div class="item-header">
@@ -49,6 +50,7 @@ export class ExperienceTemplate {
     `;
   }
 
+  // eslint-disable-next-line max-lines-per-function
   private static renderExperienceFields(
     exp: Experience,
     handlers: TemplateHandlers
@@ -105,6 +107,7 @@ export class ExperienceTemplate {
     );
   }
 
+  // eslint-disable-next-line max-lines-per-function
   private static renderExperienceField(
     fieldInfo: {
       field: keyof Experience;
