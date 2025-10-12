@@ -24,7 +24,7 @@ export class RgbaColorPicker extends WebComponentBase<IConfigBase> {
 
     private onColorInputChange(event: Event) {
         if (event.target instanceof HTMLInputElement) {
-            this.color = this.hexToRgb(event.target.value);
+            this.color = this.hexToRgb(event.target?.value);
             this.updateRGBAValues();
             this.requestUpdate();
         }
@@ -40,7 +40,7 @@ export class RgbaColorPicker extends WebComponentBase<IConfigBase> {
 
     private onRedChange(event: Event) {
         if (event.target instanceof HTMLInputElement) {
-            this.red = parseInt(event.target.value);
+            this.red = parseInt(event.target?.value);
             this.updateColorFromRGBAValues();
             this.requestUpdate();
         }
@@ -48,7 +48,7 @@ export class RgbaColorPicker extends WebComponentBase<IConfigBase> {
 
     private onGreenChange(event: Event) {
         if (event.target instanceof HTMLInputElement) {
-            this.green = parseInt(event.target.value);
+            this.green = parseInt(event.target?.value);
             this.updateColorFromRGBAValues();
             this.requestUpdate();
         }
@@ -56,7 +56,7 @@ export class RgbaColorPicker extends WebComponentBase<IConfigBase> {
 
     private onBlueChange(event: Event) {
         if (event.target instanceof HTMLInputElement) {
-            this.blue = parseInt(event.target.value);
+            this.blue = parseInt(event.target?.value);
             this.updateColorFromRGBAValues();
             this.requestUpdate();
         }
@@ -64,7 +64,7 @@ export class RgbaColorPicker extends WebComponentBase<IConfigBase> {
 
     private onAlphaChange(event: Event) {
         if (event.target instanceof HTMLInputElement) {
-            this.alpha = parseFloat(event.target.value);
+            this.alpha = parseFloat(event.target?.value);
             this.updateColorFromRGBAValues();
             this.requestUpdate();
         }
@@ -79,6 +79,7 @@ export class RgbaColorPicker extends WebComponentBase<IConfigBase> {
             const hex = c.toString(16);
             return hex.length === 1 ? `0${hex}` : hex;
         };
+
         return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
     }
 
@@ -107,6 +108,7 @@ export class RgbaColorPicker extends WebComponentBase<IConfigBase> {
                     h = (r - g) / d + 4;
                     break;
             }
+
             h /= 6;
         }
 

@@ -1,5 +1,6 @@
 import { html, TemplateResult } from 'lit';
 
+/* eslint-disable max-lines */
 export class EmailTemplateRender {
   static renderTemplateSelector(
     templateType: string,
@@ -43,6 +44,7 @@ export class EmailTemplateRender {
     `;
   }
 
+  // eslint-disable-next-line max-lines-per-function
   static renderBasicSettings(
     companyName: string,
     companyColor: string,
@@ -154,6 +156,7 @@ export class EmailTemplateRender {
     `;
   }
 
+  // eslint-disable-next-line max-lines-per-function
   static renderEventSettings(
     templateType: string,
     eventDate: string,
@@ -209,6 +212,7 @@ export class EmailTemplateRender {
     `;
   }
 
+  // eslint-disable-next-line max-lines-per-function
   static renderFooterSettings(
     footerText: string,
     includeUnsubscribe: boolean,
