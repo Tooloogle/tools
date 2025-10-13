@@ -22,31 +22,40 @@ export class Base64ToImage extends WebComponentBase<IConfigBase> {
         return base64Data.substring("data:image/".length, base64Data.indexOf(";base64"));
     }
 
+    private onBase64Input(e: Event) {
+        const target = e.target as HTMLTextAreaElement;
+        this.base64 = target.value;
+    }
+
+    private downloadImage() {
+        downloadImage(`result.${this.getFileType(this.base64)}`, this.base64);
+    }
+
     override render() {
         return html`
-            <div>
-                <label class="block">
-                    <span class="inline-block py-1">Base64 string to decode (encoded)</span>
-                    <textarea
-                        name="email"
-                        class="form-textarea"
-                        rows="5"
-                        placeholder="Enter base64 string to decode"
-                        .value=${this.base64}
-                        @keyup=${(e: any) => this.base64 = e.target?.value}></textarea>
-                </label>
+        <div>
+            <label class="block">
+                <span class="inline-block py-1">Base64 string to decode (encoded)</span>
+                <textarea
+                    name="email"
+                    class="form-textarea"
+                    rows="5"
+                    placeholder="Enter base64 string to decode"
+                    .value=${this.base64}
+                    @keyup=${this.onBase64Input}></textarea>
+            </label>
 
-                ${when(this.base64, () => html`
-                    <div class="py-3">
-                        <img class="w-full" src=${this.base64} />
-                    </div>
-                `)}
-                
-                <div class="text-right">
-                    <a id="download-btn" class="btn btn-green cursor-pointer" @click=${() => downloadImage(`result.${this.getFileType(this.base64)}`, this.base64)}>Download image</a>
+            ${when(this.base64, () => html`
+                <div class="py-3">
+                    <img class="w-full" src=${this.base64} />
                 </div>
+            `)}
+            
+            <div class="text-right">
+                <button class="btn btn-green" @click=${this.downloadImage}>Download image</button>
             </div>
-        `;
+        </div>
+    `;
     }
 }
 

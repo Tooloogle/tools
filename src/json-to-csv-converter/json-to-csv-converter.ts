@@ -28,6 +28,7 @@ export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
             reader.onload = (e) => {
                 this.jsonString = e.target?.result as string;
             };
+
             reader.readAsText(file);
         }
     }
@@ -54,7 +55,7 @@ export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
                 csvRows.push(headers.join(this.separator));
             }
 
-            jsonArray.forEach((row: Record<string, any>) => {
+            jsonArray.forEach((row: Record<string, unknown>) => {
                 const values = headers.map(header => {
                     const value = row[header] !== undefined ? row[header] : '';
                     return `"${String(value).replace(/"/g, '""')}"`;
@@ -68,44 +69,52 @@ export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
         }
     }
 
+    private onSeparatorChange(event: Event) {
+        this.separator = (event.target as HTMLSelectElement).value;
+    }
+
+    private onIncludeHeaderChange(event: Event) {
+        this.includeHeader = (event.target as HTMLInputElement).checked;
+    }
+
     render() {
         return html`
             <div class="json-to-csv-converter">
                 <div class="editor mb-4">
-                <textarea
-                    class="form-textarea"
-                    .value="${this.jsonString}"
-                    @input="${this.onJsonInputChange}"
-                    placeholder="Paste JSON data here or upload a JSON file"
-                    rows="10"
-                ></textarea>
-                <input class="file-input" type="file" @change="${this.onJsonFileUpload}" accept=".json" />
-                <button class="btn btn-blue mt-2" @click="${this.convertJsonToCsv}">Convert to CSV</button>
+                    <textarea
+                        class="form-textarea"
+                        .value=${this.jsonString}
+                        @input=${this.onJsonInputChange}
+                        placeholder="Paste JSON data here or upload a JSON file"
+                        rows="10"
+                    ></textarea>
+                    <input class="file-input" type="file" @change=${this.onJsonFileUpload} accept=".json" />
+                    <button class="btn btn-blue mt-2" @click=${this.convertJsonToCsv}>Convert to CSV</button>
                 </div>
 
                 <div class="config mb-4">
-                <label for="separator">Separator:</label>
-                <select id="separator" class="form-select" @change="${(e: Event) => this.separator = (e.target as HTMLSelectElement).value}">
-                    <option value=",">Comma</option>
-                    <option value=";">Semicolon</option>
-                    <option value="\t">Tab</option>
-                </select>
+                    <label for="separator">Separator:</label>
+                    <select id="separator" class="form-select" @change=${this.onSeparatorChange}>
+                        <option value=",">Comma</option>
+                        <option value=";">Semicolon</option>
+                        <option value="\t">Tab</option>
+                    </select>
 
-                <label>
-                    <input type="checkbox" @change="${(e: any) => this.includeHeader = e?.target?.checked}" checked />
-                    Include Header
-                </label>
+                    <label>
+                        <input type="checkbox" @change=${this.onIncludeHeaderChange} checked />
+                        Include Header
+                    </label>
                 </div>
 
                 <div class="editor mb-4 relative">
                     <textarea
                         class="form-textarea"
-                        .value="${this.csvString}"
+                        .value=${this.csvString}
                         readonly
                         placeholder="Converted CSV will appear here"
                         rows="10"
                     ></textarea>
-                    <button class="btn btn-blue mt-2" @click="${this.downloadCSV}">Download CSV</button>
+                    <button class="btn btn-blue mt-2" @click=${this.downloadCSV}>Download CSV</button>
                     <t-copy-button class="absolute top-3 end-2 text-blue" .text=${this.csvString}></t-copy-button>
                 </div>
             </div>

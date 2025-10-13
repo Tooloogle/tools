@@ -22,11 +22,16 @@ export class DirectToWhatsApp extends WebComponentBase<IConfigBase> {
     return false;
   }
 
+  private onPhoneChange(e: Event) {
+    const target = e.target as HTMLInputElement;
+    this.phone = target?.value?.replace(/ |-/g, "") || "";
+  }
+
   override render() {
     return html`
       <form action="https://api.whatsapp.com/send" method="GET" @submit=${this.validateForm}>
         <div class="grid grid-cols-1 gap-4">
-          <lable class="block">
+          <label class="block">
             <span>Phone number with country code, e.g. +919876543210</span>
             <input
               name="phone"
@@ -34,15 +39,15 @@ export class DirectToWhatsApp extends WebComponentBase<IConfigBase> {
               autofocus
               placeholder="Phone number with country code, e.g. +919876543210"
               .value=${this.phone}
-              @change=${(e: any) => this.phone = e.target?.value?.replace(/ |-/g, "")} />
-          </lable>
-          <lable class="block">
+              @change=${this.onPhoneChange} />
+          </label>
+          <label class="block">
             <span>Message (optional)</span>
             <textarea 
               name="text"
               class="form-textarea"
               placeholder="Message (optional)"></textarea>
-          </lable>
+          </label>
           <div class="text-end">
             <button type="submit" class="btn btn-blue">Open in Whatsapp</button>
           </div>
