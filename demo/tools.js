@@ -27,6 +27,7 @@ const tools = [
   'json-to-csv-converter',
   'regex-expression-tester',
   'text-to-speech',
+  'email-template-generator',
   'resume-builder',
   'stylish-text-generator',
 ];
