@@ -1,155 +1,153 @@
+@tailwind components;
+@tailwind utilities;
 
-  @tailwind components;
-  @tailwind utilities;
+.container {
+  @apply max-w-4xl mx-auto p-6 space-y-6;
+}
 
-  .container {
-    @apply max-w-4xl mx-auto p-6 space-y-6;
-  }
+.input-section {
+  @apply space-y-4;
+}
 
-  .input-section {
-    @apply space-y-4;
-  }
-
-  .upload-area {
-    @apply border-2 border-dashed border-gray-300 rounded-lg p-4 hover:bg-gray-200 transition-all duration-200 text-center 
+.upload-area {
+  @apply border-2 border-dashed border-gray-300 rounded-lg p-4 hover:bg-gray-200 transition-all duration-200 text-center
            hover:border-blue-500 space-y-2;
-  }
+}
 
-  .upload-area.dragover {
-    @apply border-blue-500 bg-blue-100 transform scale-105;
-  }
+.upload-area.dragover {
+  @apply border-blue-500 bg-blue-100 transform scale-105;
+}
 
-  .upload-label {
-    @apply block text-center font-medium text-gray-200;
-  }
+.upload-label {
+  @apply block text-center font-medium text-gray-800 dark:text-gray-200;
+}
 
-  .text-input-area {
-    @apply space-y-2;
-  }
+.text-input-area {
+  @apply space-y-2;
+}
 
-  .text-input-area label {
-    @apply block font-medium text-gray-700;
-  }
+.text-input-area label {
+  @apply block font-medium text-gray-700;
+}
 
-  .svg-textarea {
-    @apply w-full min-h-[150px] p-3 border-2 border-gray-300 rounded-lg 
-           font-mono text-sm resize-y focus:border-blue-500 focus:outline-none 
+.svg-textarea {
+  @apply w-full min-h-[150px] p-3 border-2 border-gray-300 rounded-lg
+           font-mono text-sm resize-y focus:border-blue-500 focus:outline-none
            focus:ring-2 focus:ring-blue-200 transition-all duration-300;
-  }
+}
 
-  .options-section {
-    @apply bg-gray-300 p-4 rounded-lg;
-  }
+.options-section {
+  @apply bg-gray-300 p-4 rounded-lg;
+}
 
-  .options-section h3 {
-    @apply text-lg font-semibold text-gray-900 mb-4;
-  }
+.options-section h3 {
+  @apply text-lg font-semibold text-gray-900 mb-4;
+}
 
-  .options-grid {
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3;
-  }
+.options-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3;
+}
 
-  .options-grid label {
-    @apply flex items-center space-x-2 p-2 bg-white rounded-md 
+.options-grid label {
+  @apply flex items-center space-x-2 p-2 bg-white rounded-md
            hover:bg-gray-100 cursor-pointer transition-colors duration-200;
-  }
+}
 
-  .options-grid input[type="checkbox"] {
-    @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded 
+.options-grid input[type='checkbox'] {
+  @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded
            focus:ring-blue-500 focus:ring-2;
-  }
+}
 
-  .error-message {
-    @apply bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg;
-  }
+.error-message {
+  @apply bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg;
+}
 
-  .action-section {
-    @apply text-center;
-  }
+.action-section {
+  @apply text-center;
+}
 
-  .stats-section {
-    @apply grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg;
-  }
+.stats-section {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg;
+}
 
-  .stat {
-    @apply text-center p-4 bg-white rounded-lg shadow-sm;
-  }
+.stat {
+  @apply text-center p-4 bg-white rounded-lg shadow-sm;
+}
 
-  .stat.savings {
-    @apply bg-green-50 border border-green-200;
-  }
+.stat.savings {
+  @apply bg-green-50 border border-green-200;
+}
 
-  .stat .label {
-    @apply block text-sm font-medium text-gray-600 mb-1;
-  }
+.stat .label {
+  @apply block text-sm font-medium text-gray-600 mb-1;
+}
 
-  .stat .value {
-    @apply block text-lg font-bold text-gray-900;
-  }
+.stat .value {
+  @apply block text-lg font-bold text-gray-900;
+}
 
-  .stat.savings .value {
-    @apply text-green-600;
-  }
+.stat.savings .value {
+  @apply text-green-600;
+}
 
-  .result-section {
-    @apply space-y-6;
-  }
+.result-section {
+  @apply space-y-6;
+}
 
-  .result-actions {
-    @apply flex flex-wrap gap-3 justify-center;
-  }
+.result-actions {
+  @apply flex flex-wrap gap-3 justify-center;
+}
 
-  .svg-comparison {
-    @apply grid grid-cols-1 lg:grid-cols-2 gap-6;
-  }
+.svg-comparison {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-6;
+}
 
-  .svg-preview {
-    @apply border border-gray-200 rounded-lg p-4 bg-gray-50;
-  }
+.svg-preview {
+  @apply border border-gray-200 rounded-lg p-4 bg-gray-50;
+}
 
-  .svg-preview h4 {
-    @apply text-center font-semibold text-gray-800 mb-3;
-  }
+.svg-preview h4 {
+  @apply text-center font-semibold text-gray-800 mb-3;
+}
 
-  .svg-container {
-    @apply bg-white border border-gray-200 rounded-lg p-4 min-h-[200px] 
+.svg-container {
+  @apply bg-white border border-gray-200 rounded-lg p-4 min-h-[200px]
            flex items-center justify-center overflow-auto;
-  }
+}
 
-  .svg-container svg {
-    @apply max-w-full max-h-48;
-  }
+.svg-container svg {
+  @apply max-w-full max-h-48;
+}
 
-  .code-output {
-    @apply space-y-2;
-  }
+.code-output {
+  @apply space-y-2;
+}
 
-  .code-output label {
-    @apply block font-medium text-gray-700;
-  }
+.code-output label {
+  @apply block font-medium text-gray-700;
+}
 
-  .note {
-    @apply bg-transparent border border-blue-200 rounded-lg p-4 space-y-2;
-  }
+.note {
+  @apply bg-transparent border border-blue-200 rounded-lg p-4 space-y-2;
+}
 
-  .note li {
-    @apply text-gray-200 relative pl-6;
-  }
+.note li {
+  @apply text-gray-700 dark:text-gray-200 relative pl-6;
+}
 
-  .note li::before {
-    @apply absolute left-0 top-0 content-['✓'] text-emerald-500 font-bold;
-  }
+.note li::before {
+  @apply absolute left-0 top-0 content-['✓'] text-emerald-500 font-bold;
+}
 
-
-  /* Form input base styles */
-  .form-input {
-    @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
-           focus:outline-none focus:ring-blue-500 focus:border-blue-500 
+/* Form input base styles */
+.form-input {
+  @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm
+           focus:outline-none focus:ring-blue-500 focus:border-blue-500
            transition-all duration-300;
-  }
+}
 
-  .form-input[type="file"] {
-    @apply file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 
-           file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 
+.form-input[type='file'] {
+  @apply file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0
+           file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700
            hover:file:bg-blue-100 cursor-pointer;
-  }
+}

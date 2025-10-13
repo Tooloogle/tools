@@ -20,7 +20,8 @@ export class CssGradientGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private initColorPickers() {
-        const colorPickers = this.shadowRoot!.querySelectorAll('input[type="color"]') as NodeListOf<HTMLInputElement>;
+        if (!this.shadowRoot) return;
+        const colorPickers = this.shadowRoot.querySelectorAll('input[type="color"]') as NodeListOf<HTMLInputElement>;
         colorPickers.forEach(picker => picker.addEventListener('input', this.onColorInputChange.bind(this)));
     }
 
@@ -31,6 +32,7 @@ export class CssGradientGenerator extends WebComponentBase<IConfigBase> {
         } else if (inputElement.id === 'colorPicker2') {
             this.color2 = inputElement.value.toUpperCase();
         }
+
         this.requestUpdate();
     }
 
@@ -41,6 +43,7 @@ export class CssGradientGenerator extends WebComponentBase<IConfigBase> {
         } else if (inputElement.id === 'colorInput2') {
             this.color2 = inputElement.value.toUpperCase();
         }
+
         this.requestUpdate();
     }
 
@@ -62,6 +65,7 @@ export class CssGradientGenerator extends WebComponentBase<IConfigBase> {
         } else if (this.gradientType === 'radial') {
             return `radial-gradient(${this.color1}, ${this.color2})`;
         }
+
         return '';
     }
 
