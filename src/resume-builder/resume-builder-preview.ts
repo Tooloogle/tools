@@ -8,7 +8,9 @@ import {
 import { ResumeBuilderUtils } from './resume-builder-exports.js';
 import { ResumeBuilderIcons } from './resume-builder-icons.js';
 
+/* eslint-disable max-lines */
 export class ResumeBuilderPreview {
+  /* eslint-disable max-lines-per-function */
   static renderPreview(
     personalInfo: PersonalInfo,
     experiences: Experience[],
