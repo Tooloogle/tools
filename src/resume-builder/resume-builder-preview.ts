@@ -1,7 +1,12 @@
-import { html, TemplateResult } from "lit";
-import { PersonalInfo, Experience, Education, Skill, } from "./resume-builder-types.js";
-import { ResumeBuilderUtils } from "./resume-builder-exports.js";
-import { ResumeBuilderIcons } from "./resume-builder-icons.js";
+import { html, TemplateResult } from 'lit';
+import {
+  PersonalInfo,
+  Experience,
+  Education,
+  Skill,
+} from './resume-builder-types.js';
+import { ResumeBuilderUtils } from './resume-builder-exports.js';
+import { ResumeBuilderIcons } from './resume-builder-icons.js';
 
 export class ResumeBuilderPreview {
   static renderPreview(
@@ -23,29 +28,50 @@ export class ResumeBuilderPreview {
     return html`
       <div class="preview-container">
         <div class="preview-header">
-            <h3>Resume Preview</h3>
-            <div class="template-selector">
-                <label>Template:</label>
-                <select .value="${template}" @change="${this.handleTemplateChange(onTemplateChange)}">
-                    <option value="minimal">Minimal</option>
-                    <option value="classic">Classic</option>
-                    <option value="modern">Modern</option>
-                </select>
-            </div>
+          <h3>Resume Preview</h3>
+          <div class="template-selector">
+            <label>Template:</label>
+            <select
+              .value="${template}"
+              @change="${this.handleTemplateChange(onTemplateChange)}"
+            >
+              <option value="minimal">Minimal</option>
+              <option value="classic">Classic</option>
+              <option value="modern">Modern</option>
+            </select>
+          </div>
         </div>
         <div class="preview-template">
-        ${this.renderPreviewContent(personalInfo, experiences, education, skills, template, hasPersonalInfo, hasExperience, hasEducation, hasSkills)}
+          ${this.renderPreviewContent(
+            personalInfo,
+            experiences,
+            education,
+            skills,
+            template,
+            hasPersonalInfo,
+            hasExperience,
+            hasEducation,
+            hasSkills
+          )}
         </div>
         <div class="export-buttons">
-          <button class="btn btn-primary" @click="${onExportPDF}"> Export PDF </button>
-          <button class="btn btn-primary" @click="${onExportHTML}"> Export HTML </button>
-          <button class="btn btn-primary" @click="${onExportWord}"> Export Word </button>
+          <button class="btn btn-primary" @click="${onExportPDF}">
+            Export PDF
+          </button>
+          <button class="btn btn-primary" @click="${onExportHTML}">
+            Export HTML
+          </button>
+          <button class="btn btn-primary" @click="${onExportWord}">
+            Export Word
+          </button>
         </div>
-     </div>
+      </div>
     `;
   }
 
-  private static handleTemplateChange(onTemplateChange: (value: string) => void) {
+  private static handleTemplateChange(
+    onTemplateChange: (value: string) => void
+  ) {
     return (e: Event) => {
       onTemplateChange((e.target as HTMLSelectElement).value);
     };
@@ -54,11 +80,11 @@ export class ResumeBuilderPreview {
   private static hasPersonalInfoData(personalInfo: PersonalInfo): boolean {
     return Boolean(
       personalInfo.fullName ||
-      personalInfo.email ||
-      personalInfo.phone ||
-      personalInfo.location ||
-      personalInfo.website ||
-      personalInfo.summary
+        personalInfo.email ||
+        personalInfo.phone ||
+        personalInfo.location ||
+        personalInfo.website ||
+        personalInfo.summary
     );
   }
 
@@ -81,9 +107,11 @@ export class ResumeBuilderPreview {
       <div class="resume-preview template-${template}">
         ${this.renderHeaderSection(personalInfo, template)}
         ${this.renderSummarySection(personalInfo, template)}
-        ${hasExperience ? this.renderExperienceSection(experiences, template) : ""}
-        ${hasEducation ? this.renderEducationSection(education, template) : ""}
-        ${hasSkills ? this.renderSkillsSection(skills, template) : ""}
+        ${hasExperience
+          ? this.renderExperienceSection(experiences, template)
+          : ''}
+        ${hasEducation ? this.renderEducationSection(education, template) : ''}
+        ${hasSkills ? this.renderSkillsSection(skills, template) : ''}
       </div>
     `;
   }
@@ -92,7 +120,10 @@ export class ResumeBuilderPreview {
     return html`
       <div class="empty-preview">
         <h3>Your Resume Preview Will Appear Here</h3>
-        <p> Start by filling out your personal information, experience, education, and skills.</p>
+        <p>
+          Start by filling out your personal information, experience, education,
+          and skills.
+        </p>
       </div>
     `;
   }
@@ -103,7 +134,7 @@ export class ResumeBuilderPreview {
   ): TemplateResult {
     return html`
       <div class="preview-header-section">
-        <h1>${personalInfo.fullName || "Your Name"}</h1>
+        <h1>${personalInfo.fullName || 'Your Name'}</h1>
         <div class="contact-info">
           ${this.renderContactInfo(personalInfo, template)}
         </div>
@@ -120,7 +151,8 @@ export class ResumeBuilderPreview {
     if (personalInfo.email) {
       contactItems.push(html`
         <span>
-          ${this.renderIcon(template, ResumeBuilderIcons.getMailIcon())} ${personalInfo.email}
+          ${this.renderIcon(template, ResumeBuilderIcons.getMailIcon())}
+          ${personalInfo.email}
         </span>
       `);
     }
@@ -163,7 +195,11 @@ export class ResumeBuilderPreview {
 
     return html`
       <div class="preview-section">
-        ${this.renderSectionHeader(template, ResumeBuilderIcons.getUserIcon(), "Summary")}
+        ${this.renderSectionHeader(
+          template,
+          ResumeBuilderIcons.getUserIcon(),
+          'Summary'
+        )}
         <p>${personalInfo.summary}</p>
       </div>
     `;
@@ -177,29 +213,32 @@ export class ResumeBuilderPreview {
       exp => html`
         <div class="experience-entry">
           <div class="entry-header">
-            <h3> ${exp.position || "Your Position"}
-              <span class="company">${exp.company ? `@ ${exp.company}` : ""}</span>
+            <h3>
+              ${exp.position || 'Your Position'}
+              <span class="company"
+                >${exp.company ? `@ ${exp.company}` : ''}</span
+              >
             </h3>
             <div class="entry-meta">
               ${exp.location
-          ? html`<span class="location">${exp.location}</span>`
-          : ""}
+                ? html`<span class="location">${exp.location}</span>`
+                : ''}
               <span class="date">
                 ${exp.startDate
-          ? ResumeBuilderUtils.formatDate(exp.startDate)
-          : "Start Date"}
+                  ? ResumeBuilderUtils.formatDate(exp.startDate)
+                  : 'Start Date'}
                 -
                 ${exp.current
-          ? "Present"
-          : exp.endDate
-            ? ResumeBuilderUtils.formatDate(exp.endDate)
-            : "End Date"}
+                  ? 'Present'
+                  : exp.endDate
+                  ? ResumeBuilderUtils.formatDate(exp.endDate)
+                  : 'End Date'}
               </span>
             </div>
           </div>
           ${exp.description
-          ? html`<div class="entry-description">${exp.description}</div>`
-          : ""}
+            ? html`<div class="entry-description">${exp.description}</div>`
+            : ''}
         </div>
       `
     );
@@ -207,10 +246,10 @@ export class ResumeBuilderPreview {
     return html`
       <div class="preview-section">
         ${this.renderSectionHeader(
-      template,
-      ResumeBuilderIcons.getBriefcaseIcon(),
-      "Work Experience"
-    )}
+          template,
+          ResumeBuilderIcons.getBriefcaseIcon(),
+          'Work Experience'
+        )}
         ${experienceEntries}
       </div>
     `;
@@ -224,18 +263,21 @@ export class ResumeBuilderPreview {
       edu => html`
         <div class="education-entry">
           <div class="entry-header">
-            <h3> ${edu.degree || "Your Degree"}
-              <span class="field">${edu.field ? `in ${edu.field}` : ""}</span>
+            <h3>
+              ${edu.degree || 'Your Degree'}
+              <span class="field">${edu.field ? `in ${edu.field}` : ''}</span>
             </h3>
             <div class="entry-meta">
-              <span class="institution">${edu.institution || "Institution Name"}</span>
+              <span class="institution"
+                >${edu.institution || 'Institution Name'}</span
+              >
               <span class="date">
                 ${edu.graduationDate
-          ? ResumeBuilderUtils.formatDate(edu.graduationDate)
-          : "Graduation Date"}
+                  ? ResumeBuilderUtils.formatDate(edu.graduationDate)
+                  : 'Graduation Date'}
                 ${edu.gpa
-          ? html`<span class="gpa">• GPA: ${edu.gpa}</span>`
-          : ""}
+                  ? html`<span class="gpa">• GPA: ${edu.gpa}</span>`
+                  : ''}
               </span>
             </div>
           </div>
@@ -246,10 +288,10 @@ export class ResumeBuilderPreview {
     return html`
       <div class="preview-section">
         ${this.renderSectionHeader(
-      template,
-      ResumeBuilderIcons.getGraduationIcon(),
-      "Education"
-    )}
+          template,
+          ResumeBuilderIcons.getGraduationIcon(),
+          'Education'
+        )}
         ${educationEntries}
       </div>
     `;
@@ -262,15 +304,21 @@ export class ResumeBuilderPreview {
     const skillTags = skills.map(
       skill => html`
         <div class="skill-tag">
-          <span class="skill-name">${skill.name || "Skill"}</span>
-          ${skill.level ? html`<span class="skill-level">(${skill.level})</span>` : ""}
+          <span class="skill-name">${skill.name || 'Skill'}</span>
+          ${skill.level
+            ? html`<span class="skill-level">(${skill.level})</span>`
+            : ''}
         </div>
       `
     );
 
     return html`
       <div class="preview-section">
-        ${this.renderSectionHeader(template, ResumeBuilderIcons.getAwardIcon(), "Skills")}
+        ${this.renderSectionHeader(
+          template,
+          ResumeBuilderIcons.getAwardIcon(),
+          'Skills'
+        )}
         <div class="skills-preview">${skillTags}</div>
       </div>
     `;
@@ -280,7 +328,7 @@ export class ResumeBuilderPreview {
     template: string,
     iconTemplate: TemplateResult
   ): TemplateResult | string {
-    return template === "minimal" ? "" : iconTemplate;
+    return template === 'minimal' ? '' : iconTemplate;
   }
 
   private static renderSectionHeader(
@@ -288,7 +336,7 @@ export class ResumeBuilderPreview {
     icon: TemplateResult,
     title: string
   ): TemplateResult {
-    if (template === "minimal") {
+    if (template === 'minimal') {
       return html`<h2>${title}</h2>`;
     }
 

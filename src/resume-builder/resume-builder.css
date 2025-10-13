@@ -26,7 +26,7 @@
 }
 
 .nav-item {
-  @apply px-4 py-2 text-left flex items-center gap-2 text-base rounded border border-gray-300 
+  @apply px-4 py-2 text-left flex items-center gap-2 text-base rounded border border-gray-300
          transition-colors hover:bg-gray-100;
 }
 
@@ -61,7 +61,7 @@
 .form-group input,
 .form-group textarea,
 .form-group select {
-  @apply w-full px-3 py-2 border border-gray-300 rounded-md 
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md
          shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500;
 }
 
@@ -69,8 +69,8 @@
   @apply w-full block mt-5 px-3 py-2 text-base text-gray-700;
 }
 
-.checkbox-group-label input{
-  @apply w-fit mt-2
+.checkbox-group-label input {
+  @apply w-fit mt-2;
 }
 .section-header {
   @apply flex justify-between items-center mb-4;
@@ -126,8 +126,8 @@
   @apply flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 px-1 gap-4;
 }
 
-.preview-template{
-  @apply border w-full border-dashed rounded-lg border-gray-500 p-1
+.preview-template {
+  @apply border w-full border-dashed rounded-lg border-gray-500 p-1;
 }
 
 .template-selector {
@@ -272,7 +272,7 @@
 
 .template-modern {
   @apply font-sans rounded;
-  background:  linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
 .template-modern .preview-header-section {
