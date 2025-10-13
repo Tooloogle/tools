@@ -16,7 +16,8 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
     @property({ type: String }) selectedVoice = '';
     @property({ type: Number }) rate = 1;
     @property({ type: Number }) pitch = 1;
-    private synth: SpeechSynthesis = isBrowser() ? window.speechSynthesis : {} as any;
+
+    private synth: SpeechSynthesis = isBrowser() ? window.speechSynthesis : null as unknown as SpeechSynthesis;
 
     connectedCallback(): void {
         super.connectedCallback();
@@ -46,6 +47,7 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
             reader.onload = (e) => {
                 this.text = e.target?.result as string;
             };
+
             reader.readAsText(file);
         }
     }
@@ -73,6 +75,7 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
         if (selectedVoice) {
             utterance.voice = selectedVoice;
         }
+
         utterance.rate = this.rate;
         utterance.pitch = this.pitch;
 
@@ -90,6 +93,12 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
     stop() {
         this.synth.cancel();
         this.isSpeaking = false;
+    }
+
+    private getVoiceOptions() {
+        return this.availableVoices.map(voice =>
+            html`<option value="${voice.name}">${voice.name} (${voice.lang})</option>`
+        );
     }
 
     render() {
@@ -110,9 +119,7 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
                 <div class="controls mb-4">
                 <label for="voice">Voice:</label>
                 <select id="voice" class="form-input" @change="${this.handleVoiceChange}">
-                    ${this.availableVoices.map(
-            voice => html`<option value="${voice.name}">${voice.name} (${voice.lang})</option>`
-        )}
+                    ${this.getVoiceOptions()}
                 </select>
                 <label for="rate">Rate:</label>
                 <input
