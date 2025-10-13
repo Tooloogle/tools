@@ -28,6 +28,7 @@ const tools = [
   'regex-expression-tester',
   'text-to-speech',
   'email-template-generator',
+  'resume-builder',
   'stylish-text-generator',
 ];
 

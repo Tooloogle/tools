@@ -1,0 +1,358 @@
+@tailwind components;
+@tailwind utilities;
+
+.resume-builder {
+  @apply max-w-7xl mx-auto;
+}
+
+.builder-header {
+  @apply text-center mb-5;
+}
+
+.builder-header h1 {
+  @apply text-3xl font-bold text-gray-200;
+}
+
+.builder-content {
+  @apply flex flex-col md:flex-row gap-8;
+}
+
+.builder-sidebar {
+  @apply w-full md:w-64 flex-shrink-0;
+}
+
+.section-nav {
+  @apply flex flex-col gap-2;
+}
+
+.nav-item {
+  @apply px-4 py-2 text-left flex items-center gap-2 text-base rounded border border-gray-300
+         transition-colors hover:bg-gray-100;
+}
+
+.nav-item.active {
+  @apply bg-blue-500 text-white border-blue-500 hover:bg-blue-600;
+}
+
+.builder-main {
+  @apply flex-1;
+}
+
+.section {
+  @apply p-6 mb-6 bg-white rounded-lg shadow;
+}
+
+.section h3 {
+  @apply text-xl font-semibold mb-4;
+}
+
+.form-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+}
+
+.form-group.full-width {
+  @apply col-span-1 md:col-span-2;
+}
+
+.form-group label {
+  @apply block text-sm font-medium text-gray-700 mb-1;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md
+         shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500;
+}
+
+.checkbox-group-label {
+  @apply w-full block mt-5 px-3 py-2 text-base text-gray-700;
+}
+
+.checkbox-group-label input {
+  @apply w-fit mt-2;
+}
+.section-header {
+  @apply flex justify-between items-center mb-4;
+}
+
+.experience-item,
+.education-item {
+  @apply p-4 mb-4 border border-gray-200 rounded-lg;
+}
+
+.item-header {
+  @apply flex justify-between items-center mb-3;
+}
+
+/* Button styles */
+.btn {
+  @apply px-4 py-2 rounded-md border-none font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200;
+}
+
+.btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 text-white;
+}
+
+.btn-secondary {
+  @apply bg-gray-600 hover:bg-gray-700 focus:ring-gray-500 text-white;
+}
+
+.btn-danger {
+  @apply bg-red-600 hover:bg-red-700 focus:ring-red-500 text-white;
+}
+
+.btn-success {
+  @apply bg-green-600 hover:bg-green-700 focus:ring-green-500 text-white;
+}
+
+.btn-sm {
+  @apply px-2 py-1 text-sm;
+}
+
+.skills-grid {
+  @apply w-full grid grid-cols-1 gap-3;
+}
+
+.skill-item {
+  @apply flex items-center justify-start gap-2 w-full;
+}
+
+.preview-container {
+  @apply bg-white rounded-lg shadow p-2;
+}
+
+.preview-header {
+  @apply flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 px-1 gap-4;
+}
+
+.preview-template {
+  @apply border w-full border-dashed rounded-lg border-gray-500 p-1;
+}
+
+.template-selector {
+  @apply flex items-center gap-2;
+}
+
+.template-selector label {
+  @apply text-sm font-medium text-gray-700;
+}
+
+.template-selector select {
+  @apply px-3 py-1 border border-gray-300 rounded-md;
+}
+
+.resume-preview {
+  @apply p-2;
+}
+
+.preview-header-section {
+  @apply text-center mb-4;
+}
+
+.preview-header-section h1 {
+  @apply text-2xl font-bold text-gray-800 mb-2;
+}
+
+.contact-info {
+  @apply flex flex-wrap items-center justify-center gap-4 text-sm text-gray-600;
+}
+
+.preview-section {
+  @apply mb-2;
+}
+
+.preview-section h2 {
+  @apply text-xl font-semibold text-gray-800 border-b border-gray-200 flex items-center gap-2;
+}
+
+.experience-entry,
+.education-entry {
+  @apply mb-4;
+}
+
+.entry-header {
+  @apply mb-2;
+}
+
+.entry-header h3 {
+  @apply font-medium text-base text-gray-800 m-0;
+}
+
+.entry-meta {
+  @apply flex flex-wrap gap-2 text-sm text-gray-600;
+}
+
+.skills-preview {
+  @apply flex flex-wrap gap-2;
+}
+
+.skill-tag {
+  @apply px-3 py-1 bg-gray-100 text-gray-800 rounded-md text-sm flex items-center gap-2;
+}
+
+.skill-name {
+  @apply font-medium;
+}
+
+.skill-level {
+  @apply text-xs text-gray-500;
+}
+
+/* Template-specific styles */
+.template-minimal {
+  @apply bg-white p-8 font-serif;
+}
+
+.template-minimal .preview-header-section h1 {
+  @apply text-black border-b-4 border-black pb-2 mb-4 text-3xl font-bold;
+}
+
+.template-minimal .contact-info span {
+  @apply text-gray-800;
+}
+
+.template-minimal .preview-section h2 {
+  @apply text-black border-b-2 border-black uppercase tracking-wide font-serif text-lg;
+}
+
+.template-minimal .entry-header h3 {
+  @apply text-black font-semibold;
+}
+
+.template-minimal .company,
+.template-minimal .field {
+  @apply text-gray-600 italic;
+}
+
+.template-minimal .skill-tag {
+  @apply bg-gray-100 border border-gray-300 text-gray-800;
+}
+
+.template-classic {
+  @apply bg-white p-8 font-sans;
+}
+
+.template-classic .preview-header-section h1 {
+  @apply text-black text-3xl font-bold;
+}
+
+.template-classic .contact-info span {
+  @apply text-gray-800 flex items-center gap-1;
+}
+
+.template-classic .contact-info svg,
+.template-classic .preview-section h2 svg {
+  @apply text-black;
+}
+
+.template-classic .preview-section h2 {
+  @apply text-black border-b-2 border-black;
+}
+
+.template-classic .entry-header h3 {
+  @apply text-black font-semibold;
+}
+
+.template-classic .company,
+.template-classic .field {
+  @apply text-gray-800;
+}
+
+.template-classic .skill-tag {
+  @apply bg-gray-800 text-white border border-black;
+}
+.template-classic .skill-level {
+  @apply text-xs text-gray-300;
+}
+
+.template-classic .entry-description {
+  @apply text-gray-800;
+}
+
+.template-modern {
+  @apply font-sans rounded;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.template-modern .preview-header-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  @apply text-white p-8 rounded-xl mb-8;
+}
+
+.template-modern .preview-header-section h1 {
+  @apply text-white mb-4 text-3xl font-bold;
+}
+
+.template-modern .contact-info span {
+  @apply text-white text-opacity-90 flex items-center gap-1;
+}
+
+.template-modern .contact-info svg {
+  @apply text-white;
+}
+
+.template-modern .preview-section h2 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  @apply border-b-2 border-indigo-500;
+}
+
+.template-modern .preview-section h2 svg {
+  @apply text-indigo-500;
+}
+
+.template-modern .entry-header h3 {
+  @apply text-gray-800 font-semibold;
+}
+
+.template-modern .company {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.template-modern .field {
+  @apply text-indigo-500;
+}
+
+.template-modern .skill-tag {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  @apply text-slate-100 shadow-md;
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+}
+
+.template-modern .skill-level {
+  @apply text-white;
+}
+
+.template-modern .entry-description {
+  @apply text-gray-700;
+}
+
+.template-modern .entry-meta {
+  @apply text-gray-600;
+}
+
+.template-modern .location {
+  @apply text-indigo-500 font-medium;
+}
+
+.template-modern .date {
+  @apply text-gray-500;
+}
+
+.template-modern .institution {
+  @apply text-indigo-500 font-medium;
+}
+
+.template-modern .gpa {
+  @apply text-purple-600;
+}
+
+.export-buttons {
+  @apply w-full flex items-center justify-center flex-wrap gap-2 p-4;
+}
