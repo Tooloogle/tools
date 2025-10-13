@@ -1,0 +1,54 @@
+@tailwind components;
+@tailwind utilities;
+
+.generator-container {
+    @apply w-full p-5;
+}
+
+.text-input-section {
+    @apply mb-2;
+}
+
+.controls-section {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-5;
+}
+
+.control-group {
+    @apply bg-gray-50 p-4 rounded-lg border border-gray-200;
+}
+
+.control-group h4 {
+    @apply m-0 mb-2 text-gray-600 text-sm font-semibold;
+}
+
+.color-input {
+    @apply w-full h-10 border border-gray-300 rounded cursor-pointer;
+}
+
+.range-input {
+    @apply w-full my-1;
+}
+
+.font-select, .effect-select {
+    @apply w-full p-2 border border-gray-300 rounded bg-white;
+}
+
+.preview-section {
+    @apply my-5 w-fit mx-auto text-center border border-dashed border-gray-400 p-2 rounded-lg;
+}
+
+.canvas-container {
+    @apply block overflow-hidden;
+}
+
+#textCanvas {
+    @apply block max-w-full h-auto;
+}
+
+.btns-container {
+    @apply flex gap-2 flex-wrap justify-center;
+}
+
+.value-display {
+    @apply text-xs text-gray-600 mt-1;
+}
