@@ -31,6 +31,8 @@ const tools = [
   'webp-to-png-converter',
   'jpg-to-webp-converter',
   'png-to-webp-converter',
+  'email-template-generator',
+  'resume-builder',
   'stylish-text-generator',
 ];
 
