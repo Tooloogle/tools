@@ -27,6 +27,8 @@ const tools = [
   'json-to-csv-converter',
   'regex-expression-tester',
   'text-to-speech',
+  'xml-to-json-converter',
+  'json-to-xml-converter',
   'svg-optimizer',
   'webp-to-jpg-converter',
   'webp-to-png-converter',
