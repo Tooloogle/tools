@@ -27,6 +27,7 @@ const tools = [
   'json-to-csv-converter',
   'regex-expression-tester',
   'text-to-speech',
+  'bmi-calculator',
   'xml-to-json-converter',
   'json-to-xml-converter',
   'svg-optimizer',
