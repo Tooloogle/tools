@@ -28,6 +28,7 @@ const tools = [
   'regex-expression-tester',
   'text-to-speech',
   'md5-hash-generator',
+  'bmi-calculator',
   'xml-to-json-converter',
   'json-to-xml-converter',
   'svg-optimizer',
