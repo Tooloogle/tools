@@ -325,27 +325,6 @@ export class EmailTemplateRender {
           .value="${generatedHtml}"
         ></textarea>
       </div>
-
-      <ul class="info">
-        <li>
-          Generates responsive email templates compatible with major email
-          clients
-        </li>
-        <li>
-          Company name is automatically updated in subject lines when changed
-        </li>
-        <li>
-          Customizable footer links for legal compliance (Privacy Policy, Terms
-          &amp; Conditions)
-        </li>
-        <li>Templates are mobile-friendly with responsive design</li>
-        <li>Paste your HTML directly with proper tags</li>
-        <li>
-          For invitation emails, fill in event details in the dedicated fields
-        </li>
-        <li>Use [Company] and [Name] as placeholders in custom content</li>
-        <li>Test your emails across different clients before sending</li>
-      </ul>
     `;
   }
 }
