@@ -257,10 +257,6 @@ export class ResumeBuilder extends WebComponentBase<IConfigBase> {
   override render() {
     return html`
       <div class="resume-builder">
-        <div class="builder-header">
-          <h1>Resume Builder</h1>
-        </div>
-
         <div class="builder-content">
           <div class="builder-sidebar">
             ${ResumeBuilderTemplates.renderNavigation(

@@ -9,10 +9,6 @@
   @apply text-center mb-5;
 }
 
-.builder-header h1 {
-  @apply text-3xl font-bold text-gray-200;
-}
-
 .builder-content {
   @apply flex flex-col md:flex-row gap-8;
 }
