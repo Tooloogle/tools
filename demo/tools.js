@@ -31,6 +31,17 @@ const tools = [
   'heif-to-jpg-converter',
   'heic-to-png-converter',
   'heic-to-jpg-converter',
+  'md5-hash-generator',
+  'bmi-calculator',
+  'xml-to-json-converter',
+  'json-to-xml-converter',
+  'svg-optimizer',
+  'webp-to-jpg-converter',
+  'webp-to-png-converter',
+  'jpg-to-webp-converter',
+  'png-to-webp-converter',
+  'email-template-generator',
+  'resume-builder',
   'stylish-text-generator',
 ];
 
