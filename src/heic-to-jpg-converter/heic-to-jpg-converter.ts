@@ -7,20 +7,7 @@ import heicToJpgConverterStyles from './heic-to-jpg-converter.css.js';
 import { customElement, state } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
-
-interface Heic2Any {
-  (options: {
-    blob: Blob;
-    toType: 'image/jpeg' | 'image/png';
-    quality?: number;
-  }): Promise<Blob | Blob[]>;
-}
-
-declare global {
-  interface Window {
-    heic2any: Heic2Any;
-  }
-}
+import heic2any from 'heic2any';
 
 @customElement('heic-to-jpg-converter')
 export class HeicToJpgConverter extends WebComponentBase<IConfigBase> {
@@ -34,52 +21,23 @@ export class HeicToJpgConverter extends WebComponentBase<IConfigBase> {
   @state() file: File | null = null;
   @state() converting = false;
   @state() error = '';
-  @state() libLoaded = false;
-
-  override async connectedCallback() {
-    super.connectedCallback();
-    await this.loadLibrary();
-  }
-
-  private async loadLibrary(): Promise<void> {
-    if (typeof window.heic2any !== 'undefined') {
-      this.libLoaded = true;
-      return;
-    }
-
-    try {
-      await this.loadScript('/src/_libs/heic-heif-to-jpg-png/heic2any.js');
-      if (typeof window.heic2any === 'undefined') {
-        throw new Error('Library not initialized');
-      }
-
-      this.libLoaded = true;
-    } catch (err) {
-      console.error('Library load failed:', err);
-      this.error = 'Failed to load converter. Please refresh.';
-    }
-  }
-
-  private loadScript(src: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (document.querySelector(`script[src="${src}"]`)) {
-        resolve();
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.src = src;
-      script.onload = () => setTimeout(resolve, 100); // Small delay for initialization
-      script.onerror = () => reject(new Error(`Script load failed: ${src}`));
-      document.head.appendChild(script);
-    });
-  }
 
   private handleFileChange(e: Event): void {
     const input = e.target as HTMLInputElement;
     const file = input.files?.[0] ?? null;
 
-    if (file && !file.name.match(/\.heic$/i)) {
+    const acceptedMimeTypes = [
+      'image/heif',
+      'image/heic',
+      'image/heif-sequence',
+      'image/heic-sequence',
+    ];
+    if (
+      file &&
+      !file.name.match(/\.heif$/i) &&
+      !file.name.match(/\.heic$/i) &&
+      !acceptedMimeTypes.includes(file.type)
+    ) {
       this.error = 'Only HEIC files are supported';
       this.file = null;
       return;
@@ -90,13 +48,13 @@ export class HeicToJpgConverter extends WebComponentBase<IConfigBase> {
   }
 
   private async convert(): Promise<void> {
-    if (!this.file || !this.libLoaded) return;
+    if (!this.file) return;
 
     this.converting = true;
     this.error = '';
 
     try {
-      const result = await window.heic2any({
+      const result = await heic2any({
         blob: this.file,
         toType: 'image/jpeg',
         quality: 0.9,
@@ -140,20 +98,16 @@ export class HeicToJpgConverter extends WebComponentBase<IConfigBase> {
           accept=".heic,image/heic"
           class="form-input"
           @change=${this.handleFileChange}
-          ?disabled=${!this.libLoaded}
         />
 
         ${this.error
           ? html`<div class="text-rose-500">${this.error}</div>`
           : ''}
-        ${!this.libLoaded
-          ? html`<div class="text-amber-500">Loading converter...</div>`
-          : ''}
 
         <button
           class="btn btn-blue"
           @click=${this.convert}
-          ?disabled=${!this.file || this.converting || !this.libLoaded}
+          ?disabled=${!this.file || this.converting}
         >
           ${this.converting ? 'Converting...' : 'Convert to JPG'}
         </button>
