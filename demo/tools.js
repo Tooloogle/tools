@@ -29,8 +29,6 @@ const tools = [
   'text-to-speech',
   'heif-to-png-converter',
   'heif-to-jpg-converter',
-  'heic-to-png-converter',
-  'heic-to-jpg-converter',
   'md5-hash-generator',
   'bmi-calculator',
   'xml-to-json-converter',
