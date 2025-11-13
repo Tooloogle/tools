@@ -58,7 +58,7 @@ export class HeifToPngConverter extends WebComponentBase<IConfigBase> {
     this.error = '';
 
     try {
-      // @ts-ignore - dynamic import for SSR compatibility
+      // @ts-expect-error - dynamic import for SSR compatibility
       const heic2any = (await import('heic2any')).default;
 
       const result = await heic2any({
