@@ -39,7 +39,7 @@ export class TCopyButton extends WebComponentBase<IConfigBase> {
         }
     }
 
-    private renderIconContent() {
+    private renderIconContent = () => {
         return html`
         <span class="text-lg">
             ${!this.copying ? "❏" : ""}
@@ -47,11 +47,11 @@ export class TCopyButton extends WebComponentBase<IConfigBase> {
         </span>`;
     }
 
-    private renderButtonContent() {
+    private renderButtonContent = () => {
         return html`<button class="btn btn-green btn-sm">Copy</button>`;
     }
 
-    private resetTitle() {
+    private resetTitle = () => {
         this.title = "Copy to clipboard";
     }
 
