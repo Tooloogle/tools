@@ -71,10 +71,11 @@ export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {
 
       const url = URL.createObjectURL(blob);
       downloadImage(this.getConvertedFilename(), url);
-      URL.revokeObjectURL(url);
     } catch (err) {
       this.error =
-        'Conversion failed. Please try another file or refresh the page.';
+        err instanceof Error
+          ? err.message
+          : 'Conversion failed. Please try another file.';
       console.error('Conversion error:', err);
     } finally {
       this.converting = false;

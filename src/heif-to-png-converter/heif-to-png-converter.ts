@@ -68,10 +68,10 @@ export class HeifToPngConverter extends WebComponentBase<IConfigBase> {
       });
 
       const blob = Array.isArray(result) ? result[0] : result;
+
       const url = URL.createObjectURL(blob);
 
       downloadImage(this.getConvertedFilename(), url);
-      URL.revokeObjectURL(url);
     } catch (err) {
       this.error =
         err instanceof Error
