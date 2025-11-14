@@ -12,10 +12,13 @@ export function downloadText(text: string) {
   }
 
   const fileBlob = new Blob([text], { type: 'application/octet-binary' });
+  const url = URL.createObjectURL(fileBlob);
   const link = document.createElement('a');
-  link.setAttribute('href', URL.createObjectURL(fileBlob));
+  link.setAttribute('href', url);
   link.setAttribute('download', 'result.txt');
   link.click();
+
+  setTimeout(() => URL.revokeObjectURL(url), 100);
 }
 
 export function downloadImage(name: string, src: string) {
