@@ -7,7 +7,7 @@ import heifToJpgConverterStyles from './heif-to-jpg-converter.css.js';
 import { customElement, state } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
-import heic2any from 'heic2any';
+import { downloadImage, isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('heif-to-jpg-converter')
 export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {
@@ -32,13 +32,13 @@ export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {
       'image/heif-sequence',
       'image/heic-sequence',
     ];
+
     if (
       file &&
-      !file.name.match(/\.heif$/i) &&
-      !file.name.match(/\.heic$/i) &&
+      !file.name.match(/\.(heif|heic)$/i) &&
       !acceptedMimeTypes.includes(file.type)
     ) {
-      this.error = 'Only HEIF files are supported';
+      this.error = 'Only HEIF or HEIC files are supported';
       this.file = null;
       return;
     }
@@ -49,11 +49,18 @@ export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {
 
   private async convert(): Promise<void> {
     if (!this.file) return;
+    if (!isBrowser()) {
+      this.error = 'Conversion is only supported in the browser environment.';
+      return;
+    }
 
     this.converting = true;
     this.error = '';
 
     try {
+      // @ts-ignore - Dynamic import for SSR compatibility
+      const heic2any = (await import('heic2any')).default;
+
       const result = await heic2any({
         blob: this.file,
         toType: 'image/jpeg',
@@ -61,42 +68,32 @@ export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {
       });
 
       const blob = Array.isArray(result) ? result[0] : result;
-      this.downloadImage(blob);
+
+      const url = URL.createObjectURL(blob);
+      downloadImage(this.getConvertedFilename(), url);
     } catch (err) {
       this.error =
-        'Conversion failed. Please try another file or refresh the page.';
+        err instanceof Error
+          ? err.message
+          : 'Conversion failed. Please try another file.';
       console.error('Conversion error:', err);
     } finally {
       this.converting = false;
     }
   }
 
-  private downloadImage(blob: Blob): void {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = this.getConvertedFilename();
-    document.body.appendChild(a);
-    a.click();
-
-    setTimeout(() => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }, 100);
-  }
-
   private getConvertedFilename(): string {
     if (!this.file) return 'converted.jpg';
-    return this.file.name.replace(/\.heif$/i, '.jpg');
+    return this.file.name.replace(/\.(heif|heic)$/i, '.jpg');
   }
 
   override render() {
     return html`
       <div class="space-y-3">
-        <label>Select HEIF file:</label>
+        <label>Select HEIF or HEIC file:</label>
         <input
           type="file"
-          accept=".heif,image/heif"
+          accept=".heif,.heic,image/heif,image/heic"
           class="form-input"
           @change=${this.handleFileChange}
         />
@@ -114,9 +111,9 @@ export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {
         </button>
 
         <ul class="list-disc pl-5 text-sm">
-          <li>Supports HEIF files from modern devices</li>
-          <li>100% browser-based - no server upload</li>
-          <li>Optimized JPEG quality (90%)</li>
+          <li>Supports both HEIF and HEIC images (iPhone, iPad, etc.)</li>
+          <li>100% browser-based — no server upload</li>
+          <li>Preserves image quality (90%)</li>
         </ul>
       </div>
     `;

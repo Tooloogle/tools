@@ -31,6 +31,13 @@
         "format": ["camelCase", "UPPER_CASE", "PascalCase"]
       }
     ],
+    "@typescript-eslint/ban-ts-comment": [
+      "error",
+      {
+        "ts-ignore": "allow-with-description",
+        "minimumDescriptionLength": 10
+      }
+    ],
     "lit/no-invalid-html": "error",
     "lit/no-template-arrow": "warn",
     "lit/no-template-map": "warn",
