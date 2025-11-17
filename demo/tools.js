@@ -27,6 +27,7 @@ const tools = [
   'json-to-csv-converter',
   'regex-expression-tester',
   'text-to-speech',
+  'qr-code-scanner',
   'heif-to-png-converter',
   'heif-to-jpg-converter',
   'md5-hash-generator',

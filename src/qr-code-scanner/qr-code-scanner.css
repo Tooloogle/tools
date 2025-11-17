@@ -1,0 +1,18 @@
+@tailwind components;
+@tailwind utilities;
+
+.qr-reader {
+  @apply w-full min-h-[300px];
+}
+
+.qr-controls {
+  @apply flex items-center justify-center gap-3 mb-4 flex-wrap;
+}
+
+.qr-error {
+  @apply bg-red-900/50 border border-red-700 text-red-200 p-2 text-xs rounded-lg mb-4;
+}
+
+.btn-upload input[type='file'] {
+  @apply hidden;
+}
