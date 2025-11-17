@@ -1,216 +1,92 @@
-import { ZXingCodeReader, ZXingLibrary } from './zxing-loader.util.js';
+import { Html5Qrcode } from 'html5-qrcode';
+import type {
+  Html5QrcodeResult,
+  Html5QrcodeError,
+} from 'html5-qrcode/esm/core';
+import type { QrCodeScanner } from './qr-code-scanner.js';
 
-export type ScannerStatus = 'loading' | 'ready' | 'error';
-
-export interface ScanResult {
-  data: string;
-  result?: unknown;
-  source?: 'camera' | 'file';
+export function createScanner(elementId: string): Html5Qrcode {
+  return new Html5Qrcode(elementId, {
+    verbose: false,
+    experimentalFeatures: {
+      useBarCodeDetectorIfSupported: true,
+    },
+  });
 }
 
-export interface CopyResult {
-  success: boolean;
-  message: string;
+export async function startScanner(
+  scanner: Html5Qrcode,
+  onSuccess: (text: string, result: Html5QrcodeResult) => void,
+  onFailure: (message: string, error: Html5QrcodeError) => void
+): Promise<void> {
+  const config = {
+    fps: 10,
+    qrbox: { width: 350, height: 350 },
+    aspectRatio: 1.0,
+  };
+
+  await scanner.start(
+    { facingMode: 'environment' },
+    config,
+    onSuccess,
+    onFailure
+  );
 }
 
-export class QrScannerUtils {
-  static getErrorMessage(error: unknown): string {
-    if (error instanceof Error) {
-      if (error.message.includes('Permission denied')) {
-        return 'Camera access denied. Please allow camera permissions.';
-      } else if (error.message.includes('NotFoundError')) {
-        return 'No camera found. Please ensure you have a camera connected.';
-      } else if (error.message.includes('NotAllowedError')) {
-        return 'Camera access denied. Please allow camera access.';
-      } else if (error.message.includes('Scanner element not found')) {
-        return 'Scanner setup failed. Please refresh the page.';
-      }
+export async function stopScanner(component: QrCodeScanner): Promise<void> {
+  if (!component.html5QrCode || !component.scanning) return;
 
-      return `Scanner error: ${error.message}`;
+  try {
+    if (component.html5QrCode.isScanning) {
+      await component.html5QrCode.stop();
     }
 
-    return 'Failed to initialize QR scanner. Please refresh the page.';
+    component.html5QrCode.clear();
+    component.html5QrCode = null;
+    component.scanning = false;
+    component.status = 'ready';
+  } catch (error) {
+    console.error('Error stopping scanner:', error);
+    component.scanning = false;
+    component.status = 'ready';
   }
+}
 
-  static handleScannerError(error: unknown): string {
-    let errorMessage = 'Unable to access camera. ';
-    if (error instanceof Error) {
-      if (
-        error.message.includes('Permission denied') ||
-        error.name === 'NotAllowedError'
-      ) {
-        errorMessage += 'Please grant camera permissions.';
-      } else if (
-        error.message.includes('NotFoundError') ||
-        error.name === 'NotFoundError'
-      ) {
-        errorMessage += 'No camera found.';
-      } else {
-        errorMessage += 'Please ensure camera permissions are granted.';
-      }
-    } else {
-      errorMessage += 'Please ensure camera permissions are granted.';
+export function cleanupScanner(component: QrCodeScanner): void {
+  if (component.html5QrCode) {
+    if (component.html5QrCode.isScanning) {
+      component.html5QrCode.stop().catch(console.error);
     }
 
-    return errorMessage;
+    component.html5QrCode.clear();
+    component.html5QrCode = null;
   }
+}
 
-  static isUrl(text: string): boolean {
-    try {
-      new URL(text);
-      return true;
-    } catch {
-      return false;
-    }
-  }
+export async function scanFile(elementId: string, file: File): Promise<string> {
+  const tempScanner = new Html5Qrcode(elementId, { verbose: false });
+  const result = await tempScanner.scanFile(file, true);
+  await tempScanner.clear();
+  return result;
+}
 
-  static createVideoElement(): HTMLVideoElement {
-    const videoElement = document.createElement('video');
-    videoElement.style.width = '100%';
-    videoElement.style.height = 'auto';
-    videoElement.style.maxHeight = '300px';
-    videoElement.style.objectFit = 'contain';
-    videoElement.autoplay = true;
-    videoElement.playsInline = true;
-    return videoElement;
-  }
-
-  static generateUniqueId(): string {
-    return `qr-reader-${Math.random().toString(36).substring(2, 9)}`;
-  }
-
-  static async copyToClipboard(text: string): Promise<CopyResult> {
-    try {
-      await navigator.clipboard.writeText(text);
-      return { success: true, message: 'Copied!' };
-    } catch (error) {
-      console.error('Failed to copy:', error);
-      return { success: false, message: 'Copy failed' };
-    }
-  }
-
-  static createImageFromFile(file: File): Promise<HTMLImageElement> {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      const imageUrl = URL.createObjectURL(file);
-
-      img.onload = () => resolve(img);
-      img.onerror = () => {
-        URL.revokeObjectURL(imageUrl);
-        reject(new Error('Failed to load the uploaded image.'));
-      };
-
-      img.src = imageUrl;
-    });
-  }
-
-  static cleanupObjectUrl(url: string, delay = 5000): void {
-    setTimeout(() => URL.revokeObjectURL(url), delay);
-  }
-
-  static async initializeZXing(zxingLoader: {
-    loadZXing: () => Promise<ZXingLibrary>;
-  }): Promise<ZXingCodeReader> {
-    const ZXing = await zxingLoader.loadZXing();
-    return new ZXing.BrowserQRCodeReader();
-  }
-
-  static async startCameraScan(
-    codeReader: ZXingCodeReader,
-    containerId: string,
-    shadowRoot?: ShadowRoot | null
-  ): Promise<{ result: ScanResult; videoStream: MediaStream }> {
-    const findScannerElement = () => {
-      if (shadowRoot) {
-        const shadowElement = shadowRoot.getElementById(containerId);
-        if (shadowElement) return shadowElement;
-      }
-
-      return document.getElementById(containerId);
-    };
-
-    const scannerElement = findScannerElement();
-    if (!scannerElement) {
-      throw new Error('Scanner element not found');
+export function patchGetElementById(
+  component: QrCodeScanner,
+  element: Element
+): void {
+  component.originalGetElementById = document.getElementById.bind(document);
+  document.getElementById = (id: string) => {
+    if (id === component.uniqueId) {
+      return element as HTMLElement;
     }
 
-    const videoElement = this.createVideoElement();
-    scannerElement.innerHTML = '';
-    scannerElement.appendChild(videoElement);
+    return component.originalGetElementById!(id);
+  };
+}
 
-    try {
-      const result = await codeReader.decodeOnceFromVideoDevice(
-        undefined,
-        videoElement
-      );
-      const videoStream = videoElement.srcObject as MediaStream;
-
-      return {
-        result: {
-          data: result.text,
-          result: result.result,
-          source: 'camera',
-        },
-        videoStream,
-      };
-    } catch (error) {
-      if (videoElement.srcObject) {
-        const stream = videoElement.srcObject as MediaStream;
-        stream.getTracks().forEach(track => track.stop());
-      }
-
-      if (videoElement.parentNode === scannerElement) {
-        scannerElement.removeChild(videoElement);
-      }
-
-      throw error;
-    }
-  }
-
-  static async scanImageFile(
-    codeReader: ZXingCodeReader,
-    file: File
-  ): Promise<ScanResult> {
-    const img = await this.createImageFromFile(file);
-    const result = await codeReader.decodeFromImageElement(img);
-    return {
-      data: result.text,
-      result: result.result,
-      source: 'file',
-    };
-  }
-
-  static cleanupScanner(
-    codeReader: ZXingCodeReader | null,
-    videoStream: MediaStream | null,
-    containerId: string,
-    shadowRoot?: ShadowRoot | null
-  ): void {
-    if (codeReader) {
-      try {
-        codeReader.reset();
-      } catch (error) {
-        console.error('Error stopping scanner:', error);
-      }
-    }
-
-    if (videoStream) {
-      videoStream.getTracks().forEach(track => track.stop());
-    }
-
-    // Helper function to find element in either shadow or light DOM
-    const findScannerElement = () => {
-      if (shadowRoot) {
-        const shadowElement = shadowRoot.getElementById(containerId);
-        if (shadowElement) return shadowElement;
-      }
-
-      return document.getElementById(containerId);
-    };
-
-    const scannerElement = findScannerElement();
-    if (scannerElement) {
-      scannerElement.innerHTML = '';
-    }
+export function restoreGetElementById(component: QrCodeScanner): void {
+  if (component.originalGetElementById) {
+    document.getElementById = component.originalGetElementById;
+    component.originalGetElementById = null;
   }
 }

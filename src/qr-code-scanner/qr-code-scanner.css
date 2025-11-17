@@ -1,97 +1,18 @@
 @tailwind components;
 @tailwind utilities;
 
-.container {
-  @apply p-4;
+.qr-reader {
+  @apply w-full min-h-[300px];
 }
 
-.title {
-  @apply text-2xl md:text-3xl font-bold text-center text-gray-100 mb-4;
+.qr-controls {
+  @apply flex items-center justify-center gap-3 mb-4 flex-wrap;
 }
 
-.status {
-  @apply text-center p-3 mb-4 rounded-md font-semibold;
-}
-.status.loading {
-  @apply bg-blue-100 text-blue-800;
-}
-.status.ready {
-  @apply bg-green-100 text-green-800;
-}
-.status.error {
-  @apply bg-red-100 text-red-800;
+.qr-error {
+  @apply bg-red-900/50 border border-red-700 text-red-200 p-2 text-xs rounded-lg mb-4;
 }
 
-.camera-container {
-  @apply relative w-full mb-4 rounded-lg overflow-hidden bg-gray-800 shadow-md flex flex-col items-center justify-center;
-}
-
-.placeholder {
-  @apply pb-8 text-center text-gray-100;
-}
-
-.controls {
-  @apply flex gap-2 justify-center mb-4;
-}
-
-.btn {
-  @apply px-6 py-3 border-none rounded-lg font-medium transition-all;
-}
-.btn-primary {
-  @apply bg-blue-600 text-white hover:bg-blue-700;
-}
-.btn-destructive {
-  @apply bg-rose-600 text-white hover:bg-rose-700;
-}
-.btn-secondary {
-  @apply bg-gray-600 text-gray-100 hover:bg-gray-700;
-}
-
-.upload-section {
-  @apply w-full flex flex-col items-center gap-4 mb-4 border-2 border-dashed border-gray-300 rounded-lg p-2 hover:bg-gray-50;
-}
-
-.upload-label {
-  @apply w-full px-6 py-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-900 transition-all text-white text-center;
-}
-
-.upload-icon {
-  @apply flex items-center justify-center gap-2 text-lg;
-}
-.upload-label.disabled {
-  @apply opacity-50 cursor-not-allowed;
-}
-.upload-label input {
+.btn-upload input[type='file'] {
   @apply hidden;
-}
-
-.error-message {
-  @apply bg-red-100 text-red-800 p-3 rounded-md mb-4 text-center font-semibold;
-}
-
-.result-section {
-  @apply flex flex-col items-center justify-center bg-green-100 text-green-800 rounded-lg p-4 mb-5 gap-3;
-}
-.result-header {
-  @apply w-full flex items-center justify-between gap-3;
-}
-
-.result-content {
-  @apply w-full bg-gray-50 hover:bg-white  shadow-sm border px-4 py-2 rounded-lg break-all font-mono;
-}
-
-.result-actions {
-  @apply flex gap-2 justify-center flex-wrap;
-}
-
-.scanning-indicator {
-  @apply text-center text-blue-200 font-semibold my-4;
-}
-
-.scanning-animation {
-  @apply animate-spin;
-}
-
-.note {
-  @apply bg-transparent rounded-lg p-4 list-disc text-gray-200 flex flex-col gap-2 pl-6;
 }

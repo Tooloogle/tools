@@ -64,6 +64,7 @@
     "blueimp-md5": "^2.19.0",
     "dayjs": "^1.11.8",
     "heic2any": "^0.0.4",
+    "html5-qrcode": "^2.3.8",
     "js-beautify": "^1.15.4",
     "lit": "^2.7.5",
     "qr-code-styling": "^1.9.2"
