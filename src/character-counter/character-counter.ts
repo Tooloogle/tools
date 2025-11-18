@@ -53,6 +53,8 @@ export class CharacterCounter extends WebComponentBase<IConfigBase> {
         `;
     }
 
+    // TODO: Refactor render method to be under 50 lines by extracting sub-components
+    // eslint-disable-next-line max-lines-per-function
     override render() {
         const totalChars = this.input.length;
         const searchCount = this.countChar(this.searchChar);

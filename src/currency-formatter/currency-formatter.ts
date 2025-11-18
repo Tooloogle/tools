@@ -52,6 +52,8 @@ export class CurrencyFormatter extends WebComponentBase<IConfigBase> {
         }
     }
 
+    // TODO: Refactor render method to be under 50 lines by extracting sub-components
+    // eslint-disable-next-line max-lines-per-function
     override render() {
         return html`
             <div class="space-y-4 py-2">

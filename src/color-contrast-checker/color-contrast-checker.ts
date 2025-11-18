@@ -54,6 +54,8 @@ export class ColorContrastChecker extends WebComponentBase<IConfigBase> {
         this.calculateContrast();
     }
 
+    // TODO: Refactor render method to be under 50 lines by extracting sub-components
+    // eslint-disable-next-line max-lines-per-function
     override render() {
         const ratio = this.contrastRatio.toFixed(2);
         const passAA = this.contrastRatio >= 4.5;

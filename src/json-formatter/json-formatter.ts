@@ -71,6 +71,8 @@ export class JsonFormatter extends WebComponentBase<IConfigBase> {
         this.error = '';
     }
 
+    // TODO: Refactor render method to be under 50 lines by extracting sub-components
+    // eslint-disable-next-line max-lines-per-function
     override render() {
         return html`
             <label class="block py-1">
