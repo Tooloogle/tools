@@ -5,6 +5,7 @@ import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
 import tableStyles from '../_styles/table.css.js';
+import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('user-agent-parser')
 export class UserAgentParser extends WebComponentBase<IConfigBase> {
@@ -21,7 +22,7 @@ export class UserAgentParser extends WebComponentBase<IConfigBase> {
     }
 
     private parseUA() {
-        const ua = this.input || navigator.userAgent;
+        const ua = this.input || (isBrowser() ? navigator.userAgent : '');
         
         this.parsed = {
             browser: this.getBrowser(ua),
@@ -69,6 +70,7 @@ export class UserAgentParser extends WebComponentBase<IConfigBase> {
     }
 
     private useCurrentUA() {
+        if (!isBrowser()) return;
         this.input = navigator.userAgent;
         this.parseUA();
     }

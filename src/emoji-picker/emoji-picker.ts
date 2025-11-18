@@ -3,6 +3,7 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import emojiPickerStyles from './emoji-picker.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
+import { isBrowser } from '../_utils/DomUtils.js';
 import '../t-copy-button/t-copy-button.js';
 
 @customElement('emoji-picker')
@@ -36,7 +37,8 @@ export class EmojiPicker extends WebComponentBase<IConfigBase> {
     }
 
     private copyEmoji(emoji: string) {
-        navigator.clipboard.writeText(emoji);
+        if (!isBrowser()) return;
+        void navigator.clipboard.writeText(emoji);
     }
 
     private getFilteredEmojis(): string[] {

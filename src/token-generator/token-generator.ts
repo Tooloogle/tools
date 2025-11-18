@@ -4,6 +4,7 @@ import tokenGeneratorStyles from './token-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
+import { isBrowser } from '../_utils/DomUtils.js';
 import '../t-copy-button/t-copy-button.js';
 
 @customElement('token-generator')
@@ -84,6 +85,7 @@ export class TokenGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private copyAll() {
+        if (!isBrowser()) return;
         void navigator.clipboard.writeText(this.tokens.join('\n'));
     }
 

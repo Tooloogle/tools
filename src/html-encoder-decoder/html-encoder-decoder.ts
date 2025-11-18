@@ -4,6 +4,7 @@ import htmlEncoderDecoderStyles from './html-encoder-decoder.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
+import { isBrowser } from '../_utils/DomUtils.js';
 import '../t-copy-button/t-copy-button.js';
 
 @customElement('html-encoder-decoder')
@@ -21,12 +22,14 @@ export class HtmlEncoderDecoder extends WebComponentBase<IConfigBase> {
     }
 
     private encode() {
+        if (!isBrowser()) return;
         const div = document.createElement('div');
         div.textContent = this.input;
         this.output = div.innerHTML;
     }
 
     private decode() {
+        if (!isBrowser()) return;
         const div = document.createElement('div');
         div.innerHTML = this.input;
         this.output = div.textContent || '';

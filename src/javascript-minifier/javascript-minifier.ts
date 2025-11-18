@@ -40,7 +40,7 @@ export class JavascriptMinifier extends WebComponentBase<IConfigBase> {
         js = js.replace(/\s+/g, ' ');
         
         // Remove spaces around operators and punctuation
-        js = js.replace(/\s*([{}()\[\];,:<>!=+\-*/%&|?])\s*/g, '$1');
+        js = js.replace(/\s*([{}()[\];,:<>!=+\-*/%&|?])\s*/g, '$1');
         
         // Restore space between keywords and identifiers
         js = js.replace(/\b(return|var|let|const|if|else|for|while|function|class)\b(?=[a-zA-Z_$])/g, '$1 ');

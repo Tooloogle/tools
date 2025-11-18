@@ -25,6 +25,14 @@ export class StringHasher extends WebComponentBase<IConfigBase> {
 
     private handleInputChange(e: Event) {
         this.input = (e.target as HTMLTextAreaElement).value;
+        // Auto-generate hashes on input change
+        if (this.input) {
+            void this.generateHashes();
+        } else {
+            this.md5Hash = '';
+            this.sha1Hash = '';
+            this.sha256Hash = '';
+        }
     }
 
     private async generateHashes() {
@@ -70,7 +78,6 @@ export class StringHasher extends WebComponentBase<IConfigBase> {
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
-                <button class="btn btn-blue" @click=${this.generateHashes}>Generate Hashes</button>
                 <button class="btn btn-red" @click=${this.clear}>Clear</button>
             </div>
 
