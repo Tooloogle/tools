@@ -41,7 +41,19 @@ const tools = [
     "email-template-generator",
     "resume-builder",
     "stylish-text-generator",
-    "wedding-biodata"
+    "wedding-biodata",
+    "lorem-ipsum-generator",
+    "word-counter",
+    "diff-checker",
+    "markdown-previewer",
+    "html-entity-encoder-decoder",
+    "unix-timestamp-converter",
+    "color-name-finder",
+    "percentage-calculator",
+    "binary-converter",
+    "random-number-generator",
+    "text-reverser",
+    "duplicate-line-remover"
 ];
 
 if (typeof window !== "undefined") {
