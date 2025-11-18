@@ -8,6 +8,7 @@ import weddingBiodataStyles from './wedding-biodata.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
+import { isBrowser } from '../_utils/DomUtils.js';
 import {
   PersonalInfo,
   FamilyDetails,
@@ -28,6 +29,7 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
 
   @property({ type: String }) activeSection = 'personal';
   @property({ type: Boolean }) showPreview = false;
+  @property({ type: String }) selectedTheme = 'classic';
 
   @property({ type: Object }) personal: PersonalInfo = {
     fullName: '',
@@ -855,10 +857,33 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
     return html`
       <div class="preview-container">
         <div class="preview-actions">
-          <button class="btn btn-blue" @click=${this.handlePrint}>Print Biodata</button>
+          <div class="theme-selector">
+            <label>
+              <span>Select Theme:</span>
+              <select
+                class="form-select"
+                .value=${this.selectedTheme}
+                @change=${(e: Event) => {
+                  this.selectedTheme = (e.target as HTMLSelectElement).value;
+                }}
+              >
+                <option value="classic">Classic</option>
+                <option value="elegant">Elegant</option>
+                <option value="modern">Modern</option>
+                <option value="royal">Royal</option>
+                <option value="floral">Floral</option>
+              </select>
+            </label>
+          </div>
+          <div class="action-buttons">
+            <button class="btn btn-green" @click=${this.handleDownloadImage}>
+              Download Image
+            </button>
+            <button class="btn btn-blue" @click=${this.handlePrint}>Print Biodata</button>
+          </div>
         </div>
 
-        <div class="biodata-preview" id="biodata-print">
+        <div class="biodata-preview theme-${this.selectedTheme}" id="biodata-print">
           <div class="preview-header">
             <h1>Wedding Biodata</h1>
           </div>
@@ -1114,7 +1139,89 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
   }
 
   private handlePrint() {
-    window.print();
+    if (isBrowser()) {
+      window.print();
+    }
+  }
+
+  private async handleDownloadImage() {
+    if (!isBrowser()) {
+      return;
+    }
+
+    const element = this.shadowRoot?.getElementById('biodata-print');
+
+    if (!element) {
+      return;
+    }
+
+    try {
+      // Use html2canvas-like approach with native browser APIs
+      const canvas = document.createElement('canvas');
+      const scale = 2; // Higher resolution
+      const rect = element.getBoundingClientRect();
+
+      canvas.width = rect.width * scale;
+      canvas.height = rect.height * scale;
+      canvas.style.width = `${rect.width}px`;
+      canvas.style.height = `${rect.height}px`;
+
+      const ctx = canvas.getContext('2d');
+
+      if (!ctx) {
+        return;
+      }
+
+      ctx.scale(scale, scale);
+
+      // Create SVG with foreign object containing the HTML
+      const data = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="${rect.width}" height="${rect.height}">
+          <foreignObject width="100%" height="100%">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="${this.getComputedStyleString(element)}">
+              ${element.innerHTML}
+            </div>
+          </foreignObject>
+        </svg>
+      `;
+
+      const img = new Image();
+      const blob = new Blob([data], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0);
+        URL.revokeObjectURL(url);
+
+        // Download the image
+        canvas.toBlob(imageBlob => {
+          if (imageBlob) {
+            const downloadUrl = URL.createObjectURL(imageBlob);
+            const link = document.createElement('a');
+            link.download = 'wedding-biodata.png';
+            link.href = downloadUrl;
+            link.click();
+            setTimeout(() => URL.revokeObjectURL(downloadUrl), 100);
+          }
+        });
+      };
+
+      img.src = url;
+    } catch (error) {
+      console.error('Error generating image:', error);
+    }
+  }
+
+  private getComputedStyleString(element: Element): string {
+    const styles = window.getComputedStyle(element);
+    let styleString = '';
+
+    for (let i = 0; i < styles.length; i++) {
+      const key = styles[i];
+      styleString += `${key}:${styles.getPropertyValue(key)};`;
+    }
+
+    return styleString;
   }
 
   override render() {
