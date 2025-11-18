@@ -181,14 +181,30 @@
         }
       });
 
-      // Initialize last selected tool or default
+      // Initialize tool based on priority: query param > localStorage > default
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryTool = urlParams.get('q');
       const lastSelectedTool = localStorage.getItem('demo-selected-tool');
-      if (lastSelectedTool && tools.includes(lastSelectedTool)) {
-        searchInput.value = lastSelectedTool.replace(/-/g, ' ');
+      
+      let toolToLoad = null;
+      
+      // Priority 1: Check if query parameter is provided and valid
+      if (queryTool && tools.includes(queryTool)) {
+        toolToLoad = queryTool;
+      }
+      // Priority 2: Check localStorage for last selected tool
+      else if (lastSelectedTool && tools.includes(lastSelectedTool)) {
+        toolToLoad = lastSelectedTool;
+      }
+      // Priority 3: Default to last tool in the array
+      else if (tools.length > 0) {
+        toolToLoad = tools[tools.length - 1];
+      }
+      
+      if (toolToLoad) {
+        searchInput.value = toolToLoad.replace(/-/g, ' ');
         clearIcon.classList.remove('hidden');
-        initTool(lastSelectedTool);
-      } else if (tools.length > 0) {
-        initTool(tools[tools.length - 1]);
+        initTool(toolToLoad);
       }
     </script>
   </body>
