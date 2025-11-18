@@ -111,7 +111,12 @@
           'svg-optimizer',
           'email-template-generator',
         ];
-        wrapper.className = fullWidthTools.includes(tool)
+        
+        // Check if full page view is requested via query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const forceFullWidth = urlParams.get('f') === '1' || urlParams.get('f') === 'true';
+        
+        wrapper.className = (fullWidthTools.includes(tool) || forceFullWidth)
           ? 'w-full'
           : 'lg:w-2/5 pr-4 pl-4 md:w-3/5 pr-4 pl-4 sm:w-2/3 pr-4 pl-4 w-full';
 
