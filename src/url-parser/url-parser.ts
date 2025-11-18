@@ -57,6 +57,15 @@ export class UrlParser extends WebComponentBase<IConfigBase> {
         this.error = '';
     }
 
+    private renderParamRow([key, value]: [string, string]) {
+        return html`
+            <tr>
+                <td>${key}</td>
+                <td>${value}</td>
+            </tr>
+        `;
+    }
+
     override render() {
         return html`
             <label class="block py-1">
@@ -144,12 +153,7 @@ export class UrlParser extends WebComponentBase<IConfigBase> {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    ${Object.entries(this.parsed.params).map(([key, value]) => html`
-                                        <tr>
-                                            <td>${key}</td>
-                                            <td>${value}</td>
-                                        </tr>
-                                    `)}
+                                    ${Object.entries(this.parsed.params).map(entry => this.renderParamRow(entry))}
                                 </tbody>
                             </table>
                         </div>

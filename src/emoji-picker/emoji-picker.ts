@@ -53,6 +53,18 @@ export class EmojiPicker extends WebComponentBase<IConfigBase> {
         return emojis;
     }
 
+    private renderEmojiButton(emoji: string) {
+        return html`
+            <button
+                class="text-4xl p-2 hover:bg-gray-100 rounded cursor-pointer transition"
+                @click=${() => this.copyEmoji(emoji)}
+                title="Click to copy ${emoji}"
+            >
+                ${emoji}
+            </button>
+        `;
+    }
+
     override render() {
         const filteredEmojis = this.getFilteredEmojis();
 
@@ -90,15 +102,7 @@ export class EmojiPicker extends WebComponentBase<IConfigBase> {
                 </label>
 
                 <div class="grid grid-cols-8 gap-2">
-                    ${filteredEmojis.map(emoji => html`
-                        <button
-                            class="text-4xl p-2 hover:bg-gray-100 rounded cursor-pointer transition"
-                            @click=${() => this.copyEmoji(emoji)}
-                            title="Click to copy ${emoji}"
-                        >
-                            ${emoji}
-                        </button>
-                    `)}
+                    ${filteredEmojis.map(emoji => this.renderEmojiButton(emoji))}
                 </div>
 
                 ${filteredEmojis.length === 0 ? html`

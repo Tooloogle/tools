@@ -26,7 +26,7 @@ export class TextDiff extends WebComponentBase<IConfigBase> {
         this.text2 = (e.target as HTMLTextAreaElement).value;
     }
 
-    private compareLCS(str1: string[], str2: string[]): DiffLine[] {
+    private buildLCSTable(str1: string[], str2: string[]): number[][] {
         const m = str1.length;
         const n = str2.length;
         const dp: number[][] = Array(m + 1).fill(0).map(() => Array(n + 1).fill(0));
@@ -40,9 +40,14 @@ export class TextDiff extends WebComponentBase<IConfigBase> {
                 }
             }
         }
-        
+
+        return dp;
+    }
+
+    private backtrackLCS(str1: string[], str2: string[], dp: number[][]): DiffLine[] {
         const result: DiffLine[] = [];
-        let i = m, j = n;
+        let i = str1.length;
+        let j = str2.length;
         
         while (i > 0 || j > 0) {
             if (i > 0 && j > 0 && str1[i - 1] === str2[j - 1]) {
@@ -61,6 +66,11 @@ export class TextDiff extends WebComponentBase<IConfigBase> {
         return result;
     }
 
+    private compareLCS(str1: string[], str2: string[]): DiffLine[] {
+        const dp = this.buildLCSTable(str1, str2);
+        return this.backtrackLCS(str1, str2, dp);
+    }
+
     private compare() {
         const lines1 = this.text1.split('\n');
         const lines2 = this.text2.split('\n');
@@ -71,6 +81,20 @@ export class TextDiff extends WebComponentBase<IConfigBase> {
         this.text1 = '';
         this.text2 = '';
         this.diff = [];
+    }
+
+    private renderDiffLine(line: DiffLine) {
+        const bgClass = line.type === 'removed' ? 'bg-red-100 text-red-800' : 
+                       line.type === 'added' ? 'bg-green-100 text-green-800' : 
+                       'bg-white';
+        const symbol = line.type === 'removed' ? '−' : line.type === 'added' ? '+' : ' ';
+        
+        return html`
+            <div class="${bgClass} px-3 py-1 font-mono text-sm border-b">
+                <span class="inline-block w-8">${symbol}</span>
+                ${line.text}
+            </div>
+        `;
     }
 
     override render() {
@@ -109,17 +133,7 @@ export class TextDiff extends WebComponentBase<IConfigBase> {
                 <div class="py-2">
                     <h3 class="font-bold py-2">Differences:</h3>
                     <div class="border rounded overflow-auto max-h-96">
-                        ${this.diff.map(line => html`
-                            <div class="${line.type === 'removed' ? 'bg-red-100 text-red-800' : 
-                                         line.type === 'added' ? 'bg-green-100 text-green-800' : 
-                                         'bg-white'} 
-                                       px-3 py-1 font-mono text-sm border-b">
-                                <span class="inline-block w-8">
-                                    ${line.type === 'removed' ? '−' : line.type === 'added' ? '+' : ' '}
-                                </span>
-                                ${line.text}
-                            </div>
-                        `)}
+                        ${this.diff.map(line => this.renderDiffLine(line))}
                     </div>
                 </div>
             ` : ''}

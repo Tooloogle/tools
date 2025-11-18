@@ -59,6 +59,14 @@ export class PlaceholderImageGenerator extends WebComponentBase<IConfigBase> {
         this.service = (e.target as HTMLSelectElement).value;
     }
 
+    private handleBgColorInputChange(e: Event) {
+        this.bgColor = (e.target as HTMLInputElement).value;
+    }
+
+    private handleTextColorInputChange(e: Event) {
+        this.textColor = (e.target as HTMLInputElement).value;
+    }
+
     private getPlaceholderUrl(): string {
         const displayText = this.text || `${this.width}x${this.height}`;
         
@@ -147,7 +155,7 @@ export class PlaceholderImageGenerator extends WebComponentBase<IConfigBase> {
                                     type="text"
                                     class="form-input"
                                     .value=${this.bgColor}
-                                    @input=${(e: Event) => this.bgColor = (e.target as HTMLInputElement).value}
+                                    @input=${this.handleBgColorInputChange}
                                     maxlength="6"
                                 />
                             </div>
@@ -166,7 +174,7 @@ export class PlaceholderImageGenerator extends WebComponentBase<IConfigBase> {
                                     type="text"
                                     class="form-input"
                                     .value=${this.textColor}
-                                    @input=${(e: Event) => this.textColor = (e.target as HTMLInputElement).value}
+                                    @input=${this.handleTextColorInputChange}
                                     maxlength="6"
                                 />
                             </div>

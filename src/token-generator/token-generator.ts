@@ -93,6 +93,20 @@ export class TokenGenerator extends WebComponentBase<IConfigBase> {
         this.tokens = [];
     }
 
+    private renderTokenInput(token: string) {
+        return html`
+            <div class="flex gap-2 items-center">
+                <input
+                    type="text"
+                    class="form-input font-mono text-sm"
+                    readonly
+                    .value=${token}
+                />
+                <t-copy-button .isIcon=${false} .text=${token}></t-copy-button>
+            </div>
+        `;
+    }
+
     override render() {
         return html`
             <div class="space-y-4 py-2">
@@ -146,17 +160,7 @@ export class TokenGenerator extends WebComponentBase<IConfigBase> {
                 ${this.tokens.length > 0 ? html`
                     <div class="space-y-2">
                         <h3 class="font-bold">Generated Tokens:</h3>
-                        ${this.tokens.map(token => html`
-                            <div class="flex gap-2 items-center">
-                                <input
-                                    type="text"
-                                    class="form-input font-mono text-sm"
-                                    readonly
-                                    .value=${token}
-                                />
-                                <t-copy-button .isIcon=${false} .text=${token}></t-copy-button>
-                            </div>
-                        `)}
+                        ${this.tokens.map(token => this.renderTokenInput(token))}
                     </div>
                 ` : ''}
 

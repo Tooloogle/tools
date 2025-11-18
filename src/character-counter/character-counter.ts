@@ -41,6 +41,18 @@ export class CharacterCounter extends WebComponentBase<IConfigBase> {
         return freq;
     }
 
+    private renderFrequencyRow([char, count]: [string, number], totalChars: number) {
+        const percentage = ((count / totalChars) * 100).toFixed(2);
+        const displayChar = char === ' ' ? '(space)' : char === '\n' ? '(newline)' : char === '\t' ? '(tab)' : char;
+        return html`
+            <tr>
+                <td>${displayChar}</td>
+                <td>${count}</td>
+                <td>${percentage}%</td>
+            </tr>
+        `;
+    }
+
     override render() {
         const totalChars = this.input.length;
         const searchCount = this.countChar(this.searchChar);
@@ -101,17 +113,7 @@ export class CharacterCounter extends WebComponentBase<IConfigBase> {
                                 </tr>
                             </thead>
                             <tbody>
-                                ${sortedFreq.slice(0, 50).map(([char, count]) => {
-                                    const percentage = ((count / totalChars) * 100).toFixed(2);
-                                    const displayChar = char === ' ' ? '(space)' : char === '\n' ? '(newline)' : char === '\t' ? '(tab)' : char;
-                                    return html`
-                                        <tr>
-                                            <td>${displayChar}</td>
-                                            <td>${count}</td>
-                                            <td>${percentage}%</td>
-                                        </tr>
-                                    `;
-                                })}
+                                ${sortedFreq.slice(0, 50).map(entry => this.renderFrequencyRow(entry, totalChars))}
                             </tbody>
                         </table>
                     </div>

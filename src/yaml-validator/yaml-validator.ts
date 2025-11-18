@@ -46,36 +46,41 @@ export class YamlValidator extends WebComponentBase<IConfigBase> {
         }
     }
 
+    private validateIndentation(line: string, lineNumber: number) {
+        const indent = line.search(/\S/);
+        if (indent === -1) return;
+        
+        if (indent % 2 !== 0) {
+            throw new Error(`Line ${lineNumber}: Inconsistent indentation (should be multiples of 2 spaces)`);
+        }
+    }
+
+    private validateColons(line: string, lineNumber: number) {
+        if (!line.includes(':')) return;
+        
+        const parts = line.split(':');
+        const hasQuotes = line.includes('"') || line.includes("'");
+        const isUrlOrTime = line.match(/https?:\/\//) || line.match(/\d{1,2}:\d{2}/);
+        
+        if (parts.length > 2 && !hasQuotes && !isUrlOrTime) {
+            throw new Error(`Line ${lineNumber}: Multiple colons detected`);
+        }
+    }
+
     private validateLine(line: string, lineNumber: number) {
         // Skip empty lines and comments
         if (!line.trim() || line.trim().startsWith('#')) {
             return;
         }
         
-        // Check indentation
-        const indent = line.search(/\S/);
-        if (indent === -1) return;
-        
-        // Validate consistent indentation
-        if (indent % 2 !== 0) {
-            throw new Error(`Line ${lineNumber}: Inconsistent indentation (should be multiples of 2 spaces)`);
-        }
+        this.validateIndentation(line, lineNumber);
         
         // Check for tabs
         if (line.includes('\t')) {
             throw new Error(`Line ${lineNumber}: Tabs are not allowed in YAML, use spaces`);
         }
         
-        // Check for key-value pairs
-        if (line.includes(':')) {
-            const parts = line.split(':');
-            const hasQuotes = line.includes('"') || line.includes("'");
-            const isUrlOrTime = line.match(/https?:\/\//) || line.match(/\d{1,2}:\d{2}/);
-            
-            if (parts.length > 2 && !hasQuotes && !isUrlOrTime) {
-                throw new Error(`Line ${lineNumber}: Multiple colons detected`);
-            }
-        }
+        this.validateColons(line, lineNumber);
     }
 
     private clear() {
