@@ -42,6 +42,18 @@ The "@tooloogle/tools" package includes the following web components:
 - `json-to-csv-converter`: A handy tool that converts JSON data to CSV format, including file upload functionality and options for downloading the output.
 - `regex-expression-tester`: An interactive tool for testing regex patterns with real-time matching results, providing detailed match information and flag options for enhanced functionality.
 - `text-to-speech`: A versatile tool that converts text to speech using the browser's speech synthesis API, allowing users to adjust voice settings and listen to their text.
+- `lorem-ipsum-generator`: A text generator that creates customizable lorem ipsum placeholder text with adjustable number of paragraphs for design and development purposes.
+- `word-counter`: A comprehensive text analysis tool that counts words, characters (with and without spaces), lines, sentences, and paragraphs in real-time.
+- `diff-checker`: A side-by-side text comparison tool that highlights differences between two text blocks with color-coded additions and removals.
+- `markdown-previewer`: A real-time markdown preview tool that renders markdown syntax as you type, supporting headers, bold, italic, links, code blocks, and more.
+- `html-entity-encoder-decoder`: A bidirectional tool for encoding plain text to HTML entities and decoding HTML entities back to plain text.
+- `unix-timestamp-converter`: A versatile timestamp converter that converts between Unix timestamps (seconds) and human-readable date/time formats.
+- `color-name-finder`: A color identification tool that finds approximate color names from hex or RGB values with live visual preview and color picker.
+- `percentage-calculator`: A multi-function percentage calculator supporting three modes: percentage of a value, percentage ratio, and percentage increase/decrease.
+- `binary-converter`: A number system converter that converts between binary, decimal, octal, and hexadecimal number systems in real-time.
+- `random-number-generator`: A random number generator with customizable range, count, and duplicate control for generating single or multiple random numbers.
+- `text-reverser`: A text manipulation tool that can reverse entire text, reverse word order, reverse lines, or reverse each word individually.
+- `duplicate-line-remover`: A text cleaning tool that removes duplicate lines from text with options for case sensitivity and sorting.
 
 ## Contributing
 
