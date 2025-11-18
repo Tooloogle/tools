@@ -41,7 +41,8 @@ const tools = [
     "email-template-generator",
     "resume-builder",
     "stylish-text-generator",
-    "wedding-biodata"
+    "wedding-biodata",
+    "percentage-calculator"
 ];
 
 if (typeof window !== "undefined") {
