@@ -36,7 +36,7 @@
         />
       </div>
 
-      <!-- Search box in right -->
+      <!-- Search box and controls in right -->
       <div class="max-w-2xl ml-auto w-full">
         <div class="relative">
           <svg
@@ -79,6 +79,18 @@
             <div id="tools-list"></div>
           </div>
         </div>
+        
+        <!-- Full Width Toggle -->
+        <div class="flex items-center mt-3">
+          <label class="flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              id="full-width-toggle"
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
+            />
+            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Full Width View</span>
+          </label>
+        </div>
       </div>
     </header>
 
@@ -93,7 +105,23 @@
     </div>
 
     <script type="module">
-      async function initTool(tool) {
+      // Function to update URL query parameters
+      function updateURL(tool, fullWidth) {
+        const url = new URL(window.location);
+        if (tool) {
+          url.searchParams.set('q', tool);
+        }
+        if (fullWidth !== undefined) {
+          if (fullWidth) {
+            url.searchParams.set('f', '1');
+          } else {
+            url.searchParams.delete('f');
+          }
+        }
+        window.history.replaceState({}, '', url);
+      }
+
+      async function initTool(tool, updateUrl = true) {
         const container = document.getElementById('demo-container');
         const wrapper = document.getElementById('container');
 
@@ -112,9 +140,9 @@
           'email-template-generator',
         ];
         
-        // Check if full page view is requested via query parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const forceFullWidth = urlParams.get('f') === '1' || urlParams.get('f') === 'true';
+        // Check if full page view is requested via query parameter or checkbox
+        const fullWidthToggle = document.getElementById('full-width-toggle');
+        const forceFullWidth = fullWidthToggle?.checked || false;
         
         wrapper.className = (fullWidthTools.includes(tool) || forceFullWidth)
           ? 'w-full'
@@ -125,6 +153,11 @@
           mod?.default?.();
           container.innerHTML = `<${tool}></${tool}>`;
           localStorage.setItem('demo-selected-tool', tool);
+          
+          // Update URL with current tool and full-width state
+          if (updateUrl) {
+            updateURL(tool, forceFullWidth);
+          }
         } catch (err) {
           console.error('Error loading tool:', tool, err);
           container.innerHTML = `<p>${tool} Not found.</p>`;
@@ -135,6 +168,7 @@
       const dropdown = document.getElementById('dropdown');
       const toolsList = document.getElementById('tools-list');
       const clearIcon = document.getElementById('clear-icon');
+      const fullWidthToggle = document.getElementById('full-width-toggle');
 
       function renderTools(filteredTools) {
         toolsList.innerHTML = '';
@@ -186,10 +220,23 @@
         }
       });
 
+      // Toggle full width view when checkbox changes
+      fullWidthToggle.addEventListener('change', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentTool = urlParams.get('q') || localStorage.getItem('demo-selected-tool');
+        if (currentTool && tools.includes(currentTool)) {
+          initTool(currentTool);
+        }
+      });
+
       // Initialize tool based on priority: query param > localStorage > default
       const urlParams = new URLSearchParams(window.location.search);
       const queryTool = urlParams.get('q');
+      const queryFullWidth = urlParams.get('f') === '1' || urlParams.get('f') === 'true';
       const lastSelectedTool = localStorage.getItem('demo-selected-tool');
+      
+      // Set initial checkbox state from URL
+      fullWidthToggle.checked = queryFullWidth;
       
       let toolToLoad = null;
       
@@ -209,7 +256,7 @@
       if (toolToLoad) {
         searchInput.value = toolToLoad.replace(/-/g, ' ');
         clearIcon.classList.remove('hidden');
-        initTool(toolToLoad);
+        initTool(toolToLoad, false); // Don't update URL on initial load if from URL param
       }
     </script>
   </body>
