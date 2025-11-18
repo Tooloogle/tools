@@ -1,2 +1,137 @@
 @tailwind components;
 @tailwind utilities;
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.mode-selector {
+    margin-bottom: 20px;
+}
+
+.mode-selector label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #374151;
+}
+
+.mode-description {
+    margin-top: 8px;
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.inputs-container {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #374151;
+}
+
+.form-input {
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.result-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 24px 0;
+    text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.result-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+.result-value {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.result-value.positive {
+    color: #10b981;
+}
+
+.result-value.negative {
+    color: #ef4444;
+}
+
+.error-message {
+    background-color: #fee2e2;
+    border: 1px solid #ef4444;
+    color: #991b1b;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin: 16px 0;
+    font-size: 0.875rem;
+}
+
+.examples {
+    margin-top: 32px;
+    padding: 20px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.examples h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: #374151;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.examples ul {
+    margin: 0;
+    padding-left: 24px;
+}
+
+.examples li {
+    margin-bottom: 8px;
+    color: #4b5563;
+    line-height: 1.5;
+}
+
+.examples strong {
+    color: #1f2937;
+}
+
+@media (min-width: 640px) {
+    .inputs-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
