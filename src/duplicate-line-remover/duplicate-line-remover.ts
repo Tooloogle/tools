@@ -74,7 +74,7 @@ export class DuplicateLineRemover extends WebComponentBase<IConfigBase> {
         this.removedCount = 0;
     }
 
-    private renderOptions() {
+    private renderControlsSection() {
         return html`
             <div class="py-2 space-y-2">
                 <label class="flex items-center">
@@ -105,7 +105,7 @@ export class DuplicateLineRemover extends WebComponentBase<IConfigBase> {
         `;
     }
 
-    private renderOutput() {
+    private renderOutputSection() {
         return html`
             <div class="mb-2">
                 <span class="inline-block px-3 py-1 bg-green-100 text-green-800 rounded">
@@ -142,9 +142,9 @@ export class DuplicateLineRemover extends WebComponentBase<IConfigBase> {
                 ></textarea>
             </label>
 
-            ${this.renderOptions()}
+            ${this.renderControlsSection()}
 
-            ${this.output ? this.renderOutput() : ''}
+            ${this.output ? this.renderOutputSection() : ''}
         `;
     }
 }
