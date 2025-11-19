@@ -54,6 +54,33 @@ The "@tooloogle/tools" package includes the following web components:
 - `random-number-generator`: A random number generator with customizable range, count, and duplicate control for generating single or multiple random numbers.
 - `text-reverser`: A text manipulation tool that can reverse entire text, reverse word order, reverse lines, or reverse each word individually.
 - `duplicate-line-remover`: A text cleaning tool that removes duplicate lines from text with options for case sensitivity and sorting.
+- `slug-generator`: A URL slug generator that converts text to URL-friendly slugs with customizable separators and case options, perfect for creating SEO-friendly URLs.
+- `base64-url-safe-encoder`: A specialized Base64 encoder/decoder for URL-safe strings, using URL-safe character substitutions and handling padding correctly.
+- `jwt-decoder`: A JWT (JSON Web Token) decoder that decodes and displays header and payload information without verification, useful for inspecting token contents.
+- `json-formatter`: A JSON formatting and validation tool that formats, minifies, or validates JSON with customizable indentation and detailed error messages.
+- `url-parser`: A URL parsing tool that breaks down URLs into components (protocol, hostname, port, path, query parameters, hash) with a clear tabular display.
+- `color-contrast-checker`: A WCAG color contrast checker that calculates contrast ratios and validates accessibility compliance for normal and large text at AA and AAA levels.
+- `character-counter`: An advanced character counting tool that counts total characters, searches for specific characters, and displays character frequency distribution.
+- `string-hasher`: A cryptographic hash generator that creates MD5, SHA-1, and SHA-256 hashes for any input string using secure browser APIs.
+- `html-encoder-decoder`: A bidirectional HTML entity encoder and decoder for converting special characters to HTML entities and vice versa.
+- `css-minifier`: A CSS minification tool that removes comments, whitespace, and optimizes CSS code while showing size reduction statistics.
+- `javascript-minifier`: A basic JavaScript minifier that removes comments and extra whitespace to reduce file size, with savings percentage display.
+- `sql-formatter`: An SQL query formatter that beautifies SQL statements with proper indentation and keyword capitalization or minifies them for compact storage.
+- `xml-formatter`: An XML formatter and validator that formats or minifies XML with proper indentation and validates XML syntax.
+- `yaml-validator`: A YAML syntax validator that checks for common YAML errors like inconsistent indentation, tabs, and validates basic YAML structure.
+- `credit-card-validator`: A credit card number validator using the Luhn algorithm that also detects card type (Visa, Mastercard, Amex, etc.).
+- `ip-address-converter`: An IPv4 address converter that converts between dotted decimal, decimal, hexadecimal, and binary formats.
+- `user-agent-parser`: A user agent string parser that extracts browser, OS, device type, and rendering engine information from user agent strings.
+- `emoji-picker`: An emoji picker with categorization and search functionality, allowing users to click emojis to copy them to clipboard.
+- `unicode-converter`: A Unicode converter that converts text to Unicode escape sequences, code points, or decodes Unicode escapes back to text.
+- `roman-numeral-converter`: A bidirectional Roman numeral converter that converts between Arabic numbers (1-3999) and Roman numerals.
+- `currency-formatter`: A currency formatter using Intl.NumberFormat with support for multiple currencies and locales, providing proper formatting for monetary values.
+- `text-diff`: A text comparison tool using longest common subsequence (LCS) algorithm to highlight additions and removals between two text blocks.
+- `whitespace-remover`: A whitespace removal tool with multiple modes: remove all whitespace, remove extra whitespace, trim lines, or remove blank lines.
+- `text-sorter`: A versatile text line sorter with alphabetical, reverse, numerical, length-based, reverse, and shuffle sorting options with case sensitivity control.
+- `case-converter-advanced`: An advanced case converter supporting sentence case, camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, dot.case, and more.
+- `placeholder-image-generator`: A placeholder image URL generator supporting multiple services (Placehold.co, via Placeholder, Dummy Image, Lorem Picsum) with customizable dimensions, colors, and text.
+- `token-generator`: A cryptographically secure random token generator that creates tokens in hexadecimal, Base64 URL-safe, or alphanumeric formats for API keys and security purposes.
 
 ## Contributing
 
