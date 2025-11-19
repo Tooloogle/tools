@@ -68,8 +68,11 @@
     "dayjs": "^1.11.8",
     "heic2any": "^0.0.4",
     "js-beautify": "^1.15.4",
+    "js-yaml": "^4.1.1",
     "jsbarcode": "^3.12.1",
     "lit": "^2.7.5",
+    "marked": "^17.0.0",
+    "papaparse": "^5.5.3",
     "qr-code-styling": "^1.9.2"
   },
   "release": {
