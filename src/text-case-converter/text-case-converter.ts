@@ -4,17 +4,17 @@ import textCaseConverterStyles from './text-case-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
-import '../t-copy-button/t-copy-button.js';
+import { downloadText } from '../_utils/DomUtils.js';
 
 @customElement('text-case-converter')
 export class TextCaseConverter extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, textCaseConverterStyles];
 
     @property()
-    input = '';
+    text = "";
 
     @property()
-    output = '';
+    placeholder = "Type or paste your content here.";
 
     toLower(text: string) {
         return text.toLowerCase();
@@ -95,108 +95,110 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
             .toLowerCase();
     }
 
-    private clear() {
-        this.input = '';
-        this.output = '';
+    clear() {
+        this.text = "";
+        this.placeholder = this.toLower(this.placeholder);
     }
 
-    private handleInputChange(e: Event) {
-        this.input = (e.target as HTMLTextAreaElement).value;
+    private handleTextChange(e: Event) {
+        this.text = (e.target as HTMLTextAreaElement).value;
     }
 
     private handleLowerClick() {
-        this.output = this.toLower(this.input);
+        this.text = this.toLower(this.text);
+        this.placeholder = this.toLower(this.placeholder);
     }
 
     private handleUpperClick() {
-        this.output = this.toUpper(this.input);
+        this.text = this.toUpper(this.text);
+        this.placeholder = this.toUpper(this.placeholder);
     }
 
     private handleCapitalizeClick() {
-        this.output = this.toCapitalize(this.input);
+        this.text = this.toCapitalize(this.text);
+        this.placeholder = this.toCapitalize(this.placeholder);
     }
 
     private handleSentenceClick() {
-        this.output = this.toSentenceCase(this.input);
+        this.text = this.toSentenceCase(this.text);
+        this.placeholder = this.toSentenceCase(this.placeholder);
     }
 
     private handleAlternateClick() {
-        this.output = this.toAlternate(this.input);
+        this.text = this.toAlternate(this.text);
+        this.placeholder = this.toAlternate(this.placeholder);
     }
 
     private handleInverseClick() {
-        this.output = this.toInverse(this.input);
+        this.text = this.toInverse(this.text);
+        this.placeholder = this.toInverse(this.placeholder);
     }
 
     private handleCamelClick() {
-        this.output = this.toCamelCase(this.input);
+        this.text = this.toCamelCase(this.text);
+        this.placeholder = this.toCamelCase(this.placeholder);
     }
 
     private handlePascalClick() {
-        this.output = this.toPascalCase(this.input);
+        this.text = this.toPascalCase(this.text);
+        this.placeholder = this.toPascalCase(this.placeholder);
     }
 
     private handleSnakeClick() {
-        this.output = this.toSnakeCase(this.input);
+        this.text = this.toSnakeCase(this.text);
+        this.placeholder = this.toSnakeCase(this.placeholder);
     }
 
     private handleKebabClick() {
-        this.output = this.toKebabCase(this.input);
+        this.text = this.toKebabCase(this.text);
+        this.placeholder = this.toKebabCase(this.placeholder);
     }
 
     private handleConstantClick() {
-        this.output = this.toConstantCase(this.input);
+        this.text = this.toConstantCase(this.text);
+        this.placeholder = this.toConstantCase(this.placeholder);
     }
 
     private handleDotClick() {
-        this.output = this.toDotCase(this.input);
+        this.text = this.toDotCase(this.text);
+        this.placeholder = this.toDotCase(this.placeholder);
+    }
+
+    private handleDownloadClick() {
+        downloadText(this.text);
     }
 
     override render() {
         return html`
-            <label class="block py-1">
-                <span class="inline-block py-1 font-bold">Input Text:</span>
-                <textarea
-                    class="form-textarea"
-                    placeholder="Enter text to convert..."
-                    rows="6"
-                    autofocus
-                    .value=${this.input}
-                    @input=${this.handleInputChange}
-                ></textarea>
-            </label>
+    <label class="block py-1">
+        <textarea
+            name="email"
+            class="form-textarea"
+            autofocus
+            .placeholder=${this.placeholder}
+            rows="5"
+            .value=${this.text}
+            @change=${this.handleTextChange}></textarea>
+    </label>
 
-            <div class="py-2 grid grid-cols-2 md:grid-cols-3 gap-2">
-                <button class="btn btn-blue" @click=${this.handleLowerClick}>lower case</button>
-                <button class="btn btn-blue" @click=${this.handleUpperClick}>UPPER CASE</button>
-                <button class="btn btn-blue" @click=${this.handleCapitalizeClick}>Capitalized Case</button>
-                <button class="btn btn-blue" @click=${this.handleSentenceClick}>Sentence case</button>
-                <button class="btn btn-blue" @click=${this.handleAlternateClick}>aLtErNaTiNg cAsE</button>
-                <button class="btn btn-blue" @click=${this.handleInverseClick}>iNVERSE cASE</button>
-                <button class="btn btn-blue" @click=${this.handleCamelClick}>camelCase</button>
-                <button class="btn btn-blue" @click=${this.handlePascalClick}>PascalCase</button>
-                <button class="btn btn-blue" @click=${this.handleSnakeClick}>snake_case</button>
-                <button class="btn btn-blue" @click=${this.handleKebabClick}>kebab-case</button>
-                <button class="btn btn-blue" @click=${this.handleConstantClick}>CONSTANT_CASE</button>
-                <button class="btn btn-blue" @click=${this.handleDotClick}>dot.case</button>
-                <button class="btn btn-red col-span-2 md:col-span-3" @click=${this.clear}>Clear</button>
-            </div>
+    <div class="col btns">
+        <button class="btn btn-blue" @click=${this.handleLowerClick}>lower case</button>
+        <button class="btn btn-blue" @click=${this.handleUpperClick}>UPPER CASE</button>
+        <button class="btn btn-blue" @click=${this.handleCapitalizeClick}>Capitalized Case</button>
+        <button class="btn btn-blue" @click=${this.handleSentenceClick}>Sentence case</button>
+        <button class="btn btn-blue" @click=${this.handleAlternateClick}>aLtErNaTiNg cAsE</button>
+        <button class="btn btn-blue" @click=${this.handleInverseClick}>iNVERSE cASE</button>
+        <button class="btn btn-blue" @click=${this.handleCamelClick}>camelCase</button>
+        <button class="btn btn-blue" @click=${this.handlePascalClick}>PascalCase</button>
+        <button class="btn btn-blue" @click=${this.handleSnakeClick}>snake_case</button>
+        <button class="btn btn-blue" @click=${this.handleKebabClick}>kebab-case</button>
+        <button class="btn btn-blue" @click=${this.handleConstantClick}>CONSTANT_CASE</button>
+        <button class="btn btn-blue" @click=${this.handleDotClick}>dot.case</button>
 
-            ${this.output ? html`
-                <label class="block py-1">
-                    <span class="inline-block py-1 font-bold">Output:</span>
-                    <textarea
-                        class="form-textarea"
-                        rows="6"
-                        readonly
-                        .value=${this.output}
-                    ></textarea>
-                    <div class="py-2 text-right">
-                        <t-copy-button .isIcon=${false} .text=${this.output}></t-copy-button>
-                    </div>
-                </label>
-            ` : ''}
-        `;
+        <button class="btn btn-green" @click=${this.handleDownloadClick}>Download</button>
+        <button class="btn btn-red" @click=${this.clear}>Clear</button>
+    </div>
+    `;
     }
 }
 
