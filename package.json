@@ -40,6 +40,7 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
     "@types/blueimp-md5": "^2.18.2",
+    "@types/crypto-js": "^4.2.2",
     "@types/jest": "^29.5.2",
     "@types/js-beautify": "^1.14.3",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
@@ -62,6 +63,7 @@
   },
   "dependencies": {
     "blueimp-md5": "^2.19.0",
+    "crypto-js": "^4.2.0",
     "dayjs": "^1.11.8",
     "heic2any": "^0.0.4",
     "js-beautify": "^1.15.4",
