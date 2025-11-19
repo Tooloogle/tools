@@ -21,27 +21,40 @@ export class TipCalculator extends WebComponentBase<IConfigBase> {
         this.perPersonAmount = this.totalAmount / (this.numPeople || 1);
     }
 
+    private renderResult() {
+        if (this.billAmount <= 0) return '';
+
+        return html`
+            <div class="bg-gray-100 p-4 rounded space-y-2">
+                <div class="flex justify-between">
+                    <span>Tip Amount:</span>
+                    <span class="font-bold">$${this.tipAmount.toFixed(2)}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Total Amount:</span>
+                    <span class="font-bold">$${this.totalAmount.toFixed(2)}</span>
+                </div>
+                <div class="flex justify-between border-t pt-2">
+                    <span>Per Person:</span>
+                    <span class="font-bold text-lg">$${this.perPersonAmount.toFixed(2)}</span>
+                </div>
+            </div>
+        `;
+    }
+
     override render() {
         return html`
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">Bill Amount ($):</label>
-                    <input
-                        type="number"
-                        class="form-input w-full"
-                        min="0"
-                        step="0.01"
+                    <input type="number" class="form-input w-full" min="0" step="0.01"
                         .value=${String(this.billAmount)}
                         @input=${(e: Event) => { this.billAmount = Number((e.target as HTMLInputElement).value); this.calculate(); }}
                     />
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Tip Percentage (%):</label>
-                    <input
-                        type="number"
-                        class="form-input w-full"
-                        min="0"
-                        max="100"
+                    <input type="number" class="form-input w-full" min="0" max="100"
                         .value=${String(this.tipPercent)}
                         @input=${(e: Event) => { this.tipPercent = Number((e.target as HTMLInputElement).value); this.calculate(); }}
                     />
@@ -54,30 +67,12 @@ export class TipCalculator extends WebComponentBase<IConfigBase> {
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Number of People:</label>
-                    <input
-                        type="number"
-                        class="form-input w-full"
-                        min="1"
+                    <input type="number" class="form-input w-full" min="1"
                         .value=${String(this.numPeople)}
                         @input=${(e: Event) => { this.numPeople = Number((e.target as HTMLInputElement).value); this.calculate(); }}
                     />
                 </div>
-                ${this.billAmount > 0 ? html`
-                    <div class="bg-gray-100 p-4 rounded space-y-2">
-                        <div class="flex justify-between">
-                            <span>Tip Amount:</span>
-                            <span class="font-bold">$${this.tipAmount.toFixed(2)}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Total Amount:</span>
-                            <span class="font-bold">$${this.totalAmount.toFixed(2)}</span>
-                        </div>
-                        <div class="flex justify-between border-t pt-2">
-                            <span>Per Person:</span>
-                            <span class="font-bold text-lg">$${this.perPersonAmount.toFixed(2)}</span>
-                        </div>
-                    </div>
-                ` : ''}
+                ${this.renderResult()}
             </div>
         `;
     }
