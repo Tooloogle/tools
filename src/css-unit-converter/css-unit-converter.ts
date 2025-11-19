@@ -8,43 +8,76 @@ import inputStyles from '../_styles/input.css.js';
 export class CssUnitConverter extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, inputStyles, cssUnitConverterStyles];
 
-    @property({ type: String }) inputText = '';
-    @property({ type: String }) outputText = '';
+    @property({ type: Number }) inputValue = 16;
+    @property({ type: String }) fromUnit = 'px';
+    @property({ type: String }) toUnit = 'rem';
+    @property({ type: Number }) baseFontSize = 16;
+    @property({ type: String }) result = '';
 
-    private handleInput(e: Event) {
-        this.inputText = (e.target as HTMLTextAreaElement).value;
-        this.process();
+    connectedCallback() {
+        super.connectedCallback();
+        this.convert();
     }
 
-    private process() {
-        // TODO: [Implementation] CSS unit conversion (px, em, rem, etc.)
-        // This tool requires additional implementation
-        this.outputText = this.inputText || 'Enter input to see results';
+    private convert() {
+        let pxValue = this.inputValue;
+        
+        // Convert to px first
+        if (this.fromUnit === 'rem' || this.fromUnit === 'em') {
+            pxValue = this.inputValue * this.baseFontSize;
+        } else if (this.fromUnit === 'pt') {
+            pxValue = this.inputValue * (96 / 72);
+        } else if (this.fromUnit === '%') {
+            pxValue = this.inputValue * this.baseFontSize / 100;
+        }
+        
+        // Convert from px to target unit
+        let resultValue = pxValue;
+        if (this.toUnit === 'rem' || this.toUnit === 'em') {
+            resultValue = pxValue / this.baseFontSize;
+        } else if (this.toUnit === 'pt') {
+            resultValue = pxValue * (72 / 96);
+        } else if (this.toUnit === '%') {
+            resultValue = (pxValue / this.baseFontSize) * 100;
+        }
+        
+        this.result = `${resultValue.toFixed(4)} ${this.toUnit}`;
     }
 
     override render() {
+        const units = ['px', 'rem', 'em', 'pt', '%'];
         return html`
             <div class="space-y-4">
                 <div>
-                    <label class="block mb-2 font-semibold">Input:</label>
-                    <textarea
-                        class="form-input w-full h-32"
-                        placeholder="Enter input..."
-                        .value=${this.inputText}
-                        @input=${this.handleInput}
-                    ></textarea>
+                    <label class="block mb-2 font-semibold">Base Font Size (px):</label>
+                    <input type="number" min="1" class="form-input w-full" .value=${String(this.baseFontSize)}
+                        @input=${(e: Event) => { this.baseFontSize = Number((e.target as HTMLInputElement).value); this.convert(); }} />
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block mb-2 font-semibold">Value:</label>
+                        <input type="number" step="0.1" class="form-input w-full" .value=${String(this.inputValue)}
+                            @input=${(e: Event) => { this.inputValue = Number((e.target as HTMLInputElement).value); this.convert(); }} />
+                    </div>
+                    <div>
+                        <label class="block mb-2 font-semibold">From Unit:</label>
+                        <select class="form-input w-full" .value=${this.fromUnit}
+                            @change=${(e: Event) => { this.fromUnit = (e.target as HTMLSelectElement).value; this.convert(); }}>
+                            ${units.map(u => html`<option value="${u}">${u}</option>`)}
+                        </select>
+                    </div>
                 </div>
                 <div>
-                    <label class="block mb-2 font-semibold">Output:</label>
-                    <textarea
-                        class="form-input w-full h-32"
-                        readonly
-                        .value=${this.outputText}
-                    ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+                    <label class="block mb-2 font-semibold">To Unit:</label>
+                    <select class="form-input w-full" .value=${this.toUnit}
+                        @change=${(e: Event) => { this.toUnit = (e.target as HTMLSelectElement).value; this.convert(); }}>
+                        ${units.map(u => html`<option value="${u}">${u}</option>`)}
+                    </select>
                 </div>
-                <div class="text-sm text-gray-600">
-                    Note: CSS unit conversion (px, em, rem, etc.)
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="text-sm text-gray-600 mb-1">Result:</div>
+                    <div class="text-2xl font-bold text-blue-600">${this.result}</div>
+                    <t-copy-button .text=${this.result}></t-copy-button>
                 </div>
             </div>
         `;

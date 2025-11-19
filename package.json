@@ -64,9 +64,11 @@
   "dependencies": {
     "blueimp-md5": "^2.19.0",
     "crypto-js": "^4.2.0",
+    "date-fns": "^4.1.0",
     "dayjs": "^1.11.8",
     "heic2any": "^0.0.4",
     "js-beautify": "^1.15.4",
+    "jsbarcode": "^3.12.1",
     "lit": "^2.7.5",
     "qr-code-styling": "^1.9.2"
   },
