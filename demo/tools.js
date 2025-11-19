@@ -78,7 +78,6 @@ const tools = [
     "text-diff",
     "whitespace-remover",
     "text-sorter",
-    "case-converter-advanced",
     "placeholder-image-generator",
     "token-generator"
 ];
