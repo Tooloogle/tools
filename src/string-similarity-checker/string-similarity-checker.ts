@@ -17,18 +17,23 @@ export class StringSimilarityChecker extends WebComponentBase<IConfigBase> {
     }
 
     private convert() {
-        // Conversion logic placeholder
-        this.outputText = this.inputText;
+        const lines = this.inputText.split('\n');
+        if (lines.length >= 2) {
+            const similarity = (lines[0] === lines[1]) ? '100%' : '0%';
+            this.outputText = `Similarity: ${{similarity}}`;
+        } else {
+            this.outputText = 'Enter two lines to compare';
+        }
     }
 
     override render() {
         return html`
             <div class="space-y-4">
                 <div>
-                    <label class="block mb-2 font-semibold">First Text:</label>
+                    <label class="block mb-2 font-semibold">Input Text (separate lines for comparison):</label>
                     <textarea
                         class="form-input w-full h-32"
-                        placeholder="Enter first text..."
+                        placeholder="Enter two texts on separate lines..."
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>

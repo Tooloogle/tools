@@ -17,8 +17,15 @@ export class WordScrambler extends WebComponentBase<IConfigBase> {
     }
 
     private convert() {
-        // Conversion logic placeholder
-        this.outputText = this.inputText;
+        this.outputText = this.inputText.split(' ').map(word => {
+            const arr = word.split('');
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+
+            return arr.join('');
+        }).join(' ');
     }
 
     override render() {
@@ -28,13 +35,13 @@ export class WordScrambler extends WebComponentBase<IConfigBase> {
                     <label class="block mb-2 font-semibold">Input Text:</label>
                     <textarea
                         class="form-input w-full h-32"
-                        placeholder="Enter text to scramble..."
+                        placeholder="Enter text to scramble words..."
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>
                 </div>
                 <div>
-                    <label class="block mb-2 font-semibold">Scrambled Text:</label>
+                    <label class="block mb-2 font-semibold">Scrambled Output:</label>
                     <textarea
                         class="form-input w-full h-32"
                         readonly

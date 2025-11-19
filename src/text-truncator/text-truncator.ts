@@ -17,8 +17,8 @@ export class TextTruncator extends WebComponentBase<IConfigBase> {
     }
 
     private convert() {
-        // Conversion logic placeholder
-        this.outputText = this.inputText;
+        const maxLen = 50;
+        this.outputText = this.inputText.length > maxLen ? `${this.inputText.substring(0, maxLen)  }...` : this.inputText;
     }
 
     override render() {
@@ -34,7 +34,7 @@ export class TextTruncator extends WebComponentBase<IConfigBase> {
                     ></textarea>
                 </div>
                 <div>
-                    <label class="block mb-2 font-semibold">Truncated Text:</label>
+                    <label class="block mb-2 font-semibold">Truncated Output:</label>
                     <textarea
                         class="form-input w-full h-32"
                         readonly

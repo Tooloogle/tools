@@ -17,8 +17,11 @@ export class TitleCaseConverter extends WebComponentBase<IConfigBase> {
     }
 
     private convert() {
-        // Conversion logic placeholder
-        this.outputText = this.inputText;
+        this.outputText = this.inputText
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
     }
 
     override render() {

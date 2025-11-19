@@ -17,7 +17,6 @@ export class TextHighlighter extends WebComponentBase<IConfigBase> {
     }
 
     private convert() {
-        // Conversion logic placeholder
         this.outputText = this.inputText;
     }
 
@@ -28,13 +27,13 @@ export class TextHighlighter extends WebComponentBase<IConfigBase> {
                     <label class="block mb-2 font-semibold">Input Text:</label>
                     <textarea
                         class="form-input w-full h-32"
-                        placeholder="Enter text to highlight..."
+                        placeholder="Enter text..."
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>
                 </div>
                 <div>
-                    <label class="block mb-2 font-semibold">Highlighted Text:</label>
+                    <label class="block mb-2 font-semibold">Highlighted Output:</label>
                     <textarea
                         class="form-input w-full h-32"
                         readonly

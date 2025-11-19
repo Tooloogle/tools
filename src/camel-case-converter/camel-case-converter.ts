@@ -17,8 +17,9 @@ export class CamelCaseConverter extends WebComponentBase<IConfigBase> {
     }
 
     private convert() {
-        // Conversion logic placeholder
-        this.outputText = this.inputText;
+        this.outputText = this.inputText
+            .toLowerCase()
+            .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
     }
 
     override render() {

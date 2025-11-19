@@ -17,8 +17,9 @@ export class VowelConsonantCounter extends WebComponentBase<IConfigBase> {
     }
 
     private convert() {
-        // Conversion logic placeholder
-        this.outputText = this.inputText;
+        const vowels = this.inputText.match(/[aeiou]/gi) || [];
+        const consonants = this.inputText.match(/[bcdfghjklmnpqrstvwxyz]/gi) || [];
+        this.outputText = `Vowels: ${vowels.length}\nConsonants: ${consonants.length}`;
     }
 
     override render() {
@@ -34,7 +35,7 @@ export class VowelConsonantCounter extends WebComponentBase<IConfigBase> {
                     ></textarea>
                 </div>
                 <div>
-                    <label class="block mb-2 font-semibold">Count Result:</label>
+                    <label class="block mb-2 font-semibold">Vowel and Consonant Count:</label>
                     <textarea
                         class="form-input w-full h-32"
                         readonly

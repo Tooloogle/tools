@@ -17,8 +17,10 @@ export class TextToLeetspeak extends WebComponentBase<IConfigBase> {
     }
 
     private convert() {
-        // Conversion logic placeholder
-        this.outputText = this.inputText;
+        const leet: {[key: string]: string} = {
+            'a': '4', 'e': '3', 'i': '1', 'o': '0', 't': '7', 's': '5', 'g': '9', 'b': '8'
+        };
+        this.outputText = this.inputText.toLowerCase().split('').map(c => leet[c] || c).join('');
     }
 
     override render() {
@@ -28,7 +30,7 @@ export class TextToLeetspeak extends WebComponentBase<IConfigBase> {
                     <label class="block mb-2 font-semibold">Input Text:</label>
                     <textarea
                         class="form-input w-full h-32"
-                        placeholder="Enter text to convert..."
+                        placeholder="Enter text to convert to leetspeak..."
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>

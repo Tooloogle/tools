@@ -17,8 +17,9 @@ export class SentenceCaseConverter extends WebComponentBase<IConfigBase> {
     }
 
     private convert() {
-        // Conversion logic placeholder
-        this.outputText = this.inputText;
+        this.outputText = this.inputText
+            .toLowerCase()
+            .replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
     }
 
     override render() {

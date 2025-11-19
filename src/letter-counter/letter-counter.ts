@@ -17,8 +17,8 @@ export class LetterCounter extends WebComponentBase<IConfigBase> {
     }
 
     private convert() {
-        // Conversion logic placeholder
-        this.outputText = this.inputText;
+        const letters = this.inputText.replace(/[^a-zA-Z]/g, '');
+        this.outputText = `Total letters: ${letters.length}`;
     }
 
     override render() {
@@ -28,7 +28,7 @@ export class LetterCounter extends WebComponentBase<IConfigBase> {
                     <label class="block mb-2 font-semibold">Input Text:</label>
                     <textarea
                         class="form-input w-full h-32"
-                        placeholder="Enter text..."
+                        placeholder="Enter text to count letters..."
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>

@@ -1,18 +1,48 @@
 import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import aesDecryptionStyles from './aes-decryption.css.js';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
+import inputStyles from '../_styles/input.css.js';
 
 @customElement('aes-decryption')
 export class AesDecryption extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, aesDecryptionStyles];
+    static override styles = [WebComponentBase.styles, inputStyles, aesDecryptionStyles];
+
+    @property({ type: String }) inputText = '';
+    @property({ type: String }) outputText = '';
+
+    private handleInput(e: Event) {
+        this.inputText = (e.target as HTMLTextAreaElement).value;
+        this.process();
+    }
+
+    private process() {
+        // AES decryption placeholder
+        this.outputText = this.inputText;
+    }
 
     override render() {
         return html`
-            <h2>
-                aes-decryption
-            </h2>
-            Start updating the new tool
+            <div class="space-y-4">
+                <div>
+                    <label class="block mb-2 font-semibold">Input:</label>
+                    <textarea
+                        class="form-input w-full h-32"
+                        placeholder="Enter input..."
+                        .value=${this.inputText}
+                        @input=${this.handleInput}
+                    ></textarea>
+                </div>
+                <div>
+                    <label class="block mb-2 font-semibold">Output:</label>
+                    <textarea
+                        class="form-input w-full h-32"
+                        readonly
+                        .value=${this.outputText}
+                    ></textarea>
+                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+                </div>
+            </div>
         `;
     }
 }
