@@ -17,8 +17,9 @@ export class JsonToTsvConverter extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // JSON to TSV converter
-        this.outputText = this.inputText;
+        // TODO: [Implementation] Convert JSON to TSV
+        // This tool requires additional implementation
+        this.outputText = this.inputText || 'Enter input to see results';
     }
 
     override render() {
@@ -41,6 +42,9 @@ export class JsonToTsvConverter extends WebComponentBase<IConfigBase> {
                         .value=${this.outputText}
                     ></textarea>
                     ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+                </div>
+                <div class="text-sm text-gray-600">
+                    Note: Convert JSON to TSV
                 </div>
             </div>
         `;

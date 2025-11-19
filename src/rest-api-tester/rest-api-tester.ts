@@ -17,8 +17,8 @@ export class RestApiTester extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // REST API tester
-        this.outputText = this.inputText;
+        // TODO: [Browser] API testing requires fetch/CORS support
+        this.outputText = 'REST API testing requires fetch API and CORS configuration';
     }
 
     override render() {
@@ -36,11 +36,10 @@ export class RestApiTester extends WebComponentBase<IConfigBase> {
                 <div>
                     <label class="block mb-2 font-semibold">Output:</label>
                     <textarea
-                        class="form-input w-full h-32"
+                        class="form-input w-full h-32 bg-yellow-50"
                         readonly
                         .value=${this.outputText}
                     ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
                 </div>
             </div>
         `;

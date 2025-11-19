@@ -17,8 +17,8 @@ export class DnsLookup extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // DNS lookup
-        this.outputText = this.inputText;
+        // TODO: [Server/API] DNS lookups require server-side DNS queries
+        this.outputText = 'DNS lookup requires server-side DNS query capability';
     }
 
     override render() {
@@ -36,11 +36,10 @@ export class DnsLookup extends WebComponentBase<IConfigBase> {
                 <div>
                     <label class="block mb-2 font-semibold">Output:</label>
                     <textarea
-                        class="form-input w-full h-32"
+                        class="form-input w-full h-32 bg-yellow-50"
                         readonly
                         .value=${this.outputText}
                     ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
                 </div>
             </div>
         `;

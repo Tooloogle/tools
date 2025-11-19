@@ -13,33 +13,38 @@ export class TextHighlighter extends WebComponentBase<IConfigBase> {
 
     private handleInput(e: Event) {
         this.inputText = (e.target as HTMLTextAreaElement).value;
-        this.convert();
+        this.process();
     }
 
-    private convert() {
-        this.outputText = this.inputText;
+    private process() {
+        // TODO: [Implementation] Highlight search terms in text
+        // This tool requires additional implementation
+        this.outputText = this.inputText || 'Enter input to see results';
     }
 
     override render() {
         return html`
             <div class="space-y-4">
                 <div>
-                    <label class="block mb-2 font-semibold">Input Text:</label>
+                    <label class="block mb-2 font-semibold">Input:</label>
                     <textarea
                         class="form-input w-full h-32"
-                        placeholder="Enter text..."
+                        placeholder="Enter input..."
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>
                 </div>
                 <div>
-                    <label class="block mb-2 font-semibold">Highlighted Output:</label>
+                    <label class="block mb-2 font-semibold">Output:</label>
                     <textarea
                         class="form-input w-full h-32"
                         readonly
                         .value=${this.outputText}
                     ></textarea>
                     ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+                </div>
+                <div class="text-sm text-gray-600">
+                    Note: Highlight search terms in text
                 </div>
             </div>
         `;

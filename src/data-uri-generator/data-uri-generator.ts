@@ -17,8 +17,9 @@ export class DataUriGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Data URI generator
-        this.outputText = this.inputText;
+        // TODO: [Implementation] Generate data URIs from text
+        // This tool requires additional implementation
+        this.outputText = this.inputText || 'Enter input to see results';
     }
 
     override render() {
@@ -41,6 +42,9 @@ export class DataUriGenerator extends WebComponentBase<IConfigBase> {
                         .value=${this.outputText}
                     ></textarea>
                     ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+                </div>
+                <div class="text-sm text-gray-600">
+                    Note: Generate data URIs from text
                 </div>
             </div>
         `;

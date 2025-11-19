@@ -17,8 +17,9 @@ export class YamlToXmlConverter extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // YAML to XML converter
-        this.outputText = this.inputText;
+        // TODO: [Implementation] Convert YAML to XML format
+        // This tool requires additional implementation
+        this.outputText = this.inputText || 'Enter input to see results';
     }
 
     override render() {
@@ -41,6 +42,9 @@ export class YamlToXmlConverter extends WebComponentBase<IConfigBase> {
                         .value=${this.outputText}
                     ></textarea>
                     ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+                </div>
+                <div class="text-sm text-gray-600">
+                    Note: Convert YAML to XML format
                 </div>
             </div>
         `;

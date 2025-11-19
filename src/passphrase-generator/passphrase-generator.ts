@@ -17,24 +17,33 @@ export class PassphraseGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Passphrase generator
-        this.outputText = this.inputText;
+        const wordCount = parseInt(this.inputText) || 4;
+        const words = ['correct', 'horse', 'battery', 'staple', 'monkey', 'dragon', 'wizard', 'castle', 
+                      'ocean', 'mountain', 'forest', 'river', 'thunder', 'lightning', 'phoenix', 'tiger'];
+        
+        const result = [];
+        for (let i = 0; i < wordCount; i++) {
+            const idx = Math.floor(Math.random() * words.length);
+            result.push(words[idx]);
+        }
+        
+        this.outputText = result.join('-');
     }
 
     override render() {
         return html`
             <div class="space-y-4">
                 <div>
-                    <label class="block mb-2 font-semibold">Input:</label>
+                    <label class="block mb-2 font-semibold">Number of Words:</label>
                     <textarea
                         class="form-input w-full h-32"
-                        placeholder="Enter input..."
+                        placeholder="Enter number of words (default: 4)..."
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>
                 </div>
                 <div>
-                    <label class="block mb-2 font-semibold">Output:</label>
+                    <label class="block mb-2 font-semibold">Generated Passphrase:</label>
                     <textarea
                         class="form-input w-full h-32"
                         readonly

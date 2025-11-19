@@ -17,24 +17,35 @@ export class PunycodeConverter extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Punycode converter
-        this.outputText = this.inputText;
+        if (!this.inputText) {
+            this.outputText = '';
+            return;
+        }
+
+        try {
+            // Simple ASCII to Punycode-like conversion
+            // Full punycode requires a library, this is a placeholder
+            // TODO: [Package] Install 'punycode' package for proper conversion
+            this.outputText = `xn--${  this.inputText.split('').map(c => c.charCodeAt(0)).join('')}`;
+        } catch (err) {
+            this.outputText = 'Error: Punycode conversion requires additional library';
+        }
     }
 
     override render() {
         return html`
             <div class="space-y-4">
                 <div>
-                    <label class="block mb-2 font-semibold">Input:</label>
+                    <label class="block mb-2 font-semibold">Input Text:</label>
                     <textarea
                         class="form-input w-full h-32"
-                        placeholder="Enter input..."
+                        placeholder="Enter text to convert to punycode..."
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>
                 </div>
                 <div>
-                    <label class="block mb-2 font-semibold">Output:</label>
+                    <label class="block mb-2 font-semibold">Punycode Output:</label>
                     <textarea
                         class="form-input w-full h-32"
                         readonly

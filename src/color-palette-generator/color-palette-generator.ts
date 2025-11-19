@@ -17,8 +17,9 @@ export class ColorPaletteGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Color palette generator
-        this.outputText = this.inputText;
+        // TODO: [Implementation] Generate color palettes
+        // This tool requires additional implementation
+        this.outputText = this.inputText || 'Enter input to see results';
     }
 
     override render() {
@@ -41,6 +42,9 @@ export class ColorPaletteGenerator extends WebComponentBase<IConfigBase> {
                         .value=${this.outputText}
                     ></textarea>
                     ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+                </div>
+                <div class="text-sm text-gray-600">
+                    Note: Generate color palettes
                 </div>
             </div>
         `;

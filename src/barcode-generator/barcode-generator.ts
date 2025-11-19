@@ -17,8 +17,8 @@ export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Barcode generator
-        this.outputText = this.inputText;
+        // TODO: [Package] Install barcode generation library (e.g., JsBarcode)
+        this.outputText = 'Barcode generation requires JsBarcode or similar library';
     }
 
     override render() {
@@ -36,11 +36,10 @@ export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
                 <div>
                     <label class="block mb-2 font-semibold">Output:</label>
                     <textarea
-                        class="form-input w-full h-32"
+                        class="form-input w-full h-32 bg-yellow-50"
                         readonly
                         .value=${this.outputText}
                     ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
                 </div>
             </div>
         `;

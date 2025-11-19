@@ -17,8 +17,9 @@ export class DaysBetweenDates extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Days between dates calculator
-        this.outputText = this.inputText;
+        // TODO: [Implementation] Calculate days between two dates
+        // This tool requires additional implementation
+        this.outputText = this.inputText || 'Enter input to see results';
     }
 
     override render() {
@@ -41,6 +42,9 @@ export class DaysBetweenDates extends WebComponentBase<IConfigBase> {
                         .value=${this.outputText}
                     ></textarea>
                     ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+                </div>
+                <div class="text-sm text-gray-600">
+                    Note: Calculate days between two dates
                 </div>
             </div>
         `;

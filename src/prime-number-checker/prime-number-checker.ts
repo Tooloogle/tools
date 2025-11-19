@@ -17,24 +17,41 @@ export class PrimeNumberChecker extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Prime number checker
-        this.outputText = this.inputText;
+        if (!this.inputText || isNaN(Number(this.inputText))) {
+            this.outputText = '';
+            return;
+        }
+
+        const num = parseInt(this.inputText);
+        if (num < 2) {
+            this.outputText = `${num} is not a prime number`;
+            return;
+        }
+
+        for (let i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i === 0) {
+                this.outputText = `${num} is not a prime number (divisible by ${i})`;
+                return;
+            }
+        }
+
+        this.outputText = `${num} is a prime number!`;
     }
 
     override render() {
         return html`
             <div class="space-y-4">
                 <div>
-                    <label class="block mb-2 font-semibold">Input:</label>
+                    <label class="block mb-2 font-semibold">Number Input:</label>
                     <textarea
                         class="form-input w-full h-32"
-                        placeholder="Enter input..."
+                        placeholder="Enter a number to check if it's prime..."
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>
                 </div>
                 <div>
-                    <label class="block mb-2 font-semibold">Output:</label>
+                    <label class="block mb-2 font-semibold">Result:</label>
                     <textarea
                         class="form-input w-full h-32"
                         readonly

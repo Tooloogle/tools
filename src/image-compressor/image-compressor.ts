@@ -17,8 +17,8 @@ export class ImageCompressor extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Image compressor
-        this.outputText = this.inputText;
+        // TODO: [Browser] Image compression requires canvas API
+        this.outputText = 'Image compression requires canvas and file APIs';
     }
 
     override render() {
@@ -36,11 +36,10 @@ export class ImageCompressor extends WebComponentBase<IConfigBase> {
                 <div>
                     <label class="block mb-2 font-semibold">Output:</label>
                     <textarea
-                        class="form-input w-full h-32"
+                        class="form-input w-full h-32 bg-yellow-50"
                         readonly
                         .value=${this.outputText}
                     ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
                 </div>
             </div>
         `;

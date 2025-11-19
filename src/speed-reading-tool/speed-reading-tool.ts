@@ -3,47 +3,119 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import speedReadingToolStyles from './speed-reading-tool.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
+import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('speed-reading-tool')
 export class SpeedReadingTool extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, inputStyles, speedReadingToolStyles];
 
     @property({ type: String }) inputText = '';
-    @property({ type: String }) outputText = '';
+    @property({ type: String }) currentWord = '';
+    @property({ type: Number }) wpm = 300;
+    @property({ type: Boolean }) isPlaying = false;
+    @property({ type: Number }) currentIndex = 0;
+    private words: string[] = [];
+    private intervalId: number | null = null;
 
     private handleInput(e: Event) {
         this.inputText = (e.target as HTMLTextAreaElement).value;
-        this.process();
+        this.words = this.inputText.split(/\s+/).filter(w => w.length > 0);
+        this.currentIndex = 0;
+        this.currentWord = '';
     }
 
-    private process() {
-        // Speed reading tool
-        this.outputText = this.inputText;
+    private play() {
+        if (!isBrowser()) return;
+        
+        this.isPlaying = true;
+        const interval = 60000 / this.wpm;
+        
+        this.intervalId = window.setInterval(() => {
+            if (this.currentIndex < this.words.length) {
+                this.currentWord = this.words[this.currentIndex];
+                this.currentIndex++;
+            } else {
+                this.stop();
+            }
+        }, interval);
     }
 
+    private pause() {
+        if (this.intervalId !== null && isBrowser()) {
+            window.clearInterval(this.intervalId);
+            this.intervalId = null;
+        }
+
+        this.isPlaying = false;
+    }
+
+    private stop() {
+        this.pause();
+        this.currentIndex = 0;
+        this.currentWord = '';
+    }
+
+    // eslint-disable-next-line max-lines-per-function
     override render() {
         return html`
             <div class="space-y-4">
                 <div>
-                    <label class="block mb-2 font-semibold">Input:</label>
+                    <label class="block mb-2 font-semibold">Text to Read:</label>
                     <textarea
                         class="form-input w-full h-32"
-                        placeholder="Enter input..."
+                        placeholder="Paste text to speed read..."
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>
                 </div>
                 <div>
-                    <label class="block mb-2 font-semibold">Output:</label>
-                    <textarea
-                        class="form-input w-full h-32"
-                        readonly
-                        .value=${this.outputText}
-                    ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+                    <label class="block mb-2 font-semibold">Speed (WPM):</label>
+                    <input
+                        type="number"
+                        class="form-input w-full"
+                        min="100"
+                        max="1000"
+                        .value=${String(this.wpm)}
+                        @input=${(e: Event) => { this.wpm = Number((e.target as HTMLInputElement).value); }}
+                    />
+                </div>
+                <div class="flex gap-2">
+                    <button
+                        class="px-4 py-2 bg-blue-500 text-white rounded"
+                        ?disabled=${!this.words.length || this.isPlaying}
+                        @click=${this.play}
+                    >
+                        Play
+                    </button>
+                    <button
+                        class="px-4 py-2 bg-yellow-500 text-white rounded"
+                        ?disabled=${!this.isPlaying}
+                        @click=${this.pause}
+                    >
+                        Pause
+                    </button>
+                    <button
+                        class="px-4 py-2 bg-red-500 text-white rounded"
+                        @click=${this.stop}
+                    >
+                        Stop
+                    </button>
+                </div>
+                <div class="flex items-center justify-center h-32 bg-gray-100 rounded">
+                    <div class="text-4xl font-bold">${this.currentWord || 'Ready'}</div>
+                </div>
+                <div class="text-sm text-gray-600">
+                    Word ${this.currentIndex} of ${this.words.length}
                 </div>
             </div>
         `;
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        if (this.intervalId !== null && isBrowser()) {
+            window.clearInterval(this.intervalId);
+        }
     }
 }
 

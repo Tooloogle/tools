@@ -17,8 +17,9 @@ export class BcryptHashGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Bcrypt hash generator
-        this.outputText = this.inputText;
+        // TODO: [Server] Bcrypt hashing should be done server-side for security
+        // Browser implementation is not secure for password hashing
+        this.outputText = 'Bcrypt hashing requires server-side implementation for security';
     }
 
     override render() {
@@ -36,11 +37,10 @@ export class BcryptHashGenerator extends WebComponentBase<IConfigBase> {
                 <div>
                     <label class="block mb-2 font-semibold">Output:</label>
                     <textarea
-                        class="form-input w-full h-32"
+                        class="form-input w-full h-32 bg-yellow-50"
                         readonly
                         .value=${this.outputText}
                     ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
                 </div>
             </div>
         `;

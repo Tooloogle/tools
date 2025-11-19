@@ -17,8 +17,9 @@ export class CsvToXmlConverter extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // CSV to XML converter
-        this.outputText = this.inputText;
+        // TODO: [Implementation] Convert CSV to XML
+        // This tool requires additional implementation
+        this.outputText = this.inputText || 'Enter input to see results';
     }
 
     override render() {
@@ -41,6 +42,9 @@ export class CsvToXmlConverter extends WebComponentBase<IConfigBase> {
                         .value=${this.outputText}
                     ></textarea>
                     ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+                </div>
+                <div class="text-sm text-gray-600">
+                    Note: Convert CSV to XML
                 </div>
             </div>
         `;

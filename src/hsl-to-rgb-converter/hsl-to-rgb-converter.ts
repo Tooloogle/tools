@@ -10,31 +10,86 @@ export class HslToRgbConverter extends WebComponentBase<IConfigBase> {
 
     @property({ type: String }) inputText = '';
     @property({ type: String }) outputText = '';
+    @property({ type: String }) error = '';
 
     private handleInput(e: Event) {
         this.inputText = (e.target as HTMLTextAreaElement).value;
         this.process();
     }
 
+    // eslint-disable-next-line complexity
+    private hslToRgb(h: number, s: number, l: number): string {
+        s /= 100;
+        l /= 100;
+
+        const c = (1 - Math.abs(2 * l - 1)) * s;
+        const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+        const m = l - c / 2;
+        let r = 0, g = 0, b = 0;
+
+        if (h >= 0 && h < 60) {
+            r = c; g = x; b = 0;
+        } else if (h >= 60 && h < 120) {
+            r = x; g = c; b = 0;
+        } else if (h >= 120 && h < 180) {
+            r = 0; g = c; b = x;
+        } else if (h >= 180 && h < 240) {
+            r = 0; g = x; b = c;
+        } else if (h >= 240 && h < 300) {
+            r = x; g = 0; b = c;
+        } else {
+            r = c; g = 0; b = x;
+        }
+
+        const rVal = Math.round((r + m) * 255);
+        const gVal = Math.round((g + m) * 255);
+        const bVal = Math.round((b + m) * 255);
+
+        return `rgb(${rVal}, ${gVal}, ${bVal})`;
+    }
+
     private process() {
-        // HSL to RGB converter
-        this.outputText = this.inputText;
+        this.error = '';
+        
+        if (!this.inputText) {
+            this.outputText = '';
+            return;
+        }
+
+        try {
+            const match = this.inputText.match(/hsl\s*\(\s*(\d+)\s*,\s*(\d+)%?\s*,\s*(\d+)%?\s*\)/i);
+            if (!match) {
+                this.error = 'Invalid HSL format. Use: hsl(360, 100%, 50%)';
+                this.outputText = '';
+                return;
+            }
+
+            const h = parseInt(match[1]);
+            const s = parseInt(match[2]);
+            const l = parseInt(match[3]);
+
+            this.outputText = this.hslToRgb(h, s, l);
+        } catch (err) {
+            this.error = 'Error converting HSL to RGB';
+            this.outputText = '';
+        }
     }
 
     override render() {
         return html`
             <div class="space-y-4">
                 <div>
-                    <label class="block mb-2 font-semibold">Input:</label>
+                    <label class="block mb-2 font-semibold">HSL Input:</label>
                     <textarea
                         class="form-input w-full h-32"
-                        placeholder="Enter input..."
+                        placeholder="Enter HSL color (e.g., hsl(360, 100%, 50%))..."
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>
                 </div>
+                ${this.error ? html`<div class="text-red-600 text-sm">${this.error}</div>` : ''}
                 <div>
-                    <label class="block mb-2 font-semibold">Output:</label>
+                    <label class="block mb-2 font-semibold">RGB Output:</label>
                     <textarea
                         class="form-input w-full h-32"
                         readonly

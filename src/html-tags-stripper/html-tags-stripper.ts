@@ -17,24 +17,29 @@ export class HtmlTagsStripper extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // HTML tags stripper
-        this.outputText = this.inputText;
+        if (!this.inputText) {
+            this.outputText = '';
+            return;
+        }
+
+        // Strip HTML tags
+        this.outputText = this.inputText.replace(/<[^>]*>/g, '');
     }
 
     override render() {
         return html`
             <div class="space-y-4">
                 <div>
-                    <label class="block mb-2 font-semibold">Input:</label>
+                    <label class="block mb-2 font-semibold">HTML Input:</label>
                     <textarea
                         class="form-input w-full h-32"
-                        placeholder="Enter input..."
+                        placeholder="Enter HTML to strip tags..."
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>
                 </div>
                 <div>
-                    <label class="block mb-2 font-semibold">Output:</label>
+                    <label class="block mb-2 font-semibold">Plain Text Output:</label>
                     <textarea
                         class="form-input w-full h-32"
                         readonly

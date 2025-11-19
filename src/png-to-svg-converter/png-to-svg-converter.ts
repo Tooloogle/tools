@@ -17,8 +17,8 @@ export class PngToSvgConverter extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // PNG to SVG converter
-        this.outputText = this.inputText;
+        // TODO: [Package] PNG to SVG requires image tracing library
+        this.outputText = 'PNG to SVG conversion requires image tracing (potrace)';
     }
 
     override render() {
@@ -36,11 +36,10 @@ export class PngToSvgConverter extends WebComponentBase<IConfigBase> {
                 <div>
                     <label class="block mb-2 font-semibold">Output:</label>
                     <textarea
-                        class="form-input w-full h-32"
+                        class="form-input w-full h-32 bg-yellow-50"
                         readonly
                         .value=${this.outputText}
                     ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
                 </div>
             </div>
         `;

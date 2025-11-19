@@ -17,8 +17,8 @@ export class ChecksumCalculator extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Checksum calculator
-        this.outputText = this.inputText;
+        // TODO: [API] Various checksum algorithms (CRC32, etc.) need crypto libraries
+        this.outputText = 'Checksum calculation requires additional crypto libraries';
     }
 
     override render() {
@@ -36,11 +36,10 @@ export class ChecksumCalculator extends WebComponentBase<IConfigBase> {
                 <div>
                     <label class="block mb-2 font-semibold">Output:</label>
                     <textarea
-                        class="form-input w-full h-32"
+                        class="form-input w-full h-32 bg-yellow-50"
                         readonly
                         .value=${this.outputText}
                     ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
                 </div>
             </div>
         `;

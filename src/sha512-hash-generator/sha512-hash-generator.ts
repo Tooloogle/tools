@@ -3,6 +3,7 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import sha512HashGeneratorStyles from './sha512-hash-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
+import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('sha512-hash-generator')
 export class Sha512HashGenerator extends WebComponentBase<IConfigBase> {
@@ -10,33 +11,56 @@ export class Sha512HashGenerator extends WebComponentBase<IConfigBase> {
 
     @property({ type: String }) inputText = '';
     @property({ type: String }) outputText = '';
+    @property({ type: String }) error = '';
 
     private handleInput(e: Event) {
         this.inputText = (e.target as HTMLTextAreaElement).value;
-        this.process();
+        void this.process();
     }
 
-    private process() {
-        // SHA-512 hash generator
-        this.outputText = this.inputText;
+    private async process() {
+        this.error = '';
+        
+        if (!this.inputText) {
+            this.outputText = '';
+            return;
+        }
+
+        if (!isBrowser() || !window.crypto || !window.crypto.subtle) {
+            this.error = 'SHA-512 hashing requires a modern browser with Web Crypto API support';
+            this.outputText = '';
+            return;
+        }
+
+        try {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(this.inputText);
+            const hashBuffer = await window.crypto.subtle.digest('SHA-512', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            this.outputText = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        } catch (err) {
+            this.error = 'Error generating SHA-512 hash';
+            this.outputText = '';
+        }
     }
 
     override render() {
         return html`
             <div class="space-y-4">
                 <div>
-                    <label class="block mb-2 font-semibold">Input:</label>
+                    <label class="block mb-2 font-semibold">Input Text:</label>
                     <textarea
                         class="form-input w-full h-32"
-                        placeholder="Enter input..."
+                        placeholder="Enter text to hash..."
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>
                 </div>
+                ${this.error ? html`<div class="text-red-600 text-sm">${this.error}</div>` : ''}
                 <div>
-                    <label class="block mb-2 font-semibold">Output:</label>
+                    <label class="block mb-2 font-semibold">SHA-512 Hash:</label>
                     <textarea
-                        class="form-input w-full h-32"
+                        class="form-input w-full h-32 font-mono"
                         readonly
                         .value=${this.outputText}
                     ></textarea>

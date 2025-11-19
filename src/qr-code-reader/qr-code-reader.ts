@@ -17,8 +17,9 @@ export class QrCodeReader extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // QR code reader
-        this.outputText = this.inputText;
+        // TODO: [Browser] QR code reading requires camera API and image processing library
+        // Consider using jsQR library
+        this.outputText = 'QR code reading requires camera access and image processing library';
     }
 
     override render() {
@@ -36,11 +37,10 @@ export class QrCodeReader extends WebComponentBase<IConfigBase> {
                 <div>
                     <label class="block mb-2 font-semibold">Output:</label>
                     <textarea
-                        class="form-input w-full h-32"
+                        class="form-input w-full h-32 bg-yellow-50"
                         readonly
                         .value=${this.outputText}
                     ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
                 </div>
             </div>
         `;

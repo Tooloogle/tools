@@ -17,8 +17,9 @@ export class TimezoneConverter extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Timezone converter
-        this.outputText = this.inputText;
+        // TODO: [Implementation] Convert time between timezones
+        // This tool requires additional implementation
+        this.outputText = this.inputText || 'Enter input to see results';
     }
 
     override render() {
@@ -41,6 +42,9 @@ export class TimezoneConverter extends WebComponentBase<IConfigBase> {
                         .value=${this.outputText}
                     ></textarea>
                     ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+                </div>
+                <div class="text-sm text-gray-600">
+                    Note: Convert time between timezones
                 </div>
             </div>
         `;

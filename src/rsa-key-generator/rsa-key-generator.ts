@@ -17,8 +17,8 @@ export class RsaKeyGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // RSA key generator
-        this.outputText = this.inputText;
+        // TODO: [Server] RSA key generation should be done server-side
+        this.outputText = 'RSA key generation requires server-side implementation';
     }
 
     override render() {
@@ -36,11 +36,10 @@ export class RsaKeyGenerator extends WebComponentBase<IConfigBase> {
                 <div>
                     <label class="block mb-2 font-semibold">Output:</label>
                     <textarea
-                        class="form-input w-full h-32"
+                        class="form-input w-full h-32 bg-yellow-50"
                         readonly
                         .value=${this.outputText}
                     ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
                 </div>
             </div>
         `;

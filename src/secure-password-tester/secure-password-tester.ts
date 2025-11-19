@@ -17,8 +17,9 @@ export class SecurePasswordTester extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Secure password tester
-        this.outputText = this.inputText;
+        // TODO: [Implementation] Test password strength
+        // This tool requires additional implementation
+        this.outputText = this.inputText || 'Enter input to see results';
     }
 
     override render() {
@@ -41,6 +42,9 @@ export class SecurePasswordTester extends WebComponentBase<IConfigBase> {
                         .value=${this.outputText}
                     ></textarea>
                     ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+                </div>
+                <div class="text-sm text-gray-600">
+                    Note: Test password strength
                 </div>
             </div>
         `;

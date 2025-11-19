@@ -17,8 +17,9 @@ export class HashFileVerifier extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Hash file verifier
-        this.outputText = this.inputText;
+        // TODO: [Browser] File hashing requires FileReader API
+        // TODO: [API] Large file support needs streaming
+        this.outputText = 'File hash verification requires file upload capability';
     }
 
     override render() {
@@ -36,11 +37,10 @@ export class HashFileVerifier extends WebComponentBase<IConfigBase> {
                 <div>
                     <label class="block mb-2 font-semibold">Output:</label>
                     <textarea
-                        class="form-input w-full h-32"
+                        class="form-input w-full h-32 bg-yellow-50"
                         readonly
                         .value=${this.outputText}
                     ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
                 </div>
             </div>
         `;

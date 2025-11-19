@@ -17,8 +17,9 @@ export class CountdownTimer extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Countdown timer
-        this.outputText = this.inputText;
+        // TODO: [Implementation] Countdown timer widget
+        // This tool requires additional implementation
+        this.outputText = this.inputText || 'Enter input to see results';
     }
 
     override render() {
@@ -41,6 +42,9 @@ export class CountdownTimer extends WebComponentBase<IConfigBase> {
                         .value=${this.outputText}
                     ></textarea>
                     ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+                </div>
+                <div class="text-sm text-gray-600">
+                    Note: Countdown timer widget
                 </div>
             </div>
         `;

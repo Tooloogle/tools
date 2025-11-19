@@ -17,8 +17,9 @@ export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Fake data generator
-        this.outputText = this.inputText;
+        // TODO: [Implementation] Generate fake data (names, emails, etc.)
+        // This tool requires additional implementation
+        this.outputText = this.inputText || 'Enter input to see results';
     }
 
     override render() {
@@ -41,6 +42,9 @@ export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
                         .value=${this.outputText}
                     ></textarea>
                     ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+                </div>
+                <div class="text-sm text-gray-600">
+                    Note: Generate fake data (names, emails, etc.)
                 </div>
             </div>
         `;

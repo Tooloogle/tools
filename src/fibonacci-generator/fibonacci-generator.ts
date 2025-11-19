@@ -17,24 +17,39 @@ export class FibonacciGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // Fibonacci sequence generator
-        this.outputText = this.inputText;
+        if (!this.inputText || isNaN(Number(this.inputText))) {
+            this.outputText = '';
+            return;
+        }
+
+        const n = parseInt(this.inputText);
+        if (n < 1 || n > 100) {
+            this.outputText = 'Please enter a number between 1 and 100';
+            return;
+        }
+
+        const fib = [0, 1];
+        for (let i = 2; i < n; i++) {
+            fib[i] = fib[i - 1] + fib[i - 2];
+        }
+
+        this.outputText = fib.slice(0, n).join(', ');
     }
 
     override render() {
         return html`
             <div class="space-y-4">
                 <div>
-                    <label class="block mb-2 font-semibold">Input:</label>
+                    <label class="block mb-2 font-semibold">Count:</label>
                     <textarea
                         class="form-input w-full h-32"
-                        placeholder="Enter input..."
+                        placeholder="Enter count of Fibonacci numbers (1-100)..."
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>
                 </div>
                 <div>
-                    <label class="block mb-2 font-semibold">Output:</label>
+                    <label class="block mb-2 font-semibold">Fibonacci Sequence:</label>
                     <textarea
                         class="form-input w-full h-32"
                         readonly
