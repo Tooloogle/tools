@@ -127,7 +127,7 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
                             @change=${this.onWeightChange} />
                     </label>
                     <label>
-                        <span class="text-sm block mb-1">Price per Gram (24k) - USD</span>
+                        <span class="text-sm block mb-1">Price per Gram (24k)</span>
                         <input 
                             placeholder="Enter price per gram"
                             class="form-input" 
@@ -152,7 +152,7 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
             <div class="mt-4 p-3 bg-white rounded border-2 border-green-500">
                 <div class="text-sm text-gray-600">Total Price:</div>
                 <div class="text-3xl font-bold text-green-600">
-                    $${this.totalPrice.toFixed(2)}
+                    ${this.totalPrice.toFixed(2)}
                 </div>
                 <div class="text-xs text-gray-500 mt-1">
                     Based on ${this.weight}g at ${this.purity.toFixed(2)}% purity
