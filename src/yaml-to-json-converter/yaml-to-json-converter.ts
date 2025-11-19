@@ -3,6 +3,7 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import yamlToJsonConverterStyles from './yaml-to-json-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
+import * as yaml from 'js-yaml';
 
 @customElement('yaml-to-json-converter')
 export class YamlToJsonConverter extends WebComponentBase<IConfigBase> {
@@ -10,6 +11,7 @@ export class YamlToJsonConverter extends WebComponentBase<IConfigBase> {
 
     @property({ type: String }) inputText = '';
     @property({ type: String }) outputText = '';
+    @property({ type: String }) errorMessage = '';
 
     private handleInput(e: Event) {
         this.inputText = (e.target as HTMLTextAreaElement).value;
@@ -17,9 +19,18 @@ export class YamlToJsonConverter extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // TODO: [Implementation] Convert YAML to JSON format
-        // This tool requires additional implementation
-        this.outputText = this.inputText || 'Enter input to see results';
+        try {
+            this.errorMessage = '';
+            if (!this.inputText.trim()) {
+                this.outputText = '';
+                return;
+            }
+            const parsed = yaml.load(this.inputText);
+            this.outputText = JSON.stringify(parsed, null, 2);
+        } catch (error) {
+            this.errorMessage = `Error: ${(error as Error).message}`;
+            this.outputText = '';
+        }
     }
 
     override render() {
