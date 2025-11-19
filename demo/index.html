@@ -140,7 +140,7 @@
           'email-template-generator',
         ];
         
-        // Check if full page view is requested via query parameter or checkbox
+        // Check if full width view is requested via checkbox
         const fullWidthToggle = document.getElementById('full-width-toggle');
         const forceFullWidth = fullWidthToggle?.checked || false;
         
@@ -256,7 +256,7 @@
       if (toolToLoad) {
         searchInput.value = toolToLoad.replace(/-/g, ' ');
         clearIcon.classList.remove('hidden');
-        initTool(toolToLoad, false); // Don't update URL on initial load if from URL param
+        initTool(toolToLoad, false); // Don't update URL on initial load
       }
     </script>
   </body>
