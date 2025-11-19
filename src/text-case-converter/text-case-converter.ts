@@ -5,6 +5,7 @@ import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
 import { downloadText } from '../_utils/DomUtils.js';
+import '../t-copy-button/t-copy-button.js';
 
 @customElement('text-case-converter')
 export class TextCaseConverter extends WebComponentBase<IConfigBase> {
@@ -79,10 +80,8 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
 
     toConstantCase(text: string) {
         return text
-            .replace(/([A-Z])/g, '_$1')
             .replace(/\s+/g, '_')
-            .replace(/_+/g, '_')
-            .replace(/^_/, '')
+            .replace(/[a-z][A-Z]/g, match => `${match[0]}_${match[1]}`)
             .toUpperCase();
     }
 
@@ -97,7 +96,7 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
 
     clear() {
         this.text = "";
-        this.placeholder = this.toLower(this.placeholder);
+        this.placeholder = "Type or paste your content here.";
     }
 
     private handleTextChange(e: Event) {
@@ -195,6 +194,7 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
         <button class="btn btn-blue" @click=${this.handleConstantClick}>CONSTANT_CASE</button>
         <button class="btn btn-blue" @click=${this.handleDotClick}>dot.case</button>
 
+        <t-copy-button .isIcon=${false} .text=${this.text}></t-copy-button>
         <button class="btn btn-green" @click=${this.handleDownloadClick}>Download</button>
         <button class="btn btn-red" @click=${this.clear}>Clear</button>
     </div>
