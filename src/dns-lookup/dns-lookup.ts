@@ -50,7 +50,7 @@ export class DnsLookup extends WebComponentBase<IConfigBase> {
                         placeholder="example.com"
                         .value=${this.domain}
                         @input=${(e: Event) => { this.domain = (e.target as HTMLInputElement).value; }}
-                        @keypress=${(e: KeyboardEvent) => { if (e.key === 'Enter') this.lookup(); }}
+                        @keypress=${(e: KeyboardEvent) => { if (e.key === 'Enter') void this.lookup(); }}
                     />
                 </div>
                 <div class="grid grid-cols-2 gap-4">

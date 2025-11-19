@@ -31,79 +31,92 @@ export class CompoundInterestCalculator extends WebComponentBase<IConfigBase> {
         this.interest = this.totalAmount - p;
     }
 
+    // eslint-disable-next-line max-lines-per-function
+    private renderInputFields() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Principal Amount ($):</label>
+                <input
+                    type="number"
+                    min="0"
+                    step="100"
+                    class="form-input w-full"
+                    .value=${String(this.principal)}
+                    @input=${(e: Event) => { 
+                        this.principal = Number((e.target as HTMLInputElement).value); 
+                        this.calculate(); 
+                    }}
+                />
+            </div>
+            <div>
+                <label class="block mb-2 font-semibold">Annual Interest Rate (%):</label>
+                <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    class="form-input w-full"
+                    .value=${String(this.rate)}
+                    @input=${(e: Event) => { 
+                        this.rate = Number((e.target as HTMLInputElement).value); 
+                        this.calculate(); 
+                    }}
+                />
+            </div>
+            <div>
+                <label class="block mb-2 font-semibold">Time Period (years):</label>
+                <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    class="form-input w-full"
+                    .value=${String(this.time)}
+                    @input=${(e: Event) => { 
+                        this.time = Number((e.target as HTMLInputElement).value); 
+                        this.calculate(); 
+                    }}
+                />
+            </div>
+            <div>
+                <label class="block mb-2 font-semibold">Compounding Frequency (per year):</label>
+                <select
+                    class="form-input w-full"
+                    .value=${String(this.frequency)}
+                    @change=${(e: Event) => { 
+                        this.frequency = Number((e.target as HTMLSelectElement).value); 
+                        this.calculate(); 
+                    }}
+                >
+                    <option value="1">Annually</option>
+                    <option value="2">Semi-Annually</option>
+                    <option value="4">Quarterly</option>
+                    <option value="12" selected>Monthly</option>
+                    <option value="365">Daily</option>
+                </select>
+            </div>
+        `;
+    }
+
+    private renderResults() {
+        return html`
+            <div class="bg-blue-50 p-4 rounded-lg space-y-2">
+                <div class="flex justify-between">
+                    <span class="font-semibold">Total Amount:</span>
+                    <span class="text-xl font-bold text-blue-600">$${this.totalAmount.toFixed(2)}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="font-semibold">Interest Earned:</span>
+                    <span class="text-lg font-semibold text-green-600">$${this.interest.toFixed(2)}</span>
+                </div>
+            </div>
+        `;
+    }
+
     override render() {
         return html`
             <div class="space-y-4">
-                <div>
-                    <label class="block mb-2 font-semibold">Principal Amount ($):</label>
-                    <input
-                        type="number"
-                        min="0"
-                        step="100"
-                        class="form-input w-full"
-                        .value=${String(this.principal)}
-                        @input=${(e: Event) => { 
-                            this.principal = Number((e.target as HTMLInputElement).value); 
-                            this.calculate(); 
-                        }}
-                    />
-                </div>
-                <div>
-                    <label class="block mb-2 font-semibold">Annual Interest Rate (%):</label>
-                    <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        step="0.1"
-                        class="form-input w-full"
-                        .value=${String(this.rate)}
-                        @input=${(e: Event) => { 
-                            this.rate = Number((e.target as HTMLInputElement).value); 
-                            this.calculate(); 
-                        }}
-                    />
-                </div>
-                <div>
-                    <label class="block mb-2 font-semibold">Time Period (years):</label>
-                    <input
-                        type="number"
-                        min="0"
-                        step="0.5"
-                        class="form-input w-full"
-                        .value=${String(this.time)}
-                        @input=${(e: Event) => { 
-                            this.time = Number((e.target as HTMLInputElement).value); 
-                            this.calculate(); 
-                        }}
-                    />
-                </div>
-                <div>
-                    <label class="block mb-2 font-semibold">Compounding Frequency (per year):</label>
-                    <select
-                        class="form-input w-full"
-                        .value=${String(this.frequency)}
-                        @change=${(e: Event) => { 
-                            this.frequency = Number((e.target as HTMLSelectElement).value); 
-                            this.calculate(); 
-                        }}
-                    >
-                        <option value="1">Annually</option>
-                        <option value="2">Semi-Annually</option>
-                        <option value="4">Quarterly</option>
-                        <option value="12" selected>Monthly</option>
-                        <option value="365">Daily</option>
-                    </select>
-                </div>
-                <div class="bg-blue-50 p-4 rounded-lg space-y-2">
-                    <div class="flex justify-between">
-                        <span class="font-semibold">Total Amount:</span>
-                        <span class="text-xl font-bold text-blue-600">$${this.totalAmount.toFixed(2)}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="font-semibold">Interest Earned:</span>
-                        <span class="text-lg font-semibold text-green-600">$${this.interest.toFixed(2)}</span>
-                    </div>
-                </div>
+                ${this.renderInputFields()}
+                ${this.renderResults()}
             </div>
         `;
     }

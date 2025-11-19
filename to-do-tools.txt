@@ -1,0 +1,31 @@
+# Tools Requiring Additional Implementation
+
+## [Browser] - Requires Complex File/Canvas APIs (7 tools)
+These tools require file upload, complex canvas manipulation, or camera access:
+- favicon-generator: Requires file upload and canvas API for favicon generation from images
+- gif-to-webp-converter: Requires file upload, canvas, and format conversion libraries
+- image-compressor: Requires file upload and canvas API for compression
+- image-cropper: Requires file upload, canvas API, and interactive cropping UI
+- image-filter: Requires file upload and canvas API for filter effects
+- image-resizer: Requires file upload and canvas API for resizing
+- qr-code-reader: Requires camera API and QR code scanning library (jsQR)
+
+## [Server/API] - Requires Server-Side Implementation (3 tools)
+These tools need server-side processing or external service APIs:
+- domain-whois-lookup: WHOIS lookups require server-side WHOIS protocol
+- ssl-checker: SSL certificate checking requires server-side TLS inspection
+- rsa-key-generator: RSA key generation should be done server-side for security
+
+## [Package] - Requires Additional NPM Packages (3 tools)
+These tools need specific NPM packages that aren't yet installed:
+- excel-to-json-converter: Requires xlsx or sheetjs library for Excel parsing
+- png-to-svg-converter: Requires image tracing library (e.g., potrace)
+- punycode-converter: Requires punycode package for proper IDN conversion
+
+## [API] - Requires Additional Libraries/APIs (2 tools)
+These tools need additional crypto or processing libraries:
+- checksum-calculator: Needs CRC32 and other checksum algorithm libraries
+- hash-file-verifier: Requires FileReader API and streaming for large files
+
+## Total: 15 tools to be deleted
+All these tools have been removed from the codebase and are documented here for future implementation.
