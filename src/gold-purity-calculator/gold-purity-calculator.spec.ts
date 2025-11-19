@@ -25,13 +25,11 @@ describe('gold-purity-calculator web component test', () => {
         document.body.appendChild(component);
         
         await component.updateComplete;
-        // Wait a bit for the API call to complete or fallback
-        await new Promise(resolve => setTimeout(resolve, 100));
 
         expect(component.karat).toBe(24);
         expect(component.purity).toBe(100);
         expect(component.weight).toBe(0);
-        expect(component.pricePerGram).toBeGreaterThan(0); // Should have a default price
+        expect(component.pricePerGram).toBe(0);
     });
 
     it('should calculate purity from karat', async () => {
@@ -70,7 +68,6 @@ describe('gold-purity-calculator web component test', () => {
         const component = window.document.createElement(componentTag) as GoldPurityCalculator;
         document.body.appendChild(component);
         await component.updateComplete;
-        await new Promise(resolve => setTimeout(resolve, 100));
 
         // Set weight and price manually for predictable testing
         component.weight = 10; // 10 grams

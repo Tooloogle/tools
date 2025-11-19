@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import goldPurityCalculatorStyles from './gold-purity-calculator.css.js';
 import inputStyles from '../_styles/input.css.js';
@@ -22,47 +22,6 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
 
     @property()
     totalPrice = 0;
-
-    @state()
-    isLoadingPrice = false;
-
-    async connectedCallback() {
-        super.connectedCallback();
-        await this.fetchGoldPrice();
-    }
-
-    async fetchGoldPrice() {
-        this.isLoadingPrice = true;
-        try {
-            // Try to fetch from GoldAPI.io free endpoint
-            // Note: This API might require CORS or have rate limits
-            // Using a fallback default value if fetch fails
-            const response = await fetch('https://www.goldapi.io/api/XAU/USD');
-            if (response.ok) {
-                const data = await response.json();
-                // GoldAPI returns price per troy ounce, convert to per gram
-                // 1 troy ounce = 31.1035 grams
-                if (data.price) {
-                    this.pricePerGram = Number((data.price / 31.1035).toFixed(2));
-                    this.calculateTotalPrice();
-                }
-            } else {
-                // Use default value if API fails
-                this.setDefaultPrice();
-            }
-        } catch (error) {
-            // Fallback to default price if API is unavailable
-            this.setDefaultPrice();
-        } finally {
-            this.isLoadingPrice = false;
-        }
-    }
-
-    setDefaultPrice() {
-        // Default price per gram for 24k gold (approximate, user can update)
-        // Based on typical gold prices around $65-70 per gram for 24k
-        this.pricePerGram = 70;
-    }
 
     onKaratChange(e: Event) {
         const target = e.target as HTMLInputElement;
@@ -170,18 +129,14 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
                     <label>
                         <span class="text-sm block mb-1">Price per Gram (24k) - USD</span>
                         <input 
-                            placeholder="${this.isLoadingPrice ? 'Loading...' : 'Enter price per gram'}"
+                            placeholder="Enter price per gram"
                             class="form-input" 
                             type="number"
                             min="0"
                             step="0.01"
                             .value=${this.pricePerGram || ''}
-                            ?disabled=${this.isLoadingPrice}
                             @input=${this.onPricePerGramChange}
                             @change=${this.onPricePerGramChange} />
-                        <span class="text-xs text-gray-500 mt-1 block">
-                            ${this.isLoadingPrice ? 'Fetching current gold price...' : 'Default price provided, you can update it'}
-                        </span>
                     </label>
                 </div>
                 
@@ -212,8 +167,8 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
                 ${this.renderPurityConversion()}
                 ${this.renderPriceCalculator()}
                 <div class="text-xs text-gray-500 p-2 bg-gray-50 rounded">
-                    <strong>Note:</strong> The default price is provided for reference. 
-                    Gold prices fluctuate constantly. Please verify current market rates for accurate calculations.
+                    <strong>Note:</strong> Enter the current gold price per gram for accurate calculations. 
+                    Gold prices fluctuate constantly.
                 </div>
             </div>`;
     }
