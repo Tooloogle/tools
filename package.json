@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite --config vite.config.demo.js",
     "start": "npm run dev",
-    "css": "node css-to-ts.js",
+    "css": "node scripts/css-to-ts.js",
     "build:demo": "npm run css && vite build --config vite.config.demo.js",
     "build:tools": "npm run css && npm run build:tools:esm && npm run build:tools:cjs",
     "build:tools:esm": "tsc -p tsconfig.json --outDir dist",
@@ -13,7 +13,7 @@
     "clean": "npx rimraf dist* && npx rimraf src/**/*.css.ts",
     "lint": "eslint src/**/*.ts css-to-ts.js",
     "lint:fix": "npm run lint -- --fix",
-    "new": "node create-new-tool.js",
+    "new": "node scripts/create-new-tool.js",
     "postbuild": "node postbuild.js",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
@@ -38,6 +38,7 @@
   },
   "homepage": "https://github.com/Tooloogle/tools#readme",
   "devDependencies": {
+    "@lit-labs/ssr": "^3.3.1",
     "@tailwindcss/forms": "^0.5.3",
     "@types/blueimp-md5": "^2.18.2",
     "@types/jest": "^29.5.2",
