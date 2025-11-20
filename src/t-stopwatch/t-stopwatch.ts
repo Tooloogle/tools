@@ -1,13 +1,13 @@
 import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
-import stopwatchStyles from './stopwatch.css.js';
+import tStopwatchStyles from './t-stopwatch.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import buttonStyles from '../_styles/button.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 
-@customElement('stopwatch')
-export class Stopwatch extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, buttonStyles, stopwatchStyles];
+@customElement('t-stopwatch')
+export class TStopwatch extends WebComponentBase<IConfigBase> {
+    static override styles = [WebComponentBase.styles, buttonStyles, tStopwatchStyles];
 
     @property({ type: Number }) elapsedTime = 0;
     @property({ type: Boolean }) isRunning = false;
@@ -101,6 +101,6 @@ export class Stopwatch extends WebComponentBase<IConfigBase> {
 
 declare global {
     interface HTMLElementTagNameMap {
-        'stopwatch': Stopwatch;
+        't-stopwatch': TStopwatch;
     }
 }

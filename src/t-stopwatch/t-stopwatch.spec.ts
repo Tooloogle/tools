@@ -1,9 +1,9 @@
 import { LitElement } from 'lit';
-import { Stopwatch } from "./stopwatch.js";
+import { TStopwatch } from "./t-stopwatch.js";
 
 describe('stopwatch web component test', () => {
 
-    const componentTag = "stopwatch";
+    const componentTag = "t-stopwatch";
     
     it('should render web component', async () => {
         const component = window.document.createElement(componentTag) as LitElement;
@@ -15,9 +15,9 @@ describe('stopwatch web component test', () => {
         expect(component.renderRoot).toBeTruthy();
     });
 
-    it('should be an instance of Stopwatch', () => {
-        const component = window.document.createElement(componentTag) as Stopwatch;
-        expect(component).toBeInstanceOf(Stopwatch);
+    it('should be an instance of TStopwatch', () => {
+        const component = window.document.createElement(componentTag) as TStopwatch;
+        expect(component).toBeInstanceOf(TStopwatch);
     });
 
     afterEach(() => {
