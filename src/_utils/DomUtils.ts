@@ -34,3 +34,12 @@ export function downloadImage(name: string, src: string) {
     setTimeout(() => URL.revokeObjectURL(src), 100);
   }
 }
+
+export function isCanvasSupported() {
+  if (!isBrowser()) {
+    return false;
+  }
+
+  const elem = document.createElement('canvas');
+  return !!(elem.getContext && elem.getContext('2d'));
+}
