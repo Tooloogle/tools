@@ -3,6 +3,7 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import jsonToYamlConverterStyles from './json-to-yaml-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
+import * as yaml from 'js-yaml';
 
 @customElement('json-to-yaml-converter')
 export class JsonToYamlConverter extends WebComponentBase<IConfigBase> {
@@ -10,6 +11,7 @@ export class JsonToYamlConverter extends WebComponentBase<IConfigBase> {
 
     @property({ type: String }) inputText = '';
     @property({ type: String }) outputText = '';
+    @property({ type: String }) errorMessage = '';
 
     private handleInput(e: Event) {
         this.inputText = (e.target as HTMLTextAreaElement).value;
@@ -17,25 +19,41 @@ export class JsonToYamlConverter extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // TODO: [Implementation] Convert JSON to YAML format
-        // This tool requires additional implementation
-        this.outputText = this.inputText || 'Enter input to see results';
+        if (!this.inputText.trim()) {
+            this.outputText = '';
+            this.errorMessage = '';
+            return;
+        }
+
+        try {
+            const jsonObj = JSON.parse(this.inputText);
+            this.outputText = yaml.dump(jsonObj, { indent: 2, lineWidth: -1 });
+            this.errorMessage = '';
+        } catch (error) {
+            this.outputText = '';
+            this.errorMessage = `Error: ${error instanceof Error ? error.message : 'Invalid JSON'}`;
+        }
     }
 
     override render() {
         return html`
             <div class="space-y-4">
                 <div>
-                    <label class="block mb-2 font-semibold">Input:</label>
+                    <label class="block mb-2 font-semibold">JSON Input:</label>
                     <textarea
                         class="form-input w-full h-32"
-                        placeholder="Enter input..."
+                        placeholder='Enter JSON... e.g., {"name": "John", "age": 30}'
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>
                 </div>
+                ${this.errorMessage ? html`
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                        ${this.errorMessage}
+                    </div>
+                ` : ''}
                 <div>
-                    <label class="block mb-2 font-semibold">Output:</label>
+                    <label class="block mb-2 font-semibold">YAML Output:</label>
                     <textarea
                         class="form-input w-full h-32"
                         readonly
@@ -44,7 +62,7 @@ export class JsonToYamlConverter extends WebComponentBase<IConfigBase> {
                     ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
                 </div>
                 <div class="text-sm text-gray-600">
-                    Note: Convert JSON to YAML format
+                    Convert JSON to YAML format using js-yaml library
                 </div>
             </div>
         `;
