@@ -28,58 +28,70 @@ export class SimpleInterestCalculator extends WebComponentBase<IConfigBase> {
     override render() {
         return html`
             <div class="space-y-4">
-                <div>
-                    <label class="block mb-2 font-semibold">Principal Amount ($):</label>
-                    <input
-                        type="number"
-                        min="0"
-                        step="100"
-                        class="form-input w-full"
-                        .value=${String(this.principal)}
-                        @input=${(e: Event) => { 
-                            this.principal = Number((e.target as HTMLInputElement).value); 
-                            this.calculate(); 
-                        }}
-                    />
+                ${this.renderInputs()}
+                ${this.renderResults()}
+            </div>
+        `;
+    }
+
+    private renderInputs() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Principal Amount ($):</label>
+                <input
+                    type="number"
+                    min="0"
+                    step="100"
+                    class="form-input w-full"
+                    .value=${String(this.principal)}
+                    @input=${(e: Event) => { 
+                        this.principal = Number((e.target as HTMLInputElement).value); 
+                        this.calculate(); 
+                    }}
+                />
+            </div>
+            <div>
+                <label class="block mb-2 font-semibold">Rate of Interest (% per annum):</label>
+                <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    class="form-input w-full"
+                    .value=${String(this.rate)}
+                    @input=${(e: Event) => { 
+                        this.rate = Number((e.target as HTMLInputElement).value); 
+                        this.calculate(); 
+                    }}
+                />
+            </div>
+            <div>
+                <label class="block mb-2 font-semibold">Time Period (years):</label>
+                <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    class="form-input w-full"
+                    .value=${String(this.time)}
+                    @input=${(e: Event) => { 
+                        this.time = Number((e.target as HTMLInputElement).value); 
+                        this.calculate(); 
+                    }}
+                />
+            </div>
+        `;
+    }
+
+    private renderResults() {
+        return html`
+            <div class="bg-blue-50 p-4 rounded-lg space-y-2">
+                <div class="flex justify-between">
+                    <span class="font-semibold">Simple Interest:</span>
+                    <span class="text-lg font-semibold text-green-600">$${this.interest.toFixed(2)}</span>
                 </div>
-                <div>
-                    <label class="block mb-2 font-semibold">Rate of Interest (% per annum):</label>
-                    <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        step="0.1"
-                        class="form-input w-full"
-                        .value=${String(this.rate)}
-                        @input=${(e: Event) => { 
-                            this.rate = Number((e.target as HTMLInputElement).value); 
-                            this.calculate(); 
-                        }}
-                    />
-                </div>
-                <div>
-                    <label class="block mb-2 font-semibold">Time Period (years):</label>
-                    <input
-                        type="number"
-                        min="0"
-                        step="0.5"
-                        class="form-input w-full"
-                        .value=${String(this.time)}
-                        @input=${(e: Event) => { 
-                            this.time = Number((e.target as HTMLInputElement).value); 
-                            this.calculate(); 
-                        }}
-                    />
-                </div>
-                <div class="bg-blue-50 p-4 rounded-lg space-y-2">
-                    <div class="flex justify-between">
-                        <span class="font-semibold">Simple Interest:</span>
-                        <span class="text-lg font-semibold text-green-600">$${this.interest.toFixed(2)}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="font-semibold">Total Amount:</span>
-                        <span class="text-xl font-bold text-blue-600">$${this.totalAmount.toFixed(2)}</span>
-                    </div>
+                <div class="flex justify-between">
+                    <span class="font-semibold">Total Amount:</span>
+                    <span class="text-xl font-bold text-blue-600">$${this.totalAmount.toFixed(2)}</span>
                 </div>
             </div>
         `;

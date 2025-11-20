@@ -84,7 +84,7 @@ export class HtmlToMarkdownConverter extends WebComponentBase<IConfigBase> {
                     <label class="block mb-2 font-semibold">HTML Input:</label>
                     <textarea
                         class="form-input w-full h-40"
-                        placeholder="<h1>Hello World</h1>&#10;<p>This is <strong>bold</strong> and <em>italic</em> text.</p>"
+                        placeholder="&lt;h1&gt;Hello World&lt;/h1&gt;&#10;&lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; and &lt;em&gt;italic&lt;/em&gt; text.&lt;/p&gt;"
                         .value=${this.inputText}
                         @input=${this.handleInput}
                     ></textarea>

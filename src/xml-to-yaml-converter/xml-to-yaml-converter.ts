@@ -41,6 +41,7 @@ export class XmlToYamlConverter extends WebComponentBase<IConfigBase> {
                     if (!Array.isArray(obj[key])) {
                         obj[key] = [obj[key]];
                     }
+
                     obj[key].push(value);
                 } else {
                     obj[key] = value;

@@ -26,7 +26,6 @@ export class SqlToJsonConverter extends WebComponentBase<IConfigBase> {
         }
 
         try {
-            // Parse SQL table format (simple table-like text format)
             const lines = this.inputText.trim().split('\n').filter(line => line.trim());
             
             if (lines.length < 2) {
@@ -35,56 +34,14 @@ export class SqlToJsonConverter extends WebComponentBase<IConfigBase> {
                 return;
             }
 
-            // First line is headers
-            const headerLine = lines[0].trim();
-            const headers = headerLine.split(/[\t|,]/).map(h => h.trim()).filter(h => h);
-
+            const headers = this.parseHeaders(lines[0]);
             if (headers.length === 0) {
                 this.errorMessage = 'No headers found. Use tab, pipe (|), or comma separated format.';
                 this.outputText = '';
                 return;
             }
 
-            // Rest are data rows
-            const result: any[] = [];
-            
-            for (let i = 1; i < lines.length; i++) {
-                const line = lines[i].trim();
-                if (!line) continue;
-
-                // Try to determine separator (tab, pipe, or comma)
-                const values = line.split(/[\t|,]/).map(v => v.trim());
-                
-                if (values.length !== headers.length) {
-                    // Skip rows that don't match header count
-                    continue;
-                }
-
-                const obj: any = {};
-                headers.forEach((header, index) => {
-                    let value: any = values[index];
-                    
-                    // Try to parse as number
-                    if (/^-?\d+(\.\d+)?$/.test(value)) {
-                        value = parseFloat(value);
-                    }
-                    // Check for boolean
-                    else if (value.toLowerCase() === 'true') {
-                        value = true;
-                    }
-                    else if (value.toLowerCase() === 'false') {
-                        value = false;
-                    }
-                    // Check for null
-                    else if (value.toLowerCase() === 'null') {
-                        value = null;
-                    }
-
-                    obj[header] = value;
-                });
-
-                result.push(obj);
-            }
+            const result = this.parseDataRows(lines.slice(1), headers);
 
             if (result.length === 0) {
                 this.errorMessage = 'No valid data rows found';
@@ -93,11 +50,61 @@ export class SqlToJsonConverter extends WebComponentBase<IConfigBase> {
             }
 
             this.outputText = JSON.stringify(result, null, 2);
-
         } catch (error) {
-            this.errorMessage = `Error: ${error instanceof Error ? error.message : 'Failed to parse SQL'}`;
+            this.errorMessage = `Error parsing input: ${  error instanceof Error ? error.message : String(error)}`;
             this.outputText = '';
         }
+    }
+
+    private parseHeaders(headerLine: string): string[] {
+        return headerLine.trim().split(/[\t|,]/).map(h => h.trim()).filter(h => h);
+    }
+
+    private parseDataRows(lines: string[], headers: string[]): any[] {
+        const result: any[] = [];
+        
+        for (const line of lines) {
+            const trimmedLine = line.trim();
+            if (!trimmedLine) continue;
+
+            const values = trimmedLine.split(/[\t|,]/).map(v => v.trim());
+            
+            if (values.length !== headers.length) {
+                continue;
+            }
+
+            const obj: any = {};
+            headers.forEach((header, index) => {
+                obj[header] = this.parseValue(values[index]);
+            });
+
+            result.push(obj);
+        }
+        
+        return result;
+    }
+
+    private parseValue(value: any): any {
+        // Try to parse as number
+        if (/^-?\d+(\.\d+)?$/.test(value)) {
+            return parseFloat(value);
+        }
+
+        // Check for boolean
+        if (value.toLowerCase() === 'true') {
+            return true;
+        }
+
+        if (value.toLowerCase() === 'false') {
+            return false;
+        }
+
+        // Check for null
+        if (value.toLowerCase() === 'null') {
+            return null;
+        }
+
+        return value;
     }
 
     override render() {

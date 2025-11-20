@@ -23,7 +23,7 @@ export class ScientificCalculator extends WebComponentBase<IConfigBase> {
         }
         
         try {
-            let expr = this.inputText
+            const expr = this.inputText
                 .replace(/\^/g, '**')
                 .replace(/sqrt\(([^)]+)\)/g, 'Math.sqrt($1)')
                 .replace(/sin\(([^)]+)\)/g, 'Math.sin($1)')
@@ -38,7 +38,7 @@ export class ScientificCalculator extends WebComponentBase<IConfigBase> {
                 .replace(/\bpi\b/g, 'Math.PI')
                 .replace(/\be\b/g, 'Math.E');
             
-            const result = Function('"use strict"; return (' + expr + ')')();
+            const result = Function(`"use strict"; return (${  expr  })`)();
             this.outputText = String(result);
         } catch (error) {
             this.outputText = 'Error: Invalid expression';

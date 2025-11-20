@@ -68,68 +68,105 @@ export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
     override render() {
         return html`
             <div class="space-y-4">
-                <div>
-                    <label class="block mb-2 font-semibold">Page Title:</label>
-                    <input
-                        type="text"
-                        class="form-input w-full"
-                        placeholder="My Website - Home"
-                        .value=${this.title}
-                        @input=${this.handleInput('title')}
-                    />
-                </div>
+                ${this.renderInputFields()}
+                ${this.renderOutput()}
+            </div>
+        `;
+    }
 
-                <div>
-                    <label class="block mb-2 font-semibold">Description:</label>
-                    <textarea
-                        class="form-input w-full h-20"
-                        placeholder="A brief description of your page for search engines"
-                        .value=${this.description}
-                        @input=${this.handleInput('description')}
-                    ></textarea>
-                </div>
+    private renderInputFields() {
+        return html`
+            ${this.renderTitleInput()}
+            ${this.renderDescriptionInput()}
+            ${this.renderKeywordsInput()}
+            ${this.renderAuthorInput()}
+            ${this.renderViewportInput()}
+        `;
+    }
 
-                <div>
-                    <label class="block mb-2 font-semibold">Keywords (comma-separated):</label>
-                    <input
-                        type="text"
-                        class="form-input w-full"
-                        placeholder="web development, HTML, CSS, JavaScript"
-                        .value=${this.keywords}
-                        @input=${this.handleInput('keywords')}
-                    />
-                </div>
+    private renderTitleInput() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Page Title:</label>
+                <input
+                    type="text"
+                    class="form-input w-full"
+                    placeholder="My Website - Home"
+                    .value=${this.title}
+                    @input=${this.handleInput('title')}
+                />
+            </div>
+        `;
+    }
 
-                <div>
-                    <label class="block mb-2 font-semibold">Author:</label>
-                    <input
-                        type="text"
-                        class="form-input w-full"
-                        placeholder="Your Name"
-                        .value=${this.author}
-                        @input=${this.handleInput('author')}
-                    />
-                </div>
+    private renderDescriptionInput() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Description:</label>
+                <textarea
+                    class="form-input w-full h-20"
+                    placeholder="A brief description of your page for search engines"
+                    .value=${this.description}
+                    @input=${this.handleInput('description')}
+                ></textarea>
+            </div>
+        `;
+    }
 
-                <div>
-                    <label class="block mb-2 font-semibold">Viewport:</label>
-                    <input
-                        type="text"
-                        class="form-input w-full"
-                        .value=${this.viewport}
-                        @input=${this.handleInput('viewport')}
-                    />
-                </div>
+    private renderKeywordsInput() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Keywords (comma-separated):</label>
+                <input
+                    type="text"
+                    class="form-input w-full"
+                    placeholder="web development, HTML, CSS, JavaScript"
+                    .value=${this.keywords}
+                    @input=${this.handleInput('keywords')}
+                />
+            </div>
+        `;
+    }
 
-                <div>
-                    <label class="block mb-2 font-semibold">Generated HTML Meta Tags:</label>
-                    <textarea
-                        class="form-input w-full h-32"
-                        readonly
-                        .value=${this.outputText}
-                    ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
-                </div>
+    private renderAuthorInput() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Author:</label>
+                <input
+                    type="text"
+                    class="form-input w-full"
+                    placeholder="Your Name"
+                    .value=${this.author}
+                    @input=${this.handleInput('author')}
+                />
+            </div>
+        `;
+    }
+
+    private renderViewportInput() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Viewport:</label>
+                <input
+                    type="text"
+                    class="form-input w-full"
+                    .value=${this.viewport}
+                    @input=${this.handleInput('viewport')}
+                />
+            </div>
+        `;
+    }
+
+    private renderOutput() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Generated HTML Meta Tags:</label>
+                <textarea
+                    class="form-input w-full h-32"
+                    readonly
+                    .value=${this.outputText}
+                ></textarea>
+                ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
             </div>
         `;
     }

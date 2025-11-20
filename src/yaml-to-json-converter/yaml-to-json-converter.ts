@@ -25,6 +25,7 @@ export class YamlToJsonConverter extends WebComponentBase<IConfigBase> {
                 this.outputText = '';
                 return;
             }
+
             const parsed = yaml.load(this.inputText);
             this.outputText = JSON.stringify(parsed, null, 2);
         } catch (error) {
