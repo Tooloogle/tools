@@ -64,6 +64,7 @@ export class LoremPicsumPlaceholder extends WebComponentBase<IConfigBase> {
         return url;
     }
 
+    // eslint-disable-next-line max-lines-per-function
     override render() {
         const imageUrl = this.generateUrl();
 

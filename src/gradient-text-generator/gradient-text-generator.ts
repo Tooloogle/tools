@@ -38,6 +38,7 @@ export class GradientTextGenerator extends WebComponentBase<IConfigBase> {
         if (this.gradientType === 'linear') {
             return `linear-gradient(${this.angle}deg, ${this.color1}, ${this.color2})`;
         }
+
         return `radial-gradient(circle, ${this.color1}, ${this.color2})`;
     }
 
@@ -54,6 +55,7 @@ export class GradientTextGenerator extends WebComponentBase<IConfigBase> {
 }`;
     }
 
+    // eslint-disable-next-line max-lines-per-function
     override render() {
         const cssCode = this.generateGradientCSS();
         const gradientStyle = this.getGradientStyle();
