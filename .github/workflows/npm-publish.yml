@@ -28,9 +28,21 @@ jobs:
 
       - run: npm run build:tools
 
-      - name: Publish npm package
+      - name: Run tests
+        run: npm test
+
+      - name: Verify ssr html generation
+        run: node ./scripts/web-component-ssr-html.js
+
+      - name: Prepare dist for release
         run: |
           cp package.json dist/package.json
+          cp package-lock.json dist/package-lock.json
+          cp README.md dist/README.md
+          cp LICENSE dist/LICENSE
+
+      - name: Publish npm package
+        run: |
           npm install -g @semantic-release/changelog @semantic-release/git semantic-release
           semantic-release
         env:

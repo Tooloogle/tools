@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs-extra";
 import { cwd } from "process";
-import demoListJson from "./demo/tools.js";
+import demoListJson from "../demo/tools.js";
 
 const args = process.argv.slice(2)
 if (!args.length) {

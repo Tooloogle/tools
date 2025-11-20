@@ -28,6 +28,12 @@ jobs:
       - name: Build demo
         run: npm run build:demo
 
+      - name: Run tests
+        run: npm test
+
+      - name: Verify ssr html generation
+        run: node ./scripts/web-component-ssr-html.js
+
       - name: Deploy via FTP (main branch only)
         if: github.ref == 'refs/heads/main'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
