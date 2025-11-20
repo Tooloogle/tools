@@ -22,6 +22,16 @@ export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
         const canvas = this.shadowRoot?.querySelector('#barcode') as HTMLCanvasElement;
         if (!canvas || !this.inputText) return;
         
+        // Check if canvas context is actually available (not just defined)
+        // In test environments like jsdom, getContext exists but throws when called
+        try {
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+        } catch {
+            // Canvas API not available (e.g., in test environment)
+            return;
+        }
+        
         try {
             JsBarcode(canvas, this.inputText, {
                 format: this.format,
