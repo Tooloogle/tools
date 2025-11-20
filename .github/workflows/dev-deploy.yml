@@ -25,14 +25,14 @@ jobs:
       - name: Run linter
         run: npm run lint
 
+      - name: Build demo
+        run: npm run build:demo
+
       - name: Run tests
         run: npm test
 
       - name: Verify ssr html generation
         run: node ./scripts/web-component-ssr-html.js
-
-      - name: Build demo
-        run: npm run build:demo
 
       - name: Deploy via FTP (main branch only)
         if: github.ref == 'refs/heads/main'
