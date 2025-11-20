@@ -3,7 +3,7 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import barcodeGeneratorStyles from './barcode-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
-import { isBrowser } from '../_utils/DomUtils.js';
+import { isCanvasSupported } from '../_utils/DomUtils.js';
 import JsBarcode from 'jsbarcode';
 
 @customElement('barcode-generator')
@@ -16,12 +16,16 @@ export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
 
     private generateBarcode() {
         this.error = '';
-        
-        if (!isBrowser()) return;
-        
+
+        if (!isCanvasSupported()) {
+            return;
+        }
+
         const canvas = this.shadowRoot?.querySelector('#barcode') as HTMLCanvasElement;
-        if (!canvas || !this.inputText) return;
-        
+        if (!canvas || !this.inputText) {
+            return;
+        }
+
         try {
             JsBarcode(canvas, this.inputText, {
                 format: this.format,
