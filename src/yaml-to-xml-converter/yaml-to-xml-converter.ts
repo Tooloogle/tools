@@ -3,6 +3,7 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import yamlToXmlConverterStyles from './yaml-to-xml-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
+import * as yaml from 'js-yaml';
 
 @customElement('yaml-to-xml-converter')
 export class YamlToXmlConverter extends WebComponentBase<IConfigBase> {
@@ -16,10 +17,46 @@ export class YamlToXmlConverter extends WebComponentBase<IConfigBase> {
         this.process();
     }
 
+    private jsonToXml(obj: any, rootName = 'root'): string {
+        if (typeof obj !== 'object' || obj === null) {
+            return String(obj);
+        }
+
+        let xml = `<${rootName}>`;
+        
+        if (Array.isArray(obj)) {
+            obj.forEach((item, index) => {
+                xml += `<item>${this.jsonToXml(item, 'item')}</item>`;
+            });
+        } else {
+            for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    const value = obj[key];
+                    if (typeof value === 'object' && value !== null) {
+                        xml += this.jsonToXml(value, key);
+                    } else {
+                        xml += `<${key}>${String(value)}</${key}>`;
+                    }
+                }
+            }
+        }
+        
+        xml += `</${rootName}>`;
+        return xml;
+    }
+
     private process() {
-        // TODO: [Implementation] Convert YAML to XML format
-        // This tool requires additional implementation
-        this.outputText = this.inputText || 'Enter input to see results';
+        if (!this.inputText.trim()) {
+            this.outputText = '';
+            return;
+        }
+
+        try {
+            const parsed = yaml.load(this.inputText);
+            this.outputText = this.jsonToXml(parsed);
+        } catch (error) {
+            this.outputText = `Error: ${(error as Error).message}`;
+        }
     }
 
     override render() {

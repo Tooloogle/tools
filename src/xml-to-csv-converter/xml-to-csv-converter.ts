@@ -16,10 +16,69 @@ export class XmlToCsvConverter extends WebComponentBase<IConfigBase> {
         this.process();
     }
 
+    private xmlToJson(xml: string): any[] {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xml, 'text/xml');
+        
+        if (xmlDoc.querySelector('parsererror')) {
+            throw new Error('Invalid XML');
+        }
+
+        const parseNode = (node: Element): any => {
+            if (node.children.length === 0) {
+                return node.textContent || '';
+            }
+
+            const obj: any = {};
+            Array.from(node.children).forEach(child => {
+                const key = child.tagName;
+                const value = child.children.length === 0 ? child.textContent : parseNode(child);
+                obj[key] = value;
+            });
+            
+            return obj;
+        };
+
+        const rows = Array.from(xmlDoc.documentElement.children);
+        return rows.map(row => parseNode(row));
+    }
+
     private process() {
-        // TODO: [Implementation] Convert XML to CSV
-        // This tool requires additional implementation
-        this.outputText = this.inputText || 'Enter input to see results';
+        if (!this.inputText.trim()) {
+            this.outputText = '';
+            return;
+        }
+
+        try {
+            const data = this.xmlToJson(this.inputText);
+            
+            if (data.length === 0) {
+                this.outputText = '';
+                return;
+            }
+
+            // Get all unique keys
+            const keys = Array.from(new Set(data.flatMap(obj => Object.keys(obj))));
+            
+            // Create CSV header
+            const header = keys.join(',');
+            
+            // Create CSV rows
+            const rows = data.map(obj => {
+                return keys.map(key => {
+                    const value = obj[key];
+                    const stringValue = value !== undefined && value !== null ? String(value) : '';
+                    // Escape quotes and wrap in quotes if contains comma
+                    return stringValue.includes(',') || stringValue.includes('"') 
+                        ? `"${stringValue.replace(/"/g, '""')}"` 
+                        : stringValue;
+                }).join(',');
+            });
+            
+            this.outputText = [header, ...rows].join('\n');
+        } catch (error) {
+            this.outputText = `Error: ${(error as Error).message}`;
+        }
     }
 
     override render() {

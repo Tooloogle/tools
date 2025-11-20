@@ -17,9 +17,42 @@ export class JsonToTsvConverter extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // TODO: [Implementation] Convert JSON to TSV
-        // This tool requires additional implementation
-        this.outputText = this.inputText || 'Enter input to see results';
+        if (!this.inputText.trim()) {
+            this.outputText = '';
+            return;
+        }
+
+        try {
+            const data = JSON.parse(this.inputText);
+            
+            if (!Array.isArray(data)) {
+                this.outputText = 'Error: Input must be a JSON array';
+                return;
+            }
+
+            if (data.length === 0) {
+                this.outputText = '';
+                return;
+            }
+
+            // Get all unique keys from all objects
+            const keys = Array.from(new Set(data.flatMap(obj => Object.keys(obj))));
+            
+            // Create header row
+            const header = keys.join('\t');
+            
+            // Create data rows
+            const rows = data.map(obj => {
+                return keys.map(key => {
+                    const value = obj[key];
+                    return value !== undefined && value !== null ? String(value) : '';
+                }).join('\t');
+            });
+            
+            this.outputText = [header, ...rows].join('\n');
+        } catch (error) {
+            this.outputText = `Error: ${(error as Error).message}`;
+        }
     }
 
     override render() {

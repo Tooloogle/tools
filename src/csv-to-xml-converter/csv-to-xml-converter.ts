@@ -3,6 +3,7 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import csvToXmlConverterStyles from './csv-to-xml-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
+import Papa from 'papaparse';
 
 @customElement('csv-to-xml-converter')
 export class CsvToXmlConverter extends WebComponentBase<IConfigBase> {
@@ -17,9 +18,36 @@ export class CsvToXmlConverter extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // TODO: [Implementation] Convert CSV to XML
-        // This tool requires additional implementation
-        this.outputText = this.inputText || 'Enter input to see results';
+        if (!this.inputText.trim()) {
+            this.outputText = '';
+            return;
+        }
+
+        try {
+            const result = Papa.parse(this.inputText, { header: true, skipEmptyLines: true });
+            
+            if (result.errors.length > 0) {
+                this.outputText = `Error: ${result.errors[0].message}`;
+                return;
+            }
+
+            let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<root>\n';
+            
+            result.data.forEach((row: any) => {
+                xml += '  <row>\n';
+                for (const key in row) {
+                    if (row.hasOwnProperty(key)) {
+                        xml += `    <${key}>${row[key]}</${key}>\n`;
+                    }
+                }
+                xml += '  </row>\n';
+            });
+            
+            xml += '</root>';
+            this.outputText = xml;
+        } catch (error) {
+            this.outputText = `Error: ${(error as Error).message}`;
+        }
     }
 
     override render() {
