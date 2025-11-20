@@ -2,7 +2,7 @@ import { html, unsafeStatic } from 'lit/static-html.js';
 import { render } from '@lit-labs/ssr';
 import { collectResult } from '@lit-labs/ssr/lib/render-result.js';
 import path from 'path';
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'fs';
 import { LitElementRenderer } from '@lit-labs/ssr/lib/lit-element-renderer.js';
 import { cwd } from 'process';
 
@@ -34,7 +34,7 @@ function getToolList() {
         return (existsSync(toolPath) && !dir.startsWith('_') && !dir.startsWith('.') && dir !== 'web-component');
     });
 
-    return tools ?? [];
+    return tools;
 }
 
 async function renderWebComponent(webComponent) {
