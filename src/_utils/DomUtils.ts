@@ -7,7 +7,7 @@ export function hasClipboard() {
 }
 
 export function downloadText(text: string) {
-  if (!text) {
+  if (!text || !isBrowser()) {
     return;
   }
 
@@ -22,6 +22,10 @@ export function downloadText(text: string) {
 }
 
 export function downloadImage(name: string, src: string) {
+  if (!isBrowser()) {
+    return;
+  }
+
   const a = document.createElement('a');
   a.href = src;
   a.download = name;

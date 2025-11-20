@@ -7,6 +7,7 @@ import {
 import inputStyles from "../_styles/input.css.js";
 import buttonStyles from "../_styles/button.css.js";
 import jsonToXmlConverterStyles from "./json-to-xml-converter.css.js";
+import { isBrowser } from "../_utils/DomUtils.js";
 
 interface JsonObject {
   [key: string]: unknown;
@@ -197,7 +198,7 @@ export class JsonToXmlConverter extends WebComponentBase<IConfigBase> {
   }
 
   private downloadXml(xmlString: string): void {
-    if (!this.file) return;
+    if (!this.file || !isBrowser()) return;
 
     const blob = new Blob([xmlString], { type: "application/xml" });
     const a = document.createElement("a");

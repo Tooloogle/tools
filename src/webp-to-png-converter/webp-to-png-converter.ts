@@ -7,6 +7,7 @@ import {
 import inputStyles from "../_styles/input.css.js";
 import buttonStyles from "../_styles/button.css.js";
 import webpToPngConverterStyles from "./webp-to-png-converter.css.js";
+import { isBrowser } from "../_utils/DomUtils.js";
 
 @customElement("webp-to-png-converter")
 export class WebpToPngConverter extends WebComponentBase<IConfigBase> {
@@ -25,7 +26,7 @@ export class WebpToPngConverter extends WebComponentBase<IConfigBase> {
   }
 
   private convert() {
-    if (!this.file) return;
+    if (!this.file || !isBrowser()) return;
 
     const reader = new FileReader();
     reader.onload = () => {

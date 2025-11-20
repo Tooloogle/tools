@@ -5,6 +5,7 @@ import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
 import jsonToCsvConverterStyles from './json-to-csv-converter.css.js';
 import "../t-copy-button/t-copy-button.js";
+import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('json-to-csv-converter')
 export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
@@ -34,6 +35,8 @@ export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
     }
 
     private downloadCSV() {
+        if (!isBrowser()) return;
+        
         const blob = new Blob([this.csvString], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         const url = URL.createObjectURL(blob);
