@@ -22,31 +22,42 @@ export class SecurePasswordTester extends WebComponentBase<IConfigBase> {
             return;
         }
 
-        const checks = {
+        const checks = this.performPasswordChecks();
+        const score = Object.values(checks).filter(Boolean).length;
+        const entropy = this.password.length * Math.log2(this.getCharsetSize());
+        
+        const feedback = this.generateFeedback(checks);
+        const level = this.determineStrengthLevel(score, entropy);
+
+        this.strength = { score, level, feedback };
+    }
+
+    private performPasswordChecks() {
+        return {
             length: this.password.length >= 12,
             uppercase: /[A-Z]/.test(this.password),
             lowercase: /[a-z]/.test(this.password),
             numbers: /[0-9]/.test(this.password),
             special: /[^A-Za-z0-9]/.test(this.password),
         };
+    }
 
-        const score = Object.values(checks).filter(Boolean).length;
-        const entropy = this.password.length * Math.log2(this.getCharsetSize());
-
+    private generateFeedback(checks: Record<string, boolean>): string[] {
         const feedback: string[] = [];
         if (!checks.length) feedback.push('✗ At least 12 characters');
         if (!checks.uppercase) feedback.push('✗ Uppercase letters (A-Z)');
         if (!checks.lowercase) feedback.push('✗ Lowercase letters (a-z)');
         if (!checks.numbers) feedback.push('✗ Numbers (0-9)');
         if (!checks.special) feedback.push('✗ Special characters (!@#$%^&*)');
+        return feedback;
+    }
 
-        let level = 'Weak';
-        if (score >= 5 && entropy > 60) level = 'Very Strong';
-        else if (score >= 4 && entropy > 50) level = 'Strong';
-        else if (score >= 3 && entropy > 40) level = 'Good';
-        else if (score >= 2) level = 'Fair';
-
-        this.strength = { score, level, feedback };
+    private determineStrengthLevel(score: number, entropy: number): string {
+        if (score >= 5 && entropy > 60) return 'Very Strong';
+        if (score >= 4 && entropy > 50) return 'Strong';
+        if (score >= 3 && entropy > 40) return 'Good';
+        if (score >= 2) return 'Fair';
+        return 'Weak';
     }
 
     private getCharsetSize(): number {

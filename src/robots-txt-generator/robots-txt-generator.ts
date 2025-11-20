@@ -86,78 +86,102 @@ export class RobotsTxtGenerator extends WebComponentBase<IConfigBase> {
     override render() {
         return html`
             <div class="space-y-4">
-                <div>
-                    <label class="block mb-2 font-semibold">User-Agent:</label>
+                ${this.renderUserAgentInput()}
+                ${this.renderAllowDisallowCheckboxes()}
+                ${this.renderPathInputs()}
+                ${this.renderSitemapInput()}
+                ${this.renderOutput()}
+            </div>
+        `;
+    }
+
+    private renderUserAgentInput() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">User-Agent:</label>
+                <input
+                    type="text"
+                    class="form-input w-full"
+                    placeholder="*"
+                    .value=${this.userAgent}
+                    @input=${this.handleUserAgent}
+                />
+            </div>
+        `;
+    }
+
+    private renderAllowDisallowCheckboxes() {
+        return html`
+            <div class="flex gap-4">
+                <label class="flex items-center">
                     <input
-                        type="text"
-                        class="form-input w-full"
-                        placeholder="*"
-                        .value=${this.userAgent}
-                        @input=${this.handleUserAgent}
+                        type="checkbox"
+                        .checked=${this.allowAll}
+                        @change=${this.handleAllowAll}
                     />
-                </div>
-                
-                <div class="flex gap-4">
-                    <label class="flex items-center">
-                        <input
-                            type="checkbox"
-                            .checked=${this.allowAll}
-                            @change=${this.handleAllowAll}
-                        />
-                        <span class="ml-2">Allow All</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input
-                            type="checkbox"
-                            .checked=${this.disallowAll}
-                            @change=${this.handleDisallowAll}
-                        />
-                        <span class="ml-2">Disallow All</span>
-                    </label>
-                </div>
-
-                ${!this.allowAll && !this.disallowAll ? html`
-                    <div>
-                        <label class="block mb-2 font-semibold">Disallow Paths (one per line):</label>
-                        <textarea
-                            class="form-input w-full h-24"
-                            placeholder="/admin&#10;/private&#10;/tmp"
-                            .value=${this.disallowPaths}
-                            @input=${this.handleDisallowPaths}
-                        ></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block mb-2 font-semibold">Allow Paths (one per line):</label>
-                        <textarea
-                            class="form-input w-full h-24"
-                            placeholder="/public&#10;/images"
-                            .value=${this.allowPaths}
-                            @input=${this.handleAllowPaths}
-                        ></textarea>
-                    </div>
-                ` : ''}
-
-                <div>
-                    <label class="block mb-2 font-semibold">Sitemap URL (optional):</label>
+                    <span class="ml-2">Allow All</span>
+                </label>
+                <label class="flex items-center">
                     <input
-                        type="url"
-                        class="form-input w-full"
-                        placeholder="https://example.com/sitemap.xml"
-                        .value=${this.sitemapUrl}
-                        @input=${this.handleSitemap}
+                        type="checkbox"
+                        .checked=${this.disallowAll}
+                        @change=${this.handleDisallowAll}
                     />
-                </div>
+                    <span class="ml-2">Disallow All</span>
+                </label>
+            </div>
+        `;
+    }
 
-                <div>
-                    <label class="block mb-2 font-semibold">Generated robots.txt:</label>
-                    <textarea
-                        class="form-input w-full h-32"
-                        readonly
-                        .value=${this.outputText}
-                    ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
-                </div>
+    private renderPathInputs() {
+        return !this.allowAll && !this.disallowAll ? html`
+            <div>
+                <label class="block mb-2 font-semibold">Disallow Paths (one per line):</label>
+                <textarea
+                    class="form-input w-full h-24"
+                    placeholder="/admin&#10;/private&#10;/tmp"
+                    .value=${this.disallowPaths}
+                    @input=${this.handleDisallowPaths}
+                ></textarea>
+            </div>
+
+            <div>
+                <label class="block mb-2 font-semibold">Allow Paths (one per line):</label>
+                <textarea
+                    class="form-input w-full h-24"
+                    placeholder="/public&#10;/images"
+                    .value=${this.allowPaths}
+                    @input=${this.handleAllowPaths}
+                ></textarea>
+            </div>
+        ` : '';
+    }
+
+    private renderSitemapInput() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Sitemap URL (optional):</label>
+                <input
+                    type="url"
+                    class="form-input w-full"
+                    placeholder="https://example.com/sitemap.xml"
+                    .value=${this.sitemapUrl}
+                    @input=${this.handleSitemap}
+                />
+            </div>
+        `;
+    }
+
+    private renderOutput() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Generated robots.txt:</label>
+                <textarea
+                    class="form-input w-full h-32"
+                    readonly
+                    .value=${this.outputText}
+                ></textarea>
+                ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
             </div>
         `;
     }

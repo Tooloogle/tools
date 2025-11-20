@@ -88,60 +88,76 @@ export class HtaccessGenerator extends WebComponentBase<IConfigBase> {
     override render() {
         return html`
             <div class="space-y-4">
-                <div class="space-y-2">
-                    <label class="flex items-center">
-                        <input
-                            type="checkbox"
-                            .checked=${this.enableWwwRedirect}
-                            @change=${this.handleCheckbox('enableWwwRedirect')}
-                        />
-                        <span class="ml-2">Redirect to www version</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input
-                            type="checkbox"
-                            .checked=${this.enableHttpsRedirect}
-                            @change=${this.handleCheckbox('enableHttpsRedirect')}
-                        />
-                        <span class="ml-2">Force HTTPS</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input
-                            type="checkbox"
-                            .checked=${this.enableCompression}
-                            @change=${this.handleCheckbox('enableCompression')}
-                        />
-                        <span class="ml-2">Enable GZIP compression</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input
-                            type="checkbox"
-                            .checked=${this.enableCaching}
-                            @change=${this.handleCheckbox('enableCaching')}
-                        />
-                        <span class="ml-2">Enable browser caching</span>
-                    </label>
-                </div>
+                ${this.renderCheckboxes()}
+                ${this.renderRedirectsInput()}
+                ${this.renderOutput()}
+            </div>
+        `;
+    }
 
-                <div>
-                    <label class="block mb-2 font-semibold">Custom Redirects (old-url new-url, one per line):</label>
-                    <textarea
-                        class="form-input w-full h-24"
-                        placeholder="/old-page.html /new-page.html&#10;/about-us.html /about"
-                        .value=${this.customRedirects}
-                        @input=${this.handleRedirects}
-                    ></textarea>
-                </div>
+    private renderCheckboxes() {
+        return html`
+            <div class="space-y-2">
+                <label class="flex items-center">
+                    <input
+                        type="checkbox"
+                        .checked=${this.enableWwwRedirect}
+                        @change=${this.handleCheckbox('enableWwwRedirect')}
+                    />
+                    <span class="ml-2">Redirect to www version</span>
+                </label>
+                <label class="flex items-center">
+                    <input
+                        type="checkbox"
+                        .checked=${this.enableHttpsRedirect}
+                        @change=${this.handleCheckbox('enableHttpsRedirect')}
+                    />
+                    <span class="ml-2">Force HTTPS</span>
+                </label>
+                <label class="flex items-center">
+                    <input
+                        type="checkbox"
+                        .checked=${this.enableCompression}
+                        @change=${this.handleCheckbox('enableCompression')}
+                    />
+                    <span class="ml-2">Enable GZIP compression</span>
+                </label>
+                <label class="flex items-center">
+                    <input
+                        type="checkbox"
+                        .checked=${this.enableCaching}
+                        @change=${this.handleCheckbox('enableCaching')}
+                    />
+                    <span class="ml-2">Enable browser caching</span>
+                </label>
+            </div>
+        `;
+    }
 
-                <div>
-                    <label class="block mb-2 font-semibold">Generated .htaccess:</label>
-                    <textarea
-                        class="form-input w-full h-64"
-                        readonly
-                        .value=${this.outputText}
-                    ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
-                </div>
+    private renderRedirectsInput() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Custom Redirects (old-url new-url, one per line):</label>
+                <textarea
+                    class="form-input w-full h-24"
+                    placeholder="/old-page.html /new-page.html&#10;/about-us.html /about"
+                    .value=${this.customRedirects}
+                    @input=${this.handleRedirects}
+                ></textarea>
+            </div>
+        `;
+    }
+
+    private renderOutput() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Generated .htaccess:</label>
+                <textarea
+                    class="form-input w-full h-64"
+                    readonly
+                    .value=${this.outputText}
+                ></textarea>
+                ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
             </div>
         `;
     }

@@ -85,89 +85,132 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
     override render() {
         return html`
             <div class="space-y-4">
-                <div>
-                    <label class="block mb-2 font-semibold">Title:</label>
-                    <input
-                        type="text"
-                        class="form-input w-full"
-                        placeholder="Page Title"
-                        .value=${this.title}
-                        @input=${this.handleInput('title')}
-                    />
-                </div>
+                ${this.renderInputFields()}
+                ${this.renderOutput()}
+                ${this.renderHelpText()}
+            </div>
+        `;
+    }
 
-                <div>
-                    <label class="block mb-2 font-semibold">Description:</label>
-                    <textarea
-                        class="form-input w-full h-20"
-                        placeholder="Page description for social media sharing"
-                        .value=${this.description}
-                        @input=${this.handleInput('description')}
-                    ></textarea>
-                </div>
+    private renderInputFields() {
+        return html`
+            ${this.renderBasicInputs()}
+            ${this.renderTypeSelector()}
+        `;
+    }
 
-                <div>
-                    <label class="block mb-2 font-semibold">URL:</label>
-                    <input
-                        type="url"
-                        class="form-input w-full"
-                        placeholder="https://example.com/page"
-                        .value=${this.url}
-                        @input=${this.handleInput('url')}
-                    />
-                </div>
+    private renderBasicInputs() {
+        return html`
+            ${this.renderTitleAndDescriptionInputs()}
+            ${this.renderUrlAndImageInputs()}
+            ${this.renderSiteNameInput()}
+        `;
+    }
 
-                <div>
-                    <label class="block mb-2 font-semibold">Image URL:</label>
-                    <input
-                        type="url"
-                        class="form-input w-full"
-                        placeholder="https://example.com/image.jpg"
-                        .value=${this.image}
-                        @input=${this.handleInput('image')}
-                    />
-                </div>
+    private renderTitleAndDescriptionInputs() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Title:</label>
+                <input
+                    type="text"
+                    class="form-input w-full"
+                    placeholder="Page Title"
+                    .value=${this.title}
+                    @input=${this.handleInput('title')}
+                />
+            </div>
 
-                <div>
-                    <label class="block mb-2 font-semibold">Site Name:</label>
-                    <input
-                        type="text"
-                        class="form-input w-full"
-                        placeholder="My Website"
-                        .value=${this.siteName}
-                        @input=${this.handleInput('siteName')}
-                    />
-                </div>
+            <div>
+                <label class="block mb-2 font-semibold">Description:</label>
+                <textarea
+                    class="form-input w-full h-20"
+                    placeholder="Page description for social media sharing"
+                    .value=${this.description}
+                    @input=${this.handleInput('description')}
+                ></textarea>
+            </div>
+        `;
+    }
 
-                <div>
-                    <label class="block mb-2 font-semibold">Type:</label>
-                    <select
-                        class="form-input w-full"
-                        .value=${this.type}
-                        @change=${this.handleInput('type')}
-                    >
-                        <option value="website">Website</option>
-                        <option value="article">Article</option>
-                        <option value="profile">Profile</option>
-                        <option value="video.movie">Video - Movie</option>
-                        <option value="music.song">Music - Song</option>
-                        <option value="book">Book</option>
-                    </select>
-                </div>
+    private renderUrlAndImageInputs() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">URL:</label>
+                <input
+                    type="url"
+                    class="form-input w-full"
+                    placeholder="https://example.com/page"
+                    .value=${this.url}
+                    @input=${this.handleInput('url')}
+                />
+            </div>
 
-                <div>
-                    <label class="block mb-2 font-semibold">Generated Open Graph Tags:</label>
-                    <textarea
-                        class="form-input w-full h-48"
-                        readonly
-                        .value=${this.outputText}
-                    ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
-                </div>
+            <div>
+                <label class="block mb-2 font-semibold">Image URL:</label>
+                <input
+                    type="url"
+                    class="form-input w-full"
+                    placeholder="https://example.com/image.jpg"
+                    .value=${this.image}
+                    @input=${this.handleInput('image')}
+                />
+            </div>
+        `;
+    }
 
-                <div class="text-sm text-gray-600">
-                    Includes both Open Graph and Twitter Card meta tags for optimal social media sharing.
-                </div>
+    private renderSiteNameInput() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Site Name:</label>
+                <input
+                    type="text"
+                    class="form-input w-full"
+                    placeholder="My Website"
+                    .value=${this.siteName}
+                    @input=${this.handleInput('siteName')}
+                />
+            </div>
+        `;
+    }
+
+    private renderTypeSelector() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Type:</label>
+                <select
+                    class="form-input w-full"
+                    .value=${this.type}
+                    @change=${this.handleInput('type')}
+                >
+                    <option value="website">Website</option>
+                    <option value="article">Article</option>
+                    <option value="profile">Profile</option>
+                    <option value="video.movie">Video - Movie</option>
+                    <option value="music.song">Music - Song</option>
+                    <option value="book">Book</option>
+                </select>
+            </div>
+        `;
+    }
+
+    private renderOutput() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">Generated Open Graph Tags:</label>
+                <textarea
+                    class="form-input w-full h-48"
+                    readonly
+                    .value=${this.outputText}
+                ></textarea>
+                ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+            </div>
+        `;
+    }
+
+    private renderHelpText() {
+        return html`
+            <div class="text-sm text-gray-600">
+                Includes both Open Graph and Twitter Card meta tags for optimal social media sharing.
             </div>
         `;
     }
