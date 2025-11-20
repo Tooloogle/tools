@@ -82,66 +82,83 @@ export class SvgToPngConverter extends WebComponentBase<IConfigBase> {
     override render() {
         return html`
             <div class="space-y-4">
-                <div>
-                    <label class="block mb-2 font-semibold">SVG Input:</label>
-                    <textarea
-                        class="form-input w-full h-48"
-                        placeholder="Paste SVG code here..."
-                        .value=${this.inputText}
-                        @input=${this.handleInput}
-                    ></textarea>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block mb-2 font-semibold">Width (px):</label>
-                        <input
-                            type="number"
-                            class="form-input w-full"
-                            .value=${this.width.toString()}
-                            @input=${this.handleWidthInput}
-                            min="1"
-                            max="5000"
-                        />
-                    </div>
-                    <div>
-                        <label class="block mb-2 font-semibold">Height (px):</label>
-                        <input
-                            type="number"
-                            class="form-input w-full"
-                            .value=${this.height.toString()}
-                            @input=${this.handleHeightInput}
-                            min="1"
-                            max="5000"
-                        />
-                    </div>
-                </div>
-
-                ${this.errorMessage ? html`
-                    <div class="p-4 bg-red-100 text-red-700 rounded">
-                        ${this.errorMessage}
-                    </div>
-                ` : ''}
-
-                ${this.outputDataUrl ? html`
-                    <div>
-                        <label class="block mb-2 font-semibold">PNG Preview:</label>
-                        <div class="border p-4 bg-gray-50 rounded">
-                            <img src="${this.outputDataUrl}" alt="PNG Preview" class="max-w-full" />
-                        </div>
-                        <div class="mt-2">
-                            <a 
-                                href="${this.outputDataUrl}" 
-                                download="converted.png"
-                                class="btn btn-primary inline-block"
-                            >
-                                Download PNG
-                            </a>
-                        </div>
-                    </div>
-                ` : ''}
+                ${this.renderInputSection()}
+                ${this.renderSizeInputs()}
+                ${this.renderErrorMessage()}
+                ${this.renderOutput()}
             </div>
         `;
+    }
+
+    private renderInputSection() {
+        return html`
+            <div>
+                <label class="block mb-2 font-semibold">SVG Input:</label>
+                <textarea
+                    class="form-input w-full h-48"
+                    placeholder="Paste SVG code here..."
+                    .value=${this.inputText}
+                    @input=${this.handleInput}
+                ></textarea>
+            </div>
+        `;
+    }
+
+    private renderSizeInputs() {
+        return html`
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-2 font-semibold">Width (px):</label>
+                    <input
+                        type="number"
+                        class="form-input w-full"
+                        .value=${this.width.toString()}
+                        @input=${this.handleWidthInput}
+                        min="1"
+                        max="5000"
+                    />
+                </div>
+                <div>
+                    <label class="block mb-2 font-semibold">Height (px):</label>
+                    <input
+                        type="number"
+                        class="form-input w-full"
+                        .value=${this.height.toString()}
+                        @input=${this.handleHeightInput}
+                        min="1"
+                        max="5000"
+                    />
+                </div>
+            </div>
+        `;
+    }
+
+    private renderErrorMessage() {
+        return this.errorMessage ? html`
+            <div class="p-4 bg-red-100 text-red-700 rounded">
+                ${this.errorMessage}
+            </div>
+        ` : '';
+    }
+
+    private renderOutput() {
+        return this.outputDataUrl ? html`
+            <div>
+                <label class="block mb-2 font-semibold">PNG Preview:</label>
+                <div class="border p-4 bg-gray-50 rounded">
+                    <img src="${this.outputDataUrl}" alt="PNG Preview" class="max-w-full" />
+                </div>
+                <div class="mt-2">
+                    <a 
+                        href="${this.outputDataUrl}" 
+                        download="converted.png"
+                        class="btn btn-primary inline-block"
+                    >
+                        Download PNG
+                    </a>
+                </div>
+            </div>
+        ` : '';
     }
 }
 

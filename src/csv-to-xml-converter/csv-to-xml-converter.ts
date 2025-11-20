@@ -36,10 +36,11 @@ export class CsvToXmlConverter extends WebComponentBase<IConfigBase> {
             result.data.forEach((row: any) => {
                 xml += '  <row>\n';
                 for (const key in row) {
-                    if (row.hasOwnProperty(key)) {
+                    if (Object.prototype.hasOwnProperty.call(row, key)) {
                         xml += `    <${key}>${row[key]}</${key}>\n`;
                     }
                 }
+
                 xml += '  </row>\n';
             });
             
