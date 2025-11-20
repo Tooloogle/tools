@@ -36,7 +36,7 @@ export class DataUriGenerator extends WebComponentBase<IConfigBase> {
 
         try {
             if (this.useBase64) {
-                const base64Data = btoa(this.inputText);
+                const base64Data = btoa(unescape(encodeURIComponent(this.inputText)));
                 this.outputText = `data:${this.mimeType};base64,${base64Data}`;
             } else {
                 const encodedData = encodeURIComponent(this.inputText);
@@ -82,7 +82,7 @@ export class DataUriGenerator extends WebComponentBase<IConfigBase> {
                 ${this.outputText && !this.outputText.startsWith('Error:') && this.mimeType.startsWith('text/html') ? html`
                     <div class="p-4 bg-gray-100 rounded">
                         <p class="font-bold mb-2">HTML Preview:</p>
-                        <iframe src="${this.outputText}" class="w-full h-32 border rounded bg-white" sandbox="allow-same-origin"></iframe>
+                        <iframe src="${this.outputText}" class="w-full h-32 border rounded bg-white" sandbox></iframe>
                     </div>
                 ` : ''}
                 <div class="text-sm text-gray-600">

@@ -15,7 +15,7 @@ export class GradientTextGenerator extends WebComponentBase<IConfigBase> {
     @property({ type: Number }) angle = 90;
 
     private handleInput(e: Event) {
-        this.inputText = (e.target as HTMLTextAreaElement).value;
+        this.inputText = (e.target as HTMLInputElement).value;
     }
 
     private handleColor1Change(e: Event) {
