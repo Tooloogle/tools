@@ -73,8 +73,6 @@ export class PlaceholderImageGenerator extends WebComponentBase<IConfigBase> {
         switch (this.service) {
             case 'placehold':
                 return `https://placehold.co/${this.width}x${this.height}/${this.bgColor}/${this.textColor}/${this.format}?text=${encodeURIComponent(displayText)}`;
-            case 'placeholder':
-                return `https://via.placeholder.com/${this.width}x${this.height}/${this.bgColor}/${this.textColor}?text=${encodeURIComponent(displayText)}`;
             case 'dummyimage':
                 return `https://dummyimage.com/${this.width}x${this.height}/${this.bgColor}/${this.textColor}&text=${encodeURIComponent(displayText)}`;
             case 'picsum':
@@ -99,7 +97,6 @@ export class PlaceholderImageGenerator extends WebComponentBase<IConfigBase> {
                         @change=${this.handleServiceChange}
                     >
                         <option value="placehold">Placehold.co</option>
-                        <option value="placeholder">via Placeholder</option>
                         <option value="dummyimage">Dummy Image</option>
                         <option value="picsum">Lorem Picsum (Random Photos)</option>
                     </select>

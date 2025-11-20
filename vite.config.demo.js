@@ -1,6 +1,6 @@
 // vite.config.demo.js
 import { defineConfig } from 'vite';
-import { transformCssToTs } from './css-to-ts.js';
+import { transformCssToTs } from './scripts/css-to-ts.js';
 
 export default defineConfig({
     root: 'demo',
