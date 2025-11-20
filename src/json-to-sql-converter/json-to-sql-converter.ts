@@ -59,12 +59,15 @@ export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
                     if (value === null || value === undefined) {
                         return 'NULL';
                     }
+
                     if (typeof value === 'number') {
                         return value.toString();
                     }
+
                     if (typeof value === 'boolean') {
                         return value ? '1' : '0';
                     }
+
                     // Escape single quotes in strings
                     const stringValue = String(value).replace(/'/g, "''");
                     return `'${stringValue}'`;

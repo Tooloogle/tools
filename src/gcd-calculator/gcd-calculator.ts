@@ -25,6 +25,7 @@ export class GcdCalculator extends WebComponentBase<IConfigBase> {
             b = a % b;
             a = temp;
         }
+
         return a;
     }
 

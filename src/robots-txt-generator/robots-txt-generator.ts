@@ -67,6 +67,7 @@ export class RobotsTxtGenerator extends WebComponentBase<IConfigBase> {
                     output += `Disallow: ${path.trim()}\n`;
                 });
             }
+
             if (this.allowPaths) {
                 const paths = this.allowPaths.split('\n').filter(p => p.trim());
                 paths.forEach(path => {

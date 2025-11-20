@@ -40,6 +40,7 @@ export class CsvToXmlConverter extends WebComponentBase<IConfigBase> {
                         xml += `    <${key}>${row[key]}</${key}>\n`;
                     }
                 }
+
                 xml += '  </row>\n';
             });
             

@@ -61,9 +61,11 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
             output += `<meta name="twitter:card" content="summary_large_image">\n`;
             output += `<meta name="twitter:title" content="${this.escapeHtml(this.title)}">\n`;
         }
+
         if (this.description) {
             output += `<meta name="twitter:description" content="${this.escapeHtml(this.description)}">\n`;
         }
+
         if (this.image) {
             output += `<meta name="twitter:image" content="${this.escapeHtml(this.image)}">`;
         }
