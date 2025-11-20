@@ -28,23 +28,17 @@ export async function renderAndStoreWebComponentHtmls() {
     }
 }
 
-export async function getToolWebComponentHtml(webComponent) {
-    return readFileSync(path.join(tempFolder, `${webComponent}.txt`));
-}
-
 function getToolList() {
     const tools = readdirSync(path.join(cwd(), 'src')).filter((dir) => {
-        const stat = path.join(cwd(), 'src', dir);
-        return (existsSync(stat) && !dir.startsWith('_') && !dir.startsWith('.') && dir !== 'web-component');
+        const toolPath = path.join(cwd(), 'src', dir);
+        return (existsSync(toolPath) && !dir.startsWith('_') && !dir.startsWith('.') && dir !== 'web-component');
     });
-
-    console.log('Found tools:', tools);
 
     return tools ?? [];
 }
 
 async function renderWebComponent(webComponent) {
-    let content = ` `;
+    let content = '';
     try {
         await import(`../dist/cjs/${webComponent}/${webComponent}.js`);
         const result = render(
@@ -61,8 +55,8 @@ async function renderWebComponent(webComponent) {
     return content
         .replace(`<${webComponent}>`, "<div>")
         .replace(`</${webComponent}>`, "</div>")
-        .replace(`<template shadowroot="open" shadowrootmode="open">`, "")
-        .replace("</template>", "");
+        .replaceAll(`<template shadowroot="open" shadowrootmode="open">`, "")
+        .replaceAll("</template>", "");
 }
 
 renderAndStoreWebComponentHtmls();
