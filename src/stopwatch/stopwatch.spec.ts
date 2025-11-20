@@ -3,7 +3,7 @@ import { Stopwatch } from "./stopwatch.js";
 
 describe('stopwatch web component test', () => {
 
-    const componentTag = "stopwatch";
+    const componentTag = "t-stopwatch";
     
     it('should render web component', async () => {
         const component = window.document.createElement(componentTag) as LitElement;

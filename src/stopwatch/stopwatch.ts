@@ -5,7 +5,7 @@ import { customElement, property } from 'lit/decorators.js';
 import buttonStyles from '../_styles/button.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 
-@customElement('stopwatch')
+@customElement('t-stopwatch')
 export class Stopwatch extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, buttonStyles, stopwatchStyles];
 
@@ -101,6 +101,6 @@ export class Stopwatch extends WebComponentBase<IConfigBase> {
 
 declare global {
     interface HTMLElementTagNameMap {
-        'stopwatch': Stopwatch;
+        't-stopwatch': Stopwatch;
     }
 }
