@@ -17,9 +17,29 @@ export class TextHighlighter extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // TODO: [Implementation] Highlight search terms in text
-        // This tool requires additional implementation
-        this.outputText = this.inputText || 'Enter input to see results';
+        if (!this.inputText) {
+            this.outputText = '';
+            return;
+        }
+        
+        const lines = this.inputText.split('\n');
+        if (lines.length < 2) {
+            this.outputText = this.inputText;
+            return;
+        }
+        
+        const searchTerm = lines[0];
+        const text = lines.slice(1).join('\n');
+        
+        if (!searchTerm) {
+            this.outputText = text;
+            return;
+        }
+        
+        const highlighted = text.replace(new RegExp(searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), 
+            match => `**${match}**`);
+        
+        this.outputText = highlighted;
     }
 
     override render() {

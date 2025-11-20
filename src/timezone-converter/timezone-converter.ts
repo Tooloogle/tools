@@ -17,9 +17,32 @@ export class TimezoneConverter extends WebComponentBase<IConfigBase> {
     }
 
     private process() {
-        // TODO: [Implementation] Convert time between timezones
-        // This tool requires additional implementation
-        this.outputText = this.inputText || 'Enter input to see results';
+        if (!this.inputText) {
+            this.outputText = '';
+            return;
+        }
+        
+        const lines = this.inputText.split('\n');
+        if (lines.length < 3) {
+            this.outputText = 'Format:\n<time>\n<from_timezone_offset>\n<to_timezone_offset>\n\nExample:\n14:30\n+0\n-5';
+            return;
+        }
+        
+        const time = lines[0];
+        const fromOffset = parseFloat(lines[1]);
+        const toOffset = parseFloat(lines[2]);
+        
+        const [hours, minutes] = time.split(':').map(Number);
+        if (isNaN(hours) || isNaN(minutes)) {
+            this.outputText = 'Invalid time format. Use HH:MM';
+            return;
+        }
+        
+        const totalMinutes = hours * 60 + minutes - fromOffset * 60 + toOffset * 60;
+        const newHours = Math.floor(totalMinutes / 60) % 24;
+        const newMinutes = totalMinutes % 60;
+        
+        this.outputText = `${String(newHours < 0 ? newHours + 24 : newHours).padStart(2, '0')}:${String(newMinutes).padStart(2, '0')}`;
     }
 
     override render() {

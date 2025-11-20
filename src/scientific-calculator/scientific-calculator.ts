@@ -12,39 +12,68 @@ export class ScientificCalculator extends WebComponentBase<IConfigBase> {
     @property({ type: String }) outputText = '';
 
     private handleInput(e: Event) {
-        this.inputText = (e.target as HTMLTextAreaElement).value;
+        this.inputText = (e.target as HTMLInputElement).value;
         this.process();
     }
 
     private process() {
-        // TODO: [Implementation] Basic scientific calculator
-        // This tool requires additional implementation
-        this.outputText = this.inputText || 'Enter input to see results';
+        if (!this.inputText) {
+            this.outputText = '';
+            return;
+        }
+        
+        try {
+            let expr = this.inputText
+                .replace(/\^/g, '**')
+                .replace(/sqrt\(([^)]+)\)/g, 'Math.sqrt($1)')
+                .replace(/sin\(([^)]+)\)/g, 'Math.sin($1)')
+                .replace(/cos\(([^)]+)\)/g, 'Math.cos($1)')
+                .replace(/tan\(([^)]+)\)/g, 'Math.tan($1)')
+                .replace(/log\(([^)]+)\)/g, 'Math.log10($1)')
+                .replace(/ln\(([^)]+)\)/g, 'Math.log($1)')
+                .replace(/abs\(([^)]+)\)/g, 'Math.abs($1)')
+                .replace(/ceil\(([^)]+)\)/g, 'Math.ceil($1)')
+                .replace(/floor\(([^)]+)\)/g, 'Math.floor($1)')
+                .replace(/round\(([^)]+)\)/g, 'Math.round($1)')
+                .replace(/\bpi\b/g, 'Math.PI')
+                .replace(/\be\b/g, 'Math.E');
+            
+            const result = Function('"use strict"; return (' + expr + ')')();
+            this.outputText = String(result);
+        } catch (error) {
+            this.outputText = 'Error: Invalid expression';
+        }
     }
 
     override render() {
         return html`
             <div class="space-y-4">
                 <div>
-                    <label class="block mb-2 font-semibold">Input:</label>
-                    <textarea
-                        class="form-input w-full h-32"
-                        placeholder="Enter input..."
+                    <label class="block mb-2 font-semibold">Expression:</label>
+                    <input
+                        type="text"
+                        class="form-input w-full"
+                        placeholder="e.g., 2 + 3 * 4, sqrt(16), sin(pi/2)..."
                         .value=${this.inputText}
                         @input=${this.handleInput}
-                    ></textarea>
+                    />
                 </div>
+                
                 <div>
-                    <label class="block mb-2 font-semibold">Output:</label>
-                    <textarea
-                        class="form-input w-full h-32"
+                    <label class="block mb-2 font-semibold">Result:</label>
+                    <input
+                        type="text"
+                        class="form-input w-full text-2xl font-bold"
                         readonly
                         .value=${this.outputText}
-                    ></textarea>
-                    ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
+                    />
                 </div>
+                
                 <div class="text-sm text-gray-600">
-                    Note: Basic scientific calculator
+                    <div class="font-semibold mb-1">Supported functions:</div>
+                    <div>Operators: +, -, *, /, ^</div>
+                    <div>Functions: sqrt, sin, cos, tan, log, ln, abs, ceil, floor, round</div>
+                    <div>Constants: pi, e</div>
                 </div>
             </div>
         `;
