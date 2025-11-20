@@ -11,7 +11,7 @@
     "build:tools:esm": "tsc -p tsconfig.json --outDir dist",
     "build:tools:cjs": "tsc -p tsconfig.json --module commonjs --outDir dist/cjs",
     "clean": "npx rimraf dist* && npx rimraf src/**/*.css.ts",
-    "lint": "eslint src/**/*.ts css-to-ts.js",
+    "lint": "eslint src/**/*.ts",
     "lint:fix": "npm run lint -- --fix",
     "new": "node scripts/create-new-tool.js",
     "postbuild": "node postbuild.js",
