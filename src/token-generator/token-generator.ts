@@ -85,7 +85,10 @@ export class TokenGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private copyAll() {
-        if (!isBrowser()) return;
+        if (!isBrowser()) {
+            return;
+        }
+
         void navigator.clipboard.writeText(this.tokens.join('\n'));
     }
 

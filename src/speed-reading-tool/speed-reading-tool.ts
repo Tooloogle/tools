@@ -25,7 +25,9 @@ export class SpeedReadingTool extends WebComponentBase<IConfigBase> {
     }
 
     private play() {
-        if (!isBrowser()) return;
+        if (!isBrowser()) {
+            return;
+        }
         
         this.isPlaying = true;
         const interval = 60000 / this.wpm;

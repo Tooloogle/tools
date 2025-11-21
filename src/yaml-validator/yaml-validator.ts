@@ -48,7 +48,9 @@ export class YamlValidator extends WebComponentBase<IConfigBase> {
 
     private validateIndentation(line: string, lineNumber: number) {
         const indent = line.search(/\S/);
-        if (indent === -1) return;
+        if (indent === -1) {
+            return;
+        }
         
         if (indent % 2 !== 0) {
             throw new Error(`Line ${lineNumber}: Inconsistent indentation (should be multiples of 2 spaces)`);
@@ -56,7 +58,9 @@ export class YamlValidator extends WebComponentBase<IConfigBase> {
     }
 
     private validateColons(line: string, lineNumber: number) {
-        if (!line.includes(':')) return;
+        if (!line.includes(':')) {
+            return;
+        }
         
         const parts = line.split(':');
         const hasQuotes = line.includes('"') || line.includes("'");

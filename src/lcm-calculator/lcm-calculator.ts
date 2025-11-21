@@ -30,7 +30,10 @@ export class LcmCalculator extends WebComponentBase<IConfigBase> {
     }
 
     private lcm(a: number, b: number): number {
-        if (a === 0 || b === 0) return 0;
+        if (a === 0 || b === 0) {
+            return 0;
+        }
+
         return Math.abs(a * b) / this.gcd(a, b);
     }
 

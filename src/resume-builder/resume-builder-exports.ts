@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { PersonalInfo } from './resume-builder-types.js';
 
 export class ResumeBuilderUtils {
@@ -6,7 +7,10 @@ export class ResumeBuilderUtils {
   }
 
   static formatDate(dateString: string): string {
-    if (!dateString) return '';
+    if (!dateString) {
+        return '';
+    }
+
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
@@ -18,7 +22,9 @@ export class ResumeBuilderUtils {
     personalInfo: PersonalInfo,
     resumePreview: HTMLElement | null
   ) {
-    if (!resumePreview) return;
+    if (!resumePreview) {
+        return;
+    }
 
     const styles = this.getHTMLExportStyles();
     const htmlContent = this.buildHTMLContent(
@@ -37,10 +43,14 @@ export class ResumeBuilderUtils {
     personalInfo: PersonalInfo,
     resumePreview: HTMLElement | null
   ) {
-    if (!resumePreview) return;
+    if (!resumePreview) {
+        return;
+    }
 
     const printWindow = window.open('', '_blank');
-    if (!printWindow) return;
+    if (!printWindow) {
+        return;
+    }
 
     const styles = this.getPDFExportStyles();
     const content = this.buildPDFContent(personalInfo, resumePreview, styles);
@@ -59,7 +69,9 @@ export class ResumeBuilderUtils {
     personalInfo: PersonalInfo,
     resumePreview: HTMLElement | null
   ) {
-    if (!resumePreview) return;
+    if (!resumePreview) {
+        return;
+    }
 
     const wordContent = this.buildWordContent(personalInfo, resumePreview);
     const blob = new Blob(['\ufeff', wordContent], {

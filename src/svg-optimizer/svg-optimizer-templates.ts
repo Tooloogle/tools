@@ -59,7 +59,9 @@ export class SvgOptimizerTemplates {
     formatBytes: (bytes: number) => string,
     getSavingsPercentage: () => number
   ): TemplateResult {
-    if (originalSize === 0) return html``;
+    if (originalSize === 0) {
+        return html``;
+    }
 
     return html`
       <div class="stats-section">
@@ -92,7 +94,9 @@ export class SvgOptimizerTemplates {
     downloadOptimized: () => void,
     copyOptimized: () => void
   ): TemplateResult {
-    if (!optimizedSvg) return html``;
+    if (!optimizedSvg) {
+        return html``;
+    }
 
     return html`
       <div class="result-section">

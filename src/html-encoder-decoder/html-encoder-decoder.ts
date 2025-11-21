@@ -22,14 +22,20 @@ export class HtmlEncoderDecoder extends WebComponentBase<IConfigBase> {
     }
 
     private encode() {
-        if (!isBrowser()) return;
+        if (!isBrowser()) {
+            return;
+        }
+
         const div = document.createElement('div');
         div.textContent = this.input;
         this.output = div.innerHTML;
     }
 
     private decode() {
-        if (!isBrowser()) return;
+        if (!isBrowser()) {
+            return;
+        }
+
         const div = document.createElement('div');
         div.innerHTML = this.input;
         this.output = div.textContent || '';

@@ -65,7 +65,7 @@ export class SqlToJsonConverter extends WebComponentBase<IConfigBase> {
         
         for (const line of lines) {
             const trimmedLine = line.trim();
-            if (!trimmedLine) continue;
+            if (!trimmedLine) {continue;}
 
             const values = trimmedLine.split(/[\t|,]/).map(v => v.trim());
             

@@ -37,7 +37,9 @@ export class SvgOptimizer extends WebComponentBase<IConfigBase> {
         const input = e.target as HTMLInputElement;
         const file = input.files?.[0];
 
-        if (!file) return;
+        if (!file) {
+            return;
+        }
 
         const validation = FileUtils.validateSvgFile(file);
         if (!validation.isValid) {
@@ -110,12 +112,17 @@ export class SvgOptimizer extends WebComponentBase<IConfigBase> {
     }
 
     private downloadOptimized() {
-        if (!this.optimizedSvg) return;
+        if (!this.optimizedSvg) {
+            return;
+        }
+
         FileUtils.downloadFile(this.optimizedSvg, 'optimized.svg', 'image/svg+xml');
     }
 
     private copyOptimized() {
-        if (!this.optimizedSvg) return;
+        if (!this.optimizedSvg) {
+            return;
+        }
 
         FileUtils.copyToClipboard(this.optimizedSvg)
             .catch(() => {

@@ -28,13 +28,15 @@ export class RobotsTxtGenerator extends WebComponentBase<IConfigBase> {
 
     private handleAllowAll(e: Event) {
         this.allowAll = (e.target as HTMLInputElement).checked;
-        if (this.allowAll) this.disallowAll = false;
+        if (this.allowAll) {this.disallowAll = false;}
+
         this.process();
     }
 
     private handleDisallowAll(e: Event) {
         this.disallowAll = (e.target as HTMLInputElement).checked;
-        if (this.disallowAll) this.allowAll = false;
+        if (this.disallowAll) {this.allowAll = false;}
+
         this.process();
     }
 
