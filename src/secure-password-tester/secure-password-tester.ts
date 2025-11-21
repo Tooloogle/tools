@@ -58,13 +58,21 @@ export class SecurePasswordTester extends WebComponentBase<IConfigBase> {
     }
 
     private determineStrengthLevel(score: number, entropy: number): string {
-        if (score >= 5 && entropy > 60) {return 'Very Strong';}
+        if (score >= 5 && entropy > 60) {
+            return 'Very Strong';
+        }
 
-        if (score >= 4 && entropy > 50) {return 'Strong';}
+        if (score >= 4 && entropy > 50) {
+            return 'Strong';
+        }
 
-        if (score >= 3 && entropy > 40) {return 'Good';}
+        if (score >= 3 && entropy > 40) {
+            return 'Good';
+        }
 
-        if (score >= 2) {return 'Fair';}
+        if (score >= 2) {
+            return 'Fair';
+        }
 
         return 'Weak';
     }

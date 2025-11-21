@@ -33,7 +33,9 @@ export class CountdownTimer extends WebComponentBase<IConfigBase> {
     }
 
     private start() {
-        if (!isBrowser() || this.isRunning) {return;}
+        if (!isBrowser() || this.isRunning) {
+            return;
+        }
         
         this.isRunning = true;
         this.intervalId = window.setInterval(() => {

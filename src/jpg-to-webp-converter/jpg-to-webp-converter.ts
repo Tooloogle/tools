@@ -25,7 +25,9 @@ export class JpgToWebpConverter extends WebComponentBase<IConfigBase> {
   }
 
   private convert() {
-    if (!this.file) {return;}
+    if (!this.file) {
+        return;
+    }
 
     const reader = new FileReader();
     reader.onload = () => {
@@ -42,7 +44,9 @@ export class JpgToWebpConverter extends WebComponentBase<IConfigBase> {
           if (blob) {
             const a = document.createElement("a");
             a.href = URL.createObjectURL(blob);
-            if (!this.file) {return;}
+            if (!this.file) {
+                return;
+            }
 
             const fileName = this.file.name.replace(/\.[^/.]+$/, ".webp");
             a.download = fileName;

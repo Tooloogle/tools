@@ -68,7 +68,9 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
     }
 
     speak() {
-        if (this.isSpeaking) {return;}
+        if (this.isSpeaking) {
+            return;
+        }
 
         const utterance = new SpeechSynthesisUtterance(this.text);
         const selectedVoice = this.availableVoices.find(voice => voice.name === this.selectedVoice);

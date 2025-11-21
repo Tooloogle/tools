@@ -15,7 +15,9 @@ export class DnsLookup extends WebComponentBase<IConfigBase> {
     @property({ type: Boolean }) loading = false;
 
     private async lookup() {
-        if (!this.domain) {return;}
+        if (!this.domain) {
+            return;
+        }
         
         this.loading = true;
         this.error = '';

@@ -48,7 +48,9 @@ export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {
   }
 
   private async convert(): Promise<void> {
-    if (!this.file) {return;}
+    if (!this.file) {
+        return;
+    }
 
     if (!isBrowser()) {
       this.error = 'Conversion is only supported in the browser environment.';
@@ -84,7 +86,9 @@ export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {
   }
 
   private getConvertedFilename(): string {
-    if (!this.file) {return 'converted.jpg';}
+    if (!this.file) {
+        return 'converted.jpg';
+    }
 
     return this.file.name.replace(/\.(heif|heic)$/i, '.jpg');
   }

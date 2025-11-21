@@ -45,7 +45,9 @@ export class WorldClock extends WebComponentBase<IConfigBase> {
     }
 
     private getTimeInTimezone(tz: string): string {
-        if (!isBrowser()) {return '';}
+        if (!isBrowser()) {
+            return '';
+        }
 
         try {
             return new Date().toLocaleString('en-US', {
@@ -61,7 +63,9 @@ export class WorldClock extends WebComponentBase<IConfigBase> {
     }
 
     private getDateInTimezone(tz: string): string {
-        if (!isBrowser()) {return '';}
+        if (!isBrowser()) {
+            return '';
+        }
 
         try {
             return new Date().toLocaleString('en-US', {

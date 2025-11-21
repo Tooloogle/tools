@@ -22,7 +22,9 @@ export class TipCalculator extends WebComponentBase<IConfigBase> {
     }
 
     private renderResult() {
-        if (this.billAmount <= 0) {return '';}
+        if (this.billAmount <= 0) {
+            return '';
+        }
 
         return html`
             <div class="bg-gray-100 p-4 rounded space-y-2">

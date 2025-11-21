@@ -38,7 +38,9 @@ export class StylishTextGenerator extends WebComponentBase<IConfigBase> {
     }
 
     generateImage() {
-        if (!this.canvas || !this.ctx) {return;}
+        if (!this.canvas || !this.ctx) {
+            return;
+        }
 
         const settings = {
             text: this.text,
@@ -71,7 +73,9 @@ export class StylishTextGenerator extends WebComponentBase<IConfigBase> {
         const target = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
         const key = target.dataset.key as keyof this;
 
-        if (!key) {return;}
+        if (!key) {
+            return;
+        }
 
         let value: string | number | boolean;
 
