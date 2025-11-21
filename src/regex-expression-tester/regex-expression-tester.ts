@@ -61,7 +61,8 @@ export class RegexExpressionTester extends WebComponentBase<IConfigBase> {
                 this.resultString = matches.reduce((acc, match, index) => {
                     const [matchedText] = match;
                     const start = match.index;
-                    if (start === undefined) return acc;
+                    if (start === undefined) {return acc;}
+
                     const end = start + matchedText.length;
 
                     acc += `${this.testString.slice(lastIndex, start)}<mark title="Match ${index + 1}: ${matchedText} at position ${start}">${matchedText}</mark>`;

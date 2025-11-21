@@ -49,7 +49,7 @@ export class SvgOptimizerUtils {
   }
 
   static minifyStyles(optimized: string, options: OptimizationOptions): string {
-    if (!options.minifyStyles) return optimized;
+    if (!options.minifyStyles) {return optimized;}
 
     return optimized.replace(
       /<style[^>]*>([\s\S]*?)<\/style>/gi,
@@ -72,7 +72,7 @@ export class SvgOptimizerUtils {
     optimized: string,
     options: OptimizationOptions
   ): string {
-    if (!options.convertStyleToAttrs) return optimized;
+    if (!options.convertStyleToAttrs) {return optimized;}
 
     return optimized.replace(/style="([^"]*)"/gi, (match, styleContent) => {
       const styles = styleContent.split(';').filter((s: string) => s.trim());
@@ -109,7 +109,7 @@ export class SvgOptimizerUtils {
     optimized: string,
     options: OptimizationOptions
   ): string {
-    if (!options.removeUselessStrokeAndFill) return optimized;
+    if (!options.removeUselessStrokeAndFill) {return optimized;}
 
     let result = optimized;
     result = result.replace(/\s*stroke-width="0"/gi, '');
@@ -119,7 +119,7 @@ export class SvgOptimizerUtils {
   }
 
   static cleanupIds(optimized: string, options: OptimizationOptions): string {
-    if (!options.cleanupIds) return optimized;
+    if (!options.cleanupIds) {return optimized;}
 
     let result = optimized;
     const ids = [...result.matchAll(/id="([^"]+)"/gi)];
@@ -140,7 +140,7 @@ export class SvgOptimizerUtils {
     optimized: string,
     options: OptimizationOptions
   ): string {
-    if (!options.cleanupNumericValues) return optimized;
+    if (!options.cleanupNumericValues) {return optimized;}
 
     return optimized.replace(/(\d+\.\d{3,})/g, match => {
       const num = parseFloat(match);
@@ -152,7 +152,7 @@ export class SvgOptimizerUtils {
     optimized: string,
     options: OptimizationOptions
   ): string {
-    if (!options.removeUnusedNS) return optimized;
+    if (!options.removeUnusedNS) {return optimized;}
 
     let result = optimized;
     const namespaces = [...result.matchAll(/xmlns:([^=]+)="[^"]*"/gi)];
@@ -173,7 +173,7 @@ export class SvgOptimizerUtils {
     optimized: string,
     options: OptimizationOptions
   ): string {
-    if (!options.collapseGroups) return optimized;
+    if (!options.collapseGroups) {return optimized;}
 
     return optimized.replace(/<g>([\s\S]*?)<\/g>/gi, '$1');
   }
@@ -208,7 +208,8 @@ export class SvgOptimizerUtils {
 
 export class FileUtils {
   static formatBytes(bytes: number): string {
-    if (bytes === 0) return '0 Bytes';
+    if (bytes === 0) {return '0 Bytes';}
+
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
@@ -219,7 +220,8 @@ export class FileUtils {
     originalSize: number,
     optimizedSize: number
   ): number {
-    if (originalSize === 0) return 0;
+    if (originalSize === 0) {return 0;}
+
     return Math.round(((originalSize - optimizedSize) / originalSize) * 100);
   }
 

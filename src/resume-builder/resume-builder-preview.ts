@@ -193,7 +193,7 @@ export class ResumeBuilderPreview {
     personalInfo: PersonalInfo,
     template: string
   ): TemplateResult {
-    if (!personalInfo.summary) return html``;
+    if (!personalInfo.summary) {return html``;}
 
     return html`
       <div class="preview-section">

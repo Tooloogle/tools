@@ -34,43 +34,64 @@ export class UserAgentParser extends WebComponentBase<IConfigBase> {
     }
 
     private getBrowser(ua: string): string {
-        if (ua.includes('Firefox/')) return `Firefox ${  ua.match(/Firefox\/([\d.]+)/)?.[1]}`;
-        if (ua.includes('Chrome/') && !ua.includes('Edg')) return `Chrome ${  ua.match(/Chrome\/([\d.]+)/)?.[1]}`;
-        if (ua.includes('Edg/')) return `Edge ${  ua.match(/Edg\/([\d.]+)/)?.[1]}`;
-        if (ua.includes('Safari/') && !ua.includes('Chrome')) return `Safari ${  ua.match(/Version\/([\d.]+)/)?.[1]}`;
-        if (ua.includes('OPR/')) return `Opera ${  ua.match(/OPR\/([\d.]+)/)?.[1]}`;
+        if (ua.includes('Firefox/')) {return `Firefox ${  ua.match(/Firefox\/([\d.]+)/)?.[1]}`;}
+
+        if (ua.includes('Chrome/') && !ua.includes('Edg')) {return `Chrome ${  ua.match(/Chrome\/([\d.]+)/)?.[1]}`;}
+
+        if (ua.includes('Edg/')) {return `Edge ${  ua.match(/Edg\/([\d.]+)/)?.[1]}`;}
+
+        if (ua.includes('Safari/') && !ua.includes('Chrome')) {return `Safari ${  ua.match(/Version\/([\d.]+)/)?.[1]}`;}
+
+        if (ua.includes('OPR/')) {return `Opera ${  ua.match(/OPR\/([\d.]+)/)?.[1]}`;}
+
         return 'Unknown';
     }
 
     private getOS(ua: string): string {
-        if (ua.includes('Windows NT 10.0')) return 'Windows 10/11';
-        if (ua.includes('Windows NT 6.3')) return 'Windows 8.1';
-        if (ua.includes('Windows NT 6.2')) return 'Windows 8';
-        if (ua.includes('Windows NT 6.1')) return 'Windows 7';
-        if (ua.includes('Mac OS X')) return `macOS ${  ua.match(/Mac OS X ([\d_]+)/)?.[1]?.replace(/_/g, '.')}`;
-        if (ua.includes('Android')) return `Android ${  ua.match(/Android ([\d.]+)/)?.[1]}`;
-        if (ua.includes('iPhone')) return `iOS (iPhone) ${  ua.match(/OS ([\d_]+)/)?.[1]?.replace(/_/g, '.')}`;
-        if (ua.includes('iPad')) return `iOS (iPad) ${  ua.match(/OS ([\d_]+)/)?.[1]?.replace(/_/g, '.')}`;
-        if (ua.includes('Linux')) return 'Linux';
+        if (ua.includes('Windows NT 10.0')) {return 'Windows 10/11';}
+
+        if (ua.includes('Windows NT 6.3')) {return 'Windows 8.1';}
+
+        if (ua.includes('Windows NT 6.2')) {return 'Windows 8';}
+
+        if (ua.includes('Windows NT 6.1')) {return 'Windows 7';}
+
+        if (ua.includes('Mac OS X')) {return `macOS ${  ua.match(/Mac OS X ([\d_]+)/)?.[1]?.replace(/_/g, '.')}`;}
+
+        if (ua.includes('Android')) {return `Android ${  ua.match(/Android ([\d.]+)/)?.[1]}`;}
+
+        if (ua.includes('iPhone')) {return `iOS (iPhone) ${  ua.match(/OS ([\d_]+)/)?.[1]?.replace(/_/g, '.')}`;}
+
+        if (ua.includes('iPad')) {return `iOS (iPad) ${  ua.match(/OS ([\d_]+)/)?.[1]?.replace(/_/g, '.')}`;}
+
+        if (ua.includes('Linux')) {return 'Linux';}
+
         return 'Unknown';
     }
 
     private getDevice(ua: string): string {
-        if (ua.includes('Mobile') || ua.includes('Android')) return 'Mobile';
-        if (ua.includes('Tablet') || ua.includes('iPad')) return 'Tablet';
+        if (ua.includes('Mobile') || ua.includes('Android')) {return 'Mobile';}
+
+        if (ua.includes('Tablet') || ua.includes('iPad')) {return 'Tablet';}
+
         return 'Desktop';
     }
 
     private getEngine(ua: string): string {
-        if (ua.includes('Gecko/')) return 'Gecko';
-        if (ua.includes('WebKit/')) return 'WebKit';
-        if (ua.includes('Blink')) return 'Blink';
-        if (ua.includes('Trident/')) return 'Trident';
+        if (ua.includes('Gecko/')) {return 'Gecko';}
+
+        if (ua.includes('WebKit/')) {return 'WebKit';}
+
+        if (ua.includes('Blink')) {return 'Blink';}
+
+        if (ua.includes('Trident/')) {return 'Trident';}
+
         return 'Unknown';
     }
 
     private useCurrentUA() {
-        if (!isBrowser()) return;
+        if (!isBrowser()) {return;}
+
         this.input = navigator.userAgent;
         this.parseUA();
     }

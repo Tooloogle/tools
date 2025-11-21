@@ -37,7 +37,8 @@ export class EmojiPicker extends WebComponentBase<IConfigBase> {
     }
 
     private copyEmoji(emoji: string) {
-        if (!isBrowser()) return;
+        if (!isBrowser()) {return;}
+
         void navigator.clipboard.writeText(emoji);
     }
 

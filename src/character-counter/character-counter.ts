@@ -24,7 +24,8 @@ export class CharacterCounter extends WebComponentBase<IConfigBase> {
     }
 
     private countChar(char: string): number {
-        if (!char) return 0;
+        if (!char) {return 0;}
+
         return (this.input.match(new RegExp(this.escapeRegex(char), 'g')) || []).length;
     }
 

@@ -165,7 +165,7 @@ export class JsonToXmlConverter extends WebComponentBase<IConfigBase> {
   }
 
   private async convert() {
-    if (!this.file) return;
+    if (!this.file) {return;}
 
     try {
       this.error = "";
@@ -197,7 +197,7 @@ export class JsonToXmlConverter extends WebComponentBase<IConfigBase> {
   }
 
   private downloadXml(xmlString: string): void {
-    if (!this.file) return;
+    if (!this.file) {return;}
 
     const blob = new Blob([xmlString], { type: "application/xml" });
     const a = document.createElement("a");

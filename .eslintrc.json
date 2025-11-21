@@ -58,6 +58,7 @@
       }
     ],
     "eqeqeq": ["error", "always"],
+    "curly": ["error", "all"],
     "complexity": ["error", 10],
     "max-lines": ["error", 300],
     "max-lines-per-function": [

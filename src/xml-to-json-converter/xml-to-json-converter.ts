@@ -58,7 +58,7 @@ export class XmlToJsonConverter extends WebComponentBase<IConfigBase> {
   }
 
   private processAttributes(node: Element, obj: JsonObject): void {
-    if (node.attributes.length === 0) return;
+    if (node.attributes.length === 0) {return;}
 
     obj["@attributes"] = {};
     for (let i = 0; i < node.attributes.length; i++) {
@@ -134,7 +134,7 @@ export class XmlToJsonConverter extends WebComponentBase<IConfigBase> {
   }
 
   private async convert() {
-    if (!this.file) return;
+    if (!this.file) {return;}
 
     try {
       this.error = "";
@@ -150,7 +150,7 @@ export class XmlToJsonConverter extends WebComponentBase<IConfigBase> {
   }
 
   private downloadJson(jsonString: string): void {
-    if (!this.file) return;
+    if (!this.file) {return;}
 
     const blob = new Blob([jsonString], { type: "application/json" });
     const a = document.createElement("a");

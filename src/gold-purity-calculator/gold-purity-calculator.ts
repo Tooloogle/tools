@@ -25,7 +25,7 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
 
     onKaratChange(e: Event) {
         const target = e.target as HTMLInputElement;
-        if (!target?.value) return;
+        if (!target?.value) {return;}
 
         this.karat = Number(target?.value);
         if (this.karat < 1 || this.karat > 24) {
@@ -39,7 +39,7 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
 
     onPurityChange(e: Event) {
         const target = e.target as HTMLInputElement;
-        if (!target?.value) return;
+        if (!target?.value) {return;}
 
         this.purity = Number(target?.value);
         if (this.purity < 1 || this.purity > 100) {
@@ -146,7 +146,7 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
     }
 
     renderTotalPrice() {
-        if (this.totalPrice <= 0) return '';
+        if (this.totalPrice <= 0) {return '';}
         
         return html`
             <div class="mt-4 p-3 bg-white rounded border-2 border-green-500">

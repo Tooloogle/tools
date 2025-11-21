@@ -44,28 +44,41 @@ export class SecurePasswordTester extends WebComponentBase<IConfigBase> {
 
     private generateFeedback(checks: Record<string, boolean>): string[] {
         const feedback: string[] = [];
-        if (!checks.length) feedback.push('✗ At least 12 characters');
-        if (!checks.uppercase) feedback.push('✗ Uppercase letters (A-Z)');
-        if (!checks.lowercase) feedback.push('✗ Lowercase letters (a-z)');
-        if (!checks.numbers) feedback.push('✗ Numbers (0-9)');
-        if (!checks.special) feedback.push('✗ Special characters (!@#$%^&*)');
+        if (!checks.length) {feedback.push('✗ At least 12 characters');}
+
+        if (!checks.uppercase) {feedback.push('✗ Uppercase letters (A-Z)');}
+
+        if (!checks.lowercase) {feedback.push('✗ Lowercase letters (a-z)');}
+
+        if (!checks.numbers) {feedback.push('✗ Numbers (0-9)');}
+
+        if (!checks.special) {feedback.push('✗ Special characters (!@#$%^&*)');}
+
         return feedback;
     }
 
     private determineStrengthLevel(score: number, entropy: number): string {
-        if (score >= 5 && entropy > 60) return 'Very Strong';
-        if (score >= 4 && entropy > 50) return 'Strong';
-        if (score >= 3 && entropy > 40) return 'Good';
-        if (score >= 2) return 'Fair';
+        if (score >= 5 && entropy > 60) {return 'Very Strong';}
+
+        if (score >= 4 && entropy > 50) {return 'Strong';}
+
+        if (score >= 3 && entropy > 40) {return 'Good';}
+
+        if (score >= 2) {return 'Fair';}
+
         return 'Weak';
     }
 
     private getCharsetSize(): number {
         let size = 0;
-        if (/[a-z]/.test(this.password)) size += 26;
-        if (/[A-Z]/.test(this.password)) size += 26;
-        if (/[0-9]/.test(this.password)) size += 10;
-        if (/[^A-Za-z0-9]/.test(this.password)) size += 32;
+        if (/[a-z]/.test(this.password)) {size += 26;}
+
+        if (/[A-Z]/.test(this.password)) {size += 26;}
+
+        if (/[0-9]/.test(this.password)) {size += 10;}
+
+        if (/[^A-Za-z0-9]/.test(this.password)) {size += 32;}
+
         return size || 1;
     }
 
