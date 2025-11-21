@@ -46,6 +46,7 @@ async function renderWebComponent(webComponent) {
         content = await collectResult(result);
     } catch (err) {
         console.log(err);
+        throw err;
     }
 
     return content
