@@ -38,6 +38,7 @@ const tools = [
     "data-uri-generator",
     "date-calculator",
     "date-format",
+    "date-time-format",
     "days-between-dates",
     "diff-checker",
     "direct-to-whatsapp",

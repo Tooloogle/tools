@@ -1,7 +1,7 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
-import dateFormatStyles from './date-format.css.js';
+import dateTimeFormatStyles from './date-time-format.css.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { hasClipboard, isBrowser } from '../_utils/DomUtils.js';
 import "../t-copy-button/t-copy-button.js";
@@ -9,13 +9,13 @@ import { when } from 'lit/directives/when.js';
 import inputStyles from '../_styles/input.css.js';
 import dayjs from 'dayjs';
 
-const localStorageKey = "t-date-format-custom";
+const localStorageKey = "t-date-time-format-custom";
 
 function getCustomFormat() {
     if (isBrowser()) {
         return localStorage.getItem(localStorageKey);
     } else {
-        return "YYYY-MM-DD";
+        return "YYYY-MM-DD HH:mm:ss";
     }
 }
 
@@ -25,41 +25,41 @@ function setCustomFormat(format: string) {
     }
 }
 
-@customElement('date-format')
-export class DateFormat extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, dateFormatStyles];
+@customElement('date-time-format')
+export class DateTimeFormat extends WebComponentBase<IConfigBase> {
+    static override styles = [WebComponentBase.styles, inputStyles, dateTimeFormatStyles];
     private dateFormats = [
-        "MM/DD/YY",
+        "MM/DD/YYYY HH:mm:ss",
+        "MM/DD/YYYY hh:mm:ss A",
+        "DD/MM/YYYY HH:mm:ss",
+        "DD/MM/YYYY hh:mm:ss A",
+        "YYYY/MM/DD HH:mm:ss",
+        "YYYY/MM/DD hh:mm:ss A",
+        "MMM D, YYYY HH:mm:ss",
+        "MMM D, YYYY hh:mm:ss A",
+        "D MMM, YYYY HH:mm:ss",
+        "D MMM, YYYY hh:mm:ss A",
+        "YYYY-MM-DD HH:mm:ss",
+        "YYYY-MM-DD hh:mm:ss A",
+        "YYYY-MM-DDTHH:mm:ss",
+        "YYYY-MM-DDThh:mm:ss A",
+        "HH:mm:ss",
+        "hh:mm:ss A",
+        "HH:mm",
+        "hh:mm A",
+        "YYYY-MM-DD",
         "MM/DD/YYYY",
-        "M/D/YY",
-        "DD/MM/YY",
-        "DD/MM/YYYY",
-        "D/M/YY",
-        "YY/MM/DD",
-        "YYYY/MM/DD",
-        "YY/M/D",
-        "MMM D, YYYY",
-        "MMM DD, YYYY",
-        "D MMM, YYYY",
-        "DD MMM, YYYY",
-        "YYYY, MMM D",
-        "YYYY, MMM DD",
-        "MMDDYY",
-        "DDMMYY",
-        "YYMMDD",
-        "MMMDDYY",
-        "DDMMMYY",
-        "YYMMMDD"
+        "DD/MM/YYYY"
     ];
 
     @property()
-    withTime = false;
+    withTime = true;
 
     @property()
     timeOnly = false;
 
     @property()
-    value = dayjs().format("YYYY-MM-DD"); // YYYY-MM-DDThh:mm
+    value = dayjs().format("YYYY-MM-DDTHH:mm"); // YYYY-MM-DDThh:mm
 
     @property()
     customFormat = getCustomFormat();
@@ -108,11 +108,11 @@ export class DateFormat extends WebComponentBase<IConfigBase> {
         return html`
             <div class="flex py-2">
                 <input
-                    name="date"
+                    name="datetime"
                     type="${this.withTime ? "datetime-local" : "date"}"
                     class="w-full form-input" 
                     autofocus
-                    placeholder="Select a date"
+                    placeholder="Select a date and time"
                     .value="${this.value}"
                     @change=${this.onChange}
                     />
@@ -144,6 +144,6 @@ export class DateFormat extends WebComponentBase<IConfigBase> {
 
 declare global {
     interface HTMLElementTagNameMap {
-        'date-format': DateFormat;
+        'date-time-format': DateTimeFormat;
     }
 }
