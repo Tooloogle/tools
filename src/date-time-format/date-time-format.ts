@@ -41,15 +41,12 @@ export class DateTimeFormat extends WebComponentBase<IConfigBase> {
         "D MMM, YYYY hh:mm:ss A",
         "YYYY-MM-DD HH:mm:ss",
         "YYYY-MM-DD hh:mm:ss A",
-        "YYYY-MM-DDTHH:mm:ss",
-        "YYYY-MM-DDThh:mm:ss A",
+        "YYYY-MM-DD HH:mm",
+        "YYYY-MM-DD hh:mm A",
         "HH:mm:ss",
         "hh:mm:ss A",
         "HH:mm",
-        "hh:mm A",
-        "YYYY-MM-DD",
-        "MM/DD/YYYY",
-        "DD/MM/YYYY"
+        "hh:mm A"
     ];
 
     @property()
@@ -59,7 +56,7 @@ export class DateTimeFormat extends WebComponentBase<IConfigBase> {
     timeOnly = false;
 
     @property()
-    value = dayjs().format("YYYY-MM-DDTHH:mm"); // YYYY-MM-DDThh:mm
+    value = dayjs().format("YYYY-MM-DDTHH:mm");
 
     @property()
     customFormat = getCustomFormat();
