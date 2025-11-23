@@ -10,13 +10,21 @@ export class LeapYearChecker extends WebComponentBase<IConfigBase> {
     static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, leapYearCheckerStyles];
 
     @property()
-    year = new Date().getFullYear();
+    year = 0;
 
     @property()
     isLeap = false;
 
     @property()
     checked = false;
+
+    override connectedCallback() {
+        super.connectedCallback();
+        // Initialize with current year only on client-side
+        if (this.year === 0) {
+            this.year = new Date().getFullYear();
+        }
+    }
 
     private isLeapYear(year: number): boolean {
         return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);

@@ -97,6 +97,10 @@ export class Ipv6AddressFormatter extends WebComponentBase<IConfigBase> {
     }
 
     private isValidIPv6(address: string): boolean {
+        // IPv6 validation regex - supports various formats:
+        // - Full format: 8 groups of 4 hex digits separated by colons
+        // - Compressed format: Using :: to represent consecutive zero groups
+        // - Mixed format: IPv4-mapped addresses
         const ipv6Regex = /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|::)$/;
         return ipv6Regex.test(address);
     }

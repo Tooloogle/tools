@@ -20,8 +20,11 @@ describe('leap-year-checker web component test', () => {
         expect(component).toBeInstanceOf(LeapYearChecker);
     });
 
-    it('should have current year as default', () => {
+    it('should have current year as default after connection', async () => {
         const component = window.document.createElement(componentTag) as LeapYearChecker;
+        document.body.appendChild(component);
+        await component.updateComplete;
+        
         const currentYear = new Date().getFullYear();
         expect(component.year).toBe(currentYear);
     });
