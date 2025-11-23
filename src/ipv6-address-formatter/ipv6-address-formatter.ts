@@ -79,9 +79,18 @@ export class Ipv6AddressFormatter extends WebComponentBase<IConfigBase> {
         
         // Replace longest zero sequence with ::
         if (maxZeroLength > 1) {
-            const before = withoutLeadingZeros.slice(0, maxZeroStart).join(':');
-            const after = withoutLeadingZeros.slice(maxZeroStart + maxZeroLength).join(':');
-            return `${before}::${after}`.replace(/^:/, '').replace(/:$/, '');
+            const before = withoutLeadingZeros.slice(0, maxZeroStart);
+            const after = withoutLeadingZeros.slice(maxZeroStart + maxZeroLength);
+            
+            if (before.length === 0 && after.length === 0) {
+                return '::';
+            } else if (before.length === 0) {
+                return '::' + after.join(':');
+            } else if (after.length === 0) {
+                return before.join(':') + '::';
+            } else {
+                return before.join(':') + '::' + after.join(':');
+            }
         }
         
         return withoutLeadingZeros.join(':');

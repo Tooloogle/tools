@@ -40,10 +40,13 @@ export class TimezoneOffsetCalculator extends WebComponentBase<IConfigBase> {
         'Pacific/Auckland',
     ];
 
-    constructor() {
-        super();
-        const now = new Date();
-        this.selectedDateTime = now.toISOString().slice(0, 16);
+    override connectedCallback() {
+        super.connectedCallback();
+        // Initialize with current time only on client-side
+        if (!this.selectedDateTime) {
+            const now = new Date();
+            this.selectedDateTime = now.toISOString().slice(0, 16);
+        }
     }
 
     private getTimeInTimezone(date: Date, timezone: string): string {
@@ -61,6 +64,21 @@ export class TimezoneOffsetCalculator extends WebComponentBase<IConfigBase> {
 
     private getTimezoneOffset(timezone: string): string {
         const date = new Date();
+        const formatter = new Intl.DateTimeFormat('en-US', {
+            timeZone: timezone,
+            timeZoneName: 'longOffset'
+        });
+        
+        const parts = formatter.formatToParts(date);
+        const offsetPart = parts.find(part => part.type === 'timeZoneName');
+        
+        if (offsetPart && offsetPart.value.startsWith('GMT')) {
+            const offset = offsetPart.value.replace('GMT', '');
+            if (offset === '') return '+00:00';
+            return offset;
+        }
+        
+        // Fallback calculation
         const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'UTC' }));
         const tzDate = new Date(date.toLocaleString('en-US', { timeZone: timezone }));
         const offsetMs = tzDate.getTime() - utcDate.getTime();
