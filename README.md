@@ -81,6 +81,16 @@ The "@tooloogle/tools" package includes the following web components:
 - `case-converter-advanced`: An advanced case converter supporting sentence case, camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, dot.case, and more.
 - `placeholder-image-generator`: A placeholder image URL generator supporting multiple services (Placehold.co, via Placeholder, Dummy Image, Lorem Picsum) with customizable dimensions, colors, and text.
 - `token-generator`: A cryptographically secure random token generator that creates tokens in hexadecimal, Base64 URL-safe, or alphanumeric formats for API keys and security purposes.
+- `color-luminance-calculator`: A color analysis tool that calculates relative luminance (WCAG), perceived brightness, and recommends text colors for optimal contrast and accessibility.
+- `text-statistics-analyzer`: An advanced text analysis tool that calculates word count, character count, sentences, paragraphs, syllables, reading time, speaking time, and Flesch Reading Ease score for comprehensive text metrics.
+- `leap-year-checker`: A calendar tool that checks if a given year is a leap year, displays February days count, and shows the previous and next leap years with rule explanations.
+- `letter-frequency-analyzer`: A text analysis tool that analyzes letter frequency distribution with visual bar charts, percentage calculations, and case-sensitive options for cryptography and linguistics.
+- `multi-base-converter`: A comprehensive number base converter that converts between binary, octal, decimal, hexadecimal, and other bases (2-36) with support for multiple output formats simultaneously.
+- `http-status-lookup`: An HTTP reference tool that provides comprehensive lookup and explanations for HTTP status codes with categorization (1xx-5xx) and search functionality.
+- `timezone-offset-calculator`: A time zone conversion tool that calculates time differences between time zones, displays UTC offsets, and converts dates/times across multiple international time zones.
+- `ipv6-address-formatter`: An IPv6 utility tool that expands and compresses IPv6 addresses, validates format, and provides information about IPv6 address structure and formatting rules.
+- `regex-pattern-library`: A developer reference tool providing a comprehensive library of common regex patterns for email, phone, dates, validation, and more with examples and descriptions.
+- `character-entity-reference`: An HTML/XML reference tool that provides a searchable lookup table of character entities with named entities, numeric codes, and visual previews for web development.
 
 ## Contributing
 
