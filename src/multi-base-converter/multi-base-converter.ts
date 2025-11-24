@@ -24,7 +24,8 @@ export class MultiBaseConverter extends WebComponentBase<IConfigBase> {
     private bases = [2, 8, 10, 12, 16, 20, 24, 32, 36];
 
     private isValidInput(value: string, base: number): boolean {
-        if (!value) return false;
+        if (!value) {return false;}
+
         const validChars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.slice(0, base);
         return value.toUpperCase().split('').every(char => validChars.includes(char));
     }
@@ -49,6 +50,12 @@ export class MultiBaseConverter extends WebComponentBase<IConfigBase> {
             
             if (isNaN(decimal) || !isFinite(decimal)) {
                 this.error = 'Invalid number';
+                this.requestUpdate();
+                return;
+            }
+
+            if (decimal > Number.MAX_SAFE_INTEGER) {
+                this.error = 'Number too large for safe conversion';
                 this.requestUpdate();
                 return;
             }

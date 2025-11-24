@@ -20,10 +20,15 @@ export class ColorLuminanceCalculator extends WebComponentBase<IConfigBase> {
     @property()
     textColor = '#ffffff';
 
-    // Calculate relative luminance using WCAG formula
+    /**
+     * Calculate relative luminance using WCAG 2.0 formula
+     * @see https://www.w3.org/TR/WCAG20/#relativeluminancedef
+     * @param hex - Hex color code
+     * @returns Relative luminance value between 0 and 1
+     */
     private calculateLuminance(hex: string): number {
         const rgb = this.hexToRgb(hex);
-        if (!rgb) return 0;
+        if (!rgb) {return 0;}
 
         const rsRGB = rgb.r / 255;
         const gsRGB = rgb.g / 255;
@@ -36,10 +41,16 @@ export class ColorLuminanceCalculator extends WebComponentBase<IConfigBase> {
         return 0.2126 * r + 0.7152 * g + 0.0722 * b;
     }
 
-    // Calculate perceived brightness
+    /**
+     * Calculate perceived brightness using ITU-R BT.601 luma coefficients
+     * Formula: (0.299 * R + 0.587 * G + 0.114 * B)
+     * @param hex - Hex color code
+     * @returns Brightness value between 0 and 255
+     */
     private calculateBrightness(hex: string): number {
         const rgb = this.hexToRgb(hex);
-        if (!rgb) return 0;
+        if (!rgb) {return 0;}
+
         return (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
     }
 

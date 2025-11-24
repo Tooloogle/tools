@@ -26,12 +26,12 @@ export class TextStatisticsAnalyzer extends WebComponentBase<IConfigBase> {
 
     private countSyllables(word: string): number {
         word = word.toLowerCase();
-        if (word.length <= 3) return 1;
+        if (word.length <= 3) {return 1;}
         
         word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
         word = word.replace(/^y/, '');
         const matches = word.match(/[aeiouy]{1,2}/g);
-        return matches ? matches.length : 1;
+        return Math.max(matches ? matches.length : 1, 1);
     }
 
     private calculateStats() {
@@ -83,12 +83,18 @@ export class TextStatisticsAnalyzer extends WebComponentBase<IConfigBase> {
     }
 
     private getReadabilityLevel(score: number): string {
-        if (score >= 90) return 'Very Easy (5th grade)';
-        if (score >= 80) return 'Easy (6th grade)';
-        if (score >= 70) return 'Fairly Easy (7th grade)';
-        if (score >= 60) return 'Standard (8th-9th grade)';
-        if (score >= 50) return 'Fairly Difficult (10th-12th grade)';
-        if (score >= 30) return 'Difficult (College)';
+        if (score >= 90) {return 'Very Easy (5th grade)';}
+
+        if (score >= 80) {return 'Easy (6th grade)';}
+
+        if (score >= 70) {return 'Fairly Easy (7th grade)';}
+
+        if (score >= 60) {return 'Standard (8th-9th grade)';}
+
+        if (score >= 50) {return 'Fairly Difficult (10th-12th grade)';}
+
+        if (score >= 30) {return 'Difficult (College)';}
+
         return 'Very Difficult (College graduate)';
     }
 

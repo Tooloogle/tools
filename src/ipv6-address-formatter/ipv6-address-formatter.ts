@@ -33,11 +33,21 @@ export class Ipv6AddressFormatter extends WebComponentBase<IConfigBase> {
             const missingParts = 8 - leftParts.length - rightParts.length;
             const middleParts = Array(missingParts).fill('0000');
             const allParts = [...leftParts, ...middleParts, ...rightParts];
+            
+            if (allParts.length !== 8) {
+                throw new Error('Invalid IPv6 address: incorrect number of groups');
+            }
+
             return allParts.map(part => part.padStart(4, '0')).join(':');
         }
         
         // Already expanded, just pad each part
-        return address.split(':').map(part => part.padStart(4, '0')).join(':');
+        const parts = address.split(':');
+        if (parts.length !== 8) {
+            throw new Error('Invalid IPv6 address: incorrect number of groups');
+        }
+
+        return parts.map(part => part.padStart(4, '0')).join(':');
     }
 
     private compressIPv6(address: string): string {
@@ -66,6 +76,7 @@ export class Ipv6AddressFormatter extends WebComponentBase<IConfigBase> {
                     maxZeroStart = currentZeroStart;
                     maxZeroLength = currentZeroLength;
                 }
+
                 currentZeroStart = -1;
                 currentZeroLength = 0;
             }
@@ -85,11 +96,11 @@ export class Ipv6AddressFormatter extends WebComponentBase<IConfigBase> {
             if (before.length === 0 && after.length === 0) {
                 return '::';
             } else if (before.length === 0) {
-                return '::' + after.join(':');
+                return `::${after.join(':')}`;
             } else if (after.length === 0) {
-                return before.join(':') + '::';
+                return `${before.join(':')  }::`;
             } else {
-                return before.join(':') + '::' + after.join(':');
+                return `${before.join(':')  }::${  after.join(':')}`;
             }
         }
         
@@ -97,10 +108,17 @@ export class Ipv6AddressFormatter extends WebComponentBase<IConfigBase> {
     }
 
     private isValidIPv6(address: string): boolean {
+        // Check for multiple :: occurrences (invalid)
+        const doubleColonCount = (address.match(/::/g) || []).length;
+        if (doubleColonCount > 1) {
+            return false;
+        }
+
         // IPv6 validation regex - supports various formats:
         // - Full format: 8 groups of 4 hex digits separated by colons
         // - Compressed format: Using :: to represent consecutive zero groups
-        // - Mixed format: IPv4-mapped addresses
+        // Note: This validation intentionally excludes IPv4-mapped addresses and zone identifiers
+        // as they require additional processing beyond basic IPv6 expansion/compression
         const ipv6Regex = /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|::)$/;
         return ipv6Regex.test(address);
     }

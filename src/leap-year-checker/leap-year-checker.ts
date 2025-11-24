@@ -49,6 +49,7 @@ export class LeapYearChecker extends WebComponentBase<IConfigBase> {
         while (!this.isLeapYear(next)) {
             next++;
         }
+
         return next;
     }
 
@@ -57,6 +58,7 @@ export class LeapYearChecker extends WebComponentBase<IConfigBase> {
         while (!this.isLeapYear(prev)) {
             prev--;
         }
+
         return prev;
     }
 

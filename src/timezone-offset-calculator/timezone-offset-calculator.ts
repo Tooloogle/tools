@@ -74,18 +74,22 @@ export class TimezoneOffsetCalculator extends WebComponentBase<IConfigBase> {
         
         if (offsetPart && offsetPart.value.startsWith('GMT')) {
             const offset = offsetPart.value.replace('GMT', '');
-            if (offset === '') return '+00:00';
+            if (offset === '') {
+                return '+00:00';
+            }
+
             return offset;
         }
         
-        // Fallback calculation if longOffset is not available
-        const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'UTC' }));
-        const tzDate = new Date(date.toLocaleString('en-US', { timeZone: timezone }));
-        const offsetMs = utcDate.getTime() - tzDate.getTime();
+        // Fallback calculation using UTC time comparison
+        const utcTime = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 
+                                 date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+        const localTime = new Date(date.toLocaleString('en-US', { timeZone: timezone })).getTime();
+        const offsetMs = localTime - utcTime;
         const offsetHours = offsetMs / (1000 * 60 * 60);
         const hours = Math.floor(Math.abs(offsetHours));
         const minutes = Math.round((Math.abs(offsetHours) - hours) * 60);
-        const sign = offsetHours <= 0 ? '+' : '-';
+        const sign = offsetHours >= 0 ? '+' : '-';
         return `${sign}${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
     }
 
