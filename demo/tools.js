@@ -180,7 +180,8 @@ const tools = [
     "timezone-offset-calculator",
     "ipv6-address-formatter",
     "regex-pattern-library",
-    "character-entity-reference"
+    "character-entity-reference",
+    "image-to-ico-converter"
 ];
 
 if (typeof window !== "undefined") {

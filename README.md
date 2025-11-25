@@ -91,6 +91,7 @@ The "@tooloogle/tools" package includes the following web components:
 - `ipv6-address-formatter`: An IPv6 utility tool that expands and compresses IPv6 addresses, validates format, and provides information about IPv6 address structure and formatting rules.
 - `regex-pattern-library`: A developer reference tool providing a comprehensive library of common regex patterns for email, phone, dates, validation, and more with examples and descriptions.
 - `character-entity-reference`: An HTML/XML reference tool that provides a searchable lookup table of character entities with named entities, numeric codes, and visual previews for web development.
+- `image-to-ico-converter`: A browser-based image to ICO converter that supports JPEG, PNG, GIF, WebP, and BMP formats. Creates multi-size ICO files with selectable icon sizes (16x16 to 256x256) for favicons and desktop icons.
 
 ## Contributing
 
