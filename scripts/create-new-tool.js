@@ -17,8 +17,7 @@ const demoFolder = path.join(cwd(), "demo");
 
 fs.mkdirSync(folder)
 
-const cssContent = `@tailwind components;
-@tailwind utilities;`
+const cssContent = `@import "tailwindcss";`
 
 const tsContent = `import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';

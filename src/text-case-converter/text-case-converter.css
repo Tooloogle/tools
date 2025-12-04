@@ -1,5 +1,4 @@
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 .btn {
     margin-bottom: 3px;

@@ -1,5 +1,4 @@
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 .btn-close {
     font-size: 1.7rem;
