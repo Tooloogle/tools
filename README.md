@@ -87,7 +87,7 @@ The "@tooloogle/tools" package includes the following web components:
 The following reusable web components are available for building tools:
 
 - `t-button`: A styled button component with variant support (`blue`, `green`, `red`) and disabled state.
-- `t-input`: A styled input component supporting multiple types (`text`, `number`, `email`, `password`, `date`, `datetime-local`) with placeholder and disabled state.
+- `t-input`: A styled input component supporting multiple types (`text`, `number`, `email`, `password`, `date`, `datetime-local`, `file`) with placeholder, disabled state, and accept attribute for file inputs.
 - `t-textarea`: A styled textarea component with configurable rows, placeholder, and disabled state.
 - `t-copy-button`: A copy-to-clipboard button with tooltip feedback.
 - `t-stopwatch`: A stopwatch component with start, stop, reset, and lap functionality.
