@@ -2,8 +2,7 @@ import fs from "fs";
 import { globSync } from "glob";
 import path from "path";
 import postcss from "postcss";
-import tailwindcss from "tailwindcss";
-import tailwindcssForm from "@tailwindcss/forms";
+import tailwindcssPostcss from "@tailwindcss/postcss";
 import cssnanoPlugin from "cssnano";
 
 const cssFiles = globSync("./src/**/*.css");
@@ -19,14 +18,18 @@ export async function transformCssToTs(cssFile) {
         let content = fs.readFileSync(cssFile);
         const variableName = `${fileName.replace(/-./g, val => val[1].toUpperCase())}Styles`;
 
-        // tailwindcss and minify css
-        content = await postcss([tailwindcss({
-            config: {
-                // must use same name for css and ts file and tool folder name for the component
-                content: [`./src/${filenameWithoutExtension}/${filenameWithoutExtension}.ts`],
-                plugins: [tailwindcssForm]
-            }
-        }), cssnanoPlugin]).process(content, { from: cssFile });
+        // Get the directory of the CSS file for proper base path resolution
+        const cssDir = path.dirname(cssFile);
+
+        // tailwindcss v4 and minify css
+        content = await postcss([
+            tailwindcssPostcss({
+                // Base directory for content detection
+                base: `./${cssDir}`,
+                optimize: false // We use cssnano separately for minification
+            }),
+            cssnanoPlugin
+        ]).process(content, { from: cssFile });
 
         // write .css.ts file
         fs.writeFileSync(`${cssFile}.ts`, `

@@ -1,5 +1,4 @@
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 .resume-builder {
   @apply max-w-7xl mx-auto;
@@ -281,7 +280,7 @@
 }
 
 .template-modern .contact-info span {
-  @apply text-white text-opacity-90 flex items-center gap-1;
+  @apply text-white/90 flex items-center gap-1;
 }
 
 .template-modern .contact-info svg {

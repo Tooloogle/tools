@@ -1,5 +1,4 @@
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* Custom styles for text-to-speech component */
 .text-to-speech .editor {

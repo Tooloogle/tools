@@ -1,5 +1,4 @@
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 .wedding-biodata-container {
     @apply max-w-6xl mx-auto p-4;
