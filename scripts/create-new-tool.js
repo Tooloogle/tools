@@ -47,7 +47,9 @@ declare global {
 
 const indexTsContent = `export * from './${tool}.js';\n`;
 
-fs.writeFileSync(path.join(demoFolder, `tools.js`), `const tools = ${JSON.stringify([...demoListJson, tool], null, 4)};
+// Only add to tools.json if not a reusable component (t- prefixed)
+if (!tool.startsWith('t-')) {
+    fs.writeFileSync(path.join(demoFolder, `tools.js`), `const tools = ${JSON.stringify([...demoListJson, tool], null, 4)};
 
 if (typeof window !== "undefined") {
     window.tools = tools;
@@ -55,6 +57,7 @@ if (typeof window !== "undefined") {
 
 export default tools;
 `);
+}
 fs.writeFileSync(path.join(folder, `${tool}.css`), cssContent);
 fs.writeFileSync(path.join(folder, `${tool}.ts`), tsContent);
 fs.writeFileSync(path.join(folder, `index.ts`), indexTsContent);

@@ -82,6 +82,16 @@ The "@tooloogle/tools" package includes the following web components:
 - `placeholder-image-generator`: A placeholder image URL generator supporting multiple services (Placehold.co, via Placeholder, Dummy Image, Lorem Picsum) with customizable dimensions, colors, and text.
 - `token-generator`: A cryptographically secure random token generator that creates tokens in hexadecimal, Base64 URL-safe, or alphanumeric formats for API keys and security purposes.
 
+## Common Controls
+
+The following reusable web components are available for building tools:
+
+- `t-button`: A styled button component with variant support (`blue`, `green`, `red`) and disabled state.
+- `t-input`: A styled input component supporting multiple types (`text`, `number`, `email`, `password`, `date`, `datetime-local`) with placeholder and disabled state.
+- `t-textarea`: A styled textarea component with configurable rows, placeholder, and disabled state.
+- `t-copy-button`: A copy-to-clipboard button with tooltip feedback.
+- `t-stopwatch`: A stopwatch component with start, stop, reset, and lap functionality.
+
 ## Contributing
 
 Contributions to the "@tooloogle/tools" package are welcome! If you find any bugs, have feature requests, or want to contribute improvements, please open an issue or submit a pull request on the [GitHub repository](https://github.com/Tooloogle/tools).
