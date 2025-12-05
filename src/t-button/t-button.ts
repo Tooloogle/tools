@@ -14,19 +14,11 @@ export class TButton extends WebComponentBase<IConfigBase> {
     @property({ type: Boolean })
     disabled = false;
 
-    private handleClick(e: Event) {
-        if (this.disabled) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-    }
-
     override render() {
         return html`
             <button
                 class="btn btn-${this.variant}"
                 ?disabled=${this.disabled}
-                @click=${this.handleClick}
             >
                 <slot></slot>
             </button>
