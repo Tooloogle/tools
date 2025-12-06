@@ -1,196 +1,217 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import {
+  IConfigBase,
+  WebComponentBase,
+} from '../_web-component/WebComponentBase.js';
 import robotsTxtGeneratorStyles from './robots-txt-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
+import '../t-copy-button';
 
 @customElement('robots-txt-generator')
 export class RobotsTxtGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, robotsTxtGeneratorStyles];
+  static override styles = [
+    WebComponentBase.styles,
+    inputStyles,
+    robotsTxtGeneratorStyles,
+  ];
 
-    @property({ type: String }) userAgent = '*';
-    @property({ type: Boolean }) allowAll = false;
-    @property({ type: Boolean }) disallowAll = false;
-    @property({ type: String }) disallowPaths = '';
-    @property({ type: String }) allowPaths = '';
-    @property({ type: String }) sitemapUrl = '';
-    @property({ type: String }) outputText = '';
+  @property({ type: String }) userAgent = '*';
+  @property({ type: Boolean }) allowAll = false;
+  @property({ type: Boolean }) disallowAll = false;
+  @property({ type: String }) disallowPaths = '';
+  @property({ type: String }) allowPaths = '';
+  @property({ type: String }) sitemapUrl = '';
+  @property({ type: String }) outputText = '';
 
-    override connectedCallback() {
-        super.connectedCallback();
-        this.process();
+  override connectedCallback() {
+    super.connectedCallback();
+    this.process();
+  }
+
+  private handleUserAgent(e: Event) {
+    this.userAgent = (e.target as HTMLInputElement).value || '*';
+    this.process();
+  }
+
+  private handleAllowAll(e: Event) {
+    this.allowAll = (e.target as HTMLInputElement).checked;
+    if (this.allowAll) {
+      this.disallowAll = false;
     }
 
-    private handleUserAgent(e: Event) {
-        this.userAgent = (e.target as HTMLInputElement).value || '*';
-        this.process();
+    this.process();
+  }
+
+  private handleDisallowAll(e: Event) {
+    this.disallowAll = (e.target as HTMLInputElement).checked;
+    if (this.disallowAll) {
+      this.allowAll = false;
     }
 
-    private handleAllowAll(e: Event) {
-        this.allowAll = (e.target as HTMLInputElement).checked;
-        if (this.allowAll) {this.disallowAll = false;}
+    this.process();
+  }
 
-        this.process();
+  private handleDisallowPaths(e: Event) {
+    this.disallowPaths = (e.target as HTMLTextAreaElement).value;
+    this.process();
+  }
+
+  private handleAllowPaths(e: Event) {
+    this.allowPaths = (e.target as HTMLTextAreaElement).value;
+    this.process();
+  }
+
+  private handleSitemap(e: Event) {
+    this.sitemapUrl = (e.target as HTMLInputElement).value;
+    this.process();
+  }
+
+  private process() {
+    let output = `User-agent: ${this.userAgent}\n`;
+
+    if (this.allowAll) {
+      output += 'Allow: /\n';
+    } else if (this.disallowAll) {
+      output += 'Disallow: /\n';
+    } else {
+      if (this.disallowPaths) {
+        const paths = this.disallowPaths.split('\n').filter(p => p.trim());
+        paths.forEach(path => {
+          output += `Disallow: ${path.trim()}\n`;
+        });
+      }
+
+      if (this.allowPaths) {
+        const paths = this.allowPaths.split('\n').filter(p => p.trim());
+        paths.forEach(path => {
+          output += `Allow: ${path.trim()}\n`;
+        });
+      }
     }
 
-    private handleDisallowAll(e: Event) {
-        this.disallowAll = (e.target as HTMLInputElement).checked;
-        if (this.disallowAll) {this.allowAll = false;}
-
-        this.process();
+    if (this.sitemapUrl) {
+      output += `\nSitemap: ${this.sitemapUrl}`;
     }
 
-    private handleDisallowPaths(e: Event) {
-        this.disallowPaths = (e.target as HTMLTextAreaElement).value;
-        this.process();
-    }
+    this.outputText = output;
+  }
 
-    private handleAllowPaths(e: Event) {
-        this.allowPaths = (e.target as HTMLTextAreaElement).value;
-        this.process();
-    }
+  override render() {
+    return html`
+      <div class="space-y-4">
+        ${this.renderUserAgentInput()} ${this.renderAllowDisallowCheckboxes()}
+        ${this.renderPathInputs()} ${this.renderSitemapInput()}
+        ${this.renderOutput()}
+      </div>
+    `;
+  }
 
-    private handleSitemap(e: Event) {
-        this.sitemapUrl = (e.target as HTMLInputElement).value;
-        this.process();
-    }
+  private renderUserAgentInput() {
+    return html`
+      <div>
+        <label class="block mb-2 font-semibold">User-Agent:</label>
+        <input
+          type="text"
+          class="form-input w-full"
+          placeholder="*"
+          .value=${this.userAgent}
+          @input=${this.handleUserAgent}
+        />
+      </div>
+    `;
+  }
 
-    private process() {
-        let output = `User-agent: ${this.userAgent}\n`;
+  private renderAllowDisallowCheckboxes() {
+    return html`
+      <div class="flex gap-4">
+        <label class="flex items-center">
+          <input
+            type="checkbox"
+            .checked=${this.allowAll}
+            @change=${this.handleAllowAll}
+          />
+          <span class="ml-2">Allow All</span>
+        </label>
+        <label class="flex items-center">
+          <input
+            type="checkbox"
+            .checked=${this.disallowAll}
+            @change=${this.handleDisallowAll}
+          />
+          <span class="ml-2">Disallow All</span>
+        </label>
+      </div>
+    `;
+  }
 
-        if (this.allowAll) {
-            output += 'Allow: /\n';
-        } else if (this.disallowAll) {
-            output += 'Disallow: /\n';
-        } else {
-            if (this.disallowPaths) {
-                const paths = this.disallowPaths.split('\n').filter(p => p.trim());
-                paths.forEach(path => {
-                    output += `Disallow: ${path.trim()}\n`;
-                });
-            }
+  private renderPathInputs() {
+    return !this.allowAll && !this.disallowAll
+      ? html`
+          <div>
+            <label class="block mb-2 font-semibold"
+              >Disallow Paths (one per line):</label
+            >
+            <textarea
+              class="form-textarea w-full h-24"
+              placeholder="/admin&#10;/private&#10;/tmp"
+              .value=${this.disallowPaths}
+              @input=${this.handleDisallowPaths}
+            ></textarea>
+          </div>
 
-            if (this.allowPaths) {
-                const paths = this.allowPaths.split('\n').filter(p => p.trim());
-                paths.forEach(path => {
-                    output += `Allow: ${path.trim()}\n`;
-                });
-            }
-        }
+          <div>
+            <label class="block mb-2 font-semibold"
+              >Allow Paths (one per line):</label
+            >
+            <textarea
+              class="form-textarea w-full h-24"
+              placeholder="/public&#10;/images"
+              .value=${this.allowPaths}
+              @input=${this.handleAllowPaths}
+            ></textarea>
+          </div>
+        `
+      : '';
+  }
 
-        if (this.sitemapUrl) {
-            output += `\nSitemap: ${this.sitemapUrl}`;
-        }
+  private renderSitemapInput() {
+    return html`
+      <div>
+        <label class="block mb-2 font-semibold">Sitemap URL (optional):</label>
+        <input
+          type="url"
+          class="form-input w-full"
+          placeholder="https://example.com/sitemap.xml"
+          .value=${this.sitemapUrl}
+          @input=${this.handleSitemap}
+        />
+      </div>
+    `;
+  }
 
-        this.outputText = output;
-    }
-
-    override render() {
-        return html`
-            <div class="space-y-4">
-                ${this.renderUserAgentInput()}
-                ${this.renderAllowDisallowCheckboxes()}
-                ${this.renderPathInputs()}
-                ${this.renderSitemapInput()}
-                ${this.renderOutput()}
-            </div>
-        `;
-    }
-
-    private renderUserAgentInput() {
-        return html`
-            <div>
-                <label class="block mb-2 font-semibold">User-Agent:</label>
-                <input
-                    type="text"
-                    class="form-input w-full"
-                    placeholder="*"
-                    .value=${this.userAgent}
-                    @input=${this.handleUserAgent}
-                />
-            </div>
-        `;
-    }
-
-    private renderAllowDisallowCheckboxes() {
-        return html`
-            <div class="flex gap-4">
-                <label class="flex items-center">
-                    <input
-                        type="checkbox"
-                        .checked=${this.allowAll}
-                        @change=${this.handleAllowAll}
-                    />
-                    <span class="ml-2">Allow All</span>
-                </label>
-                <label class="flex items-center">
-                    <input
-                        type="checkbox"
-                        .checked=${this.disallowAll}
-                        @change=${this.handleDisallowAll}
-                    />
-                    <span class="ml-2">Disallow All</span>
-                </label>
-            </div>
-        `;
-    }
-
-    private renderPathInputs() {
-        return !this.allowAll && !this.disallowAll ? html`
-            <div>
-                <label class="block mb-2 font-semibold">Disallow Paths (one per line):</label>
-                <textarea
-                    class="form-input w-full h-24"
-                    placeholder="/admin&#10;/private&#10;/tmp"
-                    .value=${this.disallowPaths}
-                    @input=${this.handleDisallowPaths}
-                ></textarea>
-            </div>
-
-            <div>
-                <label class="block mb-2 font-semibold">Allow Paths (one per line):</label>
-                <textarea
-                    class="form-input w-full h-24"
-                    placeholder="/public&#10;/images"
-                    .value=${this.allowPaths}
-                    @input=${this.handleAllowPaths}
-                ></textarea>
-            </div>
-        ` : '';
-    }
-
-    private renderSitemapInput() {
-        return html`
-            <div>
-                <label class="block mb-2 font-semibold">Sitemap URL (optional):</label>
-                <input
-                    type="url"
-                    class="form-input w-full"
-                    placeholder="https://example.com/sitemap.xml"
-                    .value=${this.sitemapUrl}
-                    @input=${this.handleSitemap}
-                />
-            </div>
-        `;
-    }
-
-    private renderOutput() {
-        return html`
-            <div>
-                <label class="block mb-2 font-semibold">Generated robots.txt:</label>
-                <textarea
-                    class="form-input w-full h-32"
-                    readonly
-                    .value=${this.outputText}
-                ></textarea>
-                ${this.outputText ? html`<t-copy-button .text=${this.outputText}></t-copy-button>` : ''}
-            </div>
-        `;
-    }
+  private renderOutput() {
+    return html`
+      <div>
+        <label class="block mb-2 font-semibold">Generated robots.txt:</label>
+        <textarea
+          class="form-textarea w-full h-32"
+          readonly
+          .value=${this.outputText}
+        ></textarea>
+        ${this.outputText
+          ? html`<t-copy-button
+              .text=${this.outputText}
+              .isIcon=${false}
+            ></t-copy-button>`
+          : ''}
+      </div>
+    `;
+  }
 }
 
 declare global {
-    interface HTMLElementTagNameMap {
-        'robots-txt-generator': RobotsTxtGenerator;
-    }
+  interface HTMLElementTagNameMap {
+    'robots-txt-generator': RobotsTxtGenerator;
+  }
 }

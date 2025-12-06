@@ -1,1 +1,17 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+input {
+  @apply w-full rounded-lg border border-solid border-gray-300 px-4 py-2 text-gray-400 bg-inherit dark:border-gray-500 dark:focus:ring-gray-400 dark:focus:border-gray-400;
+}
+
+input:disabled {
+  @apply opacity-60 cursor-not-allowed bg-gray-100 dark:bg-gray-800;
+}
+
+input:readonly {
+  @apply bg-gray-50 dark:bg-gray-900;
+}
+
+input[type='file'] {
+  @apply cursor-pointer;
+}
