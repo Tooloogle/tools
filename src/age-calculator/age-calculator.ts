@@ -9,9 +9,10 @@ import buttonStyles from '../_styles/button.css.js';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { formatNumber } from '../_utils/NumberHelper.js';
-import inputStyles from '../_styles/input.css.js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration.js';
+import '../t-input';
+import '../t-checkbox';
 
 dayjs.extend(duration);
 
@@ -19,7 +20,6 @@ dayjs.extend(duration);
 export class AgeCalculator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
     buttonStyles,
     ageCalculatorStyles,
   ];
@@ -82,12 +82,12 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
     };
   }
 
-  private handleDobChange(e: Event) {
-    this.dob = (e.target as HTMLInputElement).value;
+  private handleDobChange(e: CustomEvent) {
+    this.dob = e.detail.value;
   }
 
-  private handleTodayChange(e: Event) {
-    this.today = (e.target as HTMLInputElement).value;
+  private handleTodayChange(e: CustomEvent) {
+    this.today = e.detail.value;
   }
 
   private handleHaveTimeChange(e: Event) {
@@ -144,44 +144,37 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
           </div>
         `
       )}
-
       <div class="grid grid-cols-1 gap-4 dark:bg-gray-600">
         <label class="block">
           <span>Date Of Birth</span>
-          <input
+          <t-input
             name="birthday"
-            class="form-input"
-            type="${this.haveTime ? 'datetime-local' : 'date'}"
-            pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
+            .type=${this.haveTime ? 'datetime-local' : 'date'}
             .value=${this.dob}
-            @change=${this.handleDobChange}
+            @t-input=${this.handleDobChange}
             required
-          />
+          ></t-input>
         </label>
         <label class="block">
           <span>Age at the Date</span>
-          <input
+          <t-input
             name="today"
-            class="form-input"
-            type="${this.haveTime ? 'datetime-local' : 'date'}"
-            pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
+            .type=${this.haveTime ? 'datetime-local' : 'date'}
             .value=${this.today}
-            @change=${this.handleTodayChange}
+            @t-input=${this.handleTodayChange}
             required
-          />
+          ></t-input>
         </label>
-        <label class="block">
-          <input
-            id="haveTime"
-            type="checkbox"
-            @change=${this.handleHaveTimeChange}
-          />
-          <span>Have time?</span>
-        </label>
+        <t-checkbox
+          id="haveTime"
+          label="Have time?"
+          .checked=${this.haveTime}
+          @t-change=${this.handleHaveTimeChange}
+        ></t-checkbox>
       </div>
       <div class="text-end">
         <button
-          .disabled=${!this.dob || !this.today}
+          ?disabled=${!this.dob || !this.today}
           class="btn btn-blue"
           @click=${this.calculate}
         >

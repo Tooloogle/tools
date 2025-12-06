@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+
+.checkbox-wrapper {
+  @apply inline-flex items-center gap-1 cursor-pointer text-sm;
+}
+
+input[type='checkbox'] {
+  @apply w-3.5 h-3.5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 cursor-pointer;
+}
+
+input[type='checkbox']:disabled {
+  @apply opacity-60 cursor-not-allowed;
+}
+
+.checkbox-wrapper span {
+  @apply text-gray-900 dark:text-gray-300;
+}
