@@ -225,7 +225,7 @@ export class Ipv6AddressFormatter extends WebComponentBase<IConfigBase> {
                             <div>2001:0db8:0000:0000:0000:ff00:0042:8329</div>
                             <div>2001:db8::ff00:42:8329</div>
                             <div>::1 (loopback)</div>
-                            <div>::ffff:192.0.2.1 (IPv4-mapped)</div>
+                            <div>fe80::1 (link-local)</div>
                         </div>
                     </div>
                 ` : ''}
