@@ -1,14 +1,14 @@
-import { html } from 'lit';
+import { html } from "lit";
 import {
   IConfigBase,
   WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
-import stringSimilarityCheckerStyles from './string-similarity-checker.css.js';
-import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+} from "../_web-component/WebComponentBase.js";
+import stringSimilarityCheckerStyles from "./string-similarity-checker.css.js";
+import { customElement, property } from "lit/decorators.js";
+import inputStyles from "../_styles/input.css.js";
+import "../t-copy-button";
 
-@customElement('string-similarity-checker')
+@customElement("string-similarity-checker")
 export class StringSimilarityChecker extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
@@ -16,8 +16,8 @@ export class StringSimilarityChecker extends WebComponentBase<IConfigBase> {
     stringSimilarityCheckerStyles,
   ];
 
-  @property({ type: String }) inputText = '';
-  @property({ type: String }) outputText = '';
+  @property({ type: String }) inputText = "";
+  @property({ type: String }) outputText = "";
 
   private handleInput(e: Event) {
     this.inputText = (e.target as HTMLTextAreaElement).value;
@@ -25,12 +25,12 @@ export class StringSimilarityChecker extends WebComponentBase<IConfigBase> {
   }
 
   private convert() {
-    const lines = this.inputText.split('\n');
+    const lines = this.inputText.split("\n");
     if (lines.length >= 2) {
-      const similarity = lines[0] === lines[1] ? '100%' : '0%';
-      this.outputText = `Similarity: ${{ similarity }}`;
+      const similarity = lines[0] === lines[1] ? "100%" : "0%";
+      this.outputText = `Similarity: ${similarity}`;
     } else {
-      this.outputText = 'Enter two lines to compare';
+      this.outputText = "Enter two lines to compare";
     }
   }
 
@@ -57,7 +57,7 @@ export class StringSimilarityChecker extends WebComponentBase<IConfigBase> {
           ></textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ''}
+            : ""}
         </div>
       </div>
     `;
@@ -66,6 +66,6 @@ export class StringSimilarityChecker extends WebComponentBase<IConfigBase> {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'string-similarity-checker': StringSimilarityChecker;
+    "string-similarity-checker": StringSimilarityChecker;
   }
 }

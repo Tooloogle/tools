@@ -1,54 +1,54 @@
-import { html } from 'lit';
+import { html } from "lit";
 import {
   IConfigBase,
   WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
-import textToMorseConverterStyles from './text-to-morse-converter.css.js';
-import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+} from "../_web-component/WebComponentBase.js";
+import textToMorseConverterStyles from "./text-to-morse-converter.css.js";
+import { customElement, property } from "lit/decorators.js";
+import inputStyles from "../_styles/input.css.js";
+import "../t-copy-button";
 
 const MORSE_CODE: { [key: string]: string } = {
-  A: '.-',
-  B: '-...',
-  C: '-.-.',
-  D: '-..',
-  E: '.',
-  F: '..-.',
-  G: '--.',
-  H: '....',
-  I: '..',
-  J: '.---',
-  K: '-.-',
-  L: '.-..',
-  M: '--',
-  N: '-.',
-  O: '---',
-  P: '.--.',
-  Q: '--.-',
-  R: '.-.',
-  S: '...',
-  T: '-',
-  U: '..-',
-  V: '...-',
-  W: '.--',
-  X: '-..-',
-  Y: '-.--',
-  Z: '--..',
-  '0': '-----',
-  '1': '.----',
-  '2': '..---',
-  '3': '...--',
-  '4': '....-',
-  '5': '.....',
-  '6': '-....',
-  '7': '--...',
-  '8': '---..',
-  '9': '----.',
-  ' ': '/',
+  A: ".-",
+  B: "-...",
+  C: "-.-.",
+  D: "-..",
+  E: ".",
+  F: "..-.",
+  G: "--.",
+  H: "....",
+  I: "..",
+  J: ".---",
+  K: "-.-",
+  L: ".-..",
+  M: "--",
+  N: "-.",
+  O: "---",
+  P: ".--.",
+  Q: "--.-",
+  R: ".-.",
+  S: "...",
+  T: "-",
+  U: "..-",
+  V: "...-",
+  W: ".--",
+  X: "-..-",
+  Y: "-.--",
+  Z: "--..",
+  "0": "-----",
+  "1": ".----",
+  "2": "..---",
+  "3": "...--",
+  "4": "....-",
+  "5": ".....",
+  "6": "-....",
+  "7": "--...",
+  "8": "---..",
+  "9": "----.",
+  " ": "/",
 };
 
-@customElement('text-to-morse-converter')
+@customElement("text-to-morse-converter")
 export class TextToMorseConverter extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
@@ -56,8 +56,8 @@ export class TextToMorseConverter extends WebComponentBase<IConfigBase> {
     textToMorseConverterStyles,
   ];
 
-  @property({ type: String }) inputText = '';
-  @property({ type: String }) outputMorse = '';
+  @property({ type: String }) inputText = "";
+  @property({ type: String }) outputMorse = "";
 
   private handleInput(e: Event) {
     this.inputText = (e.target as HTMLTextAreaElement).value;
@@ -67,9 +67,9 @@ export class TextToMorseConverter extends WebComponentBase<IConfigBase> {
   private textToMorse(text: string): string {
     return text
       .toUpperCase()
-      .split('')
+      .split("")
       .map(char => MORSE_CODE[char] || char)
-      .join(' ');
+      .join(" ");
   }
 
   override render() {
@@ -93,21 +93,14 @@ export class TextToMorseConverter extends WebComponentBase<IConfigBase> {
           ></textarea>
           ${this.outputMorse
             ? html`<t-copy-button .text=${this.outputMorse}></t-copy-button>`
-            : ''}
+            : ""}
         </div>
       </div>
     `;
   }
 }
-
 declare global {
   interface HTMLElementTagNameMap {
-    'text-to-morse-converter': TextToMorseConverter;
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'text-to-morse-converter': TextToMorseConverter;
+    "text-to-morse-converter": TextToMorseConverter;
   }
 }

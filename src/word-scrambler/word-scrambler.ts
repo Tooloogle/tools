@@ -1,14 +1,14 @@
-import { html } from 'lit';
+import { html } from "lit";
 import {
   IConfigBase,
   WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
-import wordScramblerStyles from './word-scrambler.css.js';
-import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+} from "../_web-component/WebComponentBase.js";
+import wordScramblerStyles from "./word-scrambler.css.js";
+import { customElement, property } from "lit/decorators.js";
+import inputStyles from "../_styles/input.css.js";
+import "../t-copy-button";
 
-@customElement('word-scrambler')
+@customElement("word-scrambler")
 export class WordScrambler extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
@@ -16,8 +16,8 @@ export class WordScrambler extends WebComponentBase<IConfigBase> {
     wordScramblerStyles,
   ];
 
-  @property({ type: String }) inputText = '';
-  @property({ type: String }) outputText = '';
+  @property({ type: String }) inputText = "";
+  @property({ type: String }) outputText = "";
 
   private handleInput(e: Event) {
     this.inputText = (e.target as HTMLTextAreaElement).value;
@@ -26,17 +26,17 @@ export class WordScrambler extends WebComponentBase<IConfigBase> {
 
   private convert() {
     this.outputText = this.inputText
-      .split(' ')
+      .split(" ")
       .map(word => {
-        const arr = word.split('');
+        const arr = word.split("");
         for (let i = arr.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [arr[i], arr[j]] = [arr[j], arr[i]];
         }
 
-        return arr.join('');
+        return arr.join("");
       })
-      .join(' ');
+      .join(" ");
   }
 
   override render() {
@@ -45,7 +45,7 @@ export class WordScrambler extends WebComponentBase<IConfigBase> {
         <div>
           <label class="block mb-2 font-semibold">Input Text:</label>
           <textarea
-            class="form-textaea w-full h-32"
+            class="form-textarea w-full h-32"
             placeholder="Enter text to scramble words..."
             .value=${this.inputText}
             @input=${this.handleInput}
@@ -54,13 +54,13 @@ export class WordScrambler extends WebComponentBase<IConfigBase> {
         <div>
           <label class="block mb-2 font-semibold">Scrambled Output:</label>
           <textarea
-            class="form-textaea w-full h-32"
+            class="form-textarea w-full h-32"
             readonly
             .value=${this.outputText}
           ></textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ''}
+            : ""}
         </div>
       </div>
     `;
@@ -69,6 +69,6 @@ export class WordScrambler extends WebComponentBase<IConfigBase> {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'word-scrambler': WordScrambler;
+    "word-scrambler": WordScrambler;
   }
 }
