@@ -1,14 +1,14 @@
-import { html } from 'lit';
+import { html } from "lit";
 import {
   IConfigBase,
   WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
-import jsonToSqlConverterStyles from './json-to-sql-converter.css.js';
-import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+} from "../_web-component/WebComponentBase.js";
+import jsonToSqlConverterStyles from "./json-to-sql-converter.css.js";
+import { customElement, property } from "lit/decorators.js";
+import inputStyles from "../_styles/input.css.js";
+import "../t-copy-button";
 
-@customElement('json-to-sql-converter')
+@customElement("json-to-sql-converter")
 export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
@@ -16,10 +16,10 @@ export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
     jsonToSqlConverterStyles,
   ];
 
-  @property({ type: String }) inputText = '';
-  @property({ type: String }) outputText = '';
-  @property({ type: String }) tableName = 'my_table';
-  @property({ type: String }) errorMessage = '';
+  @property({ type: String }) inputText = "";
+  @property({ type: String }) outputText = "";
+  @property({ type: String }) tableName = "my_table";
+  @property({ type: String }) errorMessage = "";
 
   private handleInput(e: Event) {
     this.inputText = (e.target as HTMLTextAreaElement).value;
@@ -27,15 +27,16 @@ export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
   }
 
   private handleTableNameInput(e: Event) {
-    this.tableName = (e.target as HTMLInputElement).value || 'my_table';
+    this.tableName = (e.target as HTMLInputElement).value || "my_table";
     this.process();
   }
 
+  // eslint-disable-next-line max-lines-per-function
   private process() {
-    this.errorMessage = '';
+    this.errorMessage = "";
 
     if (!this.inputText.trim()) {
-      this.outputText = '';
+      this.outputText = "";
       return;
     }
 
@@ -43,21 +44,21 @@ export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
       const data = JSON.parse(this.inputText);
 
       if (!Array.isArray(data)) {
-        this.errorMessage = 'Input must be a JSON array of objects';
-        this.outputText = '';
+        this.errorMessage = "Input must be a JSON array of objects";
+        this.outputText = "";
         return;
       }
 
       if (data.length === 0) {
-        this.errorMessage = 'JSON array is empty';
-        this.outputText = '';
+        this.errorMessage = "JSON array is empty";
+        this.outputText = "";
         return;
       }
 
       const sqlStatements: string[] = [];
 
       for (const item of data) {
-        if (typeof item !== 'object' || item === null) {
+        if (typeof item !== "object" || item === null) {
           continue;
         }
 
@@ -65,15 +66,15 @@ export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
         const values = keys.map(key => {
           const value = item[key];
           if (value === null || value === undefined) {
-            return 'NULL';
+            return "NULL";
           }
 
-          if (typeof value === 'number') {
+          if (typeof value === "number") {
             return value.toString();
           }
 
-          if (typeof value === 'boolean') {
-            return value ? '1' : '0';
+          if (typeof value === "boolean") {
+            return value ? "1" : "0";
           }
 
           // Escape single quotes in strings
@@ -82,17 +83,17 @@ export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
         });
 
         const sql = `INSERT INTO ${this.tableName} (${keys.join(
-          ', '
-        )}) VALUES (${values.join(', ')});`;
+          ", "
+        )}) VALUES (${values.join(", ")});`;
         sqlStatements.push(sql);
       }
 
-      this.outputText = sqlStatements.join('\n');
+      this.outputText = sqlStatements.join("\n");
     } catch (error) {
       this.errorMessage = `Error: ${
-        error instanceof Error ? error.message : 'Invalid JSON'
+        error instanceof Error ? error.message : "Invalid JSON"
       }`;
-      this.outputText = '';
+      this.outputText = "";
     }
   }
 
@@ -128,7 +129,7 @@ export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
                 ${this.errorMessage}
               </div>
             `
-          : ''}
+          : ""}
 
         <div>
           <label class="block mb-2 font-semibold">SQL INSERT Statements:</label>
@@ -139,13 +140,12 @@ export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
           ></textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ''}
+            : ""}
         </div>
-
-        <div class="text-sm text-gray-600">
+        <p class="text-sm text-gray-600">
           Converts a JSON array of objects to SQL INSERT statements. Each object
           becomes one INSERT statement with properly escaped values.
-        </div>
+        </p>
       </div>
     `;
   }
@@ -153,6 +153,6 @@ export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'json-to-sql-converter': JsonToSqlConverter;
+    "json-to-sql-converter": JsonToSqlConverter;
   }
 }

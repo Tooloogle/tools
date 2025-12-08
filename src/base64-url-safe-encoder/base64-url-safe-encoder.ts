@@ -1,15 +1,15 @@
-import { html } from 'lit';
+import { html } from "lit";
 import {
   IConfigBase,
   WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
-import base64UrlSafeEncoderStyles from './base64-url-safe-encoder.css.js';
-import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import '../t-copy-button';
+} from "../_web-component/WebComponentBase.js";
+import base64UrlSafeEncoderStyles from "./base64-url-safe-encoder.css.js";
+import { customElement, property } from "lit/decorators.js";
+import inputStyles from "../_styles/input.css.js";
+import buttonStyles from "../_styles/button.css.js";
+import "../t-copy-button";
 
-@customElement('base64-url-safe-encoder')
+@customElement("base64-url-safe-encoder")
 export class Base64UrlSafeEncoder extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
@@ -19,62 +19,62 @@ export class Base64UrlSafeEncoder extends WebComponentBase<IConfigBase> {
   ];
 
   @property()
-  input = '';
+  input = "";
 
   @property()
-  output = '';
+  output = "";
 
   @property()
-  mode: 'encode' | 'decode' = 'encode';
+  mode: "encode" | "decode" = "encode";
 
   @property()
-  error = '';
+  error = "";
 
   private handleInputChange(e: Event) {
     this.input = (e.target as HTMLTextAreaElement).value;
-    this.error = '';
+    this.error = "";
   }
 
   private encode() {
-    this.mode = 'encode';
-    this.error = '';
+    this.mode = "encode";
+    this.error = "";
     try {
       const base64 = btoa(this.input);
       this.output = base64
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .replace(/=/g, '');
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_")
+        .replace(/=/g, "");
     } catch (e) {
       this.error = `Error encoding: ${(e as Error).message}`;
-      this.output = '';
+      this.output = "";
     }
   }
 
   private decode() {
-    this.mode = 'decode';
-    this.error = '';
+    this.mode = "decode";
+    this.error = "";
     try {
-      let base64 = this.input.replace(/-/g, '+').replace(/_/g, '/');
+      let base64 = this.input.replace(/-/g, "+").replace(/_/g, "/");
 
       const padding = base64.length % 4;
       if (padding) {
-        base64 += '='.repeat(4 - padding);
+        base64 += "=".repeat(4 - padding);
       }
 
       this.output = atob(base64);
     } catch (e) {
       this.error = `Error decoding: ${(e as Error).message}`;
-      this.output = '';
+      this.output = "";
     }
   }
 
   private clear() {
-    this.input = '';
-    this.output = '';
-    this.error = '';
+    this.input = "";
+    this.output = "";
+    this.error = "";
   }
 
-  override render() {
+  private renderInputSection() {
     return html`
       <label class="block py-1">
         <span class="inline-block py-1 font-bold">Input:</span>
@@ -87,7 +87,11 @@ export class Base64UrlSafeEncoder extends WebComponentBase<IConfigBase> {
           @input=${this.handleInputChange}
         ></textarea>
       </label>
+    `;
+  }
 
+  private renderActionButtons() {
+    return html`
       <div class="py-2 flex flex-wrap gap-2">
         <button
           class="btn btn-blue"
@@ -111,41 +115,54 @@ export class Base64UrlSafeEncoder extends WebComponentBase<IConfigBase> {
           Clear
         </button>
       </div>
+    `;
+  }
 
-      ${this.error
-        ? html`
-            <div class="py-2">
-              <div class="px-3 py-2 bg-red-100 text-red-800 rounded">
-                ${this.error}
-              </div>
-            </div>
-          `
-        : ''}
-      ${this.output
-        ? html`
-            <label class="block py-1">
-              <span class="inline-block py-1 font-bold">Output:</span>
-              <textarea
-                class="form-textarea"
-                rows="6"
-                readonly
-                .value=${this.output}
-              ></textarea>
-              <div class="py-2 text-right">
-                <t-copy-button
-                  .isIcon=${false}
-                  .text=${this.output}
-                ></t-copy-button>
-              </div>
-            </label>
-          `
-        : ''}
+  private renderError() {
+    if (!this.error) {
+      return "";
+    }
+
+    return html`
+      <div class="py-2">
+        <div class="px-3 py-2 bg-red-100 text-red-800 rounded">
+          ${this.error}
+        </div>
+      </div>
+    `;
+  }
+
+  private renderOutput() {
+    if (!this.output) {
+      return "";
+    }
+
+    return html`
+      <label class="block py-1">
+        <span class="inline-block py-1 font-bold">Output:</span>
+        <textarea
+          class="form-textarea"
+          rows="6"
+          readonly
+          .value=${this.output}
+        ></textarea>
+        <div class="py-2 text-right">
+          <t-copy-button .isIcon=${false} .text=${this.output}></t-copy-button>
+        </div>
+      </label>
+    `;
+  }
+
+  override render() {
+    return html`
+      ${this.renderInputSection()} ${this.renderActionButtons()}
+      ${this.renderError()} ${this.renderOutput()}
     `;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'base64-url-safe-encoder': Base64UrlSafeEncoder;
+    "base64-url-safe-encoder": Base64UrlSafeEncoder;
   }
 }

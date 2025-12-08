@@ -1,14 +1,14 @@
-import { html } from 'lit';
+import { html } from "lit";
 import {
   IConfigBase,
   WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
-import morseCodeTranslatorStyles from './morse-code-translator.css.js';
-import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+} from "../_web-component/WebComponentBase.js";
+import morseCodeTranslatorStyles from "./morse-code-translator.css.js";
+import { customElement, property } from "lit/decorators.js";
+import inputStyles from "../_styles/input.css.js";
+import "../t-copy-button";
 
-@customElement('morse-code-translator')
+@customElement("morse-code-translator")
 export class MorseCodeTranslator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
@@ -16,58 +16,59 @@ export class MorseCodeTranslator extends WebComponentBase<IConfigBase> {
     morseCodeTranslatorStyles,
   ];
 
-  @property({ type: String }) inputText = '';
-  @property({ type: String }) outputText = '';
+  @property({ type: String }) inputText = "";
+  @property({ type: String }) outputText = "";
 
   private handleInput(e: Event) {
     this.inputText = (e.target as HTMLTextAreaElement).value;
     this.process();
   }
 
+  // eslint-disable-next-line max-lines-per-function
   private process() {
     if (!this.inputText) {
-      this.outputText = '';
+      this.outputText = "";
       return;
     }
 
     const morseMap: { [key: string]: string } = {
-      A: '.-',
-      B: '-...',
-      C: '-.-.',
-      D: '-..',
-      E: '.',
-      F: '..-.',
-      G: '--.',
-      H: '....',
-      I: '..',
-      J: '.---',
-      K: '-.-',
-      L: '.-..',
-      M: '--',
-      N: '-.',
-      O: '---',
-      P: '.--.',
-      Q: '--.-',
-      R: '.-.',
-      S: '...',
-      T: '-',
-      U: '..-',
-      V: '...-',
-      W: '.--',
-      X: '-..-',
-      Y: '-.--',
-      Z: '--..',
-      '0': '-----',
-      '1': '.----',
-      '2': '..---',
-      '3': '...--',
-      '4': '....-',
-      '5': '.....',
-      '6': '-....',
-      '7': '--...',
-      '8': '---..',
-      '9': '----.',
-      ' ': '/',
+      A: ".-",
+      B: "-...",
+      C: "-.-.",
+      D: "-..",
+      E: ".",
+      F: "..-.",
+      G: "--.",
+      H: "....",
+      I: "..",
+      J: ".---",
+      K: "-.-",
+      L: ".-..",
+      M: "--",
+      N: "-.",
+      O: "---",
+      P: ".--.",
+      Q: "--.-",
+      R: ".-.",
+      S: "...",
+      T: "-",
+      U: "..-",
+      V: "...-",
+      W: ".--",
+      X: "-..-",
+      Y: "-.--",
+      Z: "--..",
+      "0": "-----",
+      "1": ".----",
+      "2": "..---",
+      "3": "...--",
+      "4": "....-",
+      "5": ".....",
+      "6": "-....",
+      "7": "--...",
+      "8": "---..",
+      "9": "----.",
+      " ": "/",
     };
 
     const reverseMorse: { [key: string]: string } = {};
@@ -77,16 +78,16 @@ export class MorseCodeTranslator extends WebComponentBase<IConfigBase> {
     if (this.inputText.match(/^[.\-\s/]+$/)) {
       // Decode morse
       this.outputText = this.inputText
-        .split(' ')
+        .split(" ")
         .map(code => reverseMorse[code] || code)
-        .join('');
+        .join("");
     } else {
       // Encode to morse
       this.outputText = this.inputText
         .toUpperCase()
-        .split('')
+        .split("")
         .map(c => morseMap[c] || c)
-        .join(' ');
+        .join(" ");
     }
   }
 
@@ -111,7 +112,7 @@ export class MorseCodeTranslator extends WebComponentBase<IConfigBase> {
           ></textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ''}
+            : ""}
         </div>
       </div>
     `;
@@ -120,6 +121,6 @@ export class MorseCodeTranslator extends WebComponentBase<IConfigBase> {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'morse-code-translator': MorseCodeTranslator;
+    "morse-code-translator": MorseCodeTranslator;
   }
 }

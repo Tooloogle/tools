@@ -1,14 +1,14 @@
-import { html } from 'lit';
+import { html } from "lit";
 import {
   IConfigBase,
   WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
-import openGraphGeneratorStyles from './open-graph-generator.css.js';
-import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+} from "../_web-component/WebComponentBase.js";
+import openGraphGeneratorStyles from "./open-graph-generator.css.js";
+import { customElement, property } from "lit/decorators.js";
+import inputStyles from "../_styles/input.css.js";
+import "../t-copy-button";
 
-@customElement('open-graph-generator')
+@customElement("open-graph-generator")
 export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
@@ -16,13 +16,13 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
     openGraphGeneratorStyles,
   ];
 
-  @property({ type: String }) title = '';
-  @property({ type: String }) description = '';
-  @property({ type: String }) url = '';
-  @property({ type: String }) image = '';
-  @property({ type: String }) siteName = '';
-  @property({ type: String }) type = 'website';
-  @property({ type: String }) outputText = '';
+  @property({ type: String }) title = "";
+  @property({ type: String }) description = "";
+  @property({ type: String }) url = "";
+  @property({ type: String }) image = "";
+  @property({ type: String }) siteName = "";
+  @property({ type: String }) type = "website";
+  @property({ type: String }) outputText = "";
 
   override connectedCallback() {
     super.connectedCallback();
@@ -38,8 +38,9 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
     };
   }
 
+  // eslint-disable-next-line max-lines-per-function
   private process() {
-    let output = '';
+    let output = "";
 
     if (this.title) {
       output += `<meta property="og:title" content="${this.escapeHtml(
@@ -103,11 +104,11 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
 
   private escapeHtml(text: string): string {
     return text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 
   override render() {
@@ -139,7 +140,7 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
           class="form-input w-full"
           placeholder="Page Title"
           .value=${this.title}
-          @input=${this.handleInput('title')}
+          @input=${this.handleInput("title")}
         />
       </div>
 
@@ -149,7 +150,7 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
           class="form-textarea w-full h-20"
           placeholder="Page description for social media sharing"
           .value=${this.description}
-          @input=${this.handleInput('description')}
+          @input=${this.handleInput("description")}
         ></textarea>
       </div>
     `;
@@ -164,7 +165,7 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
           class="form-input w-full"
           placeholder="https://example.com/page"
           .value=${this.url}
-          @input=${this.handleInput('url')}
+          @input=${this.handleInput("url")}
         />
       </div>
 
@@ -175,7 +176,7 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
           class="form-input w-full"
           placeholder="https://example.com/image.jpg"
           .value=${this.image}
-          @input=${this.handleInput('image')}
+          @input=${this.handleInput("image")}
         />
       </div>
     `;
@@ -190,7 +191,7 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
           class="form-input w-full"
           placeholder="My Website"
           .value=${this.siteName}
-          @input=${this.handleInput('siteName')}
+          @input=${this.handleInput("siteName")}
         />
       </div>
     `;
@@ -203,7 +204,7 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
         <select
           class="form-select w-full"
           .value=${this.type}
-          @change=${this.handleInput('type')}
+          @change=${this.handleInput("type")}
         >
           <option value="website">Website</option>
           <option value="article">Article</option>
@@ -229,7 +230,7 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
         ></textarea>
         ${this.outputText
           ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-          : ''}
+          : ""}
       </div>
     `;
   }
@@ -246,6 +247,6 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'open-graph-generator': OpenGraphGenerator;
+    "open-graph-generator": OpenGraphGenerator;
   }
 }
