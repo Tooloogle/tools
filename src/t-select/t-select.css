@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+.form-select {
+  @apply w-full rounded-lg border border-solid border-gray-300 px-4 py-2 text-gray-400 bg-inherit dark:border-gray-500 dark:focus:ring-gray-400 dark:focus:border-gray-400;
+}
+
+.form-select:disabled {
+  @apply opacity-50 cursor-not-allowed bg-gray-100;
+}
