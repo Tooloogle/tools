@@ -171,7 +171,7 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
         ></t-checkbox>
       </div>
       <div class="text-end">
-        <t-button variant="blue" ?disabled=${true}>
+        <t-button variant="blue" ?disabled=${!this.dob || !this.today} @click=${this.calculate}>
           Calculate
         </t-button>
       </div>

@@ -39,7 +39,7 @@ export class SvgOptimizerTemplates {
   ): TemplateResult {
     return html`
       <div class="action-section">
-        <t-button variant="blue" ?disabled=${true}>
+        <t-button variant="blue" @click="${optimizeSvg}" ?disabled="${!originalSvg || optimizing}">
           ${optimizing ? 'Optimizing...' : 'Optimize SVG'}
         </t-button>
       </div>

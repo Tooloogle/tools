@@ -99,7 +99,7 @@ export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {
           ? html`<div class="text-rose-500">${this.error}</div>`
           : ''}
 
-        <t-button variant="blue" @click=${this.convert} ?disabled=${true}>
+        <t-button variant="blue" @click=${this.convert} ?disabled=${!this.file || this.converting}>
           ${this.converting ? 'Converting...' : 'Convert to JPG'}
         </t-button>
 

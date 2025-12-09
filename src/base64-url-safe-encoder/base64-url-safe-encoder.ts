@@ -83,13 +83,13 @@ export class Base64UrlSafeEncoder extends WebComponentBase<IConfigBase> {
   private renderActionButtons() {
     return html`
       <div class="py-2 flex flex-wrap gap-2">
-        <t-button variant="blue" @click=${this.encode} ?disabled=${true}>
+        <t-button variant="blue" @click=${this.encode} ?disabled=${!this.input}>
           Encode
         </t-button>
-        <t-button variant="blue" @click=${this.decode} ?disabled=${true}>
+        <t-button variant="blue" @click=${this.decode} ?disabled=${!this.input}>
           Decode
         </t-button>
-        <t-button variant="red" @click=${this.clear} ?disabled=${true}>
+        <t-button variant="red" @click=${this.clear} ?disabled=${!this.input}>
           Clear
         </t-button>
       </div>

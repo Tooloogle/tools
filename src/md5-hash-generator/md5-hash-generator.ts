@@ -85,10 +85,10 @@ export class Md5HashGenerator extends WebComponentBase<IConfigBase> {
         : ''}
 
       <div class="button-group">
-        <t-button variant="blue" @click=${this.generateHash} ?disabled=${true}>
+        <t-button variant="blue" @click=${this.generateHash} ?disabled=${!this.input || this.isGenerating}>
           ${this.isGenerating ? 'Generating...' : 'Generate MD5 Hash'}
         </t-button>
-        <t-button variant="red" @click=${this.clearAll} ?disabled=${true}>
+        <t-button variant="red" @click=${this.clearAll} ?disabled=${this.isGenerating}>
           Clear All
         </t-button>
       </div>

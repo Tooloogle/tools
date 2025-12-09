@@ -65,7 +65,7 @@ export class DnsLookup extends WebComponentBase<IConfigBase> {
                         </select>
                     </div>
                     <div class="flex items-end">
-                        <t-button variant="blue" ?disabled=${true}>
+                        <t-button variant="blue" @click=${this.lookup} ?disabled=${this.loading}>
                             ${this.loading ? 'Looking up...' : 'Lookup'}
                         </t-button>
                     </div>

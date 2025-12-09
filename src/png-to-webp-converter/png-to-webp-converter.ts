@@ -63,7 +63,7 @@ export class PngToWebpConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-3">
         <label>Select a PNG file:</label>
         <t-input type="file" @t-change="${this.handleFileChange}"></t-input>
-        <t-button variant="blue" ?disabled=${true}>
+        <t-button variant="blue" @click="${this.convert}" ?disabled="${!this.file}">
           Convert to WebP
         </t-button>
       </div>
