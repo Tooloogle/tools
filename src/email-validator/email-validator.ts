@@ -25,7 +25,7 @@ export class EmailValidator extends WebComponentBase<IConfigBase> {
         return html`
         <lable class="block">
             <span class="inline-block py-1">Email id</span>
-            <t-input placeholder="Enter email to validate"></t-input>
+            <t-input placeholder="Enter email to validate" .value=${this.value} @t-input=${this.onChange}></t-input>
         </lable>
         <div class="py-2">
             ${when(this.value, () => html`

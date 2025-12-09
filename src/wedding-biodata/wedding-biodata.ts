@@ -159,24 +159,12 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
 
           <label class="form-group">
             <span>Date of Birth *</span>
-            <t-input type="date"></t-input>
-                this.handleInputChange(
-                  'personal',
-                  'dateOfBirth',
-                  e.detail.value
-                )}
-            />
+            <t-input type="date" @t-input=${(e: CustomEvent) => this.handleInputChange("personal", "dateOfBirth", e.detail.value)}></t-input>
           </label>
 
           <label class="form-group">
             <span>Time of Birth</span>
-            <t-input type="time"></t-input>
-                this.handleInputChange(
-                  'personal',
-                  'timeOfBirth',
-                  e.detail.value
-                )}
-            />
+            <t-input type="time" @t-input=${(e: CustomEvent) => this.handleInputChange("personal", "timeOfBirth", e.detail.value)}></t-input>
           </label>
 
           <label class="form-group">
@@ -301,13 +289,7 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
 
           <label class="form-group">
             <span>Sub-Caste</span>
-            <t-input></t-input>
-                this.handleInputChange(
-                  'personal',
-                  'subCaste',
-                  e.detail.value
-                )}
-            />
+            <t-input @t-input=${(e: CustomEvent) => this.handleInputChange("personal", "subCaste", e.detail.value)}></t-input>
           </label>
 
           <label class="form-group">
@@ -343,46 +325,22 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
         <div class="form-grid">
           <label class="form-group">
             <span>Father's Name *</span>
-            <t-input></t-input>
-                this.handleInputChange(
-                  'family',
-                  'fatherName',
-                  e.detail.value
-                )}
-            />
+            <t-input @t-input=${(e: CustomEvent) => this.handleInputChange("family", "fatherName", e.detail.value)}></t-input>
           </label>
 
           <label class="form-group">
             <span>Father's Occupation</span>
-            <t-input></t-input>
-                this.handleInputChange(
-                  'family',
-                  'fatherOccupation',
-                  e.detail.value
-                )}
-            />
+            <t-input @t-input=${(e: CustomEvent) => this.handleInputChange("family", "fatherOccupation", e.detail.value)}></t-input>
           </label>
 
           <label class="form-group">
             <span>Mother's Name *</span>
-            <t-input></t-input>
-                this.handleInputChange(
-                  'family',
-                  'motherName',
-                  e.detail.value
-                )}
-            />
+            <t-input @t-input=${(e: CustomEvent) => this.handleInputChange("family", "motherName", e.detail.value)}></t-input>
           </label>
 
           <label class="form-group">
             <span>Mother's Occupation</span>
-            <t-input></t-input>
-                this.handleInputChange(
-                  'family',
-                  'motherOccupation',
-                  e.detail.value
-                )}
-            />
+            <t-input @t-input=${(e: CustomEvent) => this.handleInputChange("family", "motherOccupation", e.detail.value)}></t-input>
           </label>
 
           <label class="form-group">

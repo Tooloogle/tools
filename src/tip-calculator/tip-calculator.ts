@@ -52,8 +52,7 @@ export class TipCalculator extends WebComponentBase<IConfigBase> {
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Tip Percentage (%):</label>
-                    <t-input type="number" class="w-full"></t-input> { this.tipPercent = Number(e.detail.value); this.calculate(); }}
-                    />
+                    <t-input type="number" class="w-full" @t-input=${(e: CustomEvent) => { this.tipPercent = Number(e.detail.value); this.calculate(); }}></t-input>
                     <div class="flex gap-2 mt-2">
                         <button class="px-3 py-1 bg-blue-500 text-white rounded" @click=${() => { this.tipPercent = 10; this.calculate(); }}>10%</button>
                         <button class="px-3 py-1 bg-blue-500 text-white rounded" @click=${() => { this.tipPercent = 15; this.calculate(); }}>15%</button>
