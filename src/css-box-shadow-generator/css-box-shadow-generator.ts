@@ -5,15 +5,12 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import cssBoxShadowGeneratorStyles from './css-box-shadow-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
 @customElement('css-box-shadow-generator')
 export class CssBoxShadowGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    cssBoxShadowGeneratorStyles,
-  ];
+    cssBoxShadowGeneratorStyles];
 
   @property({ type: Number }) offsetX = 0;
   @property({ type: Number }) offsetY = 4;
@@ -47,49 +44,33 @@ export class CssBoxShadowGenerator extends WebComponentBase<IConfigBase> {
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block mb-2">Offset X:</label>
-            <input
-              type="number"
-              class="form-input w-full"
-              .value=${String(this.offsetX)}
-              @input=${(e: Event) => {
-                this.offsetX = Number((e.target as HTMLInputElement).value);
+            <t-input type="number" class="w-full"></t-input> {
+                this.offsetX = Number(e.detail.value);
                 this.process();
               }}
             />
           </div>
           <div>
             <label class="block mb-2">Offset Y:</label>
-            <input
-              type="number"
-              class="form-input w-full"
-              .value=${String(this.offsetY)}
-              @input=${(e: Event) => {
-                this.offsetY = Number((e.target as HTMLInputElement).value);
+            <t-input type="number" class="w-full"></t-input> {
+                this.offsetY = Number(e.detail.value);
                 this.process();
               }}
             />
           </div>
           <div>
             <label class="block mb-2">Blur Radius:</label>
-            <input
-              type="number"
-              class="form-input w-full"
-              .value=${String(this.blurRadius)}
-              @input=${(e: Event) => {
-                this.blurRadius = Number((e.target as HTMLInputElement).value);
+            <t-input type="number" class="w-full"></t-input> {
+                this.blurRadius = Number(e.detail.value);
                 this.process();
               }}
             />
           </div>
           <div>
             <label class="block mb-2">Spread Radius:</label>
-            <input
-              type="number"
-              class="form-input w-full"
-              .value=${String(this.spreadRadius)}
-              @input=${(e: Event) => {
+            <t-input type="number" class="w-full"></t-input> {
                 this.spreadRadius = Number(
-                  (e.target as HTMLInputElement).value
+                  e.detail.value
                 );
                 this.process();
               }}
@@ -97,12 +78,8 @@ export class CssBoxShadowGenerator extends WebComponentBase<IConfigBase> {
           </div>
           <div>
             <label class="block mb-2">Color:</label>
-            <input
-              type="color"
-              class="form-input w-full"
-              .value=${this.color}
-              @input=${(e: Event) => {
-                this.color = (e.target as HTMLInputElement).value;
+            <t-input type="color" class="w-full"></t-input> {
+                this.color = e.detail.value;
                 this.process();
               }}
             />
@@ -116,8 +93,8 @@ export class CssBoxShadowGenerator extends WebComponentBase<IConfigBase> {
               step="0.1"
               class="w-full"
               .value=${String(this.opacity)}
-              @input=${(e: Event) => {
-                this.opacity = Number((e.target as HTMLInputElement).value);
+              @input=${(e: CustomEvent) => {
+                this.opacity = Number(e.detail.value);
                 this.process();
               }}
             />
@@ -126,11 +103,7 @@ export class CssBoxShadowGenerator extends WebComponentBase<IConfigBase> {
         </div>
         <div>
           <label class="block mb-2 font-semibold">CSS Output:</label>
-          <textarea
-            class="form-textarea w-full h-20 font-mono"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
+          <t-textarea ?readonly=${true} class="w-full h-20 font-mono"></t-textarea>
           <t-copy-button
             .text=${this.outputText}
             .isIcon=${false}

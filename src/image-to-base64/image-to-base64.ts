@@ -2,15 +2,15 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import imageToBase64Styles from './image-to-base64.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import { downloadText } from '../_utils/DomUtils.js';
-import buttonStyles from '../_styles/button.css.js';
 import { when } from 'lit/directives/when.js';
 import "../t-copy-button/t-copy-button.js";
+import '../t-button/t-button.js';
+import '../t-textarea/t-textarea.js';
 
 @customElement('image-to-base64')
 export class ImageToBase64 extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, imageToBase64Styles, inputStyles, buttonStyles];
+    static override styles = [WebComponentBase.styles, imageToBase64Styles];
 
     @property()
     image = "";
@@ -62,17 +62,11 @@ export class ImageToBase64 extends WebComponentBase<IConfigBase> {
                 `)}
                 <label class="block">
                     <span class="inline-block py-1">Base64 string</span>
-                    <textarea
-                        name="email"
-                        class="form-textarea"
-                        rows="5"
-                        placeholder="Base64 string"
-                        .value=${this.base64}
-                        readonly></textarea>
+                    <t-textarea placeholder="Base64 string" rows="5" ?readonly=${true}></t-textarea>
                 </label>
 
                 <div class="text-right">
-                    <button class="btn btn-blue btn-sm" @click=${this.downloadBase64}>Download Base64 text</button>
+                    <t-button variant="blue" class="btn-sm">Download Base64 text</t-button>
                     <t-copy-button .isIcon=${false} .text=${this.base64}></t-copy-button>
                 </div>
             </div>

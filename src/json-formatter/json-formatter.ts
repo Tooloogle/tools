@@ -2,13 +2,13 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import jsonFormatterStyles from './json-formatter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import '../t-copy-button/t-copy-button.js';
+import '../t-button/t-button.js';
+import '../t-select/t-select.js';
 
 @customElement('json-formatter')
 export class JsonFormatter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, jsonFormatterStyles];
+    static override styles = [WebComponentBase.styles, jsonFormatterStyles];
 
     @property()
     input = '';
@@ -22,13 +22,13 @@ export class JsonFormatter extends WebComponentBase<IConfigBase> {
     @property()
     indentSize = 2;
 
-    private handleInputChange(e: Event) {
-        this.input = (e.target as HTMLTextAreaElement).value;
+    private handleInputChange(e: CustomEvent) {
+        this.input = e.detail.value;
         this.error = '';
     }
 
-    private handleIndentChange(e: Event) {
-        this.indentSize = parseInt((e.target as HTMLSelectElement).value);
+    private handleIndentChange(e: CustomEvent) {
+        this.indentSize = parseInt(e.detail.value);
     }
 
     private formatJson() {
@@ -77,35 +77,24 @@ export class JsonFormatter extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">Input JSON:</span>
-                <textarea
-                    class="form-textarea font-mono text-sm"
-                    placeholder="Paste JSON here..."
-                    rows="10"
-                    autofocus
-                    .value=${this.input}
-                    @input=${this.handleInputChange}
-                ></textarea>
+                <t-textarea placeholder="Paste JSON here..." rows="10" class="font-mono text-sm"></t-textarea>
             </label>
 
             <div class="py-2 space-y-2">
                 <label class="block">
                     <span class="inline-block font-bold">Indent Size:</span>
-                    <select
-                        class="form-select"
-                        .value=${String(this.indentSize)}
-                        @change=${this.handleIndentChange}
-                    >
+                    <t-select .value=${String(this.indentSize)} @t-change=${this.handleIndentChange}>
                         <option value="2">2 spaces</option>
                         <option value="4">4 spaces</option>
                         <option value="8">8 spaces</option>
-                    </select>
+                    </t-select>
                 </label>
 
                 <div class="flex flex-wrap gap-2">
-                    <button class="btn btn-blue" @click=${this.formatJson}>Format</button>
-                    <button class="btn btn-blue" @click=${this.minifyJson}>Minify</button>
-                    <button class="btn btn-blue" @click=${this.validateJson}>Validate</button>
-                    <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                    <t-button variant="blue" @click=${this.formatJson}>Format</t-button>
+                    <t-button variant="blue" @click=${this.minifyJson}>Minify</t-button>
+                    <t-button variant="blue" @click=${this.validateJson}>Validate</t-button>
+                    <t-button variant="red" @click=${this.clear}>Clear</t-button>
                 </div>
             </div>
 
@@ -120,12 +109,7 @@ export class JsonFormatter extends WebComponentBase<IConfigBase> {
             ${this.output ? html`
                 <label class="block py-1">
                     <span class="inline-block py-1 font-bold">Output:</span>
-                    <textarea
-                        class="form-textarea font-mono text-sm"
-                        rows="10"
-                        readonly
-                        .value=${this.output}
-                    ></textarea>
+                    <t-textarea rows="10" ?readonly=${true} class="font-mono text-sm"></t-textarea>
                     ${this.output !== '✓ Valid JSON' ? html`
                         <div class="py-2 text-right">
                             <t-copy-button .isIcon=${false} .text=${this.output}></t-copy-button>

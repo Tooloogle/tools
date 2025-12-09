@@ -2,13 +2,13 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import htmlEntityEncoderDecoderStyles from './html-entity-encoder-decoder.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import '../t-copy-button/t-copy-button.js';
+import '../t-button/t-button.js';
+import '../t-textarea/t-textarea.js';
 
 @customElement('html-entity-encoder-decoder')
 export class HtmlEntityEncoderDecoder extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, htmlEntityEncoderDecoderStyles];
+    static override styles = [WebComponentBase.styles, htmlEntityEncoderDecoderStyles];
 
     @property()
     input = '';
@@ -16,8 +16,8 @@ export class HtmlEntityEncoderDecoder extends WebComponentBase<IConfigBase> {
     @property()
     output = '';
 
-    private handleInputChange(e: Event) {
-        this.input = (e.target as HTMLTextAreaElement).value;
+    private handleInputChange(e: CustomEvent) {
+        this.input = e.detail.value;
     }
 
     private encode() {
@@ -46,30 +46,19 @@ export class HtmlEntityEncoderDecoder extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1">Input Text:</span>
-                <textarea
-                    class="form-textarea"
-                    placeholder="Enter text to encode or decode..."
-                    rows="6"
-                    .value=${this.input}
-                    @input=${this.handleInputChange}
-                ></textarea>
+                <t-textarea placeholder="Enter text to encode or decode..." rows="6" .value=${String(this.input)} @t-input=${this.handleInputChange}></t-textarea>
             </label>
 
             <div class="py-2 text-right">
-                <button class="btn btn-blue" @click=${this.encode}>Encode</button>
-                <button class="btn btn-green" @click=${this.decode}>Decode</button>
-                <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                <t-button variant="blue" @click=${this.encode}>Encode</t-button>
+                <t-button variant="green" @click=${this.decode}>Decode</t-button>
+                <t-button variant="red" @click=${this.clear}>Clear</t-button>
             </div>
 
             ${this.output ? html`
                 <label class="block py-1">
                     <span class="inline-block py-1">Output:</span>
-                    <textarea
-                        class="form-textarea"
-                        rows="6"
-                        readonly
-                        .value=${this.output}
-                    ></textarea>
+                    <t-textarea rows="6" .value=${String(this.output)} ?readonly=${true}></t-textarea>
                     <div class="py-2 text-right">
                         <t-copy-button .isIcon=${false} .text=${this.output}></t-copy-button>
                     </div>

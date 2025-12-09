@@ -5,22 +5,19 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import passphraseGeneratorStyles from './passphrase-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
 
 @customElement('passphrase-generator')
 export class PassphraseGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    passphraseGeneratorStyles,
-  ];
+    passphraseGeneratorStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
 
-  private handleInput(e: Event) {
-    this.inputText = (e.target as HTMLTextAreaElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputText = e.detail.value;
     this.process();
   }
 
@@ -42,8 +39,7 @@ export class PassphraseGenerator extends WebComponentBase<IConfigBase> {
       'thunder',
       'lightning',
       'phoenix',
-      'tiger',
-    ];
+      'tiger'];
 
     const result = [];
     for (let i = 0; i < wordCount; i++) {
@@ -59,20 +55,11 @@ export class PassphraseGenerator extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Number of Words:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            placeholder="Enter number of words (default: 4)..."
-            .value=${this.inputText}
-            @input=${this.handleInput}
-          ></textarea>
+          <t-textarea placeholder="Enter number of words (default: 4)..." class="w-full h-32"></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Generated Passphrase:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

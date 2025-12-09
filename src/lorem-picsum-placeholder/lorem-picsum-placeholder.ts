@@ -2,11 +2,10 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import loremPicsumPlaceholderStyles from './lorem-picsum-placeholder.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 
 @customElement('lorem-picsum-placeholder')
 export class LoremPicsumPlaceholder extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, loremPicsumPlaceholderStyles];
+    static override styles = [WebComponentBase.styles, loremPicsumPlaceholderStyles];
 
     @property({ type: Number }) width = 300;
     @property({ type: Number }) height = 200;
@@ -15,28 +14,28 @@ export class LoremPicsumPlaceholder extends WebComponentBase<IConfigBase> {
     @property({ type: Boolean }) blurEffect = false;
     @property({ type: Number }) blurAmount = 5;
 
-    private handleWidthChange(e: Event) {
-        this.width = Number((e.target as HTMLInputElement).value) || 300;
+    private handleWidthChange(e: CustomEvent) {
+        this.width = Number(e.detail.value) || 300;
     }
 
-    private handleHeightChange(e: Event) {
-        this.height = Number((e.target as HTMLInputElement).value) || 200;
+    private handleHeightChange(e: CustomEvent) {
+        this.height = Number(e.detail.value) || 200;
     }
 
-    private handleImageIdChange(e: Event) {
-        this.imageId = (e.target as HTMLInputElement).value;
+    private handleImageIdChange(e: CustomEvent) {
+        this.imageId = e.detail.value;
     }
 
-    private handleGrayscaleChange(e: Event) {
+    private handleGrayscaleChange(e: CustomEvent) {
         this.grayscale = (e.target as HTMLInputElement).checked;
     }
 
-    private handleBlurChange(e: Event) {
+    private handleBlurChange(e: CustomEvent) {
         this.blurEffect = (e.target as HTMLInputElement).checked;
     }
 
-    private handleBlurAmountChange(e: Event) {
-        this.blurAmount = Number((e.target as HTMLInputElement).value);
+    private handleBlurAmountChange(e: CustomEvent) {
+        this.blurAmount = Number(e.detail.value);
     }
 
     private generateUrl(): string {
@@ -73,19 +72,16 @@ export class LoremPicsumPlaceholder extends WebComponentBase<IConfigBase> {
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block mb-2 font-semibold">Width (px):</label>
-                        <input type="number" class="form-input w-full" min="1" max="5000"
-                            .value=${String(this.width)} @input=${this.handleWidthChange} />
+                        <t-input type="number" class="w-full"></t-input>
                     </div>
                     <div>
                         <label class="block mb-2 font-semibold">Height (px):</label>
-                        <input type="number" class="form-input w-full" min="1" max="5000"
-                            .value=${String(this.height)} @input=${this.handleHeightChange} />
+                        <t-input type="number" class="w-full"></t-input>
                     </div>
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Specific Image ID (optional):</label>
-                    <input type="text" class="form-input w-full" placeholder="e.g., 237 (leave empty for random)"
-                        .value=${this.imageId} @input=${this.handleImageIdChange} />
+                    <t-input placeholder="e.g., 237 (leave empty for random)" class="w-full"></t-input>
                 </div>
                 <div class="space-y-2">
                     <label class="block">
@@ -107,7 +103,7 @@ export class LoremPicsumPlaceholder extends WebComponentBase<IConfigBase> {
                 <div class="p-4 bg-gray-100 rounded">
                     <p class="font-bold mb-2">Generated URL:</p>
                     <div class="flex gap-2">
-                        <input type="text" class="form-input font-mono text-sm flex-1" readonly .value=${imageUrl} />
+                        <t-input ?readonly=${true} class="font-mono text-sm flex-1"></t-input>
                         <t-copy-button .isIcon=${false} .text=${imageUrl}></t-copy-button>
                     </div>
                 </div>

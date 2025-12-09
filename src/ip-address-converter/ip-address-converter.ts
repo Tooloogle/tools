@@ -2,13 +2,12 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import ipAddressConverterStyles from './ip-address-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import tableStyles from '../_styles/table.css.js';
+import '../t-button/t-button.js';
+import '../t-input/t-input.js';
 
 @customElement('ip-address-converter')
 export class IpAddressConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, tableStyles, ipAddressConverterStyles];
+    static override styles = [WebComponentBase.styles, ipAddressConverterStyles];
 
     @property()
     input = '';
@@ -25,8 +24,8 @@ export class IpAddressConverter extends WebComponentBase<IConfigBase> {
     @property()
     error = '';
 
-    private handleInputChange(e: Event) {
-        this.input = (e.target as HTMLInputElement).value;
+    private handleInputChange(e: CustomEvent) {
+        this.input = e.detail.value;
         this.error = '';
     }
 
@@ -102,19 +101,12 @@ export class IpAddressConverter extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">IP Address:</span>
-                <input
-                    type="text"
-                    class="form-input"
-                    placeholder="Enter IP (e.g., 192.168.1.1 or decimal number)..."
-                    autofocus
-                    .value=${this.input}
-                    @input=${this.handleInputChange}
-                />
+                <t-input placeholder="Enter IP (e.g., 192.168.1.1 or decimal number)..."></t-input>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
-                <button class="btn btn-blue" @click=${this.convert}>Convert</button>
-                <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                <t-button variant="blue" @click=${this.convert}>Convert</t-button>
+                <t-button variant="red" @click=${this.clear}>Clear</t-button>
             </div>
 
             ${this.error ? html`

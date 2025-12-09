@@ -2,13 +2,12 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import cssMinifierStyles from './css-minifier.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import '../t-copy-button/t-copy-button.js';
+import '../t-button/t-button.js';
 
 @customElement('css-minifier')
 export class CssMinifier extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, cssMinifierStyles];
+    static override styles = [WebComponentBase.styles, cssMinifierStyles];
 
     @property()
     input = '';
@@ -22,8 +21,8 @@ export class CssMinifier extends WebComponentBase<IConfigBase> {
     @property()
     minifiedSize = 0;
 
-    private handleInputChange(e: Event) {
-        this.input = (e.target as HTMLTextAreaElement).value;
+    private handleInputChange(e: CustomEvent) {
+        this.input = e.detail.value;
         this.originalSize = new Blob([this.input]).size;
     }
 
@@ -63,19 +62,12 @@ export class CssMinifier extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">CSS Input:</span>
-                <textarea
-                    class="form-textarea font-mono text-sm"
-                    placeholder="Paste CSS code here..."
-                    rows="12"
-                    autofocus
-                    .value=${this.input}
-                    @input=${this.handleInputChange}
-                ></textarea>
+                <t-textarea placeholder="Paste CSS code here..." rows="12" class="font-mono text-sm"></t-textarea>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
-                <button class="btn btn-blue" @click=${this.minify}>Minify CSS</button>
-                <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                <t-button variant="blue" @click=${this.minify}>Minify CSS</t-button>
+                <t-button variant="red" @click=${this.clear}>Clear</t-button>
             </div>
 
             ${this.output ? html`
@@ -89,12 +81,7 @@ export class CssMinifier extends WebComponentBase<IConfigBase> {
 
                 <label class="block py-1">
                     <span class="inline-block py-1 font-bold">Minified Output:</span>
-                    <textarea
-                        class="form-textarea font-mono text-sm"
-                        rows="8"
-                        readonly
-                        .value=${this.output}
-                    ></textarea>
+                    <t-textarea rows="8" ?readonly=${true} class="font-mono text-sm"></t-textarea>
                     <div class="py-2 text-right">
                         <t-copy-button .isIcon=${false} .text=${this.output}></t-copy-button>
                     </div>

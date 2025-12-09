@@ -1,4 +1,6 @@
 import { html, TemplateResult } from 'lit';
+import '../t-button/t-button.js';
+import '../t-input/t-input.js';
 
 /* eslint-disable max-lines */
 export class EmailTemplateRender {
@@ -56,47 +58,23 @@ export class EmailTemplateRender {
       <div class="row">
         <div class="input-group">
           <label class="input-label">Company Name:</label>
-          <input
-            type="text"
-            class="form-input"
-            name="companyName"
-            .value="${companyName}"
-            @input="${handleInputChange}"
-          />
+          <t-input .value="${String(companyName)}" @t-input="${handleInputChange}"></t-input>
         </div>
 
         <div class="input-group">
           <label class="input-label">Brand Color:</label>
-          <input
-            type="color"
-            class="form-input color-input"
-            name="companyColor"
-            .value="${companyColor}"
-            @input="${handleInputChange}"
-          />
+          <t-input type="color" .value="${String(companyColor)}" @t-input="${handleInputChange}" class="color-input"></t-input>
         </div>
       </div>
       <div class="row">
         <div class="input-group">
           <label class="input-label">Recipient Name:</label>
-          <input
-            type="text"
-            class="form-input"
-            name="recipientName"
-            .value="${recipientName}"
-            @input="${handleInputChange}"
-          />
+          <t-input .value="${String(recipientName)}" @t-input="${handleInputChange}"></t-input>
         </div>
 
         <div class="input-group">
           <label class="input-label">Email Subject:</label>
-          <input
-            type="text"
-            class="form-input"
-            name="subject"
-            .value="${subject}"
-            @input="${handleInputChange}"
-          />
+          <t-input .value="${String(subject)}" @t-input="${handleInputChange}"></t-input>
         </div>
       </div>
     `;
@@ -111,24 +89,12 @@ export class EmailTemplateRender {
       <div class="row">
         <div class="input-group">
           <label class="input-label">CTA Button Text:</label>
-          <input
-            type="text"
-            class="form-input"
-            name="ctaText"
-            .value="${ctaText}"
-            @input="${handleInputChange}"
-          />
+          <t-input .value="${String(ctaText)}" @t-input="${handleInputChange}"></t-input>
         </div>
 
         <div class="input-group">
           <label class="input-label">CTA Button URL:</label>
-          <input
-            type="url"
-            class="form-input"
-            name="ctaUrl"
-            .value="${ctaUrl}"
-            @input="${handleInputChange}"
-          />
+          <t-input type="url" .value="${String(ctaUrl)}" @t-input="${handleInputChange}"></t-input>
         </div>
       </div>
     `;
@@ -174,38 +140,17 @@ export class EmailTemplateRender {
         <div class="row">
           <div class="input-group">
             <label class="input-label">Event Date:</label>
-            <input
-              type="text"
-              class="form-input"
-              name="eventDate"
-              placeholder="e.g., Friday, March 15, 2024"
-              .value="${eventDate}"
-              @input="${handleInputChange}"
-            />
+            <t-input placeholder="e.g., Friday, March 15, 2024" .value="${String(eventDate)}" @t-input="${handleInputChange}"></t-input>
           </div>
 
           <div class="input-group">
             <label class="input-label">Event Time:</label>
-            <input
-              type="text"
-              class="form-input"
-              name="eventTime"
-              placeholder="e.g., 6:00 PM - 9:00 PM"
-              .value="${eventTime}"
-              @input="${handleInputChange}"
-            />
+            <t-input placeholder="e.g., 6:00 PM - 9:00 PM" .value="${String(eventTime)}" @t-input="${handleInputChange}"></t-input>
           </div>
 
           <div class="input-group">
             <label class="input-label">Event Location:</label>
-            <input
-              type="text"
-              class="form-input"
-              name="eventLocation"
-              placeholder="e.g., Conference Center, 123 Main St"
-              .value="${eventLocation}"
-              @input="${handleInputChange}"
-            />
+            <t-input placeholder="e.g., Conference Center, 123 Main St" .value="${String(eventLocation)}" @t-input="${handleInputChange}"></t-input>
           </div>
         </div>
       </div>
@@ -259,14 +204,7 @@ export class EmailTemplateRender {
           </label>
           ${includePrivacyPolicy
             ? html`
-                <input
-                  type="url"
-                  class="form-input"
-                  name="privacyPolicyUrl"
-                  placeholder="Privacy Policy URL"
-                  .value="${privacyPolicyUrl}"
-                  @input="${handleInputChange}"
-                />
+                <t-input type="url" placeholder="Privacy Policy URL" .value="${String(privacyPolicyUrl)}" @t-input="${handleInputChange}"></t-input>
               `
             : ''}
         </div>
@@ -283,14 +221,7 @@ export class EmailTemplateRender {
           </label>
           ${includeTermsConditions
             ? html`
-                <input
-                  type="url"
-                  class="form-input"
-                  name="termsConditionsUrl"
-                  placeholder="Terms &amp; Conditions URL"
-                  .value="${termsConditionsUrl}"
-                  @input="${handleInputChange}"
-                />
+                <t-input type="url" placeholder="Terms &amp; Conditions URL" .value="${String(termsConditionsUrl)}" @t-input="${handleInputChange}"></t-input>
               `
             : ''}
         </div>

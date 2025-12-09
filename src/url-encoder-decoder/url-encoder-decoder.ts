@@ -1,13 +1,13 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from "../_styles/input.css.js"
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import emailValidatorStyles from './url-encoder-decoder.css.js';
-import buttonStyles from '../_styles/button.css.js';
+import '../t-button/t-button.js';
+import '../t-textarea/t-textarea.js';
 
 @customElement('url-encoder-decoder')
 export class UrlEncoderDecoder extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, emailValidatorStyles];
+    static override styles = [WebComponentBase.styles, emailValidatorStyles];
 
     @property()
     value = "";
@@ -36,18 +36,11 @@ export class UrlEncoderDecoder extends WebComponentBase<IConfigBase> {
     override render() {
         return html`
         <lable class="block">
-            <textarea
-                name="encoded"
-                class="form-textarea"
-                autofocus
-                rows="5"
-                .value=${this.value}
-                @keyup=${this.onChange}
-                @change=${this.onChange}></textarea>
+            <t-textarea rows="5"></t-textarea>
         </lable>
         <div class="text-end">
-            <button class="btn btn-blue" @click=${this.encode}>Encode</button>
-            <button class="btn btn-blue" @click=${this.decode}>Decode</button>
+            <t-button variant="blue" @click=${this.encode}>Encode</t-button>
+            <t-button variant="blue" @click=${this.decode}>Decode</t-button>
         </div>
         `;
     }

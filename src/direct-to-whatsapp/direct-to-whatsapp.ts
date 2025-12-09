@@ -1,13 +1,14 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from "../_styles/input.css.js"
-import buttonStyles from "../_styles/button.css.js"
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import directToWhatsappStyles from './direct-to-whatsapp.css.js';
+import '../t-button/t-button.js';
+import '../t-input/t-input.js';
+import '../t-textarea/t-textarea.js';
 
 @customElement('direct-to-whatsapp')
 export class DirectToWhatsApp extends WebComponentBase<IConfigBase> {
-  static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, directToWhatsappStyles];
+  static override styles = [WebComponentBase.styles, directToWhatsappStyles];
 
   @property()
   phone = "";
@@ -33,23 +34,14 @@ export class DirectToWhatsApp extends WebComponentBase<IConfigBase> {
         <div class="grid grid-cols-1 gap-4">
           <label class="block">
             <span>Phone number with country code, e.g. +919876543210</span>
-            <input
-              name="phone"
-              class="form-input"
-              autofocus
-              placeholder="Phone number with country code, e.g. +919876543210"
-              .value=${this.phone}
-              @change=${this.onPhoneChange} />
+            <t-input placeholder="Phone number with country code, e.g. +919876543210"></t-input>
           </label>
           <label class="block">
             <span>Message (optional)</span>
-            <textarea 
-              name="text"
-              class="form-textarea"
-              placeholder="Message (optional)"></textarea>
+            <t-textarea placeholder="Message (optional)"></t-textarea>
           </label>
           <div class="text-end">
-            <button type="submit" class="btn btn-blue">Open in Whatsapp</button>
+            <t-button variant="blue">Open in Whatsapp</t-button>
           </div>
       </div>
     </form>`;

@@ -2,6 +2,7 @@ import { html, TemplateResult } from 'lit';
 import { Skill } from './resume-builder-types.js';
 import { TemplateHandlers } from './resume-builder-templates.js';
 import { ResumeBuilderIcons } from './resume-builder-icons.js';
+import '../t-button/t-button.js';
 
 export class SkillTemplate {
   static renderSkillSection(
@@ -12,9 +13,9 @@ export class SkillTemplate {
       <div class="section skills">
         <div class="section-header">
           <h3>Skills</h3>
-          <button class="btn btn-primary" @click="${handlers.addSkill}">
+          <t-button variant="blue" @click="${handlers.addSkill}">
             Add Skill
-          </button>
+          </t-button>
         </div>
         <div class="skills-grid">
           ${this.renderSkillItems(skills, handlers)}
@@ -34,19 +35,19 @@ export class SkillTemplate {
     skill: Skill,
     handlers: TemplateHandlers
   ): TemplateResult {
-    const handleNameChange = (e: Event) => {
+    const handleNameChange = (e: CustomEvent) => {
       handlers.updateSkill(
         skill.id,
         'name',
-        (e.target as HTMLInputElement).value
+        e.detail.value
       );
     };
 
-    const handleLevelChange = (e: Event) => {
+    const handleLevelChange = (e: CustomEvent) => {
       handlers.updateSkill(
         skill.id,
         'level',
-        (e.target as HTMLSelectElement).value
+        e.detail.value
       );
     };
 

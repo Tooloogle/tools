@@ -1,15 +1,13 @@
 import { html } from 'lit'
 import { customElement, property } from 'lit/decorators.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import svgOptimizerStyles from './svg-optimizer.css.js';
 import { SvgOptimizerUtils, FileUtils, OptimizationOptions } from './svg-optimizer-utils.js';
 import { SvgOptimizerTemplates } from './svg-optimizer-templates.js';
 
 @customElement('svg-optimizer')
 export class SvgOptimizer extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, svgOptimizerStyles];
+    static override styles = [WebComponentBase.styles, svgOptimizerStyles];
 
     @property({ type: String }) originalSvg = '';
     @property({ type: String }) optimizedSvg = '';

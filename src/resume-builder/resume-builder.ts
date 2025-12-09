@@ -5,8 +5,6 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import resumeBuilderStyles from './resume-builder.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import { ResumeBuilderUtils } from './resume-builder-exports.js';
 import {
   ResumeBuilderTemplates,
@@ -24,10 +22,7 @@ import {
 export class ResumeBuilder extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    resumeBuilderStyles,
-  ];
+    resumeBuilderStyles];
 
   @property({ type: Object }) personalInfo: PersonalInfo = {
     fullName: 'John Doe',
@@ -50,8 +45,7 @@ export class ResumeBuilder extends WebComponentBase<IConfigBase> {
       current: true,
       description:
         'Lead a team of developers to create innovative software solutions. Improved system performance by 30%.',
-    },
-  ];
+    }];
 
   @property({ type: Array }) education: Education[] = [
     {
@@ -61,8 +55,7 @@ export class ResumeBuilder extends WebComponentBase<IConfigBase> {
       field: 'Computer Science',
       graduationDate: '2018-05-01',
       gpa: '3.8',
-    },
-  ];
+    }];
 
   @property({ type: Array }) skills: Skill[] = [
     {
@@ -75,8 +68,7 @@ export class ResumeBuilder extends WebComponentBase<IConfigBase> {
       name: 'TypeScript',
       level: 'Advanced',
     },
-    { id: ResumeBuilderUtils.generateId(), name: 'HTML/CSS', level: 'Expert' },
-  ];
+    { id: ResumeBuilderUtils.generateId(), name: 'HTML/CSS', level: 'Expert' }];
 
   @property({ type: String }) activeSection = 'personal';
   @property({ type: String }) template = 'modern';
@@ -123,8 +115,7 @@ export class ResumeBuilder extends WebComponentBase<IConfigBase> {
         endDate: '',
         current: false,
         description: '',
-      },
-    ];
+      }];
   }
 
   private updateExperience(
@@ -151,8 +142,7 @@ export class ResumeBuilder extends WebComponentBase<IConfigBase> {
         field: '',
         graduationDate: '',
         gpa: '',
-      },
-    ];
+      }];
   }
 
   private updateEducation(id: string, field: keyof Education, value: string) {
@@ -172,8 +162,7 @@ export class ResumeBuilder extends WebComponentBase<IConfigBase> {
         id: ResumeBuilderUtils.generateId(),
         name: '',
         level: 'Beginner',
-      },
-    ];
+      }];
   }
 
   private updateSkill(id: string, field: keyof Skill, value: string) {

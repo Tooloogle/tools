@@ -1,12 +1,12 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
 import cssGradientGeneratorStyles from './css-gradient-generator.css.js'; // Import for CSS styles
+import '../t-input/t-input.js';
 
 @customElement('css-gradient-generator')
 export class CssGradientGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, cssGradientGeneratorStyles];
+    static override styles = [WebComponentBase.styles, cssGradientGeneratorStyles];
 
     @property({ type: String }) color1 = '#ff0000'; // Default color 1
     @property({ type: String }) color2 = '#0000ff'; // Default color 2
@@ -87,13 +87,13 @@ export class CssGradientGenerator extends WebComponentBase<IConfigBase> {
                     <div class="color-picker">
                         <label for="colorPicker1">Color 1:</label>
                         <input id="colorPicker1" type="color" .value="${this.color1}" @input=${this.onColorInputChange}>
-                        <input id="colorInput1" class="form-input" type="text" .value="${this.color1}" @input="${this.onTextInputChange}">
+                        <t-input .value="${String(this.color1)}" @t-input="${this.onTextInputChange}"></t-input>
                     </div>
 
                     <div class="color-picker">
                         <label for="colorPicker2">Color 2:</label>
                         <input id="colorPicker2" type="color" .value="${this.color2}" @input=${this.onColorInputChange}>
-                        <input id="colorInput2" class="form-input" type="text" .value="${this.color2}" @input="${this.onTextInputChange}">
+                        <t-input .value="${String(this.color2)}" @t-input="${this.onTextInputChange}"></t-input>
                     </div>
 
                     <div class="gradient-type">

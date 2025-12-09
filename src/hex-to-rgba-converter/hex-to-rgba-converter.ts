@@ -1,12 +1,13 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
 import hexToRgbaConverterStyles from './hex-to-rgba-converter.css.js';
+import '../t-input/t-input.js';
+import '../t-textarea/t-textarea.js';
 
 @customElement('hex-to-rgba-converter')
 export class HexToRgbaConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, hexToRgbaConverterStyles];
+    static override styles = [WebComponentBase.styles, hexToRgbaConverterStyles];
 
     @property({ type: String }) hexInput = '';
     @property({ type: String }) rgbaInput = '';
@@ -58,7 +59,7 @@ export class HexToRgbaConverter extends WebComponentBase<IConfigBase> {
             return;
         }
 
-        const [, r, g, b, a] = rgbaMatch.map(Number);
+        const [ r, g, b, a] = rgbaMatch.map(Number);
 
         // Convert alpha to hexadecimal value
         const alphaHex = Math.round(a * 255).toString(16).padStart(2, '0');
@@ -80,16 +81,16 @@ export class HexToRgbaConverter extends WebComponentBase<IConfigBase> {
         return html`
       <div class="container">
         <label for="hexInput">Hex Color:</label>
-        <input id="hexInput" type="text" class="form-input" .value="${this.hexInput}" @input="${this.handleHexInputChange}">
+        <t-input .value="${String(this.hexInput)}" @t-input="${this.handleHexInputChange}"></t-input>
       </div>
       <div class="container">
         <label for="rgbaInput">RGBA Color:</label>
-        <input id="rgbaInput" type="text" class="form-input" .value="${this.rgbaInput}" @input="${this.handleRgbaInputChange}">
+        <t-input .value="${String(this.rgbaInput)}" @t-input="${this.handleRgbaInputChange}"></t-input>
       </div>
       ${this.output && this.renderPreviewBox()}
       <div class="container">
         <label for="output">Output:</label>
-        <textarea id="output" class="form-textarea" readonly .value="${this.output}"></textarea>
+        <t-textarea .value="${String(this.output)}" ?readonly=${true}></t-textarea>
       </div>
     `;
     }

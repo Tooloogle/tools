@@ -5,18 +5,15 @@ import {
 } from "../_web-component/WebComponentBase.js";
 import base64UrlSafeEncoderStyles from "./base64-url-safe-encoder.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
-import buttonStyles from "../_styles/button.css.js";
 import "../t-copy-button";
+import '../t-button/t-button.js';
+import '../t-textarea/t-textarea.js';
 
 @customElement("base64-url-safe-encoder")
 export class Base64UrlSafeEncoder extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    base64UrlSafeEncoderStyles,
-  ];
+    base64UrlSafeEncoderStyles];
 
   @property()
   input = "";
@@ -30,8 +27,8 @@ export class Base64UrlSafeEncoder extends WebComponentBase<IConfigBase> {
   @property()
   error = "";
 
-  private handleInputChange(e: Event) {
-    this.input = (e.target as HTMLTextAreaElement).value;
+  private handleInputChange(e: CustomEvent) {
+    this.input = e.detail.value;
     this.error = "";
   }
 
@@ -78,14 +75,7 @@ export class Base64UrlSafeEncoder extends WebComponentBase<IConfigBase> {
     return html`
       <label class="block py-1">
         <span class="inline-block py-1 font-bold">Input:</span>
-        <textarea
-          class="form-textarea"
-          placeholder="Enter text to encode or Base64 URL-safe string to decode..."
-          rows="6"
-          autofocus
-          .value=${this.input}
-          @input=${this.handleInputChange}
-        ></textarea>
+        <t-textarea placeholder="Enter text to encode or Base64 URL-safe string to decode..." rows="6" .value=${String(this.input)} @t-input=${this.handleInputChange}></t-textarea>
       </label>
     `;
   }
@@ -93,27 +83,15 @@ export class Base64UrlSafeEncoder extends WebComponentBase<IConfigBase> {
   private renderActionButtons() {
     return html`
       <div class="py-2 flex flex-wrap gap-2">
-        <button
-          class="btn btn-blue"
-          @click=${this.encode}
-          ?disabled=${!this.input}
-        >
+        <t-button variant="blue" @click=${this.encode} ?disabled=${true}>
           Encode
-        </button>
-        <button
-          class="btn btn-blue"
-          @click=${this.decode}
-          ?disabled=${!this.input}
-        >
+        </t-button>
+        <t-button variant="blue" @click=${this.decode} ?disabled=${true}>
           Decode
-        </button>
-        <button
-          class="btn btn-red"
-          @click=${this.clear}
-          ?disabled=${!this.input}
-        >
+        </t-button>
+        <t-button variant="red" @click=${this.clear} ?disabled=${true}>
           Clear
-        </button>
+        </t-button>
       </div>
     `;
   }
@@ -140,12 +118,7 @@ export class Base64UrlSafeEncoder extends WebComponentBase<IConfigBase> {
     return html`
       <label class="block py-1">
         <span class="inline-block py-1 font-bold">Output:</span>
-        <textarea
-          class="form-textarea"
-          rows="6"
-          readonly
-          .value=${this.output}
-        ></textarea>
+        <t-textarea rows="6" .value=${String(this.output)} ?readonly=${true}></t-textarea>
         <div class="py-2 text-right">
           <t-copy-button .isIcon=${false} .text=${this.output}></t-copy-button>
         </div>

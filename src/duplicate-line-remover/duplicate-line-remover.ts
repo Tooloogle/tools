@@ -2,13 +2,13 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import duplicateLineRemoverStyles from './duplicate-line-remover.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import '../t-copy-button/t-copy-button.js';
+import '../t-button/t-button.js';
+import '../t-textarea/t-textarea.js';
 
 @customElement('duplicate-line-remover')
 export class DuplicateLineRemover extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, duplicateLineRemoverStyles];
+    static override styles = [WebComponentBase.styles, duplicateLineRemoverStyles];
 
     @property()
     input = '';
@@ -25,8 +25,8 @@ export class DuplicateLineRemover extends WebComponentBase<IConfigBase> {
     @property()
     removedCount = 0;
 
-    private handleInputChange(e: Event) {
-        this.input = (e.target as HTMLTextAreaElement).value;
+    private handleInputChange(e: CustomEvent) {
+        this.input = e.detail.value;
     }
 
     private handleCaseSensitiveChange(e: Event) {
@@ -99,8 +99,8 @@ export class DuplicateLineRemover extends WebComponentBase<IConfigBase> {
             </div>
 
             <div class="py-2 text-right">
-                <button class="btn btn-blue" @click=${this.removeDuplicates}>Remove Duplicates</button>
-                <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                <t-button variant="blue" @click=${this.removeDuplicates}>Remove Duplicates</t-button>
+                <t-button variant="red" @click=${this.clear}>Clear</t-button>
             </div>
         `;
     }
@@ -115,12 +115,7 @@ export class DuplicateLineRemover extends WebComponentBase<IConfigBase> {
 
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">Output:</span>
-                <textarea
-                    class="form-textarea"
-                    rows="10"
-                    readonly
-                    .value=${this.output}
-                ></textarea>
+                <t-textarea rows="10" .value=${String(this.output)} ?readonly=${true}></t-textarea>
                 <div class="py-2 text-right">
                     <t-copy-button .isIcon=${false} .text=${this.output}></t-copy-button>
                 </div>
@@ -132,14 +127,7 @@ export class DuplicateLineRemover extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">Input Text:</span>
-                <textarea
-                    class="form-textarea"
-                    placeholder="Enter text with duplicate lines..."
-                    rows="10"
-                    autofocus
-                    .value=${this.input}
-                    @input=${this.handleInputChange}
-                ></textarea>
+                <t-textarea placeholder="Enter text with duplicate lines..." rows="10" .value=${String(this.input)} @t-input=${this.handleInputChange}></t-textarea>
             </label>
 
             ${this.renderControlsSection()}

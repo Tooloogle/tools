@@ -5,21 +5,18 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import htmlToMarkdownConverterStyles from './html-to-markdown-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
 @customElement('html-to-markdown-converter')
 export class HtmlToMarkdownConverter extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    htmlToMarkdownConverterStyles,
-  ];
+    htmlToMarkdownConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
 
-  private handleInput(e: Event) {
-    this.inputText = (e.target as HTMLTextAreaElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputText = e.detail.value;
     this.process();
   }
 
@@ -98,20 +95,11 @@ export class HtmlToMarkdownConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">HTML Input:</label>
-          <textarea
-            class="form-textarea w-full h-40"
-            placeholder="&lt;h1&gt;Hello World&lt;/h1&gt;&#10;&lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; and &lt;em&gt;italic&lt;/em&gt; text.&lt;/p&gt;"
-            .value=${this.inputText}
-            @input=${this.handleInput}
-          ></textarea>
+          <t-textarea placeholder="&lt;h1&gt;Hello World&lt;/h1&gt;&#10;&lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; and &lt;em&gt;italic&lt;/em&gt; text.&lt;/p&gt;" class="w-full h-40"></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Markdown Output:</label>
-          <textarea
-            class="form-textarea w-full h-40"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
+          <t-textarea ?readonly=${true} class="w-full h-40"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

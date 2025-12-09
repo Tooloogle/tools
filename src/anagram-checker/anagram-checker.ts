@@ -2,11 +2,10 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import anagramCheckerStyles from './anagram-checker.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 
 @customElement('anagram-checker')
 export class AnagramChecker extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, anagramCheckerStyles];
+    static override styles = [WebComponentBase.styles, anagramCheckerStyles];
 
     @property({ type: String }) text1 = '';
     @property({ type: String }) text2 = '';
@@ -30,22 +29,12 @@ export class AnagramChecker extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">First Word/Phrase:</label>
-                    <input
-                        type="text"
-                        class="form-input w-full"
-                        placeholder="Enter first word or phrase..."
-                        .value=${this.text1}
-                        @input=${(e: Event) => { this.text1 = (e.target as HTMLInputElement).value; this.handleInput(); }}
+                    <t-input placeholder="Enter first word or phrase..." class="w-full"></t-input> { this.text1 = e.detail.value; this.handleInput(); }}
                     />
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Second Word/Phrase:</label>
-                    <input
-                        type="text"
-                        class="form-input w-full"
-                        placeholder="Enter second word or phrase..."
-                        .value=${this.text2}
-                        @input=${(e: Event) => { this.text2 = (e.target as HTMLInputElement).value; this.handleInput(); }}
+                    <t-input placeholder="Enter second word or phrase..." class="w-full"></t-input> { this.text2 = e.detail.value; this.handleInput(); }}
                     />
                 </div>
                 ${this.hasInput ? html`

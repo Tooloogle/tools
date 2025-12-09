@@ -2,13 +2,13 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import unixTimestampConverterStyles from './unix-timestamp-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import dayjs from 'dayjs';
+import '../t-button/t-button.js';
+import '../t-input/t-input.js';
 
 @customElement('unix-timestamp-converter')
 export class UnixTimestampConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, unixTimestampConverterStyles];
+    static override styles = [WebComponentBase.styles, unixTimestampConverterStyles];
 
     @property()
     timestamp = Math.floor(Date.now() / 1000);
@@ -24,13 +24,13 @@ export class UnixTimestampConverter extends WebComponentBase<IConfigBase> {
         this.updateFromTimestamp();
     }
 
-    private handleTimestampChange(e: Event) {
-        this.timestamp = Number((e.target as HTMLInputElement).value);
+    private handleTimestampChange(e: CustomEvent) {
+        this.timestamp = Number(e.detail.value);
         this.updateFromTimestamp();
     }
 
-    private handleDatetimeChange(e: Event) {
-        this.datetime = (e.target as HTMLInputElement).value;
+    private handleDatetimeChange(e: CustomEvent) {
+        this.datetime = e.detail.value;
         this.updateFromDatetime();
     }
 
@@ -58,22 +58,12 @@ export class UnixTimestampConverter extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Unix Timestamp (seconds)</span>
-                    <input
-                        class="form-input text-end"
-                        type="number"
-                        .value=${String(this.timestamp)}
-                        @input=${this.handleTimestampChange}
-                    />
+                    <t-input type="number" class="text-end"></t-input>
                 </label>
 
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Date & Time</span>
-                    <input
-                        class="form-input"
-                        type="datetime-local"
-                        .value=${this.datetime}
-                        @input=${this.handleDatetimeChange}
-                    />
+                    <t-input type="datetime-local" .value=${String(this.datetime)} @t-input=${this.handleDatetimeChange}></t-input>
                 </label>
 
                 <div class="block">
@@ -84,7 +74,7 @@ export class UnixTimestampConverter extends WebComponentBase<IConfigBase> {
                 </div>
 
                 <div class="text-right">
-                    <button class="btn btn-blue" @click=${this.setCurrentTime}>Current Time</button>
+                    <t-button variant="blue" @click=${this.setCurrentTime}>Current Time</t-button>
                 </div>
             </div>
         `;

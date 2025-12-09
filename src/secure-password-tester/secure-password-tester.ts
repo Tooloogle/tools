@@ -2,17 +2,16 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import securePasswordTesterStyles from './secure-password-tester.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 
 @customElement('secure-password-tester')
 export class SecurePasswordTester extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, securePasswordTesterStyles];
+    static override styles = [WebComponentBase.styles, securePasswordTesterStyles];
 
     @property({ type: String }) password = '';
     @property({ type: Object }) strength = { score: 0, level: '', feedback: [] as string[] };
 
-    private handleInput(e: Event) {
-        this.password = (e.target as HTMLInputElement).value;
+    private handleInput(e: CustomEvent) {
+        this.password = e.detail.value;
         this.testStrength();
     }
 
@@ -105,13 +104,7 @@ export class SecurePasswordTester extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">Test Password Strength:</label>
-                    <input
-                        type="password"
-                        class="form-input w-full"
-                        placeholder="Enter password to test..."
-                        .value=${this.password}
-                        @input=${this.handleInput}
-                    />
+                    <t-input type="password" placeholder="Enter password to test..." class="w-full"></t-input>
                 </div>
                 ${this.password ? html`
                     <div class="border rounded p-4 space-y-3">

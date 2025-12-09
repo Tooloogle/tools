@@ -5,23 +5,20 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import jsonToYamlConverterStyles from './json-to-yaml-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import * as yaml from 'js-yaml';
 import '../t-copy-button';
 @customElement('json-to-yaml-converter')
 export class JsonToYamlConverter extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    jsonToYamlConverterStyles,
-  ];
+    jsonToYamlConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
   @property({ type: String }) errorMessage = '';
 
-  private handleInput(e: Event) {
-    this.inputText = (e.target as HTMLTextAreaElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputText = e.detail.value;
     this.process();
   }
 
@@ -49,12 +46,7 @@ export class JsonToYamlConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">JSON Input:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            placeholder='Enter JSON... e.g., {"name": "John", "age": 30}'
-            .value=${this.inputText}
-            @input=${this.handleInput}
-          ></textarea>
+          <t-textarea class="w-full h-32"></t-textarea>
         </div>
         ${this.errorMessage
           ? html`
@@ -67,11 +59,7 @@ export class JsonToYamlConverter extends WebComponentBase<IConfigBase> {
           : ''}
         <div>
           <label class="block mb-2 font-semibold">YAML Output:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

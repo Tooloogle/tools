@@ -5,11 +5,10 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import hexRgbStyles from './hex-rgb.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 
 @customElement('hex-rgb')
 export class HexRgb extends WebComponentBase<IConfigBase> {
-  static override styles = [WebComponentBase.styles, hexRgbStyles, inputStyles];
+  static override styles = [WebComponentBase.styles, hexRgbStyles];
 
   @property()
   hex = '';

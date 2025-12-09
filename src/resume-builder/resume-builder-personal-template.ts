@@ -63,8 +63,7 @@ export class PersonalInfoTemplate {
         type: 'textarea',
         label: 'Professional Summary',
         placeholder: 'Brief professional summary...',
-      },
-    ];
+      }];
 
     return fields.map(field =>
       this.renderPersonalInfoField(field, personalInfo, handlers)

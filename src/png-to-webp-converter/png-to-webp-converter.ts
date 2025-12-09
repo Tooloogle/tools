@@ -4,18 +4,15 @@ import {
   IConfigBase,
   WebComponentBase,
 } from "../_web-component/WebComponentBase.js";
-import inputStyles from "../_styles/input.css.js";
-import buttonStyles from "../_styles/button.css.js";
 import pngToWebpConverterStyles from "./png-to-webp-converter.css.js";
+import '../t-button/t-button.js';
+import '../t-input/t-input.js';
 
 @customElement("png-to-webp-converter")
 export class PngToWebpConverter extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    pngToWebpConverterStyles,
-  ];
+    pngToWebpConverterStyles];
 
   @property({ type: Object }) file: File | null = null;
 
@@ -65,19 +62,10 @@ export class PngToWebpConverter extends WebComponentBase<IConfigBase> {
     return html`
       <div class="space-y-3">
         <label>Select a PNG file:</label>
-        <input
-          type="file"
-          accept="image/png"
-          class="form-input"
-          @change="${this.handleFileChange}"
-        />
-        <button
-          class="btn btn-blue"
-          @click="${this.convert}"
-          ?disabled="${!this.file}"
-        >
+        <t-input type="file" @t-change="${this.handleFileChange}"></t-input>
+        <t-button variant="blue" ?disabled=${true}>
           Convert to WebP
-        </button>
+        </t-button>
       </div>
     `;
   }

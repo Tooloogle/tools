@@ -1,13 +1,12 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import bytesToStringConverterStyles from './bytes-to-string-converter.css.js';
+import '../t-textarea/t-textarea.js';
 
 @customElement('bytes-to-string-converter')
 export class BytesToStringConverter extends WebComponentBase<IConfigBase> {
-  static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, bytesToStringConverterStyles];
+  static override styles = [WebComponentBase.styles, bytesToStringConverterStyles];
 
   @property({ type: String }) byteInput = '';
   @property({ type: String }) stringOutput = '';
@@ -32,11 +31,11 @@ export class BytesToStringConverter extends WebComponentBase<IConfigBase> {
     return html`
       <div class="container">
         <label for="byteInput">Bytes (space or comma separated):</label>
-        <textarea id="byteInput" row="5" class="form-textarea" .value="${this.byteInput}" @input="${this.handleInputChange}"></textarea>
+        <t-textarea .value="${String(this.byteInput)}" @t-input="${this.handleInputChange}"></t-textarea>
       </div>
       <div class="container">
         <label for="stringOutput">String:</label>
-        <textarea id="stringOutput" row="5" class="form-textarea" readonly .value="${this.stringOutput}"></textarea>
+        <t-textarea .value="${String(this.stringOutput)}" ?readonly=${true}></t-textarea>
       </div>
     `;
   }

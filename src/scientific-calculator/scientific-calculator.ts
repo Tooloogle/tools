@@ -2,17 +2,16 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import scientificCalculatorStyles from './scientific-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 
 @customElement('scientific-calculator')
 export class ScientificCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, scientificCalculatorStyles];
+    static override styles = [WebComponentBase.styles, scientificCalculatorStyles];
 
     @property({ type: String }) inputText = '';
     @property({ type: String }) outputText = '';
 
-    private handleInput(e: Event) {
-        this.inputText = (e.target as HTMLInputElement).value;
+    private handleInput(e: CustomEvent) {
+        this.inputText = e.detail.value;
         this.process();
     }
 
@@ -50,23 +49,12 @@ export class ScientificCalculator extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">Expression:</label>
-                    <input
-                        type="text"
-                        class="form-input w-full"
-                        placeholder="e.g., 2 + 3 * 4, sqrt(16), sin(pi/2)..."
-                        .value=${this.inputText}
-                        @input=${this.handleInput}
-                    />
+                    <t-input placeholder="e.g., 2 + 3 * 4, sqrt(16), sin(pi/2)..." class="w-full"></t-input>
                 </div>
                 
                 <div>
                     <label class="block mb-2 font-semibold">Result:</label>
-                    <input
-                        type="text"
-                        class="form-input w-full text-2xl font-bold"
-                        readonly
-                        .value=${this.outputText}
-                    />
+                    <t-input ?readonly=${true} class="w-full text-2xl font-bold"></t-input>
                 </div>
                 
                 <div class="text-sm text-gray-600">

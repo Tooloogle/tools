@@ -5,29 +5,26 @@ import {
 } from "../_web-component/WebComponentBase.js";
 import jsonToSqlConverterStyles from "./json-to-sql-converter.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
 import "../t-copy-button";
 
 @customElement("json-to-sql-converter")
 export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    jsonToSqlConverterStyles,
-  ];
+    jsonToSqlConverterStyles];
 
   @property({ type: String }) inputText = "";
   @property({ type: String }) outputText = "";
   @property({ type: String }) tableName = "my_table";
   @property({ type: String }) errorMessage = "";
 
-  private handleInput(e: Event) {
-    this.inputText = (e.target as HTMLTextAreaElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputText = e.detail.value;
     this.process();
   }
 
-  private handleTableNameInput(e: Event) {
-    this.tableName = (e.target as HTMLInputElement).value || "my_table";
+  private handleTableNameInput(e: CustomEvent) {
+    this.tableName = e.detail.value || "my_table";
     this.process();
   }
 
@@ -102,25 +99,14 @@ export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Table Name:</label>
-          <input
-            type="text"
-            class="form-input w-full"
-            placeholder="my_table"
-            .value=${this.tableName}
-            @input=${this.handleTableNameInput}
-          />
+          <t-input placeholder="my_table" class="w-full"></t-input>
         </div>
 
         <div>
           <label class="block mb-2 font-semibold"
             >JSON Input (Array of Objects):</label
           >
-          <textarea
-            class="form-textarea w-full h-40"
-            placeholder='[{"id": 1, "name": "John", "age": 30}, {"id": 2, "name": "Jane", "age": 25}]'
-            .value=${this.inputText}
-            @input=${this.handleInput}
-          ></textarea>
+          <t-textarea class="w-full h-40"></t-textarea>
         </div>
 
         ${this.errorMessage
@@ -133,11 +119,7 @@ export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
 
         <div>
           <label class="block mb-2 font-semibold">SQL INSERT Statements:</label>
-          <textarea
-            class="form-textarea w-full h-40"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
+          <t-textarea ?readonly=${true} class="w-full h-40"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ""}

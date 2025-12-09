@@ -2,13 +2,11 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import daysBetweenDatesStyles from './days-between-dates.css.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
-import buttonStyles from '../_styles/button.css.js';
-import inputStyles from '../_styles/input.css.js';
 import dayjs from 'dayjs';
 
 @customElement('days-between-dates')
 export class DaysBetweenDates extends WebComponentBase<IConfigBase> {
-  static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, daysBetweenDatesStyles];
+  static override styles = [WebComponentBase.styles, daysBetweenDatesStyles];
 
   @property() date1 = '';
   @property() date2 = '';
@@ -38,16 +36,12 @@ export class DaysBetweenDates extends WebComponentBase<IConfigBase> {
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block mb-2 font-semibold">First Date:</label>
-            <input name="date1" class="form-input w-full" type="date"
-              .value=${this.date1}
-              @change=${(e: Event) => { this.date1 = (e.target as HTMLInputElement).value; this.calculate(); }}
+            <t-input type="date" class="w-full"></t-input> { this.date1 = e.detail.value; this.calculate(); }}
               required />
           </div>
           <div>
             <label class="block mb-2 font-semibold">Second Date:</label>
-            <input name="date2" class="form-input w-full" type="date"
-              .value=${this.date2}
-              @change=${(e: Event) => { this.date2 = (e.target as HTMLInputElement).value; this.calculate(); }}
+            <t-input type="date" class="w-full"></t-input> { this.date2 = e.detail.value; this.calculate(); }}
               required />
           </div>
         </div>

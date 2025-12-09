@@ -2,12 +2,12 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import characterCounterStyles from './character-counter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import tableStyles from '../_styles/table.css.js';
+import '../t-input/t-input.js';
+import '../t-textarea/t-textarea.js';
 
 @customElement('character-counter')
 export class CharacterCounter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, tableStyles, characterCounterStyles];
+    static override styles = [WebComponentBase.styles, characterCounterStyles];
 
     @property()
     input = '';
@@ -15,12 +15,12 @@ export class CharacterCounter extends WebComponentBase<IConfigBase> {
     @property()
     searchChar = '';
 
-    private handleInputChange(e: Event) {
-        this.input = (e.target as HTMLTextAreaElement).value;
+    private handleInputChange(e: CustomEvent) {
+        this.input = e.detail.value;
     }
 
-    private handleSearchChange(e: Event) {
-        this.searchChar = (e.target as HTMLInputElement).value;
+    private handleSearchChange(e: CustomEvent) {
+        this.searchChar = e.detail.value;
     }
 
     private countChar(char: string): number {
@@ -67,14 +67,7 @@ export class CharacterCounter extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">Text to Analyze:</span>
-                <textarea
-                    class="form-textarea"
-                    placeholder="Enter text to count characters..."
-                    rows="10"
-                    autofocus
-                    .value=${this.input}
-                    @input=${this.handleInputChange}
-                ></textarea>
+                <t-textarea placeholder="Enter text to count characters..." rows="10" .value=${String(this.input)} @t-input=${this.handleInputChange}></t-textarea>
             </label>
 
             <div class="py-2">
@@ -85,14 +78,7 @@ export class CharacterCounter extends WebComponentBase<IConfigBase> {
 
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">Search for specific character:</span>
-                <input
-                    type="text"
-                    class="form-input"
-                    placeholder="Enter a character to count..."
-                    maxlength="5"
-                    .value=${this.searchChar}
-                    @input=${this.handleSearchChange}
-                />
+                <t-input placeholder="Enter a character to count..."></t-input>
             </label>
 
             ${this.searchChar ? html`

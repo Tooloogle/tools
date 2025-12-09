@@ -1,14 +1,13 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import {
   IConfigBase,
   WebComponentBase,
 } from '../_web-component/WebComponentBase.js';
-import buttonStyles from '../_styles/button.css.js';
 import passwordGeneratorStyles from './password-generator.css.js';
 import { when } from 'lit/directives/when.js';
 import '../t-copy-button/t-copy-button.js';
+import '../t-button/t-button.js';
 
 const passwordChars =
   '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -17,10 +16,7 @@ const passwordChars =
 export class PasswordGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    passwordGeneratorStyles,
-  ];
+    passwordGeneratorStyles];
 
   @property()
   length = 10;
@@ -52,23 +48,15 @@ export class PasswordGenerator extends WebComponentBase<IConfigBase> {
   override render() {
     return html` <label class="block">
         <span class="inline-block py-1">Password length</span>
-        <input
-          name="email"
-          class="form-input text-end"
-          type="number"
-          max="100"
-          autofocus
-          .value=${this.length}
-          @keyup=${this.handleLengthChange}
-        />
+        <t-input type="number" class="text-end"></t-input>
       </label>
       <div class="py-2 flex content-center">
         ${when(this.password, this.renderPasswordWithCopyButton)}
       </div>
       <div class="text-end">
-        <button class="btn btn-blue" @click=${this.generate}>
+        <t-button variant="blue" @click=${this.generate}>
           Generate Strong Password
-        </button>
+        </t-button>
       </div>`;
   }
 }

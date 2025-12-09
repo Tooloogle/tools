@@ -2,13 +2,12 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import barcodeGeneratorStyles from './barcode-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import { isCanvasSupported } from '../_utils/DomUtils.js';
 import JsBarcode from 'jsbarcode';
 
 @customElement('barcode-generator')
 export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, barcodeGeneratorStyles];
+    static override styles = [WebComponentBase.styles, barcodeGeneratorStyles];
 
     @property({ type: String }) inputText = '123456789012';
     @property({ type: String }) format = 'CODE128';
@@ -47,18 +46,13 @@ export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">Barcode Text:</label>
-                    <input
-                        type="text"
-                        class="form-input w-full"
-                        placeholder="Enter text or number..."
-                        .value=${this.inputText}
-                        @input=${(e: Event) => { this.inputText = (e.target as HTMLInputElement).value; }}
+                    <t-input placeholder="Enter text or number..." class="w-full"></t-input> { this.inputText = e.detail.value; }}
                     />
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Format:</label>
                     <select class="form-input w-full" .value=${this.format}
-                        @change=${(e: Event) => { this.format = (e.target as HTMLSelectElement).value; }}>
+                        @change=${(e: CustomEvent) => { this.format = e.detail.value; }}>
                         <option value="CODE128">CODE128</option>
                         <option value="EAN13">EAN-13</option>
                         <option value="EAN8">EAN-8</option>

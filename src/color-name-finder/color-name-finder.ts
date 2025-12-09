@@ -2,8 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import colorNameFinderStyles from './color-name-finder.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
+import '../t-input/t-input.js';
 
 // Basic color names mapping
 const colorNames: { [key: string]: string } = {
@@ -18,7 +17,7 @@ const colorNames: { [key: string]: string } = {
 
 @customElement('color-name-finder')
 export class ColorNameFinder extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, colorNameFinderStyles];
+    static override styles = [WebComponentBase.styles, colorNameFinderStyles];
 
     @property()
     hexColor = '#FF0000';
@@ -40,13 +39,13 @@ export class ColorNameFinder extends WebComponentBase<IConfigBase> {
         this.findColorName();
     }
 
-    private handleHexChange(e: Event) {
-        this.hexColor = (e.target as HTMLInputElement).value;
+    private handleHexChange(e: CustomEvent) {
+        this.hexColor = e.detail.value;
         this.updateFromHex();
     }
 
-    private handleRGBChange(e: Event, component: 'r' | 'g' | 'b') {
-        const value = Number((e.target as HTMLInputElement).value);
+    private handleRGBChange(e: CustomEvent, component: 'r' | 'g' | 'b') {
+        const value = Number(e.detail.value);
         this[component] = Math.max(0, Math.min(255, value));
         this.updateFromRGB();
     }
@@ -105,15 +104,15 @@ export class ColorNameFinder extends WebComponentBase<IConfigBase> {
         return `~${nearestName}`;
     }
 
-    private handleRChange(e: Event) {
+    private handleRChange(e: CustomEvent) {
         this.handleRGBChange(e, 'r');
     }
 
-    private handleGChange(e: Event) {
+    private handleGChange(e: CustomEvent) {
         this.handleRGBChange(e, 'g');
     }
 
-    private handleBChange(e: Event) {
+    private handleBChange(e: CustomEvent) {
         this.handleRGBChange(e, 'b');
     }
 
@@ -121,18 +120,8 @@ export class ColorNameFinder extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block">
                 <span class="inline-block py-1 font-bold">Hex Color</span>
-                <input
-                    class="form-input"
-                    type="color"
-                    .value=${this.hexColor}
-                    @input=${this.handleHexChange}
-                />
-                <input
-                    class="form-input mt-2"
-                    type="text"
-                    .value=${this.hexColor}
-                    @input=${this.handleHexChange}
-                />
+                <t-input type="color" .value=${String(this.hexColor)} @t-input=${this.handleHexChange}></t-input>
+                <t-input class="mt-2"></t-input>
             </label>
         `;
     }
@@ -142,36 +131,15 @@ export class ColorNameFinder extends WebComponentBase<IConfigBase> {
             <div class="grid grid-cols-3 gap-2">
                 <label class="block">
                     <span class="inline-block py-1">R</span>
-                    <input
-                        class="form-input text-end"
-                        type="number"
-                        min="0"
-                        max="255"
-                        .value=${String(this.r)}
-                        @input=${this.handleRChange}
-                    />
+                    <t-input type="number" class="text-end"></t-input>
                 </label>
                 <label class="block">
                     <span class="inline-block py-1">G</span>
-                    <input
-                        class="form-input text-end"
-                        type="number"
-                        min="0"
-                        max="255"
-                        .value=${String(this.g)}
-                        @input=${this.handleGChange}
-                    />
+                    <t-input type="number" class="text-end"></t-input>
                 </label>
                 <label class="block">
                     <span class="inline-block py-1">B</span>
-                    <input
-                        class="form-input text-end"
-                        type="number"
-                        min="0"
-                        max="255"
-                        .value=${String(this.b)}
-                        @input=${this.handleBChange}
-                    />
+                    <t-input type="number" class="text-end"></t-input>
                 </label>
             </div>
         `;

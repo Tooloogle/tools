@@ -5,16 +5,13 @@ import {
 } from "../_web-component/WebComponentBase.js";
 import cssBorderRadiusGeneratorStyles from "./css-border-radius-generator.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
 import "../t-copy-button";
 
 @customElement("css-border-radius-generator")
 export class CssBorderRadiusGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    cssBorderRadiusGeneratorStyles,
-  ];
+    cssBorderRadiusGeneratorStyles];
 
   @property({ type: Number }) topLeft = 0;
   @property({ type: Number }) topRight = 0;
@@ -47,13 +44,8 @@ export class CssBorderRadiusGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2">${label}:</label>
-        <input
-          type="number"
-          min="0"
-          class="form-input w-full"
-          .value=${String(value)}
-          @input=${(e: Event) => {
-            this[property] = Number((e.target as HTMLInputElement).value);
+        <t-input type="number" class="w-full"></t-input> {
+            this[property] = Number(e.detail.value);
             this.process();
           }}
         />
@@ -80,11 +72,7 @@ export class CssBorderRadiusGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">CSS Output:</label>
-        <textarea
-          class="form-textarea w-full h-20 font-mono"
-          readonly
-          .value=${this.outputText}
-        ></textarea>
+        <t-textarea ?readonly=${true} class="w-full h-20 font-mono"></t-textarea>
         <t-copy-button
           .text=${this.outputText}
           .isIcon=${false}

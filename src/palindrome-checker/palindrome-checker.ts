@@ -2,18 +2,17 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import palindromeCheckerStyles from './palindrome-checker.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 
 @customElement('palindrome-checker')
 export class PalindromeChecker extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, palindromeCheckerStyles];
+    static override styles = [WebComponentBase.styles, palindromeCheckerStyles];
 
     @property({ type: String }) inputText = '';
     @property({ type: Boolean }) isPalindrome = false;
     @property({ type: Boolean }) hasInput = false;
 
-    private handleInput(e: Event) {
-        this.inputText = (e.target as HTMLInputElement).value;
+    private handleInput(e: CustomEvent) {
+        this.inputText = e.detail.value;
         this.hasInput = this.inputText.trim().length > 0;
         if (this.hasInput) {
             this.checkPalindrome();
@@ -30,13 +29,7 @@ export class PalindromeChecker extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">Enter Text:</label>
-                    <input
-                        type="text"
-                        class="form-input w-full"
-                        placeholder="Enter text to check if it's a palindrome..."
-                        .value=${this.inputText}
-                        @input=${this.handleInput}
-                    />
+                    <t-input placeholder="Enter text to check if it's a palindrome..." class="w-full"></t-input>
                 </div>
                 ${this.hasInput ? html`
                     <div class="p-4 rounded ${this.isPalindrome ? 'bg-green-100' : 'bg-red-100'}">

@@ -2,13 +2,12 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import sqlFormatterStyles from './sql-formatter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import '../t-copy-button/t-copy-button.js';
+import '../t-button/t-button.js';
 
 @customElement('sql-formatter')
 export class SqlFormatter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, sqlFormatterStyles];
+    static override styles = [WebComponentBase.styles, sqlFormatterStyles];
 
     @property()
     input = '';
@@ -16,8 +15,8 @@ export class SqlFormatter extends WebComponentBase<IConfigBase> {
     @property()
     output = '';
 
-    private handleInputChange(e: Event) {
-        this.input = (e.target as HTMLTextAreaElement).value;
+    private handleInputChange(e: CustomEvent) {
+        this.input = e.detail.value;
     }
 
     private formatSql() {
@@ -65,31 +64,19 @@ export class SqlFormatter extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">SQL Input:</span>
-                <textarea
-                    class="form-textarea font-mono text-sm"
-                    placeholder="Paste SQL query here..."
-                    rows="10"
-                    autofocus
-                    .value=${this.input}
-                    @input=${this.handleInputChange}
-                ></textarea>
+                <t-textarea placeholder="Paste SQL query here..." rows="10" class="font-mono text-sm"></t-textarea>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
-                <button class="btn btn-blue" @click=${this.formatSql}>Format SQL</button>
-                <button class="btn btn-blue" @click=${this.minify}>Minify SQL</button>
-                <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                <t-button variant="blue" @click=${this.formatSql}>Format SQL</t-button>
+                <t-button variant="blue" @click=${this.minify}>Minify SQL</t-button>
+                <t-button variant="red" @click=${this.clear}>Clear</t-button>
             </div>
 
             ${this.output ? html`
                 <label class="block py-1">
                     <span class="inline-block py-1 font-bold">Formatted Output:</span>
-                    <textarea
-                        class="form-textarea font-mono text-sm"
-                        rows="10"
-                        readonly
-                        .value=${this.output}
-                    ></textarea>
+                    <t-textarea rows="10" ?readonly=${true} class="font-mono text-sm"></t-textarea>
                     <div class="py-2 text-right">
                         <t-copy-button .isIcon=${false} .text=${this.output}></t-copy-button>
                     </div>

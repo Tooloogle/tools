@@ -2,11 +2,11 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import wordCounterStyles from './word-counter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
+import '../t-textarea/t-textarea.js';
 
 @customElement('word-counter')
 export class WordCounter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, wordCounterStyles];
+    static override styles = [WebComponentBase.styles, wordCounterStyles];
 
     @property()
     text = '';
@@ -29,8 +29,8 @@ export class WordCounter extends WebComponentBase<IConfigBase> {
     @property()
     paragraphCount = 0;
 
-    private handleTextChange(e: Event) {
-        this.text = (e.target as HTMLTextAreaElement).value;
+    private handleTextChange(e: CustomEvent) {
+        this.text = e.detail.value;
         this.updateCounts();
     }
 
@@ -56,14 +56,7 @@ export class WordCounter extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1">Enter your text:</span>
-                <textarea
-                    class="form-textarea"
-                    placeholder="Type or paste your text here..."
-                    rows="10"
-                    autofocus
-                    .value=${this.text}
-                    @input=${this.handleTextChange}
-                ></textarea>
+                <t-textarea placeholder="Type or paste your text here..." rows="10" .value=${String(this.text)} @t-input=${this.handleTextChange}></t-textarea>
             </label>
 
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">

@@ -2,11 +2,10 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import temperatureConverterStyles from './temperature-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 
 @customElement('temperature-converter')
 export class TemperatureConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, temperatureConverterStyles];
+    static override styles = [WebComponentBase.styles, temperatureConverterStyles];
 
     @property()
     c = 0;
@@ -58,33 +57,17 @@ export class TemperatureConverter extends WebComponentBase<IConfigBase> {
         return html`
         <label class="block">
             <span class="inline-block py-1">Degree Celsius</span>
-            <input
-                class="form-input text-center"
-                autofocus
-                placeholder="Enter temperature in °C"
-                .value=${this.toNumber(this.c)}
-                @keyup=${this.onCelsiusChange}
-                />
+            <t-input placeholder="Enter temperature in °C" class="text-center"></t-input>
         </label>
 
         <label class="block">
             <span class="inline-block py-1">Fahrenheit</span>
-            <input
-                class="form-input text-center"
-                placeholder="Enter temperature in °F"
-                .value=${this.toNumber(this.f)}
-                @keyup=${this.onFahrenheitChange}
-                />
+            <t-input placeholder="Enter temperature in °F" class="text-center"></t-input>
         </label>
 
         <label class="block">
             <span class="inline-block py-1">Kelvin</span>
-            <input
-                class="form-input text-center"
-                placeholder="Enter temperature in K"
-                .value=${this.toNumber(this.k)}
-                @keyup=${this.onKelvinChange}
-                />
+            <t-input placeholder="Enter temperature in K" class="text-center"></t-input>
         </label>
     `;
     }

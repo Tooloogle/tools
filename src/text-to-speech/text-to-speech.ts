@@ -1,14 +1,15 @@
 import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import textToSpeechStyles from './text-to-speech.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
+import '../t-button/t-button.js';
+import '../t-input/t-input.js';
+import '../t-textarea/t-textarea.js';
 
 @customElement('text-to-speech')
 export class TextToSpeech extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, textToSpeechStyles];
+    static override styles = [WebComponentBase.styles, textToSpeechStyles];
 
     @property({ type: String }) text = '';
     @state() isSpeaking = false;
@@ -108,14 +109,7 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
             <div class="text-to-speech">
                 <div class="editor mb-4">
                 <label for="text">Text:</label>
-                <textarea
-                    id="text"
-                    class="form-textarea"
-                    .value="${this.text}"
-                    @input="${this.handleTextInputChange}"
-                    placeholder="Enter text to convert to speech"
-                    rows="10"
-                ></textarea>
+                <t-textarea placeholder="Enter text to convert to speech" rows="10" .value="${String(this.text)}" @t-input="${this.handleTextInputChange}"></t-textarea>
                 <input class="file-input" type="file" @change="${this.handleFileUpload}" />
                 </div>
                 <div class="controls mb-4">
@@ -145,8 +139,8 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
                 />
                 </div>
                 <div class="actions">
-                <button class="btn btn-green btn-sm" @click="${this.speak}" ?disabled="${this.isSpeaking}">Speak</button>
-                <button class="btn btn-red btn-sm" @click="${this.stop}" ?disabled="${!this.isSpeaking}">Stop</button>
+                <t-button variant="green" @click="${this.speak}" ?disabled=${true} class="btn-sm">Speak</t-button>
+                <t-button variant="red" @click="${this.stop}" ?disabled=${true} class="btn-sm">Stop</t-button>
                 </div>
             </div>
         `;

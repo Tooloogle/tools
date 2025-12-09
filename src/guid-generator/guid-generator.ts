@@ -2,13 +2,13 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import guidGeneratorStyles from './guid-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import "../t-copy-button/t-copy-button.js";
-import buttonStyles from '../_styles/button.css.js';
+import '../t-button/t-button.js';
+import '../t-input/t-input.js';
 
 @customElement('guid-generator')
 export class GuidGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, guidGeneratorStyles];
+    static override styles = [WebComponentBase.styles, guidGeneratorStyles];
 
     @property()
     guid = "";
@@ -25,8 +25,8 @@ export class GuidGenerator extends WebComponentBase<IConfigBase> {
         });
     }
 
-    private onGuidChange(e: Event) {
-        this.guid = (e.target as HTMLInputElement).value;
+    private onGuidChange(e: CustomEvent) {
+        this.guid = e.detail.value;
     }
 
     private regenerateGuid() {
@@ -35,14 +35,10 @@ export class GuidGenerator extends WebComponentBase<IConfigBase> {
 
     override render() {
         return html`
-            <input 
-                class="form-input"
-                readonly
-                .value="${this.guid}"
-                @change=${this.onGuidChange} />
+            <t-input @t-change=${this.onGuidChange} ?readonly=${true}></t-input>
 
               <div class="py-2 text-right">
-                <button class="btn btn-blue btn-sm" @click=${this.regenerateGuid}>Re-generate</button>
+                <t-button variant="blue" class="btn-sm">Re-generate</t-button>
                 <t-copy-button .isIcon=${false} .text=${this.guid}></t-copy-button>
              </div>
         `;

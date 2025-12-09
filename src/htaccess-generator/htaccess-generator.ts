@@ -5,16 +5,13 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import htaccessGeneratorStyles from './htaccess-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
 
 @customElement('htaccess-generator')
 export class HtaccessGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    htaccessGeneratorStyles,
-  ];
+    htaccessGeneratorStyles];
 
   @property({ type: Boolean }) enableWwwRedirect = false;
   @property({ type: Boolean }) enableHttpsRedirect = false;
@@ -35,8 +32,8 @@ export class HtaccessGenerator extends WebComponentBase<IConfigBase> {
     };
   }
 
-  private handleRedirects(e: Event) {
-    this.customRedirects = (e.target as HTMLTextAreaElement).value;
+  private handleRedirects(e: CustomEvent) {
+    this.customRedirects = e.detail.value;
     this.process();
   }
 
@@ -150,12 +147,7 @@ export class HtaccessGenerator extends WebComponentBase<IConfigBase> {
         <label class="block mb-2 font-semibold"
           >Custom Redirects (old-url new-url, one per line):</label
         >
-        <textarea
-          class="form-textarea w-full h-24"
-          placeholder="/old-page.html /new-page.html&#10;/about-us.html /about"
-          .value=${this.customRedirects}
-          @input=${this.handleRedirects}
-        ></textarea>
+        <t-textarea placeholder="/old-page.html /new-page.html&#10;/about-us.html /about" class="w-full h-24"></t-textarea>
       </div>
     `;
   }
@@ -164,11 +156,7 @@ export class HtaccessGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Generated .htaccess:</label>
-        <textarea
-          class="form-textarea w-full h-64"
-          readonly
-          .value=${this.outputText}
-        ></textarea>
+        <t-textarea ?readonly=${true} class="w-full h-64"></t-textarea>
         ${this.outputText
           ? html`<t-copy-button
               .text=${this.outputText}

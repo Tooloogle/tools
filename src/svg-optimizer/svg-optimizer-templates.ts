@@ -1,5 +1,7 @@
 import { html, TemplateResult } from 'lit';
 import { OptimizationOptions } from './svg-optimizer-utils.js';
+import '../t-button/t-button.js';
+import '../t-input/t-input.js';
 
 export class SvgOptimizerTemplates {
   static renderUploadSection(
@@ -11,12 +13,7 @@ export class SvgOptimizerTemplates {
       <div class="input-section">
         <label class="upload-label">Upload SVG File</label>
         <div class="upload-area">
-          <input
-            type="file"
-            accept=".svg,image/svg+xml"
-            class="form-input"
-            @change="${handleFileUpload}"
-          />
+          <t-input type="file" @t-change="${handleFileUpload}"></t-input>
         </div>
         <div class="text-input-area">
           <label>Or paste SVG code:</label>
@@ -42,13 +39,9 @@ export class SvgOptimizerTemplates {
   ): TemplateResult {
     return html`
       <div class="action-section">
-        <button
-          class="btn btn-blue"
-          @click="${optimizeSvg}"
-          ?disabled="${!originalSvg || optimizing}"
-        >
+        <t-button variant="blue" ?disabled=${true}>
           ${optimizing ? 'Optimizing...' : 'Optimize SVG'}
-        </button>
+        </t-button>
       </div>
     `;
   }
@@ -101,12 +94,12 @@ export class SvgOptimizerTemplates {
     return html`
       <div class="result-section">
         <div class="result-actions">
-          <button class="btn btn-green" @click="${downloadOptimized}">
+          <t-button variant="green">
             Download Optimized
-          </button>
-          <button class="btn btn-blue" @click="${copyOptimized}">
+          </t-button>
+          <t-button variant="blue">
             Copy Code
-          </button>
+          </t-button>
         </div>
         <div class="svg-comparison">
           <div class="svg-preview">
@@ -153,8 +146,7 @@ export class SvgOptimizerTemplates {
       { key: 'convertStyleToAttrs', label: 'Convert styles to attributes' },
       { key: 'removeUnusedNS', label: 'Remove unused namespaces' },
       { key: 'cleanupNumericValues', label: 'Cleanup numeric values' },
-      { key: 'collapseGroups', label: 'Collapse empty groups' },
-    ];
+      { key: 'collapseGroups', label: 'Collapse empty groups' }];
 
     const optionCheckboxes = optionConfigs.map(({ key, label }) =>
       this.renderOptionCheckbox(

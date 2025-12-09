@@ -5,22 +5,19 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import sitemapGeneratorStyles from './sitemap-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
 
 @customElement('sitemap-generator')
 export class SitemapGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    sitemapGeneratorStyles,
-  ];
+    sitemapGeneratorStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
 
-  private handleInput(e: Event) {
-    this.inputText = (e.target as HTMLTextAreaElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputText = e.detail.value;
     this.process();
   }
 
@@ -71,20 +68,11 @@ export class SitemapGenerator extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">URLs (one per line):</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            placeholder="https://example.com/&#10;https://example.com/about&#10;https://example.com/contact"
-            .value=${this.inputText}
-            @input=${this.handleInput}
-          ></textarea>
+          <t-textarea placeholder="https://example.com/&#10;https://example.com/about&#10;https://example.com/contact" class="w-full h-32"></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Generated XML Sitemap:</label>
-          <textarea
-            class="form-textarea w-full h-64"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
+          <t-textarea ?readonly=${true} class="w-full h-64"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

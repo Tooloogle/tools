@@ -5,23 +5,20 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import sqlToJsonConverterStyles from './sql-to-json-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
 
 @customElement('sql-to-json-converter')
 export class SqlToJsonConverter extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    sqlToJsonConverterStyles,
-  ];
+    sqlToJsonConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
   @property({ type: String }) errorMessage = '';
 
-  private handleInput(e: Event) {
-    this.inputText = (e.target as HTMLTextAreaElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputText = e.detail.value;
     this.process();
   }
 
@@ -73,7 +70,7 @@ export class SqlToJsonConverter extends WebComponentBase<IConfigBase> {
   private parseHeaders(headerLine: string): string[] {
     return headerLine
       .trim()
-      .split(/[\t|,]/)
+      .split(/[\t|]/)
       .map(h => h.trim())
       .filter(h => h);
   }
@@ -87,7 +84,7 @@ export class SqlToJsonConverter extends WebComponentBase<IConfigBase> {
         continue;
       }
 
-      const values = trimmedLine.split(/[\t|,]/).map(v => v.trim());
+      const values = trimmedLine.split(/[\t|]/).map(v => v.trim());
 
       if (values.length !== headers.length) {
         continue;
@@ -134,12 +131,7 @@ export class SqlToJsonConverter extends WebComponentBase<IConfigBase> {
           <label class="block mb-2 font-semibold"
             >SQL Table Format (Tab/Pipe/Comma Separated):</label
           >
-          <textarea
-            class="form-textarea w-full h-40"
-            placeholder="id | name | age&#10;1 | John | 30&#10;2 | Jane | 25"
-            .value=${this.inputText}
-            @input=${this.handleInput}
-          ></textarea>
+          <t-textarea placeholder="id | name | age&#10;1 | John | 30&#10;2 | Jane | 25" class="w-full h-40"></t-textarea>
         </div>
 
         ${this.errorMessage
@@ -152,11 +144,7 @@ export class SqlToJsonConverter extends WebComponentBase<IConfigBase> {
 
         <div>
           <label class="block mb-2 font-semibold">JSON Output:</label>
-          <textarea
-            class="form-textarea w-full h-40"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
+          <t-textarea ?readonly=${true} class="w-full h-40"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

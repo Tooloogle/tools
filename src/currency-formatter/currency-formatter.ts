@@ -2,11 +2,12 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import currencyFormatterStyles from './currency-formatter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
+import '../t-input/t-input.js';
+import '../t-select/t-select.js';
 
 @customElement('currency-formatter')
 export class CurrencyFormatter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, currencyFormatterStyles];
+    static override styles = [WebComponentBase.styles, currencyFormatterStyles];
 
     @property()
     amount = '';
@@ -20,18 +21,18 @@ export class CurrencyFormatter extends WebComponentBase<IConfigBase> {
     @property()
     formatted = '';
 
-    private handleAmountChange(e: Event) {
-        this.amount = (e.target as HTMLInputElement).value;
+    private handleAmountChange(e: CustomEvent) {
+        this.amount = e.detail.value;
         this.formatCurrency();
     }
 
-    private handleCurrencyChange(e: Event) {
-        this.currency = (e.target as HTMLSelectElement).value;
+    private handleCurrencyChange(e: CustomEvent) {
+        this.currency = e.detail.value;
         this.formatCurrency();
     }
 
-    private handleLocaleChange(e: Event) {
-        this.locale = (e.target as HTMLSelectElement).value;
+    private handleLocaleChange(e: CustomEvent) {
+        this.locale = e.detail.value;
         this.formatCurrency();
     }
 
@@ -59,25 +60,13 @@ export class CurrencyFormatter extends WebComponentBase<IConfigBase> {
             <div class="space-y-4 py-2">
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Amount:</span>
-                    <input
-                        type="number"
-                        class="form-input"
-                        placeholder="Enter amount..."
-                        step="0.01"
-                        autofocus
-                        .value=${this.amount}
-                        @input=${this.handleAmountChange}
-                    />
+                    <t-input type="number" placeholder="Enter amount..."></t-input>
                 </label>
 
                 <div class="grid grid-cols-2 gap-4">
                     <label class="block">
                         <span class="inline-block py-1 font-bold">Currency:</span>
-                        <select
-                            class="form-select"
-                            .value=${this.currency}
-                            @change=${this.handleCurrencyChange}
-                        >
+                        <t-select .value=${String(this.currency)} @t-change=${this.handleCurrencyChange}>
                             <option value="USD">USD - US Dollar</option>
                             <option value="EUR">EUR - Euro</option>
                             <option value="GBP">GBP - British Pound</option>
@@ -89,16 +78,12 @@ export class CurrencyFormatter extends WebComponentBase<IConfigBase> {
                             <option value="CHF">CHF - Swiss Franc</option>
                             <option value="SEK">SEK - Swedish Krona</option>
                             <option value="NZD">NZD - New Zealand Dollar</option>
-                        </select>
+                        </t-select>
                     </label>
 
                     <label class="block">
                         <span class="inline-block py-1 font-bold">Locale:</span>
-                        <select
-                            class="form-select"
-                            .value=${this.locale}
-                            @change=${this.handleLocaleChange}
-                        >
+                        <t-select .value=${String(this.locale)} @t-change=${this.handleLocaleChange}>
                             <option value="en-US">English (US)</option>
                             <option value="en-GB">English (UK)</option>
                             <option value="de-DE">German (Germany)</option>
@@ -108,7 +93,7 @@ export class CurrencyFormatter extends WebComponentBase<IConfigBase> {
                             <option value="ja-JP">Japanese (Japan)</option>
                             <option value="zh-CN">Chinese (China)</option>
                             <option value="hi-IN">Hindi (India)</option>
-                        </select>
+                        </t-select>
                     </label>
                 </div>
 

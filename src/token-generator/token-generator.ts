@@ -2,14 +2,15 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import tokenGeneratorStyles from './token-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 import '../t-copy-button/t-copy-button.js';
+import '../t-button/t-button.js';
+import '../t-input/t-input.js';
+import '../t-select/t-select.js';
 
 @customElement('token-generator')
 export class TokenGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, tokenGeneratorStyles];
+    static override styles = [WebComponentBase.styles, tokenGeneratorStyles];
 
     @property()
     length = 32;
@@ -29,16 +30,16 @@ export class TokenGenerator extends WebComponentBase<IConfigBase> {
     @property()
     count = 1;
 
-    private handleLengthChange(e: Event) {
-        this.length = parseInt((e.target as HTMLInputElement).value) || 32;
+    private handleLengthChange(e: CustomEvent) {
+        this.length = parseInt(e.detail.value) || 32;
     }
 
-    private handleCountChange(e: Event) {
-        this.count = parseInt((e.target as HTMLInputElement).value) || 1;
+    private handleCountChange(e: CustomEvent) {
+        this.count = parseInt(e.detail.value) || 1;
     }
 
-    private handleFormatChange(e: Event) {
-        const format = (e.target as HTMLSelectElement).value;
+    private handleFormatChange(e: CustomEvent) {
+        const format = e.detail.value;
         this.useHex = format === 'hex';
         this.useBase64 = format === 'base64';
         this.useAlphanumeric = format === 'alphanumeric';
@@ -99,12 +100,7 @@ export class TokenGenerator extends WebComponentBase<IConfigBase> {
     private renderTokenInput(token: string) {
         return html`
             <div class="flex gap-2 items-center">
-                <input
-                    type="text"
-                    class="form-input font-mono text-sm"
-                    readonly
-                    .value=${token}
-                />
+                <t-input ?readonly=${true} class="font-mono text-sm"></t-input>
                 <t-copy-button .isIcon=${false} .text=${token}></t-copy-button>
             </div>
         `;
@@ -118,47 +114,29 @@ export class TokenGenerator extends WebComponentBase<IConfigBase> {
                 <div class="grid grid-cols-2 gap-4">
                     <label class="block">
                         <span class="inline-block py-1 font-bold">Token Length:</span>
-                        <input
-                            type="number"
-                            class="form-input"
-                            min="8"
-                            max="256"
-                            .value=${String(this.length)}
-                            @input=${this.handleLengthChange}
-                        />
+                        <t-input type="number"></t-input>
                     </label>
 
                     <label class="block">
                         <span class="inline-block py-1 font-bold">Number of Tokens:</span>
-                        <input
-                            type="number"
-                            class="form-input"
-                            min="1"
-                            max="50"
-                            .value=${String(this.count)}
-                            @input=${this.handleCountChange}
-                        />
+                        <t-input type="number"></t-input>
                     </label>
                 </div>
 
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Format:</span>
-                    <select
-                        class="form-select"
-                        .value=${this.useHex ? 'hex' : this.useBase64 ? 'base64' : 'alphanumeric'}
-                        @change=${this.handleFormatChange}
-                    >
+                    <t-select .value=${String(this.useHex ? 'hex' : this.useBase64 ? 'base64' : 'alphanumeric')} @t-change=${this.handleFormatChange}>
                         <option value="hex">Hexadecimal</option>
                         <option value="base64">Base64 URL-Safe</option>
                         <option value="alphanumeric">Alphanumeric</option>
-                    </select>
+                    </t-select>
                 </label>
 
                 <div class="flex gap-2">
-                    <button class="btn btn-blue" @click=${this.generateTokens}>Generate Tokens</button>
+                    <t-button variant="blue" @click=${this.generateTokens}>Generate Tokens</t-button>
                     ${this.tokens.length > 0 ? html`
-                        <button class="btn btn-blue" @click=${this.copyAll}>Copy All</button>
-                        <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                        <t-button variant="blue" @click=${this.copyAll}>Copy All</t-button>
+                        <t-button variant="red" @click=${this.clear}>Clear</t-button>
                     ` : ''}
                 </div>
 

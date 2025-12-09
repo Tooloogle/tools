@@ -5,22 +5,19 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import rot13EncoderDecoderStyles from './rot13-encoder-decoder.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
 
 @customElement('rot13-encoder-decoder')
 export class Rot13EncoderDecoder extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    rot13EncoderDecoderStyles,
-  ];
+    rot13EncoderDecoderStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
 
-  private handleInput(e: Event) {
-    this.inputText = (e.target as HTMLTextAreaElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputText = e.detail.value;
     this.outputText = this.rot13(this.inputText);
   }
 
@@ -38,20 +35,11 @@ export class Rot13EncoderDecoder extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Input Text:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            placeholder="Enter text to encode/decode with ROT13..."
-            .value=${this.inputText}
-            @input=${this.handleInput}
-          ></textarea>
+          <t-textarea placeholder="Enter text to encode/decode with ROT13..." class="w-full h-32"></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">ROT13 Output:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

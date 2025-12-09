@@ -1,13 +1,13 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from "../_styles/input.css.js"
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import emailValidatorStyles from './email-validator.css.js';
 import { when } from 'lit/directives/when.js';
+import '../t-input/t-input.js';
 
 @customElement('email-validator')
 export class EmailValidator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, emailValidatorStyles];
+    static override styles = [WebComponentBase.styles, emailValidatorStyles];
 
     @property()
     value = "";
@@ -25,14 +25,7 @@ export class EmailValidator extends WebComponentBase<IConfigBase> {
         return html`
         <lable class="block">
             <span class="inline-block py-1">Email id</span>
-            <input
-                name="email"
-                class="form-input"
-                autofocus
-                placeholder="Enter email to validate"
-                .value=${this.value}
-                @keyup=${this.onChange}
-                />
+            <t-input placeholder="Enter email to validate"></t-input>
         </lable>
         <div class="py-2">
             ${when(this.value, () => html`

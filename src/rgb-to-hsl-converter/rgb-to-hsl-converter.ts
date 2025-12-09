@@ -5,23 +5,20 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import rgbToHslConverterStyles from './rgb-to-hsl-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
 
 @customElement('rgb-to-hsl-converter')
 export class RgbToHslConverter extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    rgbToHslConverterStyles,
-  ];
+    rgbToHslConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
   @property({ type: String }) error = '';
 
-  private handleInput(e: Event) {
-    this.inputText = (e.target as HTMLTextAreaElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputText = e.detail.value;
     this.process();
   }
 
@@ -86,23 +83,14 @@ export class RgbToHslConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">RGB Input:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            placeholder="Enter RGB color (e.g., rgb(255, 128, 0))..."
-            .value=${this.inputText}
-            @input=${this.handleInput}
-          ></textarea>
+          <t-textarea placeholder="Enter RGB color (e.g., rgb(255, 128, 0))..." class="w-full h-32"></t-textarea>
         </div>
         ${this.error
           ? html`<div class="text-red-600 text-sm">${this.error}</div>`
           : ''}
         <div>
           <label class="block mb-2 font-semibold">HSL Output:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

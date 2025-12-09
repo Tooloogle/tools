@@ -1,16 +1,16 @@
 import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import stylishTextGeneratorStyles from './stylish-text-generator.css.js';
+import '../t-button/t-button.js';
+import '../t-textarea/t-textarea.js';
 import {
     fontOptions, loadWebFonts, generateImageOnCanvas, downloadCanvasImage, initializeCanvas, applyDefaultSettings
 } from './stylish-text-generator-utils.js';
 
 @customElement('stylish-text-generator')
 export class StylishTextGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, stylishTextGeneratorStyles];
+    static override styles = [WebComponentBase.styles, stylishTextGeneratorStyles];
 
     @property() text = "Stylish Text";
     @state() private fontSize = 72;
@@ -69,7 +69,7 @@ export class StylishTextGenerator extends WebComponentBase<IConfigBase> {
         applyDefaultSettings(this as Record<string, unknown>, () => this.generateImage());
     }
 
-    private onValueChange(e: Event) {
+    private onValueChange(e: CustomEvent) {
         const target = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
         const key = target.dataset.key as keyof this;
 
@@ -107,14 +107,7 @@ export class StylishTextGenerator extends WebComponentBase<IConfigBase> {
         return html`
             <div class="text-input-section">
                 <label class="block py-1">
-                    <textarea
-                        class="form-textarea"
-                        autofocus
-                        placeholder="Enter your text here..."
-                        rows="2"
-                        data-key="text"
-                        .value=${this.text}
-                        @input=${this.onValueChange}></textarea>
+                    <t-textarea placeholder="Enter your text here..." rows="2" .value=${String(this.text)} @t-input=${this.onValueChange}></t-textarea>
                 </label>
             </div>
         `;
@@ -133,8 +126,8 @@ export class StylishTextGenerator extends WebComponentBase<IConfigBase> {
     private renderActionButtons() {
         return html`
             <div class="btns-container">
-                <button class="btn btn-blue" @click=${this.downloadImage}>Download PNG</button>
-                <button class="btn btn-red btn-sm" @click=${this.resetSettings}>Reset Settings</button> 
+                <t-button variant="blue" @click=${this.downloadImage}>Download PNG</t-button>
+                <t-button variant="red" class="btn-sm">Reset Settings</t-button> 
             </div>
         `;
     }

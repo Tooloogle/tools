@@ -1,14 +1,13 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
 import hexColorPickerStyles from './hex-color-picker.css.js';
 import "../t-copy-button/t-copy-button.js";
 import { createRef, ref, Ref } from 'lit/directives/ref.js';
 
 @customElement('hex-color-picker')
 export class HexColorPicker extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, hexColorPickerStyles];
+    static override styles = [WebComponentBase.styles, hexColorPickerStyles];
 
     @property({ type: String }) hexColor = '#1d4ed8';
 

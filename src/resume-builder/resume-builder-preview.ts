@@ -7,6 +7,7 @@ import {
 } from './resume-builder-types.js';
 import { ResumeBuilderUtils } from './resume-builder-exports.js';
 import { ResumeBuilderIcons } from './resume-builder-icons.js';
+import '../t-button/t-button.js';
 
 /* eslint-disable max-lines */
 export class ResumeBuilderPreview {
@@ -57,15 +58,15 @@ export class ResumeBuilderPreview {
           )}
         </div>
         <div class="export-buttons">
-          <button class="btn btn-primary" @click="${onExportPDF}">
+          <t-button variant="blue" @click="${onExportPDF}">
             Export PDF
-          </button>
-          <button class="btn btn-primary" @click="${onExportHTML}">
+          </t-button>
+          <t-button variant="blue" @click="${onExportHTML}">
             Export HTML
-          </button>
-          <button class="btn btn-primary" @click="${onExportWord}">
+          </t-button>
+          <t-button variant="blue" @click="${onExportWord}">
             Export Word
-          </button>
+          </t-button>
         </div>
       </div>
     `;
@@ -74,8 +75,8 @@ export class ResumeBuilderPreview {
   private static handleTemplateChange(
     onTemplateChange: (value: string) => void
   ) {
-    return (e: Event) => {
-      onTemplateChange((e.target as HTMLSelectElement).value);
+    return (e: CustomEvent) => {
+      onTemplateChange(e.detail.value);
     };
   }
 

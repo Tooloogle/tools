@@ -1,14 +1,15 @@
 import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import jsonToCsvConverterStyles from './json-to-csv-converter.css.js';
 import "../t-copy-button/t-copy-button.js";
+import '../t-button/t-button.js';
+import '../t-select/t-select.js';
+import '../t-textarea/t-textarea.js';
 
 @customElement('json-to-csv-converter')
 export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, jsonToCsvConverterStyles];
+    static override styles = [WebComponentBase.styles, jsonToCsvConverterStyles];
 
     @property({ type: String }) jsonString = '';
     @state() csvString = '';
@@ -81,15 +82,9 @@ export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
         return html`
             <div class="json-to-csv-converter">
                 <div class="editor mb-4">
-                    <textarea
-                        class="form-textarea"
-                        .value=${this.jsonString}
-                        @input=${this.onJsonInputChange}
-                        placeholder="Paste JSON data here or upload a JSON file"
-                        rows="10"
-                    ></textarea>
+                    <t-textarea placeholder="Paste JSON data here or upload a JSON file" rows="10" .value=${String(this.jsonString)} @t-input=${this.onJsonInputChange}></t-textarea>
                     <input class="file-input" type="file" @change=${this.onJsonFileUpload} accept=".json" />
-                    <button class="btn btn-blue mt-2" @click=${this.convertJsonToCsv}>Convert to CSV</button>
+                    <t-button variant="blue">Convert to CSV</t-button>
                 </div>
 
                 <div class="config mb-4">
@@ -107,14 +102,8 @@ export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
                 </div>
 
                 <div class="editor mb-4 relative">
-                    <textarea
-                        class="form-textarea"
-                        .value=${this.csvString}
-                        readonly
-                        placeholder="Converted CSV will appear here"
-                        rows="10"
-                    ></textarea>
-                    <button class="btn btn-blue mt-2" @click=${this.downloadCSV}>Download CSV</button>
+                    <t-textarea placeholder="Converted CSV will appear here" rows="10" .value=${String(this.csvString)} ?readonly=${true}></t-textarea>
+                    <t-button variant="blue">Download CSV</t-button>
                     <t-copy-button class="absolute top-3 end-2 text-blue" .text=${this.csvString}></t-copy-button>
                 </div>
             </div>

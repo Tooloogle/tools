@@ -5,16 +5,13 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import metaTagsGeneratorStyles from './meta-tags-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
 
 @customElement('meta-tags-generator')
 export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    metaTagsGeneratorStyles,
-  ];
+    metaTagsGeneratorStyles];
 
   @property({ type: String }) title = '';
   @property({ type: String }) description = '';
@@ -104,13 +101,7 @@ export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Page Title:</label>
-        <input
-          type="text"
-          class="form-input w-full"
-          placeholder="My Website - Home"
-          .value=${this.title}
-          @input=${this.handleInput('title')}
-        />
+        <t-input placeholder="My Website - Home" class="w-full"></t-input>
       </div>
     `;
   }
@@ -119,12 +110,7 @@ export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Description:</label>
-        <textarea
-          class="form-textarea w-full h-20"
-          placeholder="A brief description of your page for search engines"
-          .value=${this.description}
-          @input=${this.handleInput('description')}
-        ></textarea>
+        <t-textarea placeholder="A brief description of your page for search engines" class="w-full h-20"></t-textarea>
       </div>
     `;
   }
@@ -135,13 +121,7 @@ export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
         <label class="block mb-2 font-semibold"
           >Keywords (comma-separated):</label
         >
-        <input
-          type="text"
-          class="form-input w-full"
-          placeholder="web development, HTML, CSS, JavaScript"
-          .value=${this.keywords}
-          @input=${this.handleInput('keywords')}
-        />
+        <t-input placeholder="web development, HTML, CSS, JavaScript" class="w-full"></t-input>
       </div>
     `;
   }
@@ -150,13 +130,7 @@ export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Author:</label>
-        <input
-          type="text"
-          class="form-input w-full"
-          placeholder="Your Name"
-          .value=${this.author}
-          @input=${this.handleInput('author')}
-        />
+        <t-input placeholder="Your Name" class="w-full"></t-input>
       </div>
     `;
   }
@@ -165,12 +139,7 @@ export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Viewport:</label>
-        <input
-          type="text"
-          class="form-input w-full"
-          .value=${this.viewport}
-          @input=${this.handleInput('viewport')}
-        />
+        <t-input class="w-full"></t-input>
       </div>
     `;
   }
@@ -181,11 +150,7 @@ export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
         <label class="block mb-2 font-semibold"
           >Generated HTML Meta Tags:</label
         >
-        <textarea
-          class="form-textarea w-full h-32"
-          readonly
-          .value=${this.outputText}
-        ></textarea>
+        <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
         ${this.outputText
           ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
           : ''}

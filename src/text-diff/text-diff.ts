@@ -2,12 +2,11 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import textDiffStyles from './text-diff.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
+import '../t-button/t-button.js';
 
 @customElement('text-diff')
 export class TextDiff extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, textDiffStyles];
+    static override styles = [WebComponentBase.styles, textDiffStyles];
 
     @property()
     text1 = '';
@@ -18,12 +17,12 @@ export class TextDiff extends WebComponentBase<IConfigBase> {
     @property()
     diff: DiffLine[] = [];
 
-    private handleText1Change(e: Event) {
-        this.text1 = (e.target as HTMLTextAreaElement).value;
+    private handleText1Change(e: CustomEvent) {
+        this.text1 = e.detail.value;
     }
 
-    private handleText2Change(e: Event) {
-        this.text2 = (e.target as HTMLTextAreaElement).value;
+    private handleText2Change(e: CustomEvent) {
+        this.text2 = e.detail.value;
     }
 
     private buildLCSTable(str1: string[], str2: string[]): number[][] {
@@ -102,31 +101,18 @@ export class TextDiff extends WebComponentBase<IConfigBase> {
             <div class="grid grid-cols-2 gap-4 py-2">
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Original Text:</span>
-                    <textarea
-                        class="form-textarea font-mono text-sm"
-                        placeholder="Enter original text..."
-                        rows="12"
-                        autofocus
-                        .value=${this.text1}
-                        @input=${this.handleText1Change}
-                    ></textarea>
+                    <t-textarea placeholder="Enter original text..." rows="12" class="font-mono text-sm"></t-textarea>
                 </label>
 
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Modified Text:</span>
-                    <textarea
-                        class="form-textarea font-mono text-sm"
-                        placeholder="Enter modified text..."
-                        rows="12"
-                        .value=${this.text2}
-                        @input=${this.handleText2Change}
-                    ></textarea>
+                    <t-textarea placeholder="Enter modified text..." rows="12" class="font-mono text-sm"></t-textarea>
                 </label>
             </div>
 
             <div class="py-2 flex flex-wrap gap-2">
-                <button class="btn btn-blue" @click=${this.compare}>Compare</button>
-                <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                <t-button variant="blue" @click=${this.compare}>Compare</t-button>
+                <t-button variant="red" @click=${this.clear}>Clear</t-button>
             </div>
 
             ${this.diff.length > 0 ? html`
