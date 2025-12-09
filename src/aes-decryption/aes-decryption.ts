@@ -67,18 +67,18 @@ export class AesDecryption extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Secret Key:</label>
-          <t-input type="password" placeholder="Enter secret key used for encryption..." class="w-full"></t-input>
+          <t-input type="password" placeholder="Enter secret key used for encryption..." class="w-full" .value=${this.secretKey} @t-input=${this.handleKeyChange}></t-input>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Encrypted Text:</label>
-          <t-textarea placeholder="Enter encrypted text to decrypt..." class="w-full h-32 font-mono"></t-textarea>
+          <t-textarea placeholder="Enter encrypted text to decrypt..." class="w-full h-32 font-mono" .value=${this.inputText} @t-input=${this.handleInputChange}></t-textarea>
         </div>
         ${this.error
           ? html`<div class="text-red-600 text-sm">${this.error}</div>`
           : ''}
         <div>
           <label class="block mb-2 font-semibold">Decrypted Text:</label>
-          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32" .value=${this.outputText}></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

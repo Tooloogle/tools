@@ -111,7 +111,7 @@ export class CreditCardValidator extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">Card Number:</span>
-                <t-input placeholder="Enter card number (spaces allowed)..."></t-input>
+                <t-input placeholder="Enter card number (spaces allowed)..." .value=${this.cardNumber} @t-input=${this.handleInputChange} maxlength="23"></t-input>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
