@@ -63,7 +63,7 @@ export class JavascriptMinifier extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">JavaScript Input:</span>
-                <t-textarea placeholder="Paste JavaScript code here..." rows="12" class="font-mono text-sm"></t-textarea>
+                <t-textarea placeholder="Paste JavaScript code here..." rows="12" class="font-mono text-sm" .value=${this.input} @t-input=${this.handleInputChange}></t-textarea>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
@@ -86,7 +86,7 @@ export class JavascriptMinifier extends WebComponentBase<IConfigBase> {
 
                 <label class="block py-1">
                     <span class="inline-block py-1 font-bold">Minified Output:</span>
-                    <t-textarea rows="8" ?readonly=${true} class="font-mono text-sm"></t-textarea>
+                    <t-textarea rows="8" ?readonly=${true} class="font-mono text-sm" .value=${this.output}></t-textarea>
                     <div class="py-2 text-right">
                         <t-copy-button .isIcon=${false} .text=${this.output}></t-copy-button>
                     </div>
