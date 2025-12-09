@@ -1,76 +1,96 @@
-import { html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
-import { hasClipboard } from '../_utils/DomUtils.js';
-import tCopyButtonStyles from './t-copy-button.css.js';
-import tooltipStyles from '../_styles/tooltip.css.js';
-import { when } from 'lit/directives/when.js';
-import buttonStyles from '../_styles/button.css.js';
+import { html } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import {
+  IConfigBase,
+  WebComponentBase,
+} from "../_web-component/WebComponentBase.js";
+import { hasClipboard } from "../_utils/DomUtils.js";
+import tCopyButtonStyles from "./t-copy-button.css.js";
+import tooltipStyles from "../_styles/tooltip.css.js";
+import { when } from "lit/directives/when.js";
+import buttonStyles from "../_styles/button.css.js";
 
-@customElement('t-copy-button')
+@customElement("t-copy-button")
 export class TCopyButton extends WebComponentBase<IConfigBase> {
-    static override styles = [tCopyButtonStyles, tooltipStyles, buttonStyles];
+  static override styles = [tCopyButtonStyles, tooltipStyles, buttonStyles];
 
-    @property()
-    isIcon = true;
+  @property({ type: Boolean })
+  isIcon = true;
 
-    @property()
-    text = "";
+  @property({ type: String })
+  text = "";
 
-    @property()
-    copying = false;
+  @property({ type: Boolean })
+  copying = false;
 
-    @property()
-    title = "Copy to clipboard";
+  @property({ type: String })
+  title = "Copy to clipboard";
 
-    onClick() {
-        if (!this.text) {
-            return;
-        }
+  private copyTimeoutId?: number;
 
-        this.copying = true;
-        if (hasClipboard()) {
-            setTimeout(() => {
-                navigator.clipboard.writeText(this.text).finally(() => {
-                    this.copying = false;
-                    this.title = "Copied to clipboard!";
-                });
-            }, 100);
-        }
+  async onClick() {
+    if (!this.text || !hasClipboard()) {
+      return;
     }
 
-    private renderIconContent = () => {
-        return html`
-        <span class="text-lg">
-            ${!this.copying ? "❏" : ""}
-            ${this.copying ? "✅" : ""}
-        </span>`;
-    }
+    try {
+      this.copying = true;
+      await navigator.clipboard.writeText(this.text);
+      this.title = "Copied to clipboard!";
 
-    private renderButtonContent = () => {
-        return html`<button class="btn btn-green btn-sm">Copy</button>`;
-    }
+      if (this.copyTimeoutId) {
+        clearTimeout(this.copyTimeoutId);
+      }
 
-    private resetTitle = () => {
+      this.copyTimeoutId = window.setTimeout(() => {
+        this.copying = false;
         this.title = "Copy to clipboard";
+      }, 2000);
+    } catch (error) {
+      console.error("Failed to copy:", error);
+      this.title = "Failed to copy";
+      this.copying = false;
     }
+  }
 
-    override render() {
-        return html`
-        <span 
-            class="inline-block ${this.isIcon ? "px-1" : ""} cursor-pointer text-slate-400 tooltip-wrapper"
-            @click=${this.onClick}
-            @mouseleave=${this.resetTitle}>    
-            ${when(this.isIcon, this.renderIconContent)}
-            ${when(!this.isIcon, this.renderButtonContent)}
-            <div class="tooltip" style="min-width: 130px">${this.title}</div>
-        </span>
+  private renderIconContent = () => {
+    return html` <span class="text-lg"> ${this.copying ? "✅" : "❏"} </span> `;
+  };
+
+  private renderButtonContent = () => {
+    return html`<button class="btn btn-green btn-sm">Copy</button>`;
+  };
+
+  private resetTitle = () => {
+    this.title = "Copy to clipboard";
+  };
+
+  override render() {
+    return html`
+      <div
+        class="inline-block ${this.isIcon
+          ? "px-1"
+          : ""} cursor-pointer text-slate-400 tooltip-wrapper"
+        @click=${this.onClick}
+        @mouseleave=${this.resetTitle}
+      >
+        ${when(this.isIcon, this.renderIconContent)}
+        ${when(!this.isIcon, this.renderButtonContent)}
+        <div class="tooltip">${this.title}</div>
+      </div>
     `;
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    if (this.copyTimeoutId) {
+      clearTimeout(this.copyTimeoutId);
     }
+  }
 }
 
 declare global {
-    interface HTMLElementTagNameMap {
-        't-copy-button': TCopyButton;
-    }
+  interface HTMLElementTagNameMap {
+    "t-copy-button": TCopyButton;
+  }
 }
