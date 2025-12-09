@@ -5,7 +5,7 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import textToLeetspeakStyles from './text-to-leetspeak.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button';
+import '../t-copy-button/t-copy-button.js';
 
 @customElement('text-to-leetspeak')
 export class TextToLeetspeak extends WebComponentBase<IConfigBase> {

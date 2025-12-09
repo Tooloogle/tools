@@ -5,7 +5,7 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import sitemapGeneratorStyles from './sitemap-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button';
+import '../t-copy-button/t-copy-button.js';
 
 @customElement('sitemap-generator')
 export class SitemapGenerator extends WebComponentBase<IConfigBase> {

@@ -10,8 +10,8 @@ import { repeat } from 'lit/directives/repeat.js';
 import { formatNumber } from '../_utils/NumberHelper.js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration.js';
-import '../t-input';
-import '../t-checkbox';
+import '../t-input/t-input.js';
+import '../t-checkbox/t-checkbox.js';
 import '../t-button/t-button.js';
 
 dayjs.extend(duration);

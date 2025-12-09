@@ -5,7 +5,7 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import titleCaseConverterStyles from './title-case-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button';
+import '../t-copy-button/t-copy-button.js';
 
 @customElement('title-case-converter')
 export class TitleCaseConverter extends WebComponentBase<IConfigBase> {

@@ -5,7 +5,7 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import sentenceCaseConverterStyles from './sentence-case-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button';
+import '../t-copy-button/t-copy-button.js';
 
 @customElement('sentence-case-converter')
 export class SentenceCaseConverter extends WebComponentBase<IConfigBase> {

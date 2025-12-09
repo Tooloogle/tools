@@ -5,7 +5,7 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import htaccessGeneratorStyles from './htaccess-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button';
+import '../t-copy-button/t-copy-button.js';
 
 @customElement('htaccess-generator')
 export class HtaccessGenerator extends WebComponentBase<IConfigBase> {

@@ -6,7 +6,7 @@ import {
 import aesEncryptionStyles from './aes-encryption.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import CryptoJS from 'crypto-js';
-import '../t-copy-button';
+import '../t-copy-button/t-copy-button.js';
 
 @customElement('aes-encryption')
 export class AesEncryption extends WebComponentBase<IConfigBase> {

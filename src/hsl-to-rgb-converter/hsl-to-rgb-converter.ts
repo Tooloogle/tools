@@ -5,7 +5,7 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import hslToRgbConverterStyles from './hsl-to-rgb-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button';
+import '../t-copy-button/t-copy-button.js';
 
 @customElement('hsl-to-rgb-converter')
 export class HslToRgbConverter extends WebComponentBase<IConfigBase> {

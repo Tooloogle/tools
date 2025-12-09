@@ -5,7 +5,7 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import tsvToJsonConverterStyles from './tsv-to-json-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button';
+import '../t-copy-button/t-copy-button.js';
 
 @customElement('tsv-to-json-converter')
 export class TsvToJsonConverter extends WebComponentBase<IConfigBase> {

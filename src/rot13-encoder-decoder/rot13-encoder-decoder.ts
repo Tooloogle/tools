@@ -5,7 +5,7 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import rot13EncoderDecoderStyles from './rot13-encoder-decoder.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button';
+import '../t-copy-button/t-copy-button.js';
 
 @customElement('rot13-encoder-decoder')
 export class Rot13EncoderDecoder extends WebComponentBase<IConfigBase> {

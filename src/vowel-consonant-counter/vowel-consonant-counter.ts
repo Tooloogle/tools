@@ -5,7 +5,7 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import vowelConsonantCounterStyles from './vowel-consonant-counter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button';
+import '../t-copy-button/t-copy-button.js';
 
 @customElement('vowel-consonant-counter')
 export class VowelConsonantCounter extends WebComponentBase<IConfigBase> {

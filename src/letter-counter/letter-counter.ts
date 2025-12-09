@@ -5,7 +5,7 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import letterCounterStyles from './letter-counter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button';
+import '../t-copy-button/t-copy-button.js';
 
 @customElement('letter-counter')
 export class LetterCounter extends WebComponentBase<IConfigBase> {

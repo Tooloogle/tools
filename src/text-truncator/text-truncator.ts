@@ -5,7 +5,7 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import textTruncatorStyles from './text-truncator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button';
+import '../t-copy-button/t-copy-button.js';
 
 @customElement('text-truncator')
 export class TextTruncator extends WebComponentBase<IConfigBase> {

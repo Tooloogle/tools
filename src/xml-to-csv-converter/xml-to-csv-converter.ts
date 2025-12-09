@@ -5,7 +5,7 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import xmlToCsvConverterStyles from './xml-to-csv-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button';
+import '../t-copy-button/t-copy-button.js';
 
 @customElement('xml-to-csv-converter')
 export class XmlToCsvConverter extends WebComponentBase<IConfigBase> {

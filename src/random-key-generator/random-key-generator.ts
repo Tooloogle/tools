@@ -5,7 +5,7 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import randomKeyGeneratorStyles from './random-key-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button';
+import '../t-copy-button/t-copy-button.js';
 
 @customElement('random-key-generator')
 export class RandomKeyGenerator extends WebComponentBase<IConfigBase> {
