@@ -2,8 +2,9 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import loremIpsumGeneratorStyles from './lorem-ipsum-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
+import '../t-input/t-input.js';
+import '../t-button/t-button.js';
+import '../t-textarea/t-textarea.js';
 import '../t-copy-button/t-copy-button.js';
 
 const loremWords = [
@@ -19,7 +20,7 @@ const loremWords = [
 
 @customElement('lorem-ipsum-generator')
 export class LoremIpsumGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, loremIpsumGeneratorStyles];
+    static override styles = [WebComponentBase.styles, loremIpsumGeneratorStyles];
 
     @property()
     paragraphs = 3;
@@ -57,8 +58,8 @@ export class LoremIpsumGenerator extends WebComponentBase<IConfigBase> {
         this.text = result.join('\n\n');
     }
 
-    private handleParagraphsChange(e: Event) {
-        const value = Number((e.target as HTMLInputElement).value);
+    private handleParagraphsChange(e: CustomEvent) {
+        const value = Number(e.detail.value);
         this.paragraphs = Math.max(1, Math.min(100, value));
     }
 
@@ -66,28 +67,25 @@ export class LoremIpsumGenerator extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block">
                 <span class="inline-block py-1">Number of Paragraphs</span>
-                <input
-                    class="form-input text-end"
+                <t-input
+                    class="text-end"
                     type="number"
-                    min="1"
-                    max="100"
                     .value=${String(this.paragraphs)}
-                    @input=${this.handleParagraphsChange}
-                />
+                    @t-input=${this.handleParagraphsChange}
+                ></t-input>
             </label>
             
             <div class="py-2 text-right">
-                <button class="btn btn-blue" @click=${this.generate}>Generate</button>
+                <t-button variant="blue" @click=${this.generate}>Generate</t-button>
                 <t-copy-button .isIcon=${false} .text=${this.text}></t-copy-button>
             </div>
 
             <div class="py-2">
-                <textarea
-                    class="form-textarea"
+                <t-textarea
                     rows="10"
-                    readonly
+                    ?readonly=${true}
                     .value=${this.text}
-                ></textarea>
+                ></t-textarea>
             </div>
         `;
     }

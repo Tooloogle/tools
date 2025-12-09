@@ -1,12 +1,11 @@
 import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import tButtonStyles from './t-button.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import { customElement, property } from 'lit/decorators.js';
 
 @customElement('t-button')
 export class TButton extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, buttonStyles, tButtonStyles];
+    static override styles = [WebComponentBase.styles, tButtonStyles];
 
     @property({ type: String })
     variant: 'blue' | 'green' | 'red' = 'blue';
