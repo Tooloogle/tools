@@ -139,8 +139,8 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
                 />
                 </div>
                 <div class="actions">
-                <t-button variant="green" @click="${this.speak}" ?disabled=${true} class="btn-sm">Speak</t-button>
-                <t-button variant="red" @click="${this.stop}" ?disabled=${true} class="btn-sm">Stop</t-button>
+                <t-button variant="green" @click="${this.speak}" ?disabled=${this.isSpeaking} class="btn-sm">Speak</t-button>
+                <t-button variant="red" @click="${this.stop}" ?disabled=${!this.isSpeaking} class="btn-sm">Stop</t-button>
                 </div>
             </div>
         `;

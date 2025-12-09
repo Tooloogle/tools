@@ -70,7 +70,7 @@ export class SqlToJsonConverter extends WebComponentBase<IConfigBase> {
   private parseHeaders(headerLine: string): string[] {
     return headerLine
       .trim()
-      .split(/[\t|]/)
+      .split(/[\t|,]/)
       .map(h => h.trim())
       .filter(h => h);
   }

@@ -59,7 +59,7 @@ export class HexToRgbaConverter extends WebComponentBase<IConfigBase> {
             return;
         }
 
-        const [ r, g, b, a] = rgbaMatch.map(Number);
+        const [, r, g, b, a] = rgbaMatch.map(Number);
 
         // Convert alpha to hexadecimal value
         const alphaHex = Math.round(a * 255).toString(16).padStart(2, '0');

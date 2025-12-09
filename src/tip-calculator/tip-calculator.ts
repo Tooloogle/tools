@@ -48,8 +48,7 @@ export class TipCalculator extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">Bill Amount ($):</label>
-                    <t-input type="number" class="w-full"></t-input> { this.billAmount = Number(e.detail.value); this.calculate(); }}
-                    />
+                    <t-input type="number" class="w-full" @t-input=${(e: CustomEvent) => { this.billAmount = Number(e.detail.value); this.calculate(); }}></t-input>
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Tip Percentage (%):</label>

@@ -146,14 +146,15 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
         <div class="form-grid">
           <label class="form-group">
             <span>Full Name *</span>
-            <t-input></t-input>
+            <t-input
+              @t-input=${(e: CustomEvent) =>
                 this.handleInputChange(
                   'personal',
                   'fullName',
                   e.detail.value
                 )}
               placeholder="Enter full name"
-            />
+            ></t-input>
           </label>
 
           <label class="form-group">

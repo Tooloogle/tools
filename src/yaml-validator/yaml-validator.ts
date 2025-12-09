@@ -97,7 +97,7 @@ export class YamlValidator extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">YAML Input:</span>
-                <t-textarea placeholder="Paste YAML content here..." rows="15" class="font-mono text-sm"></t-textarea>
+                <t-textarea placeholder="Paste YAML content here..." rows="15" class="font-mono text-sm" .value=${this.input} @t-input=${this.handleInputChange}></t-textarea>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">

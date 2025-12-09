@@ -168,7 +168,7 @@ export class XmlToJsonConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-3">
         <label>Select an XML file:</label>
         <t-input type="file" @t-change="${this.handleFileChange}"></t-input>
-        <t-button variant="blue" ?disabled=${true}>
+        <t-button variant="blue" ?disabled=${!this.file}>
           Convert to JSON
         </t-button>
         ${this.error ? html`<div class="text-rose-500">${this.error}</div>` : ''}
