@@ -2,7 +2,8 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import textDiffStyles from './text-diff.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-button/t-button.js';
+import '../t-button';
+import '../t-textarea';
 
 @customElement('text-diff')
 export class TextDiff extends WebComponentBase<IConfigBase> {

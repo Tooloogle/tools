@@ -5,8 +5,9 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import gradientTextGeneratorStyles from './gradient-text-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button/t-copy-button.js';
-import '../t-input/t-input.js';
+import '../t-copy-button';
+import '../t-input';
+import '../t-textarea';
 
 @customElement('gradient-text-generator')
 export class GradientTextGenerator extends WebComponentBase<IConfigBase> {

@@ -3,9 +3,9 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
 import textToSpeechStyles from './text-to-speech.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
-import '../t-button/t-button.js';
-import '../t-input/t-input.js';
-import '../t-textarea/t-textarea.js';
+import '../t-button';
+import '../t-input';
+import '../t-textarea';
 
 @customElement('text-to-speech')
 export class TextToSpeech extends WebComponentBase<IConfigBase> {

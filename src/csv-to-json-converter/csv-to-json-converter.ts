@@ -3,9 +3,9 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
 import csvToJsonConverterStyles from './csv-to-json-converter.css.js';
 import "../t-copy-button/t-copy-button.js";
-import '../t-button/t-button.js';
-import '../t-select/t-select.js';
-import '../t-textarea/t-textarea.js';
+import '../t-button';
+import '../t-select';
+import '../t-textarea';
 
 @customElement('csv-to-json-converter')
 export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {

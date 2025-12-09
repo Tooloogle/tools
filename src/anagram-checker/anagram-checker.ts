@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import anagramCheckerStyles from './anagram-checker.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('anagram-checker')
 export class AnagramChecker extends WebComponentBase<IConfigBase> {

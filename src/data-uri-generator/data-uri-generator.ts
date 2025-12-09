@@ -6,6 +6,7 @@ import {
 import dataUriGeneratorStyles from "./data-uri-generator.css.js";
 import { customElement, property } from "lit/decorators.js";
 import "../t-copy-button";
+import '../t-textarea';
 
 @customElement("data-uri-generator")
 export class DataUriGenerator extends WebComponentBase<IConfigBase> {

@@ -3,6 +3,7 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import markdownPreviewerStyles from './markdown-previewer.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import '../t-textarea';
 
 @customElement('markdown-previewer')
 export class MarkdownPreviewer extends WebComponentBase<IConfigBase> {

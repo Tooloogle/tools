@@ -2,8 +2,9 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import javascriptMinifierStyles from './javascript-minifier.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button/t-copy-button.js';
-import '../t-button/t-button.js';
+import '../t-copy-button';
+import '../t-button';
+import '../t-textarea';
 
 @customElement('javascript-minifier')
 export class JavascriptMinifier extends WebComponentBase<IConfigBase> {

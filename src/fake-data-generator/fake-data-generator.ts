@@ -6,7 +6,9 @@ import {
 import fakeDataGeneratorStyles from "./fake-data-generator.css.js";
 import { customElement, property } from "lit/decorators.js";
 import "../t-copy-button";
-import '../t-button/t-button.js';
+import '../t-button';
+import '../t-input';
+import '../t-textarea';
 
 @customElement("fake-data-generator")
 export class FakeDataGenerator extends WebComponentBase<IConfigBase> {

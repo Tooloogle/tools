@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import lcmCalculatorStyles from './lcm-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('lcm-calculator')
 export class LcmCalculator extends WebComponentBase<IConfigBase> {

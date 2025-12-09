@@ -3,7 +3,8 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import userAgentParserStyles from './user-agent-parser.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { isBrowser } from '../_utils/DomUtils.js';
-import '../t-button/t-button.js';
+import '../t-button';
+import '../t-textarea';
 
 @customElement('user-agent-parser')
 export class UserAgentParser extends WebComponentBase<IConfigBase> {

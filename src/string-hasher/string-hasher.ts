@@ -3,9 +3,10 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import stringHasherStyles from './string-hasher.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import md5 from 'blueimp-md5';
-import '../t-copy-button/t-copy-button.js';
-import '../t-button/t-button.js';
-import '../t-textarea/t-textarea.js';
+import '../t-copy-button';
+import '../t-button';
+import '../t-textarea';
+import '../t-input';
 
 @customElement('string-hasher')
 export class StringHasher extends WebComponentBase<IConfigBase> {

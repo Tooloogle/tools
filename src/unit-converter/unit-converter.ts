@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import unitConverterStyles from './unit-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 interface ConversionUnit {
     name: string;

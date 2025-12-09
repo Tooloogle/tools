@@ -6,6 +6,8 @@ import {
 import cssTextShadowGeneratorStyles from "./css-text-shadow-generator.css.js";
 import { customElement, property } from "lit/decorators.js";
 import "../t-copy-button";
+import '../t-input';
+import '../t-textarea';
 @customElement("css-text-shadow-generator")
 export class CssTextShadowGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [

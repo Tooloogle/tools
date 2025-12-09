@@ -3,9 +3,9 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import textCaseConverterStyles from './text-case-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { downloadText } from '../_utils/DomUtils.js';
-import '../t-copy-button/t-copy-button.js';
-import '../t-button/t-button.js';
-import '../t-textarea/t-textarea.js';
+import '../t-copy-button';
+import '../t-button';
+import '../t-textarea';
 
 @customElement('text-case-converter')
 export class TextCaseConverter extends WebComponentBase<IConfigBase> {

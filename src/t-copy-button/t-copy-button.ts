@@ -7,7 +7,7 @@ import {
 import { hasClipboard } from "../_utils/DomUtils.js";
 import tCopyButtonStyles from "./t-copy-button.css.js";
 import { when } from "lit/directives/when.js";
-import '../t-button/t-button.js';
+import '../t-button';
 
 @customElement("t-copy-button")
 export class TCopyButton extends WebComponentBase<IConfigBase> {

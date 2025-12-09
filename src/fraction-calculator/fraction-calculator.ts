@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import fractionCalculatorStyles from './fraction-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('fraction-calculator')
 export class FractionCalculator extends WebComponentBase<IConfigBase> {

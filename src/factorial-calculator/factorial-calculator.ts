@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import factorialCalculatorStyles from './factorial-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('factorial-calculator')
 export class FactorialCalculator extends WebComponentBase<IConfigBase> {

@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
 import cssGradientGeneratorStyles from './css-gradient-generator.css.js'; // Import for CSS styles
-import '../t-input/t-input.js';
+import '../t-input';
 
 @customElement('css-gradient-generator')
 export class CssGradientGenerator extends WebComponentBase<IConfigBase> {

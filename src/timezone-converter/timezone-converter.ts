@@ -5,7 +5,8 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import timezoneConverterStyles from './timezone-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-textarea';
 @customElement('timezone-converter')
 export class TimezoneConverter extends WebComponentBase<IConfigBase> {
   static override styles = [

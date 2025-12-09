@@ -5,7 +5,8 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import binaryToTextConverterStyles from './binary-to-text-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-textarea';
 
 @customElement('binary-to-text-converter')
 export class BinaryToTextConverter extends WebComponentBase<IConfigBase> {

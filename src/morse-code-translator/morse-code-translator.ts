@@ -6,6 +6,7 @@ import {
 import morseCodeTranslatorStyles from "./morse-code-translator.css.js";
 import { customElement, property } from "lit/decorators.js";
 import "../t-copy-button";
+import '../t-textarea';
 
 @customElement("morse-code-translator")
 export class MorseCodeTranslator extends WebComponentBase<IConfigBase> {

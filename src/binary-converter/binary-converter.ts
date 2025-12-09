@@ -2,7 +2,8 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import binaryConverterStyles from './binary-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-button/t-button.js';
+import '../t-button';
+import '../t-input';
 
 @customElement('binary-converter')
 export class BinaryConverter extends WebComponentBase<IConfigBase> {

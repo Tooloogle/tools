@@ -2,9 +2,9 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import romanNumeralConverterStyles from './roman-numeral-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button/t-copy-button.js';
-import '../t-button/t-button.js';
-import '../t-input/t-input.js';
+import '../t-copy-button';
+import '../t-button';
+import '../t-input';
 
 @customElement('roman-numeral-converter')
 export class RomanNumeralConverter extends WebComponentBase<IConfigBase> {

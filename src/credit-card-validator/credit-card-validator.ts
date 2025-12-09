@@ -2,8 +2,8 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import creditCardValidatorStyles from './credit-card-validator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-button/t-button.js';
-import '../t-input/t-input.js';
+import '../t-button';
+import '../t-input';
 
 @customElement('credit-card-validator')
 export class CreditCardValidator extends WebComponentBase<IConfigBase> {

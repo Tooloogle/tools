@@ -6,6 +6,8 @@ import {
 import openGraphGeneratorStyles from "./open-graph-generator.css.js";
 import { customElement, property } from "lit/decorators.js";
 import "../t-copy-button";
+import '../t-input';
+import '../t-textarea';
 
 @customElement("open-graph-generator")
 export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {

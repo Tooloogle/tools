@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import ipAddressConverterStyles from './ip-address-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-button/t-button.js';
+import '../t-button';
 import '../t-input/t-input.js';
 
 @customElement('ip-address-converter')

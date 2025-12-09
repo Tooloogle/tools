@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import cssUnitConverterStyles from './css-unit-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('css-unit-converter')
 export class CssUnitConverter extends WebComponentBase<IConfigBase> {

@@ -3,9 +3,9 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import emojiPickerStyles from './emoji-picker.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { isBrowser } from '../_utils/DomUtils.js';
-import '../t-copy-button/t-copy-button.js';
-import '../t-input/t-input.js';
-import '../t-select/t-select.js';
+import '../t-copy-button';
+import '../t-input';
+import '../t-select';
 
 @customElement('emoji-picker')
 export class EmojiPicker extends WebComponentBase<IConfigBase> {

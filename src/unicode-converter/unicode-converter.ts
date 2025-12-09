@@ -2,9 +2,9 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import unicodeConverterStyles from './unicode-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button/t-copy-button.js';
-import '../t-button/t-button.js';
-import '../t-textarea/t-textarea.js';
+import '../t-copy-button';
+import '../t-button';
+import '../t-textarea';
 
 @customElement('unicode-converter')
 export class UnicodeConverter extends WebComponentBase<IConfigBase> {

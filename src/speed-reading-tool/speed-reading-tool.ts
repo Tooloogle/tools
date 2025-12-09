@@ -3,6 +3,7 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import speedReadingToolStyles from './speed-reading-tool.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { isBrowser } from '../_utils/DomUtils.js';
+import '../t-input';
 
 @customElement('speed-reading-tool')
 export class SpeedReadingTool extends WebComponentBase<IConfigBase> {

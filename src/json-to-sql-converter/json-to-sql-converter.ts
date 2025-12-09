@@ -6,6 +6,8 @@ import {
 import jsonToSqlConverterStyles from "./json-to-sql-converter.css.js";
 import { customElement, property } from "lit/decorators.js";
 import "../t-copy-button";
+import '../t-input';
+import '../t-textarea';
 
 @customElement("json-to-sql-converter")
 export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {

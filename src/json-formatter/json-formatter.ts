@@ -2,9 +2,10 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import jsonFormatterStyles from './json-formatter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button/t-copy-button.js';
-import '../t-button/t-button.js';
-import '../t-select/t-select.js';
+import '../t-copy-button';
+import '../t-button';
+import '../t-select';
+import '../t-textarea';
 
 @customElement('json-formatter')
 export class JsonFormatter extends WebComponentBase<IConfigBase> {

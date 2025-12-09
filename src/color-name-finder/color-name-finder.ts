@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import colorNameFinderStyles from './color-name-finder.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-input/t-input.js';
+import '../t-input';
 
 // Basic color names mapping
 const colorNames: { [key: string]: string } = {

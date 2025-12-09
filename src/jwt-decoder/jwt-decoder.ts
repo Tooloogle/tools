@@ -2,8 +2,8 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import jwtDecoderStyles from './jwt-decoder.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-textarea/t-textarea.js';
-import '../t-button/t-button.js';
+import '../t-textarea';
+import '../t-button';
 
 @customElement('jwt-decoder')
 export class JwtDecoder extends WebComponentBase<IConfigBase> {

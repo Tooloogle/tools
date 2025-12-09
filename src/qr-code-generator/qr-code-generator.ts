@@ -11,10 +11,10 @@ import { IQrStyleListItem, QrStyleList } from './qr-style-list.js';
 import { Logo } from './logo.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 import QRCodeStyling, { FileExtension } from 'qr-code-styling';
-import '../t-button/t-button.js';
-import '../t-input/t-input.js';
-import '../t-select/t-select.js';
-import '../t-textarea/t-textarea.js';
+import '../t-button';
+import '../t-input';
+import '../t-select';
+import '../t-textarea';
 
 /* eslint-disable max-lines */
 @customElement('qr-code-generator')

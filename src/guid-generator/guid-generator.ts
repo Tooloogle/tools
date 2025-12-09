@@ -3,8 +3,8 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import guidGeneratorStyles from './guid-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import "../t-copy-button/t-copy-button.js";
-import '../t-button/t-button.js';
-import '../t-input/t-input.js';
+import '../t-button';
+import '../t-input';
 
 @customElement('guid-generator')
 export class GuidGenerator extends WebComponentBase<IConfigBase> {

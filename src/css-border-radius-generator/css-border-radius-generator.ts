@@ -6,6 +6,8 @@ import {
 import cssBorderRadiusGeneratorStyles from "./css-border-radius-generator.css.js";
 import { customElement, property } from "lit/decorators.js";
 import "../t-copy-button";
+import '../t-input';
+import '../t-textarea';
 
 @customElement("css-border-radius-generator")
 export class CssBorderRadiusGenerator extends WebComponentBase<IConfigBase> {

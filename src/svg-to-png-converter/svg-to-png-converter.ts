@@ -3,7 +3,8 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import svgToPngConverterStyles from './svg-to-png-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { isBrowser } from '../_utils/DomUtils.js';
-import '../t-button/t-button.js';
+import '../t-button';
+import '../t-input';
 
 @customElement('svg-to-png-converter')
 export class SvgToPngConverter extends WebComponentBase<IConfigBase> {

@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import discountCalculatorStyles from './discount-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('discount-calculator')
 export class DiscountCalculator extends WebComponentBase<IConfigBase> {

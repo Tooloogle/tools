@@ -6,6 +6,7 @@ import {
 import stringSimilarityCheckerStyles from "./string-similarity-checker.css.js";
 import { customElement, property } from "lit/decorators.js";
 import "../t-copy-button";
+import '../t-textarea';
 
 @customElement("string-similarity-checker")
 export class StringSimilarityChecker extends WebComponentBase<IConfigBase> {

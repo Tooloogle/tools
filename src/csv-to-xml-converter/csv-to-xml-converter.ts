@@ -6,7 +6,8 @@ import {
 import csvToXmlConverterStyles from './csv-to-xml-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import Papa from 'papaparse';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-textarea';
 
 @customElement('csv-to-xml-converter')
 export class CsvToXmlConverter extends WebComponentBase<IConfigBase> {

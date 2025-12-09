@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import loremPicsumPlaceholderStyles from './lorem-picsum-placeholder.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('lorem-picsum-placeholder')
 export class LoremPicsumPlaceholder extends WebComponentBase<IConfigBase> {

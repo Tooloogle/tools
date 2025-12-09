@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import daysBetweenDatesStyles from './days-between-dates.css.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import dayjs from 'dayjs';
+import '../t-input';
 
 @customElement('days-between-dates')
 export class DaysBetweenDates extends WebComponentBase<IConfigBase> {

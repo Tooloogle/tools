@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import wordCounterStyles from './word-counter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-textarea/t-textarea.js';
+import '../t-textarea';
 
 @customElement('word-counter')
 export class WordCounter extends WebComponentBase<IConfigBase> {

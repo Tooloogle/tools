@@ -7,7 +7,7 @@ import {
 } from './resume-builder-types.js';
 import { ResumeBuilderUtils } from './resume-builder-exports.js';
 import { ResumeBuilderIcons } from './resume-builder-icons.js';
-import '../t-button/t-button.js';
+import '../t-button';
 
 /* eslint-disable max-lines */
 export class ResumeBuilderPreview {

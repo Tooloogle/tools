@@ -2,8 +2,8 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import hexToRgbaConverterStyles from './hex-to-rgba-converter.css.js';
-import '../t-input/t-input.js';
-import '../t-textarea/t-textarea.js';
+import '../t-input';
+import '../t-textarea';
 
 @customElement('hex-to-rgba-converter')
 export class HexToRgbaConverter extends WebComponentBase<IConfigBase> {

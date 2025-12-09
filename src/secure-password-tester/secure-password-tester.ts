@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import securePasswordTesterStyles from './secure-password-tester.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('secure-password-tester')
 export class SecurePasswordTester extends WebComponentBase<IConfigBase> {

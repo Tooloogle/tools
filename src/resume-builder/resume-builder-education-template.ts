@@ -1,7 +1,7 @@
 import { html, TemplateResult } from 'lit';
 import { Education } from './resume-builder-types.js';
 import { TemplateHandlers } from './resume-builder-templates.js';
-import '../t-button/t-button.js';
+import '../t-button';
 
 export class EducationTemplate {
   static renderEducationSection(

@@ -2,7 +2,8 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import dnsLookupStyles from './dns-lookup.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-button/t-button.js';
+import '../t-button';
+import '../t-input';
 
 @customElement('dns-lookup')
 export class DnsLookup extends WebComponentBase<IConfigBase> {

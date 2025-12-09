@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import compoundInterestCalculatorStyles from './compound-interest-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('compound-interest-calculator')
 export class CompoundInterestCalculator extends WebComponentBase<IConfigBase> {

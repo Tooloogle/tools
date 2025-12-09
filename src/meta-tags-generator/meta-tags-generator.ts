@@ -5,7 +5,9 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import metaTagsGeneratorStyles from './meta-tags-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-input';
+import '../t-textarea';
 
 @customElement('meta-tags-generator')
 export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {

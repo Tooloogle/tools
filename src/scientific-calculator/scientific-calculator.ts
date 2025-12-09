@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import scientificCalculatorStyles from './scientific-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('scientific-calculator')
 export class ScientificCalculator extends WebComponentBase<IConfigBase> {

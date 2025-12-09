@@ -6,6 +6,7 @@ import {
 import wordScramblerStyles from "./word-scrambler.css.js";
 import { customElement, property } from "lit/decorators.js";
 import "../t-copy-button";
+import '../t-textarea';
 
 @customElement("word-scrambler")
 export class WordScrambler extends WebComponentBase<IConfigBase> {

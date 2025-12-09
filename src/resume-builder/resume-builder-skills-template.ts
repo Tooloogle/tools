@@ -2,7 +2,7 @@ import { html, TemplateResult } from 'lit';
 import { Skill } from './resume-builder-types.js';
 import { TemplateHandlers } from './resume-builder-templates.js';
 import { ResumeBuilderIcons } from './resume-builder-icons.js';
-import '../t-button/t-button.js';
+import '../t-button';
 
 export class SkillTemplate {
   static renderSkillSection(

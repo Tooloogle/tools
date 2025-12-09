@@ -3,8 +3,8 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import unixTimestampConverterStyles from './unix-timestamp-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import dayjs from 'dayjs';
-import '../t-button/t-button.js';
-import '../t-input/t-input.js';
+import '../t-button';
+import '../t-input';
 
 @customElement('unix-timestamp-converter')
 export class UnixTimestampConverter extends WebComponentBase<IConfigBase> {

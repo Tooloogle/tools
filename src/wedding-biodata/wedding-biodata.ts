@@ -7,10 +7,10 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import weddingBiodataStyles from './wedding-biodata.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { isBrowser } from '../_utils/DomUtils.js';
-import '../t-button/t-button.js';
-import '../t-input/t-input.js';
-import '../t-select/t-select.js';
-import '../t-textarea/t-textarea.js';
+import '../t-button';
+import '../t-input';
+import '../t-select';
+import '../t-textarea';
 import {
   PersonalInfo,
   FamilyDetails,

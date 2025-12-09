@@ -2,8 +2,8 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import diffCheckerStyles from './diff-checker.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-button/t-button.js';
-import '../t-textarea/t-textarea.js';
+import '../t-button';
+import '../t-textarea';
 
 interface DiffLine {
     type: 'equal' | 'added' | 'removed';

@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import temperatureConverterStyles from './temperature-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('temperature-converter')
 export class TemperatureConverter extends WebComponentBase<IConfigBase> {

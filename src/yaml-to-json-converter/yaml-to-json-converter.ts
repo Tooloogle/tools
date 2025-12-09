@@ -6,7 +6,8 @@ import {
 import yamlToJsonConverterStyles from './yaml-to-json-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import * as yaml from 'js-yaml';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-textarea';
 
 @customElement('yaml-to-json-converter')
 export class YamlToJsonConverter extends WebComponentBase<IConfigBase> {

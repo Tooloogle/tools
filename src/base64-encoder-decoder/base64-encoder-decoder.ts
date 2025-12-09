@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import base64EncoderDecoderStyles from './base64-encoder-decoder.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-textarea/t-textarea.js';
+import '../t-textarea';
 
 @customElement('base64-encoder-decoder')
 export class Base64EncoderDecoder extends WebComponentBase<IConfigBase> {

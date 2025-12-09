@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import gcdCalculatorStyles from './gcd-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('gcd-calculator')
 export class GcdCalculator extends WebComponentBase<IConfigBase> {

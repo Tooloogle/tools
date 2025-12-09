@@ -2,8 +2,8 @@ import { html, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
 import jsonViewerStyles from './json-viewer.css.js';
-import '../t-button/t-button.js';
-import '../t-textarea/t-textarea.js';
+import '../t-button';
+import '../t-textarea';
 
 interface JsonNode {
     key: string;

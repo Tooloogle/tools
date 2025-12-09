@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import palindromeCheckerStyles from './palindrome-checker.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('palindrome-checker')
 export class PalindromeChecker extends WebComponentBase<IConfigBase> {

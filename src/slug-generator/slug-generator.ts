@@ -2,11 +2,11 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import slugGeneratorStyles from './slug-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button/t-copy-button.js';
-import '../t-button/t-button.js';
-import '../t-input/t-input.js';
-import '../t-select/t-select.js';
-import '../t-textarea/t-textarea.js';
+import '../t-copy-button';
+import '../t-button';
+import '../t-input';
+import '../t-select';
+import '../t-textarea';
 
 @customElement('slug-generator')
 export class SlugGenerator extends WebComponentBase<IConfigBase> {

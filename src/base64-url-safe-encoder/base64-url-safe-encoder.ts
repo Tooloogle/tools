@@ -6,8 +6,8 @@ import {
 import base64UrlSafeEncoderStyles from "./base64-url-safe-encoder.css.js";
 import { customElement, property } from "lit/decorators.js";
 import "../t-copy-button";
-import '../t-button/t-button.js';
-import '../t-textarea/t-textarea.js';
+import '../t-button';
+import '../t-textarea';
 
 @customElement("base64-url-safe-encoder")
 export class Base64UrlSafeEncoder extends WebComponentBase<IConfigBase> {

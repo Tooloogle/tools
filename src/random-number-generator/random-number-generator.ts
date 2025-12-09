@@ -2,7 +2,8 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import randomNumberGeneratorStyles from './random-number-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-button/t-button.js';
+import '../t-button';
+import '../t-input';
 
 @customElement('random-number-generator')
 export class RandomNumberGenerator extends WebComponentBase<IConfigBase> {

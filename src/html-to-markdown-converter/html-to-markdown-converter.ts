@@ -5,7 +5,8 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import htmlToMarkdownConverterStyles from './html-to-markdown-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-textarea';
 @customElement('html-to-markdown-converter')
 export class HtmlToMarkdownConverter extends WebComponentBase<IConfigBase> {
   static override styles = [

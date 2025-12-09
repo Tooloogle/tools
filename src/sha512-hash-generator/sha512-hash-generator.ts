@@ -6,7 +6,8 @@ import {
 import sha512HashGeneratorStyles from './sha512-hash-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { isBrowser } from '../_utils/DomUtils.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-textarea';
 
 @customElement('sha512-hash-generator')
 export class Sha512HashGenerator extends WebComponentBase<IConfigBase> {

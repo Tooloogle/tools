@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import bytesToStringConverterStyles from './bytes-to-string-converter.css.js';
-import '../t-textarea/t-textarea.js';
+import '../t-textarea';
 
 @customElement('bytes-to-string-converter')
 export class BytesToStringConverter extends WebComponentBase<IConfigBase> {

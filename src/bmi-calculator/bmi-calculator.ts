@@ -5,8 +5,8 @@ import {
   WebComponentBase,
 } from '../_web-component/WebComponentBase.js';
 import bmiCalculatorStyles from './bmi-calculator.css.js';
-import '../t-input/t-input.js';
-import '../t-select/t-select.js';
+import '../t-input';
+import '../t-select';
 import {
   validateInput,
   calculateBMIValue,

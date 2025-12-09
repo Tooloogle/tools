@@ -6,8 +6,8 @@ import {
 import heifToJpgConverterStyles from './heif-to-jpg-converter.css.js';
 import { customElement, state } from 'lit/decorators.js';
 import { downloadImage, isBrowser } from '../_utils/DomUtils.js';
-import '../t-button/t-button.js';
-import '../t-input/t-input.js';
+import '../t-button';
+import '../t-input';
 
 @customElement('heif-to-jpg-converter')
 export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {

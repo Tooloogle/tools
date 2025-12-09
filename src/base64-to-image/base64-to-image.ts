@@ -4,8 +4,8 @@ import base64ToImageStyles from './base64-to-image.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import { downloadImage } from '../_utils/DomUtils.js';
-import '../t-button/t-button.js';
-import '../t-textarea/t-textarea.js';
+import '../t-button';
+import '../t-textarea';
 
 @customElement('base64-to-image')
 export class Base64ToImage extends WebComponentBase<IConfigBase> {

@@ -5,7 +5,8 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import camelCaseConverterStyles from './camel-case-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-textarea';
 
 @customElement('camel-case-converter')
 export class CamelCaseConverter extends WebComponentBase<IConfigBase> {

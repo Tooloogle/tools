@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import tipCalculatorStyles from './tip-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('tip-calculator')
 export class TipCalculator extends WebComponentBase<IConfigBase> {

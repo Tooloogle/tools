@@ -6,7 +6,8 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import cssBeautifierStyles from './css-beautifier.css.js';
 import jsBeautify from 'js-beautify';
-import '../t-button/t-button.js';
+import '../t-button';
+import '../t-textarea';
 
 declare global {
   interface Window {

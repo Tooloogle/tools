@@ -5,8 +5,8 @@ import { customElement, property } from 'lit/decorators.js';
 import { downloadText } from '../_utils/DomUtils.js';
 import { when } from 'lit/directives/when.js';
 import "../t-copy-button/t-copy-button.js";
-import '../t-button/t-button.js';
-import '../t-textarea/t-textarea.js';
+import '../t-button';
+import '../t-textarea';
 
 @customElement('image-to-base64')
 export class ImageToBase64 extends WebComponentBase<IConfigBase> {

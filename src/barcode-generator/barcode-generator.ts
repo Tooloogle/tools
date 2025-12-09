@@ -4,6 +4,7 @@ import barcodeGeneratorStyles from './barcode-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { isCanvasSupported } from '../_utils/DomUtils.js';
 import JsBarcode from 'jsbarcode';
+import '../t-input';
 
 @customElement('barcode-generator')
 export class BarcodeGenerator extends WebComponentBase<IConfigBase> {

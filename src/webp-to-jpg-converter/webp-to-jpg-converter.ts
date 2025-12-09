@@ -5,8 +5,8 @@ import {
   WebComponentBase,
 } from "../_web-component/WebComponentBase.js";
 import webpToJpgConverterStyles from "./webp-to-jpg-converter.css.js";
-import '../t-button/t-button.js';
-import '../t-input/t-input.js';
+import '../t-button';
+import '../t-input';
 
 @customElement("webp-to-jpg-converter")
 export class WebpToJpgConverter extends WebComponentBase<IConfigBase> {

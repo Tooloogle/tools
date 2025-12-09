@@ -6,6 +6,7 @@ import {
 import textToMorseConverterStyles from "./text-to-morse-converter.css.js";
 import { customElement, property } from "lit/decorators.js";
 import "../t-copy-button";
+import '../t-textarea';
 
 const MORSE_CODE: { [key: string]: string } = {
   A: ".-",

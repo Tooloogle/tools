@@ -1,7 +1,7 @@
 import { html, TemplateResult } from 'lit';
 import { Experience } from './resume-builder-types.js';
 import { TemplateHandlers } from './resume-builder-templates.js';
-import '../t-button/t-button.js';
+import '../t-button';
 
 export class ExperienceTemplate {
   static renderExperienceSection(

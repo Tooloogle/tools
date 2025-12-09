@@ -2,8 +2,8 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import currencyFormatterStyles from './currency-formatter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-input/t-input.js';
-import '../t-select/t-select.js';
+import '../t-input';
+import '../t-select';
 
 @customElement('currency-formatter')
 export class CurrencyFormatter extends WebComponentBase<IConfigBase> {

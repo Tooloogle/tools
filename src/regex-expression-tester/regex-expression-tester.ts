@@ -3,8 +3,8 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
 import regexExpressionTesterStyles from './regex-expression-tester.css.js';
 import { createRef, ref, Ref } from 'lit/directives/ref.js';
-import '../t-input/t-input.js';
-import '../t-textarea/t-textarea.js';
+import '../t-input';
+import '../t-textarea';
 
 interface Flag {
     value: string;

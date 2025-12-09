@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import octalConverterStyles from './octal-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('octal-converter')
 export class OctalConverter extends WebComponentBase<IConfigBase> {

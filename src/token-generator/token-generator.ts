@@ -3,10 +3,10 @@ import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBas
 import tokenGeneratorStyles from './token-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { isBrowser } from '../_utils/DomUtils.js';
-import '../t-copy-button/t-copy-button.js';
-import '../t-button/t-button.js';
-import '../t-input/t-input.js';
-import '../t-select/t-select.js';
+import '../t-copy-button';
+import '../t-button';
+import '../t-input';
+import '../t-select';
 
 @customElement('token-generator')
 export class TokenGenerator extends WebComponentBase<IConfigBase> {

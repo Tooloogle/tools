@@ -2,9 +2,9 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import whitespaceRemoverStyles from './whitespace-remover.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button/t-copy-button.js';
-import '../t-button/t-button.js';
-import '../t-textarea/t-textarea.js';
+import '../t-copy-button';
+import '../t-button';
+import '../t-textarea';
 
 @customElement('whitespace-remover')
 export class WhitespaceRemover extends WebComponentBase<IConfigBase> {

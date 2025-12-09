@@ -1,7 +1,7 @@
 import { html, TemplateResult } from 'lit';
 import { OptimizationOptions } from './svg-optimizer-utils.js';
-import '../t-button/t-button.js';
-import '../t-input/t-input.js';
+import '../t-button';
+import '../t-input';
 
 export class SvgOptimizerTemplates {
   static renderUploadSection(

@@ -2,9 +2,9 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import directToWhatsappStyles from './direct-to-whatsapp.css.js';
-import '../t-button/t-button.js';
-import '../t-input/t-input.js';
-import '../t-textarea/t-textarea.js';
+import '../t-button';
+import '../t-input';
+import '../t-textarea';
 
 @customElement('direct-to-whatsapp')
 export class DirectToWhatsApp extends WebComponentBase<IConfigBase> {

@@ -1,6 +1,6 @@
 import { html, TemplateResult } from 'lit';
-import '../t-button/t-button.js';
-import '../t-input/t-input.js';
+import '../t-button';
+import '../t-input';
 
 /* eslint-disable max-lines */
 export class EmailTemplateRender {

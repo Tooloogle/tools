@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import goldPurityCalculatorStyles from './gold-purity-calculator.css.js';
-import '../t-input/t-input.js';
+import '../t-input';
 
 @customElement('gold-purity-calculator')
 export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {

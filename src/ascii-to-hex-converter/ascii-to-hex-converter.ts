@@ -5,8 +5,8 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import asciiToHexConverterStyles from './ascii-to-hex-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-textarea/t-textarea.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-textarea';
+import '../t-copy-button';
 
 @customElement('ascii-to-hex-converter')
 export class AsciiToHexConverter extends WebComponentBase<IConfigBase> {

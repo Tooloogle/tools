@@ -6,7 +6,8 @@ import {
 import yamlToXmlConverterStyles from './yaml-to-xml-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import * as yaml from 'js-yaml';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-textarea';
 
 @customElement('yaml-to-xml-converter')
 export class YamlToXmlConverter extends WebComponentBase<IConfigBase> {

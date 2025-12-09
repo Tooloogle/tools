@@ -4,7 +4,7 @@ import placeholderImageGeneratorStyles from './placeholder-image-generator.css.j
 import { customElement, property } from 'lit/decorators.js';
 import '../t-copy-button/t-copy-button.js';
 import '../t-input/t-input.js';
-import '../t-select/t-select.js';
+import '../t-select';
 
 @customElement('placeholder-image-generator')
 export class PlaceholderImageGenerator extends WebComponentBase<IConfigBase> {

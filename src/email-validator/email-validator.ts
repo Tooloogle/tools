@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import emailValidatorStyles from './email-validator.css.js';
 import { when } from 'lit/directives/when.js';
-import '../t-input/t-input.js';
+import '../t-input';
 
 @customElement('email-validator')
 export class EmailValidator extends WebComponentBase<IConfigBase> {

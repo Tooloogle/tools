@@ -6,7 +6,8 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import javascriptBeautifierStyles from './javascript-beautifier.css.js';
 import jsBeautify from 'js-beautify';
-import '../t-button/t-button.js';
+import '../t-button';
+import '../t-textarea';
 
 interface JsBeautifyOptions {
   indent_size?: number;

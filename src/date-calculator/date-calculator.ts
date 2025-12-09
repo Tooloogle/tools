@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import dateCalculatorStyles from './date-calculator.css.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import dayjs from 'dayjs';
+import '../t-input';
 
 @customElement('date-calculator')
 export class DateCalculator extends WebComponentBase<IConfigBase> {

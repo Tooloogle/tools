@@ -5,7 +5,8 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import fibonacciGeneratorStyles from './fibonacci-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-textarea';
 
 @customElement('fibonacci-generator')
 export class FibonacciGenerator extends WebComponentBase<IConfigBase> {

@@ -2,8 +2,8 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import stylishTextGeneratorStyles from './stylish-text-generator.css.js';
-import '../t-button/t-button.js';
-import '../t-textarea/t-textarea.js';
+import '../t-button';
+import '../t-textarea';
 import {
     fontOptions, loadWebFonts, generateImageOnCanvas, downloadCanvasImage, initializeCanvas, applyDefaultSettings
 } from './stylish-text-generator-utils.js';

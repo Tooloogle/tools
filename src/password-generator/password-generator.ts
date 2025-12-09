@@ -6,8 +6,9 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import passwordGeneratorStyles from './password-generator.css.js';
 import { when } from 'lit/directives/when.js';
-import '../t-copy-button/t-copy-button.js';
-import '../t-button/t-button.js';
+import '../t-copy-button';
+import '../t-button';
+import '../t-input';
 
 const passwordChars =
   '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';

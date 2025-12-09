@@ -5,11 +5,11 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import md5HashGeneratorStyles from './md5-hash-generator.css.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
 import md5 from 'blueimp-md5';
-import '../t-button/t-button.js';
-import '../t-input/t-input.js';
-import '../t-textarea/t-textarea.js';
+import '../t-button';
+import '../t-input';
+import '../t-textarea';
 
 @customElement('md5-hash-generator')
 export class Md5HashGenerator extends WebComponentBase<IConfigBase> {

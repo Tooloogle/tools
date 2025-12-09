@@ -2,7 +2,8 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import yamlValidatorStyles from './yaml-validator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-button/t-button.js';
+import '../t-button';
+import '../t-textarea';
 
 @customElement('yaml-validator')
 export class YamlValidator extends WebComponentBase<IConfigBase> {
