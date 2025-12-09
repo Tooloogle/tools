@@ -66,6 +66,7 @@ The "@tooloogle/tools" package includes the following web components:
 - `css-minifier`: A CSS minification tool that removes comments, whitespace, and optimizes CSS code while showing size reduction statistics.
 - `javascript-minifier`: A basic JavaScript minifier that removes comments and extra whitespace to reduce file size, with savings percentage display.
 - `sql-formatter`: An SQL query formatter that beautifies SQL statements with proper indentation and keyword capitalization or minifies them for compact storage.
+- `stopwatch-tool`: A stopwatch component with start, stop, reset, and lap functionality for timing tasks and recording lap times.
 - `xml-formatter`: An XML formatter and validator that formats or minifies XML with proper indentation and validates XML syntax.
 - `yaml-validator`: A YAML syntax validator that checks for common YAML errors like inconsistent indentation, tabs, and validates basic YAML structure.
 - `credit-card-validator`: A credit card number validator using the Luhn algorithm that also detects card type (Visa, Mastercard, Amex, etc.).
@@ -90,7 +91,6 @@ The following reusable web components are available for building tools:
 - `t-input`: A styled input component supporting multiple types (`text`, `number`, `email`, `password`, `date`, `datetime-local`, `file`) with placeholder, disabled state, and accept attribute for file inputs.
 - `t-textarea`: A styled textarea component with configurable rows, placeholder, and disabled state.
 - `t-copy-button`: A copy-to-clipboard button with tooltip feedback.
-- `t-stopwatch`: A stopwatch component with start, stop, reset, and lap functionality.
 
 ## Contributing
 
