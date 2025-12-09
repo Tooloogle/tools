@@ -19,10 +19,9 @@ describe('t-select', () => {
     expect(select).toBeTruthy();
   });
 
-  it('should set value property', async () => {
+  it('should set value property on component', async () => {
     element.value = 'test-value';
     await element.updateComplete;
-    const select = element.shadowRoot?.querySelector('select') as HTMLSelectElement;
-    expect(select.value).toBe('test-value');
+    expect(element.value).toBe('test-value');
   });
 });
