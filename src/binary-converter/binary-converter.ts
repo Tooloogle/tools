@@ -80,22 +80,22 @@ export class BinaryConverter extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Decimal (Base 10)</span>
-                    <t-input placeholder="Enter decimal number" class="text-end font-mono"></t-input>
+                    <t-input placeholder="Enter decimal number" class="text-end font-mono" .value=${this.decimal} @t-input=${this.handleDecimalChange}></t-input>
                 </label>
 
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Binary (Base 2)</span>
-                    <t-input placeholder="Enter binary number" class="text-end font-mono"></t-input>
+                    <t-input placeholder="Enter binary number" class="text-end font-mono" .value=${this.binary} @t-input=${this.handleBinaryChange}></t-input>
                 </label>
 
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Octal (Base 8)</span>
-                    <t-input placeholder="Enter octal number" class="text-end font-mono"></t-input>
+                    <t-input placeholder="Enter octal number" class="text-end font-mono" .value=${this.octal} @t-input=${this.handleOctalChange}></t-input>
                 </label>
 
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Hexadecimal (Base 16)</span>
-                    <t-input placeholder="Enter hex number" class="text-end font-mono"></t-input>
+                    <t-input placeholder="Enter hex number" class="text-end font-mono" .value=${this.hexadecimal} @t-input=${this.handleHexChange}></t-input>
                 </label>
 
                 <div class="text-right">

@@ -76,7 +76,7 @@ export class EmojiPicker extends WebComponentBase<IConfigBase> {
             <div class="space-y-4 py-2">
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Search Emoji:</span>
-                    <t-input placeholder="Search emojis..."></t-input>
+                    <t-input placeholder="Search emojis..." .value=${this.searchQuery} @t-input=${this.handleSearchChange}></t-input>
                 </label>
 
                 <label class="block">

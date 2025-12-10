@@ -78,7 +78,7 @@ export class CharacterCounter extends WebComponentBase<IConfigBase> {
 
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">Search for specific character:</span>
-                <t-input placeholder="Enter a character to count..."></t-input>
+                <t-input placeholder="Enter a character to count..." .value=${this.searchChar} @t-input=${this.handleSearchChange}></t-input>
             </label>
 
             ${this.searchChar ? html`

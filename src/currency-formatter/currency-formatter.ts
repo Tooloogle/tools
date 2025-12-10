@@ -60,7 +60,7 @@ export class CurrencyFormatter extends WebComponentBase<IConfigBase> {
             <div class="space-y-4 py-2">
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Amount:</span>
-                    <t-input type="number" placeholder="Enter amount..."></t-input>
+                    <t-input type="number" placeholder="Enter amount..." .value=${this.amount} @t-input=${this.handleAmountChange}></t-input>
                 </label>
 
                 <div class="grid grid-cols-2 gap-4">

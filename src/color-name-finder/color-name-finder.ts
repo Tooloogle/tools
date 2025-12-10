@@ -121,7 +121,7 @@ export class ColorNameFinder extends WebComponentBase<IConfigBase> {
             <label class="block">
                 <span class="inline-block py-1 font-bold">Hex Color</span>
                 <t-input type="color" .value=${String(this.hexColor)} @t-input=${this.handleHexChange}></t-input>
-                <t-input class="mt-2"></t-input>
+                <t-input class="mt-2" .value=${this.hexColor} @t-input=${this.handleHexChange}></t-input>
             </label>
         `;
     }
@@ -131,15 +131,15 @@ export class ColorNameFinder extends WebComponentBase<IConfigBase> {
             <div class="grid grid-cols-3 gap-2">
                 <label class="block">
                     <span class="inline-block py-1">R</span>
-                    <t-input type="number" class="text-end"></t-input>
+                    <t-input type="number" class="text-end" .value=${String(this.r)} @t-input=${this.handleRChange}></t-input>
                 </label>
                 <label class="block">
                     <span class="inline-block py-1">G</span>
-                    <t-input type="number" class="text-end"></t-input>
+                    <t-input type="number" class="text-end" .value=${String(this.g)} @t-input=${this.handleGChange}></t-input>
                 </label>
                 <label class="block">
                     <span class="inline-block py-1">B</span>
-                    <t-input type="number" class="text-end"></t-input>
+                    <t-input type="number" class="text-end" .value=${String(this.b)} @t-input=${this.handleBChange}></t-input>
                 </label>
             </div>
         `;

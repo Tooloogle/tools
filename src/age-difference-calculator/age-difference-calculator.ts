@@ -125,11 +125,11 @@ export class AgeDifferenceCalculator extends WebComponentBase<IConfigBase> {
       <div class="grid grid-cols-1 gap-4 dark:bg-gray-600">
         <label class="block">
           <span>First Date</span>
-          <t-input type="${this.haveTime ? 'datetime-local' : 'date'}" ?required=${true}></t-input>
+          <t-input type="${this.haveTime ? 'datetime-local' : 'date'}" ?required=${true} .value=${this.date1} @t-change=${this.handleDate1Change}></t-input>
         </label>
         <label class="block">
           <span>Second Date</span>
-          <t-input type="${this.haveTime ? 'datetime-local' : 'date'}" ?required=${true}></t-input>
+          <t-input type="${this.haveTime ? 'datetime-local' : 'date'}" ?required=${true} .value=${this.date2} @t-change=${this.handleDate2Change}></t-input>
         </label>
         <label class="block">
           <input
