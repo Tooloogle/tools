@@ -1,5 +1,4 @@
 import { html } from 'lit';
-import { } from "lit/directives/spread.js";
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import tButtonStyles from './t-button.css.js';
 import { customElement, property } from 'lit/decorators.js';

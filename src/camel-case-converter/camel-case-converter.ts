@@ -33,11 +33,11 @@ export class CamelCaseConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Input Text:</label>
-          <t-textarea placeholder="Enter text to convert..." class="w-full h-32"></t-textarea>
+          <t-textarea placeholder="Enter text to convert..." .value=${this.inputText} @t-input=${this.handleInput} class="w-full h-32"></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">camelCase Output:</label>
-          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
+          <t-textarea ?readonly=${true} .value=${this.outputText} class="w-full h-32"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button
                 .text=${this.outputText}

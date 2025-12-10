@@ -47,13 +47,12 @@ export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">Barcode Text:</label>
-                    <t-input placeholder="Enter text or number..." class="w-full"></t-input> { this.inputText = e.detail.value; }}
-                    />
+                    <t-input placeholder="Enter text or number..." .value=${this.inputText} @t-input=${(e: CustomEvent) => { this.inputText = e.detail.value; }} class="w-full"></t-input>
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Format:</label>
                     <select class="form-input w-full" .value=${this.format}
-                        @change=${(e: CustomEvent) => { this.format = e.detail.value; }}>
+                        @change=${(e: Event) => { this.format = (e.target as HTMLSelectElement).value; }}>
                         <option value="CODE128">CODE128</option>
                         <option value="EAN13">EAN-13</option>
                         <option value="EAN8">EAN-8</option>

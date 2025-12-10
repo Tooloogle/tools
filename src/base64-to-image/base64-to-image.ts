@@ -22,10 +22,7 @@ export class Base64ToImage extends WebComponentBase<IConfigBase> {
         return base64Data.substring("data:image/".length, base64Data.indexOf(";base64"));
     }
 
-    private onBase64Input(e: Event) {
-        const target = e.target as HTMLTextAreaElement;
-        this.base64 = target.value;
-    }
+
 
     private downloadImage() {
         downloadImage(`result.${this.getFileType(this.base64)}`, this.base64);
@@ -36,7 +33,7 @@ export class Base64ToImage extends WebComponentBase<IConfigBase> {
         <div>
             <label class="block">
                 <span class="inline-block py-1">Base64 string to decode (encoded)</span>
-                <t-textarea placeholder="Enter base64 string to decode" rows="5"></t-textarea>
+                <t-textarea placeholder="Enter base64 string to decode" .value=${this.base64} @t-input=${(e: CustomEvent) => { this.base64 = e.detail.value; }} rows="5"></t-textarea>
             </label>
 
             ${when(this.base64, () => html`

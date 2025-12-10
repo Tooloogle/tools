@@ -46,11 +46,10 @@ export class CssBorderRadiusGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2">${label}:</label>
-        <t-input type="number" class="w-full"></t-input> {
+        <t-input type="number" .value=${String(value)} @t-input=${(e: CustomEvent) => {
             this[property] = Number(e.detail.value);
             this.process();
-          }}
-        />
+          }} class="w-full"></t-input>
       </div>
     `;
   }
@@ -74,7 +73,7 @@ export class CssBorderRadiusGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">CSS Output:</label>
-        <t-textarea ?readonly=${true} class="w-full h-20 font-mono"></t-textarea>
+        <t-textarea ?readonly=${true} .value=${this.outputText} class="w-full h-20 font-mono"></t-textarea>
         <t-copy-button
           .text=${this.outputText}
           .isIcon=${false}

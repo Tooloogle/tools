@@ -46,45 +46,40 @@ export class CssBoxShadowGenerator extends WebComponentBase<IConfigBase> {
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block mb-2">Offset X:</label>
-            <t-input type="number" class="w-full"></t-input> {
+            <t-input type="number" .value=${String(this.offsetX)} @t-input=${(e: CustomEvent) => {
                 this.offsetX = Number(e.detail.value);
                 this.process();
-              }}
-            />
+              }} class="w-full"></t-input>
           </div>
           <div>
             <label class="block mb-2">Offset Y:</label>
-            <t-input type="number" class="w-full"></t-input> {
+            <t-input type="number" .value=${String(this.offsetY)} @t-input=${(e: CustomEvent) => {
                 this.offsetY = Number(e.detail.value);
                 this.process();
-              }}
-            />
+              }} class="w-full"></t-input>
           </div>
           <div>
             <label class="block mb-2">Blur Radius:</label>
-            <t-input type="number" class="w-full"></t-input> {
+            <t-input type="number" .value=${String(this.blurRadius)} @t-input=${(e: CustomEvent) => {
                 this.blurRadius = Number(e.detail.value);
                 this.process();
-              }}
-            />
+              }} class="w-full"></t-input>
           </div>
           <div>
             <label class="block mb-2">Spread Radius:</label>
-            <t-input type="number" class="w-full"></t-input> {
+            <t-input type="number" .value=${String(this.spreadRadius)} @t-input=${(e: CustomEvent) => {
                 this.spreadRadius = Number(
                   e.detail.value
                 );
                 this.process();
-              }}
-            />
+              }} class="w-full"></t-input>
           </div>
           <div>
             <label class="block mb-2">Color:</label>
-            <t-input type="color" class="w-full"></t-input> {
+            <t-input type="color" .value=${this.color} @t-input=${(e: CustomEvent) => {
                 this.color = e.detail.value;
                 this.process();
-              }}
-            />
+              }} class="w-full"></t-input>
           </div>
           <div>
             <label class="block mb-2">Opacity:</label>
@@ -95,8 +90,8 @@ export class CssBoxShadowGenerator extends WebComponentBase<IConfigBase> {
               step="0.1"
               class="w-full"
               .value=${String(this.opacity)}
-              @input=${(e: CustomEvent) => {
-                this.opacity = Number(e.detail.value);
+              @input=${(e: Event) => {
+                this.opacity = Number((e.target as HTMLInputElement).value);
                 this.process();
               }}
             />

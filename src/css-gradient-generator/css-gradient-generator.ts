@@ -39,16 +39,7 @@ export class CssGradientGenerator extends WebComponentBase<IConfigBase> {
         this.requestUpdate();
     }
 
-    private onTextInputChange(event: Event) {
-        const inputElement = event.target as HTMLInputElement;
-        if (inputElement.id === 'colorInput1') {
-            this.color1 = inputElement.value.toUpperCase();
-        } else if (inputElement.id === 'colorInput2') {
-            this.color2 = inputElement.value.toUpperCase();
-        }
 
-        this.requestUpdate();
-    }
 
     private onGradientTypeChange(event: Event) {
         const buttonElement = event.currentTarget as HTMLButtonElement;
@@ -87,13 +78,13 @@ export class CssGradientGenerator extends WebComponentBase<IConfigBase> {
                     <div class="color-picker">
                         <label for="colorPicker1">Color 1:</label>
                         <input id="colorPicker1" type="color" .value="${this.color1}" @input=${this.onColorInputChange}>
-                        <t-input .value="${String(this.color1)}" @t-input="${this.onTextInputChange}"></t-input>
+                        <t-input id="colorInput1" .value="${String(this.color1)}" @t-input=${(e: CustomEvent) => { this.color1 = e.detail.value.toUpperCase(); this.requestUpdate(); }}></t-input>
                     </div>
 
                     <div class="color-picker">
                         <label for="colorPicker2">Color 2:</label>
                         <input id="colorPicker2" type="color" .value="${this.color2}" @input=${this.onColorInputChange}>
-                        <t-input .value="${String(this.color2)}" @t-input="${this.onTextInputChange}"></t-input>
+                        <t-input id="colorInput2" .value="${String(this.color2)}" @t-input=${(e: CustomEvent) => { this.color2 = e.detail.value.toUpperCase(); this.requestUpdate(); }}></t-input>
                     </div>
 
                     <div class="gradient-type">
