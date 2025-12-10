@@ -78,18 +78,18 @@ export class RandomNumberGenerator extends WebComponentBase<IConfigBase> {
             <div class="grid grid-cols-2 gap-4">
                 <label class="block">
                     <span class="inline-block py-1">Minimum</span>
-                    <t-input type="number" class="text-end"></t-input>
+                    <t-input type="number" class="text-end" .value=${String(this.min)} @t-input=${this.handleMinChange}></t-input>
                 </label>
 
                 <label class="block">
                     <span class="inline-block py-1">Maximum</span>
-                    <t-input type="number" class="text-end"></t-input>
+                    <t-input type="number" class="text-end" .value=${String(this.max)} @t-input=${this.handleMaxChange}></t-input>
                 </label>
             </div>
 
             <label class="block">
                 <span class="inline-block py-1">How many numbers?</span>
-                <t-input type="number" class="text-end"></t-input>
+                <t-input type="number" class="text-end" .value=${String(this.count)} @t-input=${this.handleCountChange}></t-input>
             </label>
 
             <label class="flex items-center">

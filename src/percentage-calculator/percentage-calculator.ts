@@ -59,11 +59,11 @@ export class PercentageCalculator extends WebComponentBase<IConfigBase> {
                 <div class="grid grid-cols-2 gap-2">
                     <label class="block">
                         <span class="text-sm">Percentage (%)</span>
-                        <t-input type="number" class="text-end"></t-input>
+                        <t-input type="number" class="text-end" .value=${String(this.percentage)} @t-input=${this.handlePercentageChange}></t-input>
                     </label>
                     <label class="block">
                         <span class="text-sm">Of Value</span>
-                        <t-input type="number" class="text-end"></t-input>
+                        <t-input type="number" class="text-end" .value=${String(this.value1)} @t-input=${this.handleValue1Change}></t-input>
                     </label>
                 </div>
                 <div class="mt-3 p-3 bg-blue-100 rounded text-center">
@@ -81,11 +81,11 @@ export class PercentageCalculator extends WebComponentBase<IConfigBase> {
                 <div class="grid grid-cols-2 gap-2">
                     <label class="block">
                         <span class="text-sm">Value X</span>
-                        <t-input type="number" class="text-end"></t-input>
+                        <t-input type="number" class="text-end" .value=${String(this.value1)} @t-input=${this.handleValue1Change}></t-input>
                     </label>
                     <label class="block">
                         <span class="text-sm">Of Value Y</span>
-                        <t-input type="number" class="text-end"></t-input>
+                        <t-input type="number" class="text-end" .value=${String(this.value2)} @t-input=${this.handleValue2Change}></t-input>
                     </label>
                 </div>
                 <div class="mt-3 p-3 bg-green-100 rounded text-center">

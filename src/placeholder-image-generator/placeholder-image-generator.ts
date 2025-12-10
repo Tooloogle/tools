@@ -101,19 +101,19 @@ export class PlaceholderImageGenerator extends WebComponentBase<IConfigBase> {
                 <div class="grid grid-cols-2 gap-4">
                     <label class="block">
                         <span class="inline-block py-1 font-bold">Width:</span>
-                        <t-input type="number"></t-input>
+                        <t-input type="number" .value=${String(this.width)} @t-input=${this.handleWidthChange}></t-input>
                     </label>
 
                     <label class="block">
                         <span class="inline-block py-1 font-bold">Height:</span>
-                        <t-input type="number"></t-input>
+                        <t-input type="number" .value=${String(this.height)} @t-input=${this.handleHeightChange}></t-input>
                     </label>
                 </div>
 
                 ${this.service !== 'picsum' ? html`
                     <label class="block">
                         <span class="inline-block py-1 font-bold">Custom Text (optional):</span>
-                        <t-input placeholder="Leave empty for default"></t-input>
+                        <t-input placeholder="Leave empty for default" .value=${this.text} @t-input=${this.handleTextChange}></t-input>
                     </label>
 
                     <div class="grid grid-cols-2 gap-4">
@@ -126,7 +126,7 @@ export class PlaceholderImageGenerator extends WebComponentBase<IConfigBase> {
                                     @input=${this.handleBgColorChange}
                                     class="h-10 w-16"
                                 />
-                                <t-input></t-input>
+                                <t-input .value=${this.bgColor} @t-input=${this.handleBgColorInputChange}></t-input>
                             </div>
                         </label>
 
@@ -139,7 +139,7 @@ export class PlaceholderImageGenerator extends WebComponentBase<IConfigBase> {
                                     @input=${this.handleTextColorChange}
                                     class="h-10 w-16"
                                 />
-                                <t-input></t-input>
+                                <t-input .value=${this.textColor} @t-input=${this.handleTextColorInputChange}></t-input>
                             </div>
                         </label>
                     </div>

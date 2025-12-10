@@ -94,7 +94,7 @@ export class RomanNumeralConverter extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">Input:</span>
-                <t-input placeholder="Enter number (1-3999) or Roman numeral..."></t-input>
+                <t-input placeholder="Enter number (1-3999) or Roman numeral..." .value=${this.input} @t-input=${this.handleInputChange}></t-input>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
