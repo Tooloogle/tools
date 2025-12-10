@@ -1,17 +1,17 @@
-import { html } from 'lit';
+import { html } from "lit";
 import {
   IConfigBase,
   WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
-import tTextareaStyles from './t-textarea.css.js';
-import { customElement, property } from 'lit/decorators.js';
+} from "../_web-component/WebComponentBase.js";
+import tTextareaStyles from "./t-textarea.css.js";
+import { customElement, property } from "lit/decorators.js";
 
-@customElement('t-textarea')
+@customElement("t-textarea")
 export class TTextarea extends WebComponentBase<IConfigBase> {
   static override styles = [WebComponentBase.styles, tTextareaStyles];
 
-  @property({ type: String }) value = '';
-  @property({ type: String }) placeholder = '';
+  @property({ type: String }) value = "";
+  @property({ type: String }) placeholder = "";
   @property({ type: Number }) rows = 4;
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) readonly = false;
@@ -20,7 +20,7 @@ export class TTextarea extends WebComponentBase<IConfigBase> {
     const target = e.target as HTMLTextAreaElement;
     this.value = target.value;
     this.dispatchEvent(
-      new CustomEvent('t-input', {
+      new CustomEvent("t-change", {
         detail: { value: this.value },
         bubbles: true,
         composed: true,

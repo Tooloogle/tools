@@ -1,19 +1,19 @@
-import { html } from 'lit';
+import { html } from "lit";
 import {
   IConfigBase,
   WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
-import asciiToHexConverterStyles from './ascii-to-hex-converter.css.js';
-import { customElement, property } from 'lit/decorators.js';
-import '../t-textarea';
-import '../t-copy-button';
+} from "../_web-component/WebComponentBase.js";
+import asciiToHexConverterStyles from "./ascii-to-hex-converter.css.js";
+import { customElement, property } from "lit/decorators.js";
+import "../t-textarea";
+import "../t-copy-button";
 
-@customElement('ascii-to-hex-converter')
+@customElement("ascii-to-hex-converter")
 export class AsciiToHexConverter extends WebComponentBase<IConfigBase> {
   static override styles = [WebComponentBase.styles, asciiToHexConverterStyles];
 
-  @property({ type: String }) inputText = '';
-  @property({ type: String }) outputText = '';
+  @property({ type: String }) inputText = "";
+  @property({ type: String }) outputText = "";
 
   private handleInput(e: Event) {
     this.inputText = (e.target as HTMLTextAreaElement).value;
@@ -22,9 +22,9 @@ export class AsciiToHexConverter extends WebComponentBase<IConfigBase> {
 
   private convert() {
     this.outputText = this.inputText
-      .split('')
-      .map(c => c.charCodeAt(0).toString(16).padStart(2, '0'))
-      .join(' ');
+      .split("")
+      .map(c => c.charCodeAt(0).toString(16).padStart(2, "0"))
+      .join(" ");
   }
 
   override render() {
@@ -35,7 +35,7 @@ export class AsciiToHexConverter extends WebComponentBase<IConfigBase> {
           <t-textarea
             placeholder="Enter ASCII text to convert..."
             .value=${this.inputText}
-            @t-input=${this.handleInput}
+            @t-change=${this.handleInput}
             rows="8"
           ></t-textarea>
         </div>
@@ -47,7 +47,7 @@ export class AsciiToHexConverter extends WebComponentBase<IConfigBase> {
                 .text=${this.outputText}
                 .isIcon=${false}
               ></t-copy-button>`
-            : ''}
+            : ""}
         </div>
       </div>
     `;
@@ -56,6 +56,6 @@ export class AsciiToHexConverter extends WebComponentBase<IConfigBase> {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'ascii-to-hex-converter': AsciiToHexConverter;
+    "ascii-to-hex-converter": AsciiToHexConverter;
   }
 }

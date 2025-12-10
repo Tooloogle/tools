@@ -1,22 +1,22 @@
-import { html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import ageCalculatorStyles from './age-calculator.css.js';
+import { html } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import ageCalculatorStyles from "./age-calculator.css.js";
 import {
   IConfigBase,
   WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
-import buttonStyles from '../_styles/button.css.js';
-import { when } from 'lit/directives/when.js';
-import { repeat } from 'lit/directives/repeat.js';
-import { formatNumber } from '../_utils/NumberHelper.js';
-import dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration.js';
-import '../t-input';
-import '../t-checkbox';
+} from "../_web-component/WebComponentBase.js";
+import buttonStyles from "../_styles/button.css.js";
+import { when } from "lit/directives/when.js";
+import { repeat } from "lit/directives/repeat.js";
+import { formatNumber } from "../_utils/NumberHelper.js";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration.js";
+import "../t-input";
+import "../t-checkbox";
 
 dayjs.extend(duration);
 
-@customElement('age-calculator')
+@customElement("age-calculator")
 export class AgeCalculator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
@@ -28,10 +28,10 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
   haveTime = false;
 
   @property()
-  today = '';
+  today = "";
 
   @property()
-  dob = '';
+  dob = "";
 
   @property()
   result: any = {};
@@ -117,7 +117,7 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
                   ${`${years} year(s), ${months} month(s), ${days} day(s)`}
                   ${this.haveTime
                     ? `${hours} hour(s), ${minutes} minute(s), ${seconds} second(s)`
-                    : ''}
+                    : ""}
                 </p>
 
                 <table class="w-full table table-auto border-collapse">
@@ -149,9 +149,9 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
           <span>Date Of Birth</span>
           <t-input
             name="birthday"
-            .type=${this.haveTime ? 'datetime-local' : 'date'}
+            .type=${this.haveTime ? "datetime-local" : "date"}
             .value=${this.dob}
-            @t-input=${this.handleDobChange}
+            @t-change=${this.handleDobChange}
             required
           ></t-input>
         </label>
@@ -159,9 +159,9 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
           <span>Age at the Date</span>
           <t-input
             name="today"
-            .type=${this.haveTime ? 'datetime-local' : 'date'}
+            .type=${this.haveTime ? "datetime-local" : "date"}
             .value=${this.today}
-            @t-input=${this.handleTodayChange}
+            @t-change=${this.handleTodayChange}
             required
           ></t-input>
         </label>
@@ -187,6 +187,6 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'age-calculator': AgeCalculator;
+    "age-calculator": AgeCalculator;
   }
 }

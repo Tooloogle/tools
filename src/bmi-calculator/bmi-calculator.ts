@@ -1,4 +1,4 @@
-import { html, css } from "lit";
+import { html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import {
   IConfigBase,
@@ -163,10 +163,9 @@ export class BmiCalculator extends WebComponentBase<IConfigBase> {
         </label>
         <t-input
           type="number"
-          class="${this.heightError ? "error" : ""}"
           placeholder="${placeholder}"
           .value="${this.heightInputValue}"
-          @t-input="${this.handleHeightInput}"
+          @t-change="${this.handleHeightInput}"
         ></t-input>
         ${this.heightError
           ? html`<div class="text-sm text-rose-500 mt-1">
@@ -189,10 +188,9 @@ export class BmiCalculator extends WebComponentBase<IConfigBase> {
         </label>
         <t-input
           type="number"
-          class="${this.weightError ? "error" : ""}"
           placeholder="${placeholder}"
           .value="${this.weightInputValue}"
-          @t-input="${this.handleWeightInput}"
+          @t-change="${this.handleWeightInput}"
         ></t-input>
         ${this.weightError
           ? html`<div class="text-sm text-rose-500 mt-1">

@@ -194,7 +194,7 @@ export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
           class="form-input w-full"
           placeholder="Enter text or number..."
           .value=${this.inputText}
-          @t-input=${this.handleInputChange}
+          @t-change=${this.handleInputChange}
         ></t-input>
         <p class="text-xs text-gray-500 dark:text-gray-300 mt-1">
           ${this.formatValidations[this.format]?.message || ""}
@@ -210,7 +210,7 @@ export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
         <t-select
           .value=${this.format}
           .options=${this.formatOptions}
-          @t-select=${this.handleFormatChange}
+          @t-change=${this.handleFormatChange}
         ></t-select>
       </div>
     `;

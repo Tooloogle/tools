@@ -1,4 +1,5 @@
 import { html, nothing } from "lit";
+import { repeat } from "lit/directives/repeat.js";
 import {
   IConfigBase,
   WebComponentBase,
@@ -38,7 +39,7 @@ export class TSelect extends WebComponentBase<IConfigBase> {
     this.value = target.value;
 
     this.dispatchEvent(
-      new CustomEvent("t-select", {
+      new CustomEvent("t-change", {
         detail: { value: this.value },
         bubbles: true,
         composed: true,
@@ -61,7 +62,9 @@ export class TSelect extends WebComponentBase<IConfigBase> {
               ${this.placeholder}
             </option>`
           : nothing}
-        ${this.options.map(
+        ${repeat(
+          this.options,
+          option => option.value,
           option => html`
             <option
               value=${option.value}

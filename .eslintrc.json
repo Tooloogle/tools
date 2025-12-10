@@ -10,7 +10,8 @@
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./tsconfig.json",
+    // Auto-detect tsconfig this prevents "Cannot read tsconfig.json" errors
+    "project": true,
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
