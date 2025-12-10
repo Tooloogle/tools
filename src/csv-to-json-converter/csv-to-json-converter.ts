@@ -110,7 +110,7 @@ export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
     return html`
       <div class="csv-to-json-converter">
         <div class="editor mb-4">
-          <t-textarea placeholder="Paste CSV data here or upload a file" rows="10"></t-textarea>
+          <t-textarea placeholder="Paste CSV data here or upload a file" rows="10" .value=${this.csvString} @t-input=${this.onCsvInputChange}></t-textarea>
           <input type="file" accept=".csv" @change="${this.handleFileUpload}" class="file-input" />
           <t-button variant="blue" @click="${this.convertCsvToJson}">Convert to JSON</t-button>
         </div>
@@ -141,7 +141,7 @@ export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
         </div>
 
         <div class="editor mb-4 relative">
-          <t-textarea placeholder="Converted JSON will appear here" rows="10" ?readonly=${true}></t-textarea>
+          <t-textarea placeholder="Converted JSON will appear here" rows="10" .value=${this.jsonString} ?readonly=${true}></t-textarea>
           <t-button variant="blue" @click="${this.downloadJSON}">Download JSON</t-button>
           <div class="absolute top-2 end-2">
             <t-copy-button class="text-blue" .isIcon=${false} .text=${this.jsonString}></t-copy-button>

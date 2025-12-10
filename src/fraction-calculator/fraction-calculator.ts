@@ -63,11 +63,11 @@ export class FractionCalculator extends WebComponentBase<IConfigBase> {
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block mb-2 font-semibold">Fraction 1 - Numerator:</label>
-                        <t-input type="number" class="w-full"></t-input> { this.num1 = Number(e.detail.value); this.calculate(); }} />
+                        <t-input type="number" class="w-full" .value=${String(this.num1)} @t-input=${(e: CustomEvent) => { this.num1 = Number(e.detail.value); this.calculate(); }} />
                     </div>
                     <div>
                         <label class="block mb-2 font-semibold">Denominator:</label>
-                        <t-input type="number" class="w-full"></t-input> { this.den1 = Number(e.detail.value); this.calculate(); }} />
+                        <t-input type="number" class="w-full" .value=${String(this.den1)} @t-input=${(e: CustomEvent) => { this.den1 = Number(e.detail.value); this.calculate(); }} />
                     </div>
                 </div>
                 <div>
@@ -83,11 +83,11 @@ export class FractionCalculator extends WebComponentBase<IConfigBase> {
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block mb-2 font-semibold">Fraction 2 - Numerator:</label>
-                        <t-input type="number" class="w-full"></t-input> { this.num2 = Number(e.detail.value); this.calculate(); }} />
+                        <t-input type="number" class="w-full" .value=${String(this.num2)} @t-input=${(e: CustomEvent) => { this.num2 = Number(e.detail.value); this.calculate(); }} />
                     </div>
                     <div>
                         <label class="block mb-2 font-semibold">Denominator:</label>
-                        <t-input type="number" class="w-full"></t-input> { this.den2 = Number(e.detail.value); this.calculate(); }} />
+                        <t-input type="number" class="w-full" .value=${String(this.den2)} @t-input=${(e: CustomEvent) => { this.den2 = Number(e.detail.value); this.calculate(); }} />
                     </div>
                 </div>
                 <div class="bg-blue-50 p-4 rounded-lg text-center">

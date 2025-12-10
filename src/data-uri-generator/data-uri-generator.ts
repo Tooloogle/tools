@@ -95,7 +95,7 @@ export class DataUriGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Input Text:</label>
-        <t-textarea placeholder="Enter text to convert to Data URI..." class="w-full h-32"></t-textarea>
+        <t-textarea placeholder="Enter text to convert to Data URI..." class="w-full h-32" .value=${this.inputText} @t-input=${this.handleInput}></t-textarea>
       </div>
     `;
   }
@@ -107,7 +107,7 @@ export class DataUriGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Data URI Output:</label>
-        <t-textarea ?readonly=${true} class="w-full h-32 font-mono text-sm"></t-textarea>
+        <t-textarea .value=${this.outputText} ?readonly=${true} class="w-full h-32 font-mono text-sm"></t-textarea>
         ${hasValidOutput
           ? html`<t-copy-button
               .text=${this.outputText}

@@ -38,7 +38,7 @@ export class DateCalculator extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Start Date:</label>
-          <t-input type="date" class="w-full"></t-input> { this.startDate = e.detail.value; this.calculate(); }}
+          <t-input type="date" class="w-full" .value=${this.startDate} @t-input=${(e: CustomEvent) => { this.startDate = e.detail.value; this.calculate(); }}
             required />
         </div>
         <div>
@@ -52,15 +52,15 @@ export class DateCalculator extends WebComponentBase<IConfigBase> {
         <div class="grid grid-cols-3 gap-4">
           <div>
             <label class="block mb-2 font-semibold">Years:</label>
-            <t-input type="number" class="w-full"></t-input> { this.years = Number(e.detail.value); this.calculate(); }} />
+            <t-input type="number" class="w-full" .value=${String(this.years)} @t-input=${(e: CustomEvent) => { this.years = Number(e.detail.value); this.calculate(); }} />
           </div>
           <div>
             <label class="block mb-2 font-semibold">Months:</label>
-            <t-input type="number" class="w-full"></t-input> { this.months = Number(e.detail.value); this.calculate(); }} />
+            <t-input type="number" class="w-full" .value=${String(this.months)} @t-input=${(e: CustomEvent) => { this.months = Number(e.detail.value); this.calculate(); }} />
           </div>
           <div>
             <label class="block mb-2 font-semibold">Days:</label>
-            <t-input type="number" class="w-full"></t-input> { this.days = Number(e.detail.value); this.calculate(); }} />
+            <t-input type="number" class="w-full" .value=${String(this.days)} @t-input=${(e: CustomEvent) => { this.days = Number(e.detail.value); this.calculate(); }} />
           </div>
         </div>
         ${this.resultDate ? html`
