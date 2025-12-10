@@ -73,7 +73,7 @@ export class MarkdownPreviewer extends WebComponentBase<IConfigBase> {
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Markdown Input</span>
-                    <t-textarea placeholder="Enter markdown here..." rows="15" class="font-mono"></t-textarea>
+                    <t-textarea placeholder="Enter markdown here..." rows="15" class="font-mono" .value=${this.markdown} @t-input=${this.handleMarkdownChange}></t-textarea>
                 </label>
 
                 <div class="block">

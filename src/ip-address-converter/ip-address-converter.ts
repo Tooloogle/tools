@@ -101,7 +101,7 @@ export class IpAddressConverter extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">IP Address:</span>
-                <t-input placeholder="Enter IP (e.g., 192.168.1.1 or decimal number)..."></t-input>
+                <t-input placeholder="Enter IP (e.g., 192.168.1.1 or decimal number)..." .value=${this.input} @t-input=${this.handleInputChange}></t-input>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">

@@ -94,7 +94,7 @@ export class HeifToPngConverter extends WebComponentBase<IConfigBase> {
     return html`
       <div class="space-y-3">
         <label>Select HEIF or HEIC file:</label>
-        <t-input type="file"></t-input>
+        <t-input type="file" @t-change=${this.handleFileChange}></t-input>
 
         ${this.error
           ? html`<div class="text-rose-500">${this.error}</div>`

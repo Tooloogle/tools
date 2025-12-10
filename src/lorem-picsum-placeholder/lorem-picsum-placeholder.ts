@@ -77,12 +77,12 @@ export class LoremPicsumPlaceholder extends WebComponentBase<IConfigBase> {
                     </div>
                     <div>
                         <label class="block mb-2 font-semibold">Height (px):</label>
-                        <t-input type="number" class="w-full"></t-input>
+                        <t-input type="number" class="w-full" .value=${String(this.height)} @t-input=${this.handleHeightChange}></t-input>
                     </div>
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Specific Image ID (optional):</label>
-                    <t-input placeholder="e.g., 237 (leave empty for random)" class="w-full"></t-input>
+                    <t-input placeholder="e.g., 237 (leave empty for random)" class="w-full" .value=${String(this.imageId)} @t-input=${this.handleImageIdChange}></t-input>
                 </div>
                 <div class="space-y-2">
                     <label class="block">
