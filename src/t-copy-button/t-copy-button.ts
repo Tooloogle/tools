@@ -57,7 +57,7 @@ export class TCopyButton extends WebComponentBase<IConfigBase> {
   };
 
   private renderButtonContent = () => {
-    return html`<t-button variant="green" class="btn-sm">Copy</t-button>`;
+    return html`<t-button variant="green" size="sm">Copy</t-button>`;
   };
 
   private resetTitle = () => {

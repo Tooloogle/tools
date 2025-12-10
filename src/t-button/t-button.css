@@ -20,6 +20,32 @@
   @apply bg-green-600 hover:bg-green-700 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800;
 }
 
-.btn-sm {
-  @apply px-3 py-2 text-xs;
+.btn.sm {
+  font-size: 12px;
+  padding: 0.4rem 0.9rem;
+}
+
+.btn.md {
+  font-size: 14px;
+  padding: 0.6rem 1.2rem;
+}
+
+.btn.lg {
+  font-size: 16px;
+  padding: 0.8rem 1.6rem;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid white;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
