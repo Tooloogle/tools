@@ -101,14 +101,14 @@ export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Table Name:</label>
-          <t-input placeholder="my_table" class="w-full"></t-input>
+          <t-input .value=${this.tableName} @t-input=${this.handleTableNameInput} placeholder="my_table" class="w-full"></t-input>
         </div>
 
         <div>
           <label class="block mb-2 font-semibold"
             >JSON Input (Array of Objects):</label
           >
-          <t-textarea class="w-full h-40"></t-textarea>
+          <t-textarea .value=${this.inputText} @t-input=${this.handleInput} class="w-full h-40"></t-textarea>
         </div>
 
         ${this.errorMessage
@@ -121,7 +121,7 @@ export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
 
         <div>
           <label class="block mb-2 font-semibold">SQL INSERT Statements:</label>
-          <t-textarea ?readonly=${true} class="w-full h-40"></t-textarea>
+          <t-textarea .value=${this.outputText} ?readonly=${true} class="w-full h-40"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ""}

@@ -38,11 +38,11 @@ export class HexToAsciiConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Hexadecimal Input:</label>
-          <t-textarea placeholder="Enter hex values (e.g., 48 65 6C 6C 6F)..." class="w-full h-32"></t-textarea>
+          <t-textarea .value=${this.inputText} @t-input=${this.handleInput} placeholder="Enter hex values (e.g., 48 65 6C 6C 6F)..." class="w-full h-32"></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">ASCII Text Output:</label>
-          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
+          <t-textarea .value=${this.outputText} ?readonly=${true} class="w-full h-32"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

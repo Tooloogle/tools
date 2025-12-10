@@ -96,11 +96,11 @@ export class HtmlToMarkdownConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">HTML Input:</label>
-          <t-textarea placeholder="&lt;h1&gt;Hello World&lt;/h1&gt;&#10;&lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; and &lt;em&gt;italic&lt;/em&gt; text.&lt;/p&gt;" class="w-full h-40"></t-textarea>
+          <t-textarea .value=${this.inputText} @t-input=${this.handleInput} placeholder="&lt;h1&gt;Hello World&lt;/h1&gt;&#10;&lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; and &lt;em&gt;italic&lt;/em&gt; text.&lt;/p&gt;" class="w-full h-40"></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Markdown Output:</label>
-          <t-textarea ?readonly=${true} class="w-full h-40"></t-textarea>
+          <t-textarea .value=${this.outputText} ?readonly=${true} class="w-full h-40"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

@@ -30,13 +30,11 @@ export class AnagramChecker extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">First Word/Phrase:</label>
-                    <t-input placeholder="Enter first word or phrase..." class="w-full"></t-input> { this.text1 = e.detail.value; this.handleInput(); }}
-                    />
+                    <t-input .value=${this.text1} @t-input=${(e: CustomEvent) => { this.text1 = e.detail.value; this.handleInput(); }} placeholder="Enter first word or phrase..." class="w-full"></t-input>
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Second Word/Phrase:</label>
-                    <t-input placeholder="Enter second word or phrase..." class="w-full"></t-input> { this.text2 = e.detail.value; this.handleInput(); }}
-                    />
+                    <t-input .value=${this.text2} @t-input=${(e: CustomEvent) => { this.text2 = e.detail.value; this.handleInput(); }} placeholder="Enter second word or phrase..." class="w-full"></t-input>
                 </div>
                 ${this.hasInput ? html`
                     <div class="p-4 rounded ${this.isAnagram ? 'bg-green-100' : 'bg-red-100'}">

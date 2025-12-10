@@ -38,19 +38,17 @@ export class GcdCalculator extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">First Number:</label>
-                    <t-input type="number" class="w-full"></t-input> { 
+                    <t-input .value=${this.num1.toString()} @t-input=${(e: CustomEvent) => { 
                             this.num1 = Number(e.detail.value); 
                             this.calculate(); 
-                        }}
-                    />
+                        }} type="number" class="w-full"></t-input>
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Second Number:</label>
-                    <t-input type="number" class="w-full"></t-input> { 
+                    <t-input .value=${this.num2.toString()} @t-input=${(e: CustomEvent) => { 
                             this.num2 = Number(e.detail.value); 
                             this.calculate(); 
-                        }}
-                    />
+                        }} type="number" class="w-full"></t-input>
                 </div>
                 <div class="bg-green-50 p-4 rounded-lg">
                     <div class="text-sm text-gray-600 mb-1">GCD of ${this.num1} and ${this.num2}:</div>

@@ -25,13 +25,11 @@ export class DiscountCalculator extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">Original Price ($):</label>
-                    <t-input type="number" class="w-full"></t-input> { this.originalPrice = Number(e.detail.value); this.calculate(); }}
-                    />
+                    <t-input .value=${this.originalPrice.toString()} @t-input=${(e: CustomEvent) => { this.originalPrice = Number(e.detail.value); this.calculate(); }} type="number" class="w-full"></t-input>
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Discount (%):</label>
-                    <t-input type="number" class="w-full"></t-input> { this.discountPercent = Number(e.detail.value); this.calculate(); }}
-                    />
+                    <t-input .value=${this.discountPercent.toString()} @t-input=${(e: CustomEvent) => { this.discountPercent = Number(e.detail.value); this.calculate(); }} type="number" class="w-full"></t-input>
                 </div>
                 ${this.originalPrice > 0 ? html`
                     <div class="bg-gray-100 p-4 rounded space-y-2">
