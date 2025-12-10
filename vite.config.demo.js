@@ -57,12 +57,12 @@ export default defineConfig({
                 }
             });
         },
-        handleHotUpdate({ file, server }) {
+        async handleHotUpdate({ file, server }) {
             // This handles CSS files within the demo directory
             if (file.endsWith('.css') && !isInSrcDirectory(file)) {
                 // Only transform if NOT in src directory (src is handled by configureServer)
                 try {
-                    transformCssToTs(file);
+                    await transformCssToTs(file);
                 } catch (error) {
                     console.error(`Error transforming CSS: ${file}`, error);
                 }
