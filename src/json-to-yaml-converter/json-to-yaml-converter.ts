@@ -47,7 +47,7 @@ export class JsonToYamlConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">JSON Input:</label>
-          <t-textarea class="w-full h-32"></t-textarea>
+          <t-textarea class="w-full h-32" .value=${this.inputText} @t-input=${this.handleInput}></t-textarea>
         </div>
         ${this.errorMessage
           ? html`
@@ -60,7 +60,7 @@ export class JsonToYamlConverter extends WebComponentBase<IConfigBase> {
           : ''}
         <div>
           <label class="block mb-2 font-semibold">YAML Output:</label>
-          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32" .value=${this.outputText}></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

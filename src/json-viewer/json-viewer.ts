@@ -25,9 +25,8 @@ export class JsonViewer extends WebComponentBase<IConfigBase> {
         this.updateJsonObject();
     }
 
-    private onJsonInputChange(event: Event) {
-        const inputElement = event.target as HTMLInputElement;
-        this.jsonString = inputElement.value;
+    private onJsonInputChange(event: CustomEvent) {
+        this.jsonString = event.detail.value;
         this.updateJsonObject();
     }
 
@@ -129,8 +128,8 @@ export class JsonViewer extends WebComponentBase<IConfigBase> {
         const hasJsonObject = !!this.jsonObject;
         const controlButtons = hasJsonObject ? html`
         <div class="flex justify-end absolute end-1 top-1">
-            <t-button variant="blue" class="btn-sm">Expand All</t-button>
-            <t-button variant="blue" class="btn-sm">Collapse All</t-button>
+            <t-button variant="blue" class="btn-sm" @click=${this.expandAll}>Expand All</t-button>
+            <t-button variant="blue" class="btn-sm" @click=${this.collapseAll}>Collapse All</t-button>
         </div>
     ` : null;
 
@@ -142,7 +141,7 @@ export class JsonViewer extends WebComponentBase<IConfigBase> {
         <div class="json-viewer">
             <div class="editor mb-4">
                 <div class="text-end">
-                    <t-button variant="blue" class="btn-sm">Format</t-button>
+                    <t-button variant="blue" class="btn-sm" @click=${this.formatJson}>Format</t-button>
                 </div>
                 <t-textarea placeholder="Enter JSON string" rows="10" .value=${String(this.jsonString)} @t-input=${this.onJsonInputChange}></t-textarea>
             </div>

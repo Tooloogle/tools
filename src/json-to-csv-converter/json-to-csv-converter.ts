@@ -16,9 +16,8 @@ export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
     @state() separator = ',';
     @state() includeHeader = true;
 
-    private onJsonInputChange(event: Event) {
-        const inputElement = event.target as HTMLTextAreaElement;
-        this.jsonString = inputElement.value;
+    private onJsonInputChange(event: CustomEvent) {
+        this.jsonString = event.detail.value;
     }
 
     private onJsonFileUpload(event: Event) {
@@ -70,8 +69,8 @@ export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
         }
     }
 
-    private onSeparatorChange(event: Event) {
-        this.separator = (event.target as HTMLSelectElement).value;
+    private onSeparatorChange(event: CustomEvent) {
+        this.separator = event.detail.value;
     }
 
     private onIncludeHeaderChange(event: Event) {
@@ -84,16 +83,16 @@ export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
                 <div class="editor mb-4">
                     <t-textarea placeholder="Paste JSON data here or upload a JSON file" rows="10" .value=${String(this.jsonString)} @t-input=${this.onJsonInputChange}></t-textarea>
                     <input class="file-input" type="file" @change=${this.onJsonFileUpload} accept=".json" />
-                    <t-button variant="blue">Convert to CSV</t-button>
+                    <t-button variant="blue" @click=${this.convertJsonToCsv}>Convert to CSV</t-button>
                 </div>
 
                 <div class="config mb-4">
                     <label for="separator">Separator:</label>
-                    <select id="separator" class="form-select" @change=${this.onSeparatorChange}>
+                    <t-select id="separator" @t-change=${this.onSeparatorChange}>
                         <option value=",">Comma</option>
                         <option value=";">Semicolon</option>
                         <option value="\t">Tab</option>
-                    </select>
+                    </t-select>
 
                     <label>
                         <input type="checkbox" @change=${this.onIncludeHeaderChange} checked />
@@ -103,7 +102,7 @@ export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
 
                 <div class="editor mb-4 relative">
                     <t-textarea placeholder="Converted CSV will appear here" rows="10" .value=${String(this.csvString)} ?readonly=${true}></t-textarea>
-                    <t-button variant="blue">Download CSV</t-button>
+                    <t-button variant="blue" @click=${this.downloadCSV}>Download CSV</t-button>
                     <t-copy-button class="absolute top-3 end-2 text-blue" .text=${this.csvString}></t-copy-button>
                 </div>
             </div>
