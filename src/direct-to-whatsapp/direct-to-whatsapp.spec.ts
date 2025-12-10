@@ -11,7 +11,7 @@ describe('direct-to-whatsapp web component test', () => {
 
         await component.updateComplete;
 
-        const renderedText = component.renderRoot.querySelector("button.btn")?.textContent;
+        const renderedText = component.renderRoot.querySelector("t-button")?.textContent;
         expect(renderedText).toEqual('Open in Whatsapp');
     });
 

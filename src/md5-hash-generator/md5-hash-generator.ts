@@ -5,19 +5,17 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import md5HashGeneratorStyles from './md5-hash-generator.css.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import buttonStyles from '../_styles/button.css.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
 import md5 from 'blueimp-md5';
+import '../t-button';
+import '../t-input';
+import '../t-textarea';
 
 @customElement('md5-hash-generator')
 export class Md5HashGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    md5HashGeneratorStyles,
-  ];
+    md5HashGeneratorStyles];
 
   @property() input = '';
   @property() hash = '';
@@ -27,9 +25,9 @@ export class Md5HashGenerator extends WebComponentBase<IConfigBase> {
   // Maximum allowed input size (100KB)
   private readonly MAX_INPUT_SIZE = 100 * 1024;
 
-  private onInputChange(e: Event) {
+  private onInputChange(e: CustomEvent) {
     this.error = '';
-    this.input = (e.target as HTMLTextAreaElement).value;
+    this.input = e.detail.value;
   }
 
   private validateInput(): boolean {
@@ -79,14 +77,7 @@ export class Md5HashGenerator extends WebComponentBase<IConfigBase> {
     return html` <div>
       <label class="block">
         <span class="inline-block py-1">Input Text</span>
-        <textarea
-          class="form-textarea"
-          autofocus
-          placeholder="Enter text to generate MD5 hash"
-          rows="3"
-          .value=${this.input}
-          @input=${this.onInputChange}
-        ></textarea>
+        <t-textarea placeholder="Enter text to generate MD5 hash" rows="3" .value=${String(this.input)} @t-input=${this.onInputChange}></t-textarea>
       </label>
 
       ${this.error
@@ -94,20 +85,12 @@ export class Md5HashGenerator extends WebComponentBase<IConfigBase> {
         : ''}
 
       <div class="button-group">
-        <button
-          class="btn btn-blue"
-          @click=${this.generateHash}
-          ?disabled=${!this.input || this.isGenerating}
-        >
+        <t-button variant="blue" @click=${this.generateHash} ?disabled=${!this.input || this.isGenerating}>
           ${this.isGenerating ? 'Generating...' : 'Generate MD5 Hash'}
-        </button>
-        <button
-          class="btn btn-red"
-          @click=${this.clearAll}
-          ?disabled=${this.isGenerating}
-        >
+        </t-button>
+        <t-button variant="red" @click=${this.clearAll} ?disabled=${this.isGenerating}>
           Clear All
-        </button>
+        </t-button>
       </div>
 
       ${this.hash
@@ -117,7 +100,7 @@ export class Md5HashGenerator extends WebComponentBase<IConfigBase> {
                 <span class="inline-block py-1">MD5 Hash</span>
                 <t-copy-button .text=${this.hash}></t-copy-button>
               </div>
-              <input class="form-input" readonly .value=${this.hash} />
+              <t-input .value=${String(this.hash)} ?readonly=${true}></t-input>
             </label>
 
             <p>

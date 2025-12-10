@@ -2,12 +2,11 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import tStopwatchStyles from './t-stopwatch.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import buttonStyles from '../_styles/button.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('t-stopwatch')
 export class TStopwatch extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, buttonStyles, tStopwatchStyles];
+    static override styles = [WebComponentBase.styles, tStopwatchStyles];
 
     @property({ type: Number }) elapsedTime = 0;
     @property({ type: Boolean }) isRunning = false;

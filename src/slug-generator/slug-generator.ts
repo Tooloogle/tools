@@ -2,13 +2,15 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import slugGeneratorStyles from './slug-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-button';
+import '../t-input';
+import '../t-select';
+import '../t-textarea';
 
 @customElement('slug-generator')
 export class SlugGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, slugGeneratorStyles];
+    static override styles = [WebComponentBase.styles, slugGeneratorStyles];
 
     @property()
     input = '';
@@ -22,13 +24,13 @@ export class SlugGenerator extends WebComponentBase<IConfigBase> {
     @property()
     lowercase = true;
 
-    private handleInputChange(e: Event) {
-        this.input = (e.target as HTMLTextAreaElement).value;
+    private handleInputChange(e: CustomEvent) {
+        this.input = e.detail.value;
         this.generateSlug();
     }
 
-    private handleSeparatorChange(e: Event) {
-        this.separator = (e.target as HTMLSelectElement).value;
+    private handleSeparatorChange(e: CustomEvent) {
+        this.separator = e.detail.value;
         this.generateSlug();
     }
 
@@ -79,28 +81,17 @@ export class SlugGenerator extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">Input Text:</span>
-                <textarea
-                    class="form-textarea"
-                    placeholder="Enter text to convert to slug..."
-                    rows="4"
-                    autofocus
-                    .value=${this.input}
-                    @input=${this.handleInputChange}
-                ></textarea>
+                <t-textarea placeholder="Enter text to convert to slug..." rows="4" .value=${String(this.input)} @t-input=${this.handleInputChange}></t-textarea>
             </label>
 
             <div class="py-2 space-y-2">
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Separator:</span>
-                    <select
-                        class="form-select"
-                        .value=${this.separator}
-                        @change=${this.handleSeparatorChange}
-                    >
+                    <t-select .value=${String(this.separator)} @t-change=${this.handleSeparatorChange}>
                         <option value="-">Hyphen (-)</option>
                         <option value="_">Underscore (_)</option>
                         <option value=".">Dot (.)</option>
-                    </select>
+                    </t-select>
                 </label>
 
                 <label class="flex items-center">
@@ -115,18 +106,13 @@ export class SlugGenerator extends WebComponentBase<IConfigBase> {
             </div>
 
             <div class="py-2">
-                <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                <t-button variant="red" @click=${this.clear}>Clear</t-button>
             </div>
 
             ${this.output ? html`
                 <label class="block py-1">
                     <span class="inline-block py-1 font-bold">Slug Output:</span>
-                    <input
-                        type="text"
-                        class="form-input"
-                        readonly
-                        .value=${this.output}
-                    />
+                    <t-input ?readonly=${true}></t-input>
                     <div class="py-2 text-right">
                         <t-copy-button .isIcon=${false} .text=${this.output}></t-copy-button>
                     </div>

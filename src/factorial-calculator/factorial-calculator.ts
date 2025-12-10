@@ -2,11 +2,11 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import factorialCalculatorStyles from './factorial-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
+import '../t-input';
 
 @customElement('factorial-calculator')
 export class FactorialCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, factorialCalculatorStyles];
+    static override styles = [WebComponentBase.styles, factorialCalculatorStyles];
 
     @property({ type: Number }) inputNumber = 5;
     @property({ type: String }) result = '';
@@ -48,14 +48,8 @@ export class FactorialCalculator extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">Enter Number:</label>
-                    <input
-                        type="number"
-                        min="0"
-                        max="170"
-                        class="form-input w-full"
-                        .value=${String(this.inputNumber)}
-                        @input=${(e: Event) => { 
-                            this.inputNumber = Number((e.target as HTMLInputElement).value); 
+                    <t-input type="number" class="w-full"></t-input> { 
+                            this.inputNumber = Number(e.detail.value); 
                             this.calculate(); 
                         }}
                     />

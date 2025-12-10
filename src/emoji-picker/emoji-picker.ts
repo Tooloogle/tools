@@ -2,13 +2,14 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import emojiPickerStyles from './emoji-picker.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-input';
+import '../t-select';
 
 @customElement('emoji-picker')
 export class EmojiPicker extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, emojiPickerStyles];
+    static override styles = [WebComponentBase.styles, emojiPickerStyles];
 
     @property()
     searchQuery = '';
@@ -28,12 +29,12 @@ export class EmojiPicker extends WebComponentBase<IConfigBase> {
         symbols: ['❤️', '💛', '💚', '💙', '💜', '🖤', '🤍', '💯', '💢', '💬', '👁️‍🗨️', '🗨', '🗯', '💭', '💤', '✅', '⭕', '❌', '⚠️', '❗', '❓', '❔', '❕']
     };
 
-    private handleSearchChange(e: Event) {
-        this.searchQuery = (e.target as HTMLInputElement).value.toLowerCase();
+    private handleSearchChange(e: CustomEvent) {
+        this.searchQuery = e.detail.value.toLowerCase();
     }
 
-    private handleCategoryChange(e: Event) {
-        this.selectedCategory = (e.target as HTMLSelectElement).value;
+    private handleCategoryChange(e: CustomEvent) {
+        this.selectedCategory = e.detail.value;
     }
 
     private copyEmoji(emoji: string) {
@@ -75,22 +76,12 @@ export class EmojiPicker extends WebComponentBase<IConfigBase> {
             <div class="space-y-4 py-2">
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Search Emoji:</span>
-                    <input
-                        type="text"
-                        class="form-input"
-                        placeholder="Search emojis..."
-                        .value=${this.searchQuery}
-                        @input=${this.handleSearchChange}
-                    />
+                    <t-input placeholder="Search emojis..." .value=${this.searchQuery} @t-input=${this.handleSearchChange}></t-input>
                 </label>
 
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Category:</span>
-                    <select
-                        class="form-select"
-                        .value=${this.selectedCategory}
-                        @change=${this.handleCategoryChange}
-                    >
+                    <t-select .value=${String(this.selectedCategory)} @t-change=${this.handleCategoryChange}>
                         <option value="all">All</option>
                         <option value="smileys">Smileys & Emotions</option>
                         <option value="gestures">Hand Gestures</option>
@@ -101,7 +92,7 @@ export class EmojiPicker extends WebComponentBase<IConfigBase> {
                         <option value="travel">Travel & Places</option>
                         <option value="objects">Objects</option>
                         <option value="symbols">Symbols</option>
-                    </select>
+                    </t-select>
                 </label>
 
                 <div class="grid grid-cols-8 gap-2">

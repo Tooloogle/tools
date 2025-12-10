@@ -5,22 +5,20 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import textToBinaryConverterStyles from './text-to-binary-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
+import '../t-textarea';
 
 @customElement('text-to-binary-converter')
 export class TextToBinaryConverter extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    textToBinaryConverterStyles,
-  ];
+    textToBinaryConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputBinary = '';
 
-  private handleInput(e: Event) {
-    this.inputText = (e.target as HTMLTextAreaElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputText = e.detail.value;
     this.outputBinary = this.textToBinary(this.inputText);
   }
 
@@ -36,20 +34,11 @@ export class TextToBinaryConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Input Text:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            placeholder="Enter text to convert to binary..."
-            .value=${this.inputText}
-            @input=${this.handleInput}
-          ></textarea>
+          <t-textarea placeholder="Enter text to convert to binary..." class="w-full h-32"></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Binary Output:</label>
-          <textarea
-            class="form-textarea w-full h-32 font-mono"
-            readonly
-            .value=${this.outputBinary}
-          ></textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32 font-mono"></t-textarea>
           ${this.outputBinary
             ? html`<t-copy-button .text=${this.outputBinary}></t-copy-button>`
             : ''}

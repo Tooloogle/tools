@@ -1,6 +1,7 @@
 import { html, TemplateResult } from 'lit';
 import { Experience } from './resume-builder-types.js';
 import { TemplateHandlers } from './resume-builder-templates.js';
+import '../t-button';
 
 export class ExperienceTemplate {
   static renderExperienceSection(
@@ -11,9 +12,9 @@ export class ExperienceTemplate {
       <div class="section experience">
         <div class="section-header">
           <h3>Work Experience</h3>
-          <button class="btn btn-primary" @click="${handlers.addExperience}">
+          <t-button variant="blue" @click="${handlers.addExperience}">
             Add Experience
-          </button>
+          </t-button>
         </div>
         ${this.renderExperienceItems(experiences, handlers)}
       </div>
@@ -99,8 +100,7 @@ export class ExperienceTemplate {
         type: 'textarea',
         label: 'Job Description',
         placeholder: 'Describe your responsibilities and achievements...',
-      },
-    ];
+      }];
 
     return fields.map(field =>
       this.renderExperienceField(field, exp, handlers)
@@ -120,11 +120,11 @@ export class ExperienceTemplate {
     exp: Experience,
     handlers: TemplateHandlers
   ): TemplateResult {
-    const handleFieldChange = (e: Event) => {
+    const handleFieldChange = (e: CustomEvent) => {
       const value =
         fieldInfo.type === 'checkbox'
           ? (e.target as HTMLInputElement).checked
-          : (e.target as HTMLInputElement).value;
+          : e.detail.value;
       handlers.updateExperience(exp.id, fieldInfo.field, value);
     };
 

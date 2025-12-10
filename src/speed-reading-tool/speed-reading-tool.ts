@@ -2,12 +2,12 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import speedReadingToolStyles from './speed-reading-tool.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
+import '../t-input';
 
 @customElement('speed-reading-tool')
 export class SpeedReadingTool extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, speedReadingToolStyles];
+    static override styles = [WebComponentBase.styles, speedReadingToolStyles];
 
     @property({ type: String }) inputText = '';
     @property({ type: String }) currentWord = '';
@@ -17,8 +17,8 @@ export class SpeedReadingTool extends WebComponentBase<IConfigBase> {
     private words: string[] = [];
     private intervalId: number | null = null;
 
-    private handleInput(e: Event) {
-        this.inputText = (e.target as HTMLTextAreaElement).value;
+    private handleInput(e: CustomEvent) {
+        this.inputText = e.detail.value;
         this.words = this.inputText.split(/\s+/).filter(w => w.length > 0);
         this.currentIndex = 0;
         this.currentWord = '';
@@ -72,13 +72,7 @@ export class SpeedReadingTool extends WebComponentBase<IConfigBase> {
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Speed (WPM):</label>
-                    <input
-                        type="number"
-                        class="form-input w-full"
-                        min="100"
-                        max="1000"
-                        .value=${String(this.wpm)}
-                        @input=${(e: Event) => { this.wpm = Number((e.target as HTMLInputElement).value); }}
+                    <t-input type="number" class="w-full"></t-input> { this.wpm = Number(e.detail.value); }}
                     />
                 </div>
                 <div class="flex gap-2">

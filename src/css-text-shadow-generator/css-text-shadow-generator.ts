@@ -5,15 +5,14 @@ import {
 } from "../_web-component/WebComponentBase.js";
 import cssTextShadowGeneratorStyles from "./css-text-shadow-generator.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
 import "../t-copy-button";
+import '../t-input';
+import '../t-textarea';
 @customElement("css-text-shadow-generator")
 export class CssTextShadowGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    cssTextShadowGeneratorStyles,
-  ];
+    cssTextShadowGeneratorStyles];
 
   @property({ type: Number }) offsetX = 2;
   @property({ type: Number }) offsetY = 2;
@@ -39,13 +38,8 @@ export class CssTextShadowGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2">${label}:</label>
-        <input
-          type="number"
-          class="form-input w-full"
-          .value=${String(value)}
-          min=${min !== undefined ? String(min) : ""}
-          @input=${(e: Event) => {
-            this[property] = Number((e.target as HTMLInputElement).value);
+        <t-input type="number" class="w-full"></t-input> {
+            this[property] = Number(e.detail.value);
             this.process();
           }}
         />
@@ -57,12 +51,8 @@ export class CssTextShadowGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2">Color:</label>
-        <input
-          type="color"
-          class="form-input w-full"
-          .value=${this.color}
-          @input=${(e: Event) => {
-            this.color = (e.target as HTMLInputElement).value;
+        <t-input type="color" class="w-full"></t-input> {
+            this.color = e.detail.value;
             this.process();
           }}
         />
@@ -90,11 +80,7 @@ export class CssTextShadowGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">CSS Output:</label>
-        <textarea
-          class="form-textarea w-full h-20 font-mono"
-          readonly
-          .value=${this.outputText}
-        ></textarea>
+        <t-textarea ?readonly=${true} class="w-full h-20 font-mono"></t-textarea>
         <t-copy-button
           .text=${this.outputText}
           .isIcon=${false}

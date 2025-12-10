@@ -2,11 +2,11 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import tipCalculatorStyles from './tip-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
+import '../t-input';
 
 @customElement('tip-calculator')
 export class TipCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, tipCalculatorStyles];
+    static override styles = [WebComponentBase.styles, tipCalculatorStyles];
 
     @property({ type: Number }) billAmount = 0;
     @property({ type: Number }) tipPercent = 15;
@@ -49,17 +49,11 @@ export class TipCalculator extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">Bill Amount ($):</label>
-                    <input type="number" class="form-input w-full" min="0" step="0.01"
-                        .value=${String(this.billAmount)}
-                        @input=${(e: Event) => { this.billAmount = Number((e.target as HTMLInputElement).value); this.calculate(); }}
-                    />
+                    <t-input type="number" class="w-full" @t-input=${(e: CustomEvent) => { this.billAmount = Number(e.detail.value); this.calculate(); }}></t-input>
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Tip Percentage (%):</label>
-                    <input type="number" class="form-input w-full" min="0" max="100"
-                        .value=${String(this.tipPercent)}
-                        @input=${(e: Event) => { this.tipPercent = Number((e.target as HTMLInputElement).value); this.calculate(); }}
-                    />
+                    <t-input type="number" class="w-full" @t-input=${(e: CustomEvent) => { this.tipPercent = Number(e.detail.value); this.calculate(); }}></t-input>
                     <div class="flex gap-2 mt-2">
                         <button class="px-3 py-1 bg-blue-500 text-white rounded" @click=${() => { this.tipPercent = 10; this.calculate(); }}>10%</button>
                         <button class="px-3 py-1 bg-blue-500 text-white rounded" @click=${() => { this.tipPercent = 15; this.calculate(); }}>15%</button>
@@ -69,9 +63,7 @@ export class TipCalculator extends WebComponentBase<IConfigBase> {
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Number of People:</label>
-                    <input type="number" class="form-input w-full" min="1"
-                        .value=${String(this.numPeople)}
-                        @input=${(e: Event) => { this.numPeople = Number((e.target as HTMLInputElement).value); this.calculate(); }}
+                    <t-input type="number" class="w-full"></t-input> { this.numPeople = Number(e.detail.value); this.calculate(); }}
                     />
                 </div>
                 ${this.renderResult()}

@@ -5,23 +5,21 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import hslToRgbConverterStyles from './hsl-to-rgb-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
+import '../t-textarea';
 
 @customElement('hsl-to-rgb-converter')
 export class HslToRgbConverter extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    hslToRgbConverterStyles,
-  ];
+    hslToRgbConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
   @property({ type: String }) error = '';
 
-  private handleInput(e: Event) {
-    this.inputText = (e.target as HTMLTextAreaElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputText = e.detail.value;
     this.process();
   }
 
@@ -104,23 +102,14 @@ export class HslToRgbConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">HSL Input:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            placeholder="Enter HSL color (e.g., hsl(360, 100%, 50%))..."
-            .value=${this.inputText}
-            @input=${this.handleInput}
-          ></textarea>
+          <t-textarea .value=${this.inputText} @t-input=${this.handleInput} placeholder="Enter HSL color (e.g., hsl(360, 100%, 50%))..." class="w-full h-32"></t-textarea>
         </div>
         ${this.error
           ? html`<div class="text-red-600 text-sm">${this.error}</div>`
           : ''}
         <div>
           <label class="block mb-2 font-semibold">RGB Output:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
+          <t-textarea .value=${this.outputText} ?readonly=${true} class="w-full h-32"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

@@ -2,11 +2,11 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import gcdCalculatorStyles from './gcd-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
+import '../t-input';
 
 @customElement('gcd-calculator')
 export class GcdCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, gcdCalculatorStyles];
+    static override styles = [WebComponentBase.styles, gcdCalculatorStyles];
 
     @property({ type: Number }) num1 = 48;
     @property({ type: Number }) num2 = 18;
@@ -38,27 +38,17 @@ export class GcdCalculator extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">First Number:</label>
-                    <input
-                        type="number"
-                        class="form-input w-full"
-                        .value=${String(this.num1)}
-                        @input=${(e: Event) => { 
-                            this.num1 = Number((e.target as HTMLInputElement).value); 
+                    <t-input .value=${this.num1.toString()} @t-input=${(e: CustomEvent) => { 
+                            this.num1 = Number(e.detail.value); 
                             this.calculate(); 
-                        }}
-                    />
+                        }} type="number" class="w-full"></t-input>
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Second Number:</label>
-                    <input
-                        type="number"
-                        class="form-input w-full"
-                        .value=${String(this.num2)}
-                        @input=${(e: Event) => { 
-                            this.num2 = Number((e.target as HTMLInputElement).value); 
+                    <t-input .value=${this.num2.toString()} @t-input=${(e: CustomEvent) => { 
+                            this.num2 = Number(e.detail.value); 
                             this.calculate(); 
-                        }}
-                    />
+                        }} type="number" class="w-full"></t-input>
                 </div>
                 <div class="bg-green-50 p-4 rounded-lg">
                     <div class="text-sm text-gray-600 mb-1">GCD of ${this.num1} and ${this.num2}:</div>

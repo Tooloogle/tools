@@ -2,12 +2,12 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import jwtDecoderStyles from './jwt-decoder.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
+import '../t-textarea';
+import '../t-button';
 
 @customElement('jwt-decoder')
 export class JwtDecoder extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, jwtDecoderStyles];
+    static override styles = [WebComponentBase.styles, jwtDecoderStyles];
 
     @property()
     input = '';
@@ -21,8 +21,8 @@ export class JwtDecoder extends WebComponentBase<IConfigBase> {
     @property()
     error = '';
 
-    private handleInputChange(e: Event) {
-        this.input = (e.target as HTMLTextAreaElement).value;
+    private handleInputChange(e: CustomEvent) {
+        this.input = e.detail.value;
     }
 
     private decodeJwt() {
@@ -69,19 +69,17 @@ export class JwtDecoder extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">JWT Token:</span>
-                <textarea
-                    class="form-textarea"
+                <t-textarea
                     placeholder="Paste JWT token here..."
                     rows="4"
-                    autofocus
                     .value=${this.input}
-                    @input=${this.handleInputChange}
-                ></textarea>
+                    @t-input=${this.handleInputChange}
+                ></t-textarea>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
-                <button class="btn btn-blue" @click=${this.decodeJwt}>Decode JWT</button>
-                <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                <t-button variant="blue" @click=${this.decodeJwt}>Decode JWT</t-button>
+                <t-button variant="red" @click=${this.clear}>Clear</t-button>
             </div>
 
             ${this.error ? html`
@@ -96,12 +94,12 @@ export class JwtDecoder extends WebComponentBase<IConfigBase> {
                 <div class="py-1">
                     <label class="block">
                         <span class="inline-block py-1 font-bold">Header:</span>
-                        <textarea
-                            class="form-textarea font-mono text-sm"
+                        <t-textarea
+                            class="font-mono text-sm"
                             rows="6"
-                            readonly
+                            ?readonly=${true}
                             .value=${this.header}
-                        ></textarea>
+                        ></t-textarea>
                     </label>
                 </div>
             ` : ''}
@@ -110,12 +108,12 @@ export class JwtDecoder extends WebComponentBase<IConfigBase> {
                 <div class="py-1">
                     <label class="block">
                         <span class="inline-block py-1 font-bold">Payload:</span>
-                        <textarea
-                            class="form-textarea font-mono text-sm"
+                        <t-textarea
+                            class="font-mono text-sm"
                             rows="10"
-                            readonly
+                            ?readonly=${true}
                             .value=${this.payload}
-                        ></textarea>
+                        ></t-textarea>
                     </label>
                 </div>
 

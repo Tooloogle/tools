@@ -5,6 +5,8 @@ import {
   WebComponentBase,
 } from '../_web-component/WebComponentBase.js';
 import bmiCalculatorStyles from './bmi-calculator.css.js';
+import '../t-input';
+import '../t-select';
 import {
   validateInput,
   calculateBMIValue,
@@ -165,17 +167,9 @@ export class BmiCalculator extends WebComponentBase<IConfigBase> {
       <div class="input-wrapper">
         <div class="input-group">
           <label>Height (${this.unit === 'metric' ? 'cm' : 'ft'}):</label>
-          <input
-            type="number"
-            class="form-input ${this.heightError ? 'error' : ''}"
-            placeholder="${this.unit === 'metric'
+          <t-input type="number" placeholder="${this.unit === 'metric'
               ? 'Enter height in cm'
-              : 'Enter height in feet'}"
-            step="${this.unit === 'metric' ? '1' : '0.1'}"
-            min="0"
-            .value="${this.heightInputValue}"
-            @input="${this.handleHeightChange}"
-          />
+              : 'Enter height in feet'}" .value="${String(this.heightInputValue)}" @t-input="${this.handleHeightChange}" class="${this.heightError ? 'error' : ''}"></t-input>
         </div>
         ${this.renderErrorMessage(this.heightError)}
       </div>
@@ -187,17 +181,9 @@ export class BmiCalculator extends WebComponentBase<IConfigBase> {
       <div class="input-wrapper">
         <div class="input-group">
           <label>Weight (${this.unit === 'metric' ? 'kg' : 'lbs'}):</label>
-          <input
-            type="number"
-            class="form-input ${this.weightError ? 'error' : ''}"
-            placeholder="${this.unit === 'metric'
+          <t-input type="number" placeholder="${this.unit === 'metric'
               ? 'Enter weight in kg'
-              : 'Enter weight in lbs'}"
-            step="${this.unit === 'metric' ? '0.1' : '1'}"
-            min="0"
-            .value="${this.weightInputValue}"
-            @input="${this.handleWeightChange}"
-          />
+              : 'Enter weight in lbs'}" .value="${String(this.weightInputValue)}" @t-input="${this.handleWeightChange}" class="${this.weightError ? 'error' : ''}"></t-input>
         </div>
         ${this.renderErrorMessage(this.weightError)}
       </div>

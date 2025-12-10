@@ -1,12 +1,12 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
 import cssGradientGeneratorStyles from './css-gradient-generator.css.js'; // Import for CSS styles
+import '../t-input';
 
 @customElement('css-gradient-generator')
 export class CssGradientGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, cssGradientGeneratorStyles];
+    static override styles = [WebComponentBase.styles, cssGradientGeneratorStyles];
 
     @property({ type: String }) color1 = '#ff0000'; // Default color 1
     @property({ type: String }) color2 = '#0000ff'; // Default color 2
@@ -39,16 +39,7 @@ export class CssGradientGenerator extends WebComponentBase<IConfigBase> {
         this.requestUpdate();
     }
 
-    private onTextInputChange(event: Event) {
-        const inputElement = event.target as HTMLInputElement;
-        if (inputElement.id === 'colorInput1') {
-            this.color1 = inputElement.value.toUpperCase();
-        } else if (inputElement.id === 'colorInput2') {
-            this.color2 = inputElement.value.toUpperCase();
-        }
 
-        this.requestUpdate();
-    }
 
     private onGradientTypeChange(event: Event) {
         const buttonElement = event.currentTarget as HTMLButtonElement;
@@ -87,13 +78,13 @@ export class CssGradientGenerator extends WebComponentBase<IConfigBase> {
                     <div class="color-picker">
                         <label for="colorPicker1">Color 1:</label>
                         <input id="colorPicker1" type="color" .value="${this.color1}" @input=${this.onColorInputChange}>
-                        <input id="colorInput1" class="form-input" type="text" .value="${this.color1}" @input="${this.onTextInputChange}">
+                        <t-input id="colorInput1" .value="${String(this.color1)}" @t-input=${(e: CustomEvent) => { this.color1 = e.detail.value.toUpperCase(); this.requestUpdate(); }}></t-input>
                     </div>
 
                     <div class="color-picker">
                         <label for="colorPicker2">Color 2:</label>
                         <input id="colorPicker2" type="color" .value="${this.color2}" @input=${this.onColorInputChange}>
-                        <input id="colorInput2" class="form-input" type="text" .value="${this.color2}" @input="${this.onTextInputChange}">
+                        <t-input id="colorInput2" .value="${String(this.color2)}" @t-input=${(e: CustomEvent) => { this.color2 = e.detail.value.toUpperCase(); this.requestUpdate(); }}></t-input>
                     </div>
 
                     <div class="gradient-type">

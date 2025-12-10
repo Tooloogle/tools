@@ -5,30 +5,29 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import aesDecryptionStyles from './aes-decryption.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import CryptoJS from 'crypto-js';
 import '../t-copy-button';
+import '../t-input';
+import '../t-textarea';
 
 @customElement('aes-decryption')
 export class AesDecryption extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    aesDecryptionStyles,
-  ];
+    aesDecryptionStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) secretKey = '';
   @property({ type: String }) outputText = '';
   @property({ type: String }) error = '';
 
-  private handleInputChange(e: Event) {
-    this.inputText = (e.target as HTMLTextAreaElement).value;
+  private handleInputChange(e: CustomEvent) {
+    this.inputText = e.detail.value;
     this.process();
   }
 
-  private handleKeyChange(e: Event) {
-    this.secretKey = (e.target as HTMLInputElement).value;
+  private handleKeyChange(e: CustomEvent) {
+    this.secretKey = e.detail.value;
     this.process();
   }
 
@@ -68,33 +67,18 @@ export class AesDecryption extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Secret Key:</label>
-          <input
-            type="password"
-            class="form-input w-full"
-            placeholder="Enter secret key used for encryption..."
-            .value=${this.secretKey}
-            @input=${this.handleKeyChange}
-          />
+          <t-input type="password" placeholder="Enter secret key used for encryption..." class="w-full" .value=${this.secretKey} @t-input=${this.handleKeyChange}></t-input>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Encrypted Text:</label>
-          <textarea
-            class="form-textarea w-full h-32 font-mono"
-            placeholder="Enter encrypted text to decrypt..."
-            .value=${this.inputText}
-            @input=${this.handleInputChange}
-          ></textarea>
+          <t-textarea placeholder="Enter encrypted text to decrypt..." class="w-full h-32 font-mono" .value=${this.inputText} @t-input=${this.handleInputChange}></t-textarea>
         </div>
         ${this.error
           ? html`<div class="text-red-600 text-sm">${this.error}</div>`
           : ''}
         <div>
           <label class="block mb-2 font-semibold">Decrypted Text:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32" .value=${this.outputText}></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

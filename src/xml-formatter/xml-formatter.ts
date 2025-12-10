@@ -2,13 +2,13 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import xmlFormatterStyles from './xml-formatter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-button';
+import '../t-textarea';
 
 @customElement('xml-formatter')
 export class XmlFormatter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, xmlFormatterStyles];
+    static override styles = [WebComponentBase.styles, xmlFormatterStyles];
 
     @property()
     input = '';
@@ -19,8 +19,8 @@ export class XmlFormatter extends WebComponentBase<IConfigBase> {
     @property()
     error = '';
 
-    private handleInputChange(e: Event) {
-        this.input = (e.target as HTMLTextAreaElement).value;
+    private handleInputChange(e: CustomEvent) {
+        this.input = e.detail.value;
         this.error = '';
     }
 
@@ -97,20 +97,13 @@ export class XmlFormatter extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">XML Input:</span>
-                <textarea
-                    class="form-textarea font-mono text-sm"
-                    placeholder="Paste XML here..."
-                    rows="10"
-                    autofocus
-                    .value=${this.input}
-                    @input=${this.handleInputChange}
-                ></textarea>
+                <t-textarea placeholder="Paste XML here..." rows="10" class="font-mono text-sm"></t-textarea>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
-                <button class="btn btn-blue" @click=${this.formatXml}>Format XML</button>
-                <button class="btn btn-blue" @click=${this.minify}>Minify XML</button>
-                <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                <t-button variant="blue" @click=${this.formatXml}>Format XML</t-button>
+                <t-button variant="blue" @click=${this.minify}>Minify XML</t-button>
+                <t-button variant="red" @click=${this.clear}>Clear</t-button>
             </div>
 
             ${this.error ? html`
@@ -124,12 +117,7 @@ export class XmlFormatter extends WebComponentBase<IConfigBase> {
             ${this.output ? html`
                 <label class="block py-1">
                     <span class="inline-block py-1 font-bold">Formatted Output:</span>
-                    <textarea
-                        class="form-textarea font-mono text-sm"
-                        rows="10"
-                        readonly
-                        .value=${this.output}
-                    ></textarea>
+                    <t-textarea rows="10" ?readonly=${true} class="font-mono text-sm"></t-textarea>
                     <div class="py-2 text-right">
                         <t-copy-button .isIcon=${false} .text=${this.output}></t-copy-button>
                     </div>

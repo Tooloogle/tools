@@ -2,11 +2,11 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import octalConverterStyles from './octal-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
+import '../t-input';
 
 @customElement('octal-converter')
 export class OctalConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, octalConverterStyles];
+    static override styles = [WebComponentBase.styles, octalConverterStyles];
 
     @property({ type: String }) inputText = '';
     @property({ type: String }) decimalOutput = '';
@@ -14,8 +14,8 @@ export class OctalConverter extends WebComponentBase<IConfigBase> {
     @property({ type: String }) hexOutput = '';
     @property({ type: String }) error = '';
 
-    private handleInput(e: Event) {
-        this.inputText = (e.target as HTMLTextAreaElement).value;
+    private handleInput(e: CustomEvent) {
+        this.inputText = e.detail.value;
         this.process();
     }
 
@@ -56,13 +56,7 @@ export class OctalConverter extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">Octal Input:</label>
-                    <input
-                        type="text"
-                        class="form-input w-full"
-                        placeholder="Enter octal number (e.g., 755)..."
-                        .value=${this.inputText}
-                        @input=${this.handleInput}
-                    />
+                    <t-input placeholder="Enter octal number (e.g., 755)..." class="w-full"></t-input>
                 </div>
                 ${this.error ? html`<div class="text-red-600 text-sm">${this.error}</div>` : ''}
                 ${this.decimalOutput ? html`

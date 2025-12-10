@@ -2,12 +2,11 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import pomodoroTimerStyles from './pomodoro-timer.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import buttonStyles from '../_styles/button.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('pomodoro-timer')
 export class PomodoroTimer extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, buttonStyles, pomodoroTimerStyles];
+    static override styles = [WebComponentBase.styles, pomodoroTimerStyles];
 
     @property({ type: Number }) timeLeft = 25 * 60;
     @property({ type: Boolean }) isRunning = false;

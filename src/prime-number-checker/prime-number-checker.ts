@@ -5,22 +5,20 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import primeNumberCheckerStyles from './prime-number-checker.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
+import '../t-textarea';
 
 @customElement('prime-number-checker')
 export class PrimeNumberChecker extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    primeNumberCheckerStyles,
-  ];
+    primeNumberCheckerStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
 
-  private handleInput(e: Event) {
-    this.inputText = (e.target as HTMLTextAreaElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputText = e.detail.value;
     this.process();
   }
 
@@ -51,20 +49,11 @@ export class PrimeNumberChecker extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Number Input:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            placeholder="Enter a number to check if it's prime..."
-            .value=${this.inputText}
-            @input=${this.handleInput}
-          ></textarea>
+          <t-textarea placeholder="Enter a number to check if it's prime..." class="w-full h-32"></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Result:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

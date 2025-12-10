@@ -2,12 +2,11 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import countdownTimerStyles from './countdown-timer.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('countdown-timer')
 export class CountdownTimer extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, countdownTimerStyles];
+    static override styles = [WebComponentBase.styles, countdownTimerStyles];
 
     @property({ type: Number }) targetTime = 0;
     @property({ type: String }) display = '00:00:00';

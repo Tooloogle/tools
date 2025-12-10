@@ -1,14 +1,15 @@
 import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import csvToJsonConverterStyles from './csv-to-json-converter.css.js';
 import "../t-copy-button/t-copy-button.js";
+import '../t-button';
+import '../t-select';
+import '../t-textarea';
 
 @customElement('csv-to-json-converter')
 export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
-  static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, csvToJsonConverterStyles];
+  static override styles = [WebComponentBase.styles, csvToJsonConverterStyles];
 
   @property({ type: String }) csvString = '';
   @state() jsonString = '';
@@ -89,44 +90,38 @@ export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
     document.body.removeChild(link);
   }
 
-  private onParseNumbersChange(e: Event) {
+  private onParseNumbersChange(e: CustomEvent) {
     this.parseNumbers = (e.target as HTMLInputElement).checked;
   }
 
-  private onOutputAsArrayChange(e: Event) {
+  private onOutputAsArrayChange(e: CustomEvent) {
     this.outputAsArray = (e.target as HTMLInputElement).checked;
   }
 
-  private onMinifyOutputChange(e: Event) {
+  private onMinifyOutputChange(e: CustomEvent) {
     this.minifyOutput = (e.target as HTMLInputElement).checked;
   }
 
-  private onSeparatorChange(e: Event) {
-    this.separator = (e.target as HTMLSelectElement).value;
+  private onSeparatorChange(e: CustomEvent) {
+    this.separator = e.detail.value;
   }
   // eslint-disable-next-line max-lines-per-function
   render() {
     return html`
       <div class="csv-to-json-converter">
         <div class="editor mb-4">
-          <textarea
-            class="form-textarea"
-            .value="${this.csvString}"
-            @input="${this.onCsvInputChange}"
-            placeholder="Paste CSV data here or upload a file"
-            rows="10"
-          ></textarea>
+          <t-textarea placeholder="Paste CSV data here or upload a file" rows="10" .value=${this.csvString} @t-input=${this.onCsvInputChange}></t-textarea>
           <input type="file" accept=".csv" @change="${this.handleFileUpload}" class="file-input" />
-          <button class="btn btn-blue mt-2" @click="${this.convertCsvToJson}">Convert to JSON</button>
+          <t-button variant="blue" @click="${this.convertCsvToJson}">Convert to JSON</t-button>
         </div>
 
         <div class="config mb-4">
           <label for="separator">Separator:</label>
-          <select class="form-select" id="separator" @change=${this.onSeparatorChange}>
+          <t-select @t-change=${this.onSeparatorChange}>
             <option value=",">Comma</option>
             <option value=";">Semicolon</option>
             <option value="\t">Tab</option>
-          </select>
+          </t-select>
 
           <label>
             <input type="checkbox" @change=${this.onParseNumbersChange} />
@@ -146,17 +141,11 @@ export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
         </div>
 
         <div class="editor mb-4 relative">
-          <textarea
-            class="form-textarea"
-            .value="${this.jsonString}"
-            readonly
-            placeholder="Converted JSON will appear here"
-            rows="10"
-          ></textarea>
-          <button class="btn btn-blue mt-2" @click="${this.downloadJSON}">Download JSON</button>
+          <t-textarea placeholder="Converted JSON will appear here" rows="10" .value=${this.jsonString} ?readonly=${true}></t-textarea>
+          <t-button variant="blue" @click="${this.downloadJSON}">Download JSON</t-button>
           <div class="absolute top-2 end-2">
             <t-copy-button class="text-blue" .isIcon=${false} .text=${this.jsonString}></t-copy-button>
-            <button class="btn btn-blue btn-sm" @click="${this.formatJson}">Format JSON</button>
+            <t-button variant="blue" @click="${this.formatJson}" class="btn-sm">Format JSON</t-button>
           </div>
         </div>
       </div>

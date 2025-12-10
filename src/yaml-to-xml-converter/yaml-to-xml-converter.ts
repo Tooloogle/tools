@@ -5,23 +5,21 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import yamlToXmlConverterStyles from './yaml-to-xml-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import * as yaml from 'js-yaml';
 import '../t-copy-button';
+import '../t-textarea';
 
 @customElement('yaml-to-xml-converter')
 export class YamlToXmlConverter extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    yamlToXmlConverterStyles,
-  ];
+    yamlToXmlConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
 
-  private handleInput(e: Event) {
-    this.inputText = (e.target as HTMLTextAreaElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputText = e.detail.value;
     this.process();
   }
 
@@ -72,20 +70,11 @@ export class YamlToXmlConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Input:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            placeholder="Enter input..."
-            .value=${this.inputText}
-            @input=${this.handleInput}
-          ></textarea>
+          <t-textarea placeholder="Enter input..." class="w-full h-32" .value=${this.inputText} @t-input=${this.handleInput}></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Output:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32" .value=${this.outputText}></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

@@ -5,18 +5,16 @@ import {
 } from "../_web-component/WebComponentBase.js";
 import fakeDataGeneratorStyles from "./fake-data-generator.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
-import buttonStyles from "../_styles/button.css.js";
 import "../t-copy-button";
+import '../t-button';
+import '../t-input';
+import '../t-textarea';
 
 @customElement("fake-data-generator")
 export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    fakeDataGeneratorStyles,
-  ];
+    fakeDataGeneratorStyles];
 
   @property({ type: String }) dataType = "name";
   @property({ type: Number }) count = 10;
@@ -32,8 +30,7 @@ export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
     "Chris",
     "Emma",
     "James",
-    "Lisa",
-  ];
+    "Lisa"];
   private lastNames = [
     "Smith",
     "Johnson",
@@ -44,15 +41,13 @@ export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
     "Miller",
     "Davis",
     "Wilson",
-    "Moore",
-  ];
+    "Moore"];
   private domains = [
     "gmail.com",
     "yahoo.com",
     "outlook.com",
     "example.com",
-    "test.com",
-  ];
+    "test.com"];
   private streets = [
     "Main St",
     "Oak Ave",
@@ -60,8 +55,7 @@ export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
     "Elm St",
     "Maple Dr",
     "Lake View",
-    "Hill St",
-  ];
+    "Hill St"];
   private cities = [
     "New York",
     "Los Angeles",
@@ -69,8 +63,7 @@ export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
     "Houston",
     "Phoenix",
     "Philadelphia",
-    "San Antonio",
-  ];
+    "San Antonio"];
 
   private random<T>(arr: T[]): T {
     return arr[Math.floor(Math.random() * arr.length)];
@@ -143,8 +136,8 @@ export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
         <select
           class="form-select w-full"
           .value=${this.dataType}
-          @change=${(e: Event) => {
-            this.dataType = (e.target as HTMLSelectElement).value;
+          @change=${(e: CustomEvent) => {
+            this.dataType = e.detail.value;
             this.generate();
           }}
         >
@@ -162,14 +155,8 @@ export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Count:</label>
-        <input
-          type="number"
-          min="1"
-          max="100"
-          class="form-input w-full"
-          .value=${String(this.count)}
-          @input=${(e: Event) => {
-            this.count = Number((e.target as HTMLInputElement).value);
+        <t-input type="number" class="w-full"></t-input> {
+            this.count = Number(e.detail.value);
             this.generate();
           }}
         />
@@ -189,20 +176,16 @@ export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Generated Data:</label>
-        <textarea
-          class="form-textarea w-full h-64 font-mono text-sm"
-          readonly
-          .value=${this.result}
-        ></textarea>
+        <t-textarea ?readonly=${true} class="w-full h-64 font-mono text-sm"></t-textarea>
       </div>
     `;
   }
 
   private renderActions() {
     return html`
-      <button class="btn btn-blue btn-sm" @click=${this.generate}>
+      <t-button variant="blue" class="btn-sm">
         Generate New
-      </button>
+      </t-button>
       <t-copy-button .text=${this.result} .isIcon=${false}></t-copy-button>
     `;
   }

@@ -5,16 +5,15 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import gradientTextGeneratorStyles from './gradient-text-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
+import '../t-input';
+import '../t-textarea';
 
 @customElement('gradient-text-generator')
 export class GradientTextGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    gradientTextGeneratorStyles,
-  ];
+    gradientTextGeneratorStyles];
 
   @property({ type: String }) inputText = 'Gradient Text';
   @property({ type: String }) color1 = '#ff0000';
@@ -22,24 +21,24 @@ export class GradientTextGenerator extends WebComponentBase<IConfigBase> {
   @property({ type: String }) gradientType = 'linear';
   @property({ type: Number }) angle = 90;
 
-  private handleInput(e: Event) {
-    this.inputText = (e.target as HTMLInputElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputText = e.detail.value;
   }
 
-  private handleColor1Change(e: Event) {
-    this.color1 = (e.target as HTMLInputElement).value;
+  private handleColor1Change(e: CustomEvent) {
+    this.color1 = e.detail.value;
   }
 
-  private handleColor2Change(e: Event) {
-    this.color2 = (e.target as HTMLInputElement).value;
+  private handleColor2Change(e: CustomEvent) {
+    this.color2 = e.detail.value;
   }
 
-  private handleGradientTypeChange(e: Event) {
-    this.gradientType = (e.target as HTMLSelectElement).value;
+  private handleGradientTypeChange(e: CustomEvent) {
+    this.gradientType = e.detail.value;
   }
 
-  private handleAngleChange(e: Event) {
-    this.angle = Number((e.target as HTMLInputElement).value);
+  private handleAngleChange(e: CustomEvent) {
+    this.angle = Number(e.detail.value);
   }
 
   private getGradientStyle(): string {
@@ -72,13 +71,7 @@ export class GradientTextGenerator extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Text:</label>
-          <input
-            type="text"
-            class="form-input w-full"
-            placeholder="Enter text..."
-            .value=${this.inputText}
-            @input=${this.handleInput}
-          />
+          <t-input .value=${this.inputText} @t-input=${this.handleInput} placeholder="Enter text..." class="w-full"></t-input>
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
@@ -90,12 +83,7 @@ export class GradientTextGenerator extends WebComponentBase<IConfigBase> {
                 @input=${this.handleColor1Change}
                 class="h-10 w-16"
               />
-              <input
-                type="text"
-                class="form-input"
-                .value=${this.color1}
-                @input=${this.handleColor1Change}
-              />
+              <t-input .value=${this.color1} @t-input=${this.handleColor1Change}></t-input>
             </div>
           </div>
           <div>
@@ -107,12 +95,7 @@ export class GradientTextGenerator extends WebComponentBase<IConfigBase> {
                 @input=${this.handleColor2Change}
                 class="h-10 w-16"
               />
-              <input
-                type="text"
-                class="form-input"
-                .value=${this.color2}
-                @input=${this.handleColor2Change}
-              />
+              <t-input .value=${this.color2} @t-input=${this.handleColor2Change}></t-input>
             </div>
           </div>
         </div>
@@ -154,11 +137,7 @@ export class GradientTextGenerator extends WebComponentBase<IConfigBase> {
         </div>
         <div>
           <label class="block mb-2 font-semibold">CSS Code:</label>
-          <textarea
-            class="form-textarea w-full h-40 font-mono text-sm"
-            readonly
-            .value=${cssCode}
-          ></textarea>
+          <t-textarea .value=${cssCode} ?readonly=${true} class="w-full h-40 font-mono text-sm"></t-textarea>
           <t-copy-button .text=${cssCode} .isIcon=${false}></t-copy-button>
         </div>
       </div>

@@ -5,22 +5,20 @@ import {
 } from "../_web-component/WebComponentBase.js";
 import wordScramblerStyles from "./word-scrambler.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
 import "../t-copy-button";
+import '../t-textarea';
 
 @customElement("word-scrambler")
 export class WordScrambler extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    wordScramblerStyles,
-  ];
+    wordScramblerStyles];
 
   @property({ type: String }) inputText = "";
   @property({ type: String }) outputText = "";
 
-  private handleInput(e: Event) {
-    this.inputText = (e.target as HTMLTextAreaElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputText = e.detail.value;
     this.convert();
   }
 
@@ -44,20 +42,11 @@ export class WordScrambler extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Input Text:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            placeholder="Enter text to scramble words..."
-            .value=${this.inputText}
-            @input=${this.handleInput}
-          ></textarea>
+          <t-textarea placeholder="Enter text to scramble words..." class="w-full h-32"></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Scrambled Output:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ""}

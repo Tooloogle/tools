@@ -2,13 +2,13 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import svgToPngConverterStyles from './svg-to-png-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
+import '../t-button';
+import '../t-input';
 
 @customElement('svg-to-png-converter')
 export class SvgToPngConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, svgToPngConverterStyles];
+    static override styles = [WebComponentBase.styles, svgToPngConverterStyles];
 
     @property({ type: String }) inputText = '';
     @property({ type: String }) outputDataUrl = '';
@@ -16,18 +16,18 @@ export class SvgToPngConverter extends WebComponentBase<IConfigBase> {
     @property({ type: Number }) width = 500;
     @property({ type: Number }) height = 500;
 
-    private handleInput(e: Event) {
-        this.inputText = (e.target as HTMLTextAreaElement).value;
+    private handleInput(e: CustomEvent) {
+        this.inputText = e.detail.value;
         this.process();
     }
 
-    private handleWidthInput(e: Event) {
-        this.width = parseInt((e.target as HTMLInputElement).value) || 500;
+    private handleWidthInput(e: CustomEvent) {
+        this.width = parseInt(e.detail.value) || 500;
         this.process();
     }
 
-    private handleHeightInput(e: Event) {
-        this.height = parseInt((e.target as HTMLInputElement).value) || 500;
+    private handleHeightInput(e: CustomEvent) {
+        this.height = parseInt(e.detail.value) || 500;
         this.process();
     }
 
@@ -109,25 +109,11 @@ export class SvgToPngConverter extends WebComponentBase<IConfigBase> {
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block mb-2 font-semibold">Width (px):</label>
-                    <input
-                        type="number"
-                        class="form-input w-full"
-                        .value=${this.width.toString()}
-                        @input=${this.handleWidthInput}
-                        min="1"
-                        max="5000"
-                    />
+                    <t-input type="number" class="w-full"></t-input>
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Height (px):</label>
-                    <input
-                        type="number"
-                        class="form-input w-full"
-                        .value=${this.height.toString()}
-                        @input=${this.handleHeightInput}
-                        min="1"
-                        max="5000"
-                    />
+                    <t-input type="number" class="w-full"></t-input>
                 </div>
             </div>
         `;

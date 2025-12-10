@@ -2,8 +2,8 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import diffCheckerStyles from './diff-checker.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
+import '../t-button';
+import '../t-textarea';
 
 interface DiffLine {
     type: 'equal' | 'added' | 'removed';
@@ -12,7 +12,7 @@ interface DiffLine {
 
 @customElement('diff-checker')
 export class DiffChecker extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, diffCheckerStyles];
+    static override styles = [WebComponentBase.styles, diffCheckerStyles];
 
     @property()
     text1 = '';
@@ -23,12 +23,12 @@ export class DiffChecker extends WebComponentBase<IConfigBase> {
     @property()
     diff: DiffLine[] = [];
 
-    private handleText1Change(e: Event) {
-        this.text1 = (e.target as HTMLTextAreaElement).value;
+    private handleText1Change(e: CustomEvent) {
+        this.text1 = e.detail.value;
     }
 
-    private handleText2Change(e: Event) {
-        this.text2 = (e.target as HTMLTextAreaElement).value;
+    private handleText2Change(e: CustomEvent) {
+        this.text2 = e.detail.value;
     }
 
     private compare() {
@@ -80,30 +80,18 @@ export class DiffChecker extends WebComponentBase<IConfigBase> {
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <label class="block">
                     <span class="inline-block py-1">Original Text</span>
-                    <textarea
-                        class="form-textarea"
-                        placeholder="Enter original text..."
-                        rows="10"
-                        .value=${this.text1}
-                        @input=${this.handleText1Change}
-                    ></textarea>
+                    <t-textarea placeholder="Enter original text..." rows="10" .value=${String(this.text1)} @t-input=${this.handleText1Change}></t-textarea>
                 </label>
 
                 <label class="block">
                     <span class="inline-block py-1">Modified Text</span>
-                    <textarea
-                        class="form-textarea"
-                        placeholder="Enter modified text..."
-                        rows="10"
-                        .value=${this.text2}
-                        @input=${this.handleText2Change}
-                    ></textarea>
+                    <t-textarea placeholder="Enter modified text..." rows="10" .value=${String(this.text2)} @t-input=${this.handleText2Change}></t-textarea>
                 </label>
             </div>
 
             <div class="py-2 text-right">
-                <button class="btn btn-blue" @click=${this.compare}>Compare</button>
-                <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                <t-button variant="blue" @click=${this.compare}>Compare</t-button>
+                <t-button variant="red" @click=${this.clear}>Clear</t-button>
             </div>
 
             ${this.diff.length > 0 ? html`

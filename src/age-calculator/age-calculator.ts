@@ -5,7 +5,6 @@ import {
   IConfigBase,
   WebComponentBase,
 } from '../_web-component/WebComponentBase.js';
-import buttonStyles from '../_styles/button.css.js';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { formatNumber } from '../_utils/NumberHelper.js';
@@ -13,6 +12,7 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration.js';
 import '../t-input';
 import '../t-checkbox';
+import '../t-button';
 
 dayjs.extend(duration);
 
@@ -20,9 +20,7 @@ dayjs.extend(duration);
 export class AgeCalculator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    buttonStyles,
-    ageCalculatorStyles,
-  ];
+    ageCalculatorStyles];
 
   @property()
   haveTime = false;
@@ -90,7 +88,7 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
     this.today = e.detail.value;
   }
 
-  private handleHaveTimeChange(e: Event) {
+  private handleHaveTimeChange(e: CustomEvent) {
     this.haveTime = (e.target as HTMLInputElement).checked;
   }
 
@@ -173,13 +171,9 @@ export class AgeCalculator extends WebComponentBase<IConfigBase> {
         ></t-checkbox>
       </div>
       <div class="text-end">
-        <button
-          ?disabled=${!this.dob || !this.today}
-          class="btn btn-blue"
-          @click=${this.calculate}
-        >
+        <t-button variant="blue" ?disabled=${!this.dob || !this.today} @click=${this.calculate}>
           Calculate
-        </button>
+        </t-button>
       </div>
     `;
   }

@@ -2,12 +2,12 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import creditCardValidatorStyles from './credit-card-validator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
+import '../t-button';
+import '../t-input';
 
 @customElement('credit-card-validator')
 export class CreditCardValidator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, creditCardValidatorStyles];
+    static override styles = [WebComponentBase.styles, creditCardValidatorStyles];
 
     @property()
     cardNumber = '';
@@ -21,8 +21,8 @@ export class CreditCardValidator extends WebComponentBase<IConfigBase> {
     @property()
     validated = false;
 
-    private handleInputChange(e: Event) {
-        this.cardNumber = (e.target as HTMLInputElement).value.replace(/\s/g, '');
+    private handleInputChange(e: CustomEvent) {
+        this.cardNumber = e.detail.value.replace(/\s/g, '');
         this.validated = false;
     }
 
@@ -111,20 +111,12 @@ export class CreditCardValidator extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">Card Number:</span>
-                <input
-                    type="text"
-                    class="form-input"
-                    placeholder="Enter card number (spaces allowed)..."
-                    autofocus
-                    .value=${this.cardNumber}
-                    @input=${this.handleInputChange}
-                    maxlength="23"
-                />
+                <t-input placeholder="Enter card number (spaces allowed)..." .value=${this.cardNumber} @t-input=${this.handleInputChange} maxlength="23"></t-input>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
-                <button class="btn btn-blue" @click=${this.validate}>Validate</button>
-                <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                <t-button variant="blue" @click=${this.validate}>Validate</t-button>
+                <t-button variant="red" @click=${this.clear}>Clear</t-button>
             </div>
 
             ${this.validated ? html`

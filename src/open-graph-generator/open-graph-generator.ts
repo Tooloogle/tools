@@ -5,16 +5,15 @@ import {
 } from "../_web-component/WebComponentBase.js";
 import openGraphGeneratorStyles from "./open-graph-generator.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
 import "../t-copy-button";
+import '../t-input';
+import '../t-textarea';
 
 @customElement("open-graph-generator")
 export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    openGraphGeneratorStyles,
-  ];
+    openGraphGeneratorStyles];
 
   @property({ type: String }) title = "";
   @property({ type: String }) description = "";
@@ -135,23 +134,12 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Title:</label>
-        <input
-          type="text"
-          class="form-input w-full"
-          placeholder="Page Title"
-          .value=${this.title}
-          @input=${this.handleInput("title")}
-        />
+        <t-input placeholder="Page Title" class="w-full"></t-input>
       </div>
 
       <div>
         <label class="block mb-2 font-semibold">Description:</label>
-        <textarea
-          class="form-textarea w-full h-20"
-          placeholder="Page description for social media sharing"
-          .value=${this.description}
-          @input=${this.handleInput("description")}
-        ></textarea>
+        <t-textarea placeholder="Page description for social media sharing" class="w-full h-20"></t-textarea>
       </div>
     `;
   }
@@ -160,24 +148,12 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">URL:</label>
-        <input
-          type="url"
-          class="form-input w-full"
-          placeholder="https://example.com/page"
-          .value=${this.url}
-          @input=${this.handleInput("url")}
-        />
+        <t-input type="url" placeholder="https://example.com/page" class="w-full"></t-input>
       </div>
 
       <div>
         <label class="block mb-2 font-semibold">Image URL:</label>
-        <input
-          type="url"
-          class="form-input w-full"
-          placeholder="https://example.com/image.jpg"
-          .value=${this.image}
-          @input=${this.handleInput("image")}
-        />
+        <t-input type="url" placeholder="https://example.com/image.jpg" class="w-full"></t-input>
       </div>
     `;
   }
@@ -186,13 +162,7 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Site Name:</label>
-        <input
-          type="text"
-          class="form-input w-full"
-          placeholder="My Website"
-          .value=${this.siteName}
-          @input=${this.handleInput("siteName")}
-        />
+        <t-input placeholder="My Website" class="w-full"></t-input>
       </div>
     `;
   }
@@ -223,11 +193,7 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
         <label class="block mb-2 font-semibold"
           >Generated Open Graph Tags:</label
         >
-        <textarea
-          class="form-textarea w-full h-48"
-          readonly
-          .value=${this.outputText}
-        ></textarea>
+        <t-textarea ?readonly=${true} class="w-full h-48"></t-textarea>
         ${this.outputText
           ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
           : ""}

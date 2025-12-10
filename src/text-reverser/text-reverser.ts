@@ -2,13 +2,13 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import textReverserStyles from './text-reverser.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-button';
+import '../t-textarea';
 
 @customElement('text-reverser')
 export class TextReverser extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, textReverserStyles];
+    static override styles = [WebComponentBase.styles, textReverserStyles];
 
     @property()
     input = '';
@@ -16,8 +16,8 @@ export class TextReverser extends WebComponentBase<IConfigBase> {
     @property()
     output = '';
 
-    private handleInputChange(e: Event) {
-        this.input = (e.target as HTMLTextAreaElement).value;
+    private handleInputChange(e: CustomEvent) {
+        this.input = e.detail.value;
     }
 
     private reverseText() {
@@ -47,33 +47,21 @@ export class TextReverser extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">Input Text:</span>
-                <textarea
-                    class="form-textarea"
-                    placeholder="Enter text to reverse..."
-                    rows="6"
-                    autofocus
-                    .value=${this.input}
-                    @input=${this.handleInputChange}
-                ></textarea>
+                <t-textarea placeholder="Enter text to reverse..." rows="6" .value=${String(this.input)} @t-input=${this.handleInputChange}></t-textarea>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
-                <button class="btn btn-blue" @click=${this.reverseText}>Reverse Text</button>
-                <button class="btn btn-blue" @click=${this.reverseWords}>Reverse Words</button>
-                <button class="btn btn-blue" @click=${this.reverseLines}>Reverse Lines</button>
-                <button class="btn btn-blue" @click=${this.reverseEachWord}>Reverse Each Word</button>
-                <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                <t-button variant="blue" @click=${this.reverseText}>Reverse Text</t-button>
+                <t-button variant="blue" @click=${this.reverseWords}>Reverse Words</t-button>
+                <t-button variant="blue" @click=${this.reverseLines}>Reverse Lines</t-button>
+                <t-button variant="blue" @click=${this.reverseEachWord}>Reverse Each Word</t-button>
+                <t-button variant="red" @click=${this.clear}>Clear</t-button>
             </div>
 
             ${this.output ? html`
                 <label class="block py-1">
                     <span class="inline-block py-1 font-bold">Output:</span>
-                    <textarea
-                        class="form-textarea"
-                        rows="6"
-                        readonly
-                        .value=${this.output}
-                    ></textarea>
+                    <t-textarea rows="6" .value=${String(this.output)} ?readonly=${true}></t-textarea>
                     <div class="py-2 text-right">
                         <t-copy-button .isIcon=${false} .text=${this.output}></t-copy-button>
                     </div>

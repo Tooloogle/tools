@@ -6,7 +6,6 @@ import { repeat } from 'lit/directives/repeat.js';
 import { hasClipboard, isBrowser } from '../_utils/DomUtils.js';
 import "../t-copy-button/t-copy-button.js";
 import { when } from 'lit/directives/when.js';
-import inputStyles from '../_styles/input.css.js';
 import dayjs from 'dayjs';
 
 const localStorageKey = "t-date-time-format-custom";
@@ -27,7 +26,7 @@ function setCustomFormat(format: string) {
 
 @customElement('date-time-format')
 export class DateTimeFormat extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, dateTimeFormatStyles];
+    static override styles = [WebComponentBase.styles, dateTimeFormatStyles];
     private dateFormats = [
         "MM/DD/YYYY HH:mm:ss",
         "MM/DD/YYYY hh:mm:ss A",

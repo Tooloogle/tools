@@ -2,14 +2,13 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import userAgentParserStyles from './user-agent-parser.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import tableStyles from '../_styles/table.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
+import '../t-button';
+import '../t-textarea';
 
 @customElement('user-agent-parser')
 export class UserAgentParser extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, tableStyles, userAgentParserStyles];
+    static override styles = [WebComponentBase.styles, userAgentParserStyles];
 
     @property()
     input = '';
@@ -17,8 +16,8 @@ export class UserAgentParser extends WebComponentBase<IConfigBase> {
     @property()
     parsed: UAInfo | null = null;
 
-    private handleInputChange(e: Event) {
-        this.input = (e.target as HTMLTextAreaElement).value;
+    private handleInputChange(e: CustomEvent) {
+        this.input = e.detail.value;
     }
 
     private parseUA() {
@@ -149,20 +148,13 @@ export class UserAgentParser extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">User Agent String:</span>
-                <textarea
-                    class="form-textarea font-mono text-sm"
-                    placeholder="Paste user agent string or click 'Use Current Browser' button..."
-                    rows="4"
-                    autofocus
-                    .value=${this.input}
-                    @input=${this.handleInputChange}
-                ></textarea>
+                <t-textarea placeholder="Paste user agent string or click 'Use Current Browser' button..." rows="4" class="font-mono text-sm"></t-textarea>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
-                <button class="btn btn-blue" @click=${this.parseUA}>Parse</button>
-                <button class="btn btn-blue" @click=${this.useCurrentUA}>Use Current Browser</button>
-                <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                <t-button variant="blue" @click=${this.parseUA}>Parse</t-button>
+                <t-button variant="blue" @click=${this.useCurrentUA}>Use Current Browser</t-button>
+                <t-button variant="red" @click=${this.clear}>Clear</t-button>
             </div>
 
             ${this.parsed ? html`

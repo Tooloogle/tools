@@ -5,29 +5,27 @@ import {
 } from "../_web-component/WebComponentBase.js";
 import dataUriGeneratorStyles from "./data-uri-generator.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
 import "../t-copy-button";
+import '../t-textarea';
 
 @customElement("data-uri-generator")
 export class DataUriGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    dataUriGeneratorStyles,
-  ];
+    dataUriGeneratorStyles];
 
   @property({ type: String }) inputText = "";
   @property({ type: String }) outputText = "";
   @property({ type: String }) mimeType = "text/plain";
   @property({ type: Boolean }) useBase64 = true;
 
-  private handleInput(e: Event) {
-    this.inputText = (e.target as HTMLTextAreaElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputText = e.detail.value;
     this.process();
   }
 
-  private handleMimeTypeChange(e: Event) {
-    this.mimeType = (e.target as HTMLSelectElement).value;
+  private handleMimeTypeChange(e: CustomEvent) {
+    this.mimeType = e.detail.value;
     this.process();
   }
 
@@ -97,12 +95,7 @@ export class DataUriGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Input Text:</label>
-        <textarea
-          class="form-textarea w-full h-32"
-          placeholder="Enter text to convert to Data URI..."
-          .value=${this.inputText}
-          @input=${this.handleInput}
-        ></textarea>
+        <t-textarea placeholder="Enter text to convert to Data URI..." class="w-full h-32" .value=${this.inputText} @t-input=${this.handleInput}></t-textarea>
       </div>
     `;
   }
@@ -114,11 +107,7 @@ export class DataUriGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Data URI Output:</label>
-        <textarea
-          class="form-textarea w-full h-32 font-mono text-sm"
-          readonly
-          .value=${this.outputText}
-        ></textarea>
+        <t-textarea .value=${this.outputText} ?readonly=${true} class="w-full h-32 font-mono text-sm"></t-textarea>
         ${hasValidOutput
           ? html`<t-copy-button
               .text=${this.outputText}

@@ -2,11 +2,11 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import fractionCalculatorStyles from './fraction-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
+import '../t-input';
 
 @customElement('fraction-calculator')
 export class FractionCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, fractionCalculatorStyles];
+    static override styles = [WebComponentBase.styles, fractionCalculatorStyles];
 
     @property({ type: Number }) num1 = 1;
     @property({ type: Number }) den1 = 2;
@@ -63,19 +63,17 @@ export class FractionCalculator extends WebComponentBase<IConfigBase> {
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block mb-2 font-semibold">Fraction 1 - Numerator:</label>
-                        <input type="number" class="form-input w-full" .value=${String(this.num1)}
-                            @input=${(e: Event) => { this.num1 = Number((e.target as HTMLInputElement).value); this.calculate(); }} />
+                        <t-input type="number" class="w-full" .value=${String(this.num1)} @t-input=${(e: CustomEvent) => { this.num1 = Number(e.detail.value); this.calculate(); }} />
                     </div>
                     <div>
                         <label class="block mb-2 font-semibold">Denominator:</label>
-                        <input type="number" class="form-input w-full" .value=${String(this.den1)}
-                            @input=${(e: Event) => { this.den1 = Number((e.target as HTMLInputElement).value); this.calculate(); }} />
+                        <t-input type="number" class="w-full" .value=${String(this.den1)} @t-input=${(e: CustomEvent) => { this.den1 = Number(e.detail.value); this.calculate(); }} />
                     </div>
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Operation:</label>
                     <select class="form-input w-full" .value=${this.operation}
-                        @change=${(e: Event) => { this.operation = (e.target as HTMLSelectElement).value; this.calculate(); }}>
+                        @change=${(e: CustomEvent) => { this.operation = e.detail.value; this.calculate(); }}>
                         <option value="+">Add (+)</option>
                         <option value="-">Subtract (-)</option>
                         <option value="*">Multiply (×)</option>
@@ -85,13 +83,11 @@ export class FractionCalculator extends WebComponentBase<IConfigBase> {
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block mb-2 font-semibold">Fraction 2 - Numerator:</label>
-                        <input type="number" class="form-input w-full" .value=${String(this.num2)}
-                            @input=${(e: Event) => { this.num2 = Number((e.target as HTMLInputElement).value); this.calculate(); }} />
+                        <t-input type="number" class="w-full" .value=${String(this.num2)} @t-input=${(e: CustomEvent) => { this.num2 = Number(e.detail.value); this.calculate(); }} />
                     </div>
                     <div>
                         <label class="block mb-2 font-semibold">Denominator:</label>
-                        <input type="number" class="form-input w-full" .value=${String(this.den2)}
-                            @input=${(e: Event) => { this.den2 = Number((e.target as HTMLInputElement).value); this.calculate(); }} />
+                        <t-input type="number" class="w-full" .value=${String(this.den2)} @t-input=${(e: CustomEvent) => { this.den2 = Number(e.detail.value); this.calculate(); }} />
                     </div>
                 </div>
                 <div class="bg-blue-50 p-4 rounded-lg text-center">

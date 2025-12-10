@@ -4,9 +4,9 @@ import {
   IConfigBase,
   WebComponentBase,
 } from "../_web-component/WebComponentBase.js";
-import inputStyles from "../_styles/input.css.js";
-import buttonStyles from "../_styles/button.css.js";
 import jsonToXmlConverterStyles from "./json-to-xml-converter.css.js";
+import '../t-button';
+import '../t-input';
 
 interface JsonObject {
   [key: string]: unknown;
@@ -27,10 +27,7 @@ type JsonValue =
 export class JsonToXmlConverter extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    jsonToXmlConverterStyles,
-  ];
+    jsonToXmlConverterStyles];
 
   @property({ type: Object }) file: File | null = null;
   @property({ type: String }) error = "";
@@ -215,19 +212,10 @@ export class JsonToXmlConverter extends WebComponentBase<IConfigBase> {
     return html`
       <div class="space-y-3">
         <label>Select a JSON file:</label>
-        <input
-          type="file"
-          accept="application/json,text/json,.json"
-          class="form-input"
-          @change="${this.handleFileChange}"
-        />
-        <button
-          class="btn btn-blue"
-          @click="${this.convert}"
-          ?disabled="${!this.file}"
-        >
+        <t-input type="file" @t-change="${this.handleFileChange}"></t-input>
+        <t-button variant="blue" @click="${this.convert}" ?disabled="${!this.file}">
           Convert to XML
-        </button>
+        </t-button>
         ${this.error ? html`<div class="text-rose-500">${this.error}</div>` : ''}
       </div>
     `;

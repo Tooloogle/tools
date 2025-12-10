@@ -4,12 +4,12 @@ import base64ToImageStyles from './base64-to-image.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import { downloadImage } from '../_utils/DomUtils.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
+import '../t-button';
+import '../t-textarea';
 
 @customElement('base64-to-image')
 export class Base64ToImage extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, base64ToImageStyles, inputStyles, buttonStyles];
+    static override styles = [WebComponentBase.styles, base64ToImageStyles];
 
     @property()
     base64 = "";
@@ -22,10 +22,7 @@ export class Base64ToImage extends WebComponentBase<IConfigBase> {
         return base64Data.substring("data:image/".length, base64Data.indexOf(";base64"));
     }
 
-    private onBase64Input(e: Event) {
-        const target = e.target as HTMLTextAreaElement;
-        this.base64 = target.value;
-    }
+
 
     private downloadImage() {
         downloadImage(`result.${this.getFileType(this.base64)}`, this.base64);
@@ -36,13 +33,7 @@ export class Base64ToImage extends WebComponentBase<IConfigBase> {
         <div>
             <label class="block">
                 <span class="inline-block py-1">Base64 string to decode (encoded)</span>
-                <textarea
-                    name="email"
-                    class="form-textarea"
-                    rows="5"
-                    placeholder="Enter base64 string to decode"
-                    .value=${this.base64}
-                    @keyup=${this.onBase64Input}></textarea>
+                <t-textarea placeholder="Enter base64 string to decode" .value=${this.base64} @t-input=${(e: CustomEvent) => { this.base64 = e.detail.value; }} rows="5"></t-textarea>
             </label>
 
             ${when(this.base64, () => html`
@@ -52,7 +43,7 @@ export class Base64ToImage extends WebComponentBase<IConfigBase> {
             `)}
             
             <div class="text-right">
-                <button class="btn btn-green" @click=${this.downloadImage}>Download image</button>
+                <t-button variant="green" @click=${this.downloadImage}>Download image</t-button>
             </div>
         </div>
     `;

@@ -2,12 +2,12 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import randomNumberGeneratorStyles from './random-number-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
+import '../t-button';
+import '../t-input';
 
 @customElement('random-number-generator')
 export class RandomNumberGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, randomNumberGeneratorStyles];
+    static override styles = [WebComponentBase.styles, randomNumberGeneratorStyles];
 
     @property()
     min = 1;
@@ -24,16 +24,16 @@ export class RandomNumberGenerator extends WebComponentBase<IConfigBase> {
     @property()
     results: number[] = [];
 
-    private handleMinChange(e: Event) {
-        this.min = Number((e.target as HTMLInputElement).value);
+    private handleMinChange(e: CustomEvent) {
+        this.min = Number(e.detail.value);
     }
 
-    private handleMaxChange(e: Event) {
-        this.max = Number((e.target as HTMLInputElement).value);
+    private handleMaxChange(e: CustomEvent) {
+        this.max = Number(e.detail.value);
     }
 
-    private handleCountChange(e: Event) {
-        this.count = Number((e.target as HTMLInputElement).value);
+    private handleCountChange(e: CustomEvent) {
+        this.count = Number(e.detail.value);
     }
 
     private handleDuplicatesChange(e: Event) {
@@ -78,35 +78,18 @@ export class RandomNumberGenerator extends WebComponentBase<IConfigBase> {
             <div class="grid grid-cols-2 gap-4">
                 <label class="block">
                     <span class="inline-block py-1">Minimum</span>
-                    <input
-                        class="form-input text-end"
-                        type="number"
-                        .value=${String(this.min)}
-                        @input=${this.handleMinChange}
-                    />
+                    <t-input type="number" class="text-end" .value=${String(this.min)} @t-input=${this.handleMinChange}></t-input>
                 </label>
 
                 <label class="block">
                     <span class="inline-block py-1">Maximum</span>
-                    <input
-                        class="form-input text-end"
-                        type="number"
-                        .value=${String(this.max)}
-                        @input=${this.handleMaxChange}
-                    />
+                    <t-input type="number" class="text-end" .value=${String(this.max)} @t-input=${this.handleMaxChange}></t-input>
                 </label>
             </div>
 
             <label class="block">
                 <span class="inline-block py-1">How many numbers?</span>
-                <input
-                    class="form-input text-end"
-                    type="number"
-                    min="1"
-                    max="1000"
-                    .value=${String(this.count)}
-                    @input=${this.handleCountChange}
-                />
+                <t-input type="number" class="text-end" .value=${String(this.count)} @t-input=${this.handleCountChange}></t-input>
             </label>
 
             <label class="flex items-center">
@@ -138,7 +121,7 @@ export class RandomNumberGenerator extends WebComponentBase<IConfigBase> {
                 ${this.renderInputs()}
 
                 <div class="text-right">
-                    <button class="btn btn-blue" @click=${this.generate}>Generate</button>
+                    <t-button variant="blue" @click=${this.generate}>Generate</t-button>
                 </div>
 
                 ${this.results.length > 0 ? this.renderResultsDisplay() : ''}

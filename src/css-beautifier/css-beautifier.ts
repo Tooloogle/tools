@@ -4,10 +4,10 @@ import {
   WebComponentBase,
   IConfigBase,
 } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import cssBeautifierStyles from './css-beautifier.css.js';
 import jsBeautify from 'js-beautify';
+import '../t-button';
+import '../t-textarea';
 
 declare global {
   interface Window {
@@ -25,10 +25,7 @@ declare global {
 export class CssBeautifier extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    cssBeautifierStyles,
-  ];
+    cssBeautifierStyles];
 
   @property({ type: String }) codeInput = '';
   @state() indentSize = 4;
@@ -89,19 +86,11 @@ export class CssBeautifier extends WebComponentBase<IConfigBase> {
           </label>
         </div>
         <div class="editor mb-4">
-          <textarea
-            class="form-textarea w-full h-64 p-2 border border-gray-300 rounded-md"
-            .value="${this.codeInput}"
-            @input="${this.onInputChange}"
-            placeholder="Paste your CSS code here..."
-          ></textarea>
+          <t-textarea placeholder="Paste your CSS code here..." .value="${String(this.codeInput)}" @t-input="${this.onInputChange}" class="w-full h-64 p-2 border border-gray-300 rounded-md"></t-textarea>
         </div>
-        <button
-          class="btn btn-green px-4 py-2 bg-green-500 text-white rounded-md"
-          @click="${this.onBeautify}"
-        >
+        <t-button variant="green" @click="${this.onBeautify}">
           Beautify
-        </button>
+        </t-button>
       </div>
     `;
   }

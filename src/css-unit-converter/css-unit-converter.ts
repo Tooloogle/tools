@@ -2,11 +2,11 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import cssUnitConverterStyles from './css-unit-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
+import '../t-input';
 
 @customElement('css-unit-converter')
 export class CssUnitConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, cssUnitConverterStyles];
+    static override styles = [WebComponentBase.styles, cssUnitConverterStyles];
 
     @property({ type: Number }) inputValue = 16;
     @property({ type: String }) fromUnit = 'px';
@@ -50,19 +50,17 @@ export class CssUnitConverter extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">Base Font Size (px):</label>
-                    <input type="number" min="1" class="form-input w-full" .value=${String(this.baseFontSize)}
-                        @input=${(e: Event) => { this.baseFontSize = Number((e.target as HTMLInputElement).value); this.convert(); }} />
+                    <t-input type="number" class="w-full"></t-input> { this.baseFontSize = Number(e.detail.value); this.convert(); }} />
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block mb-2 font-semibold">Value:</label>
-                        <input type="number" step="0.1" class="form-input w-full" .value=${String(this.inputValue)}
-                            @input=${(e: Event) => { this.inputValue = Number((e.target as HTMLInputElement).value); this.convert(); }} />
+                        <t-input type="number" class="w-full"></t-input> { this.inputValue = Number(e.detail.value); this.convert(); }} />
                     </div>
                     <div>
                         <label class="block mb-2 font-semibold">From Unit:</label>
                         <select class="form-input w-full" .value=${this.fromUnit}
-                            @change=${(e: Event) => { this.fromUnit = (e.target as HTMLSelectElement).value; this.convert(); }}>
+                            @change=${(e: CustomEvent) => { this.fromUnit = e.detail.value; this.convert(); }}>
                             ${units.map(u => html`<option value="${u}">${u}</option>`)}
                         </select>
                     </div>
@@ -70,7 +68,7 @@ export class CssUnitConverter extends WebComponentBase<IConfigBase> {
                 <div>
                     <label class="block mb-2 font-semibold">To Unit:</label>
                     <select class="form-input w-full" .value=${this.toUnit}
-                        @change=${(e: Event) => { this.toUnit = (e.target as HTMLSelectElement).value; this.convert(); }}>
+                        @change=${(e: CustomEvent) => { this.toUnit = e.detail.value; this.convert(); }}>
                         ${units.map(u => html`<option value="${u}">${u}</option>`)}
                     </select>
                 </div>

@@ -1,9 +1,9 @@
 import { html, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import jsonViewerStyles from './json-viewer.css.js';
+import '../t-button';
+import '../t-textarea';
 
 interface JsonNode {
     key: string;
@@ -15,7 +15,7 @@ interface JsonNode {
 
 @customElement('json-viewer')
 export class JsonViewer extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, jsonViewerStyles];
+    static override styles = [WebComponentBase.styles, jsonViewerStyles];
 
     @property({ type: String }) jsonString = '';
     @state() jsonObject: JsonNode | null = null;
@@ -25,9 +25,8 @@ export class JsonViewer extends WebComponentBase<IConfigBase> {
         this.updateJsonObject();
     }
 
-    private onJsonInputChange(event: Event) {
-        const inputElement = event.target as HTMLInputElement;
-        this.jsonString = inputElement.value;
+    private onJsonInputChange(event: CustomEvent) {
+        this.jsonString = event.detail.value;
         this.updateJsonObject();
     }
 
@@ -129,8 +128,8 @@ export class JsonViewer extends WebComponentBase<IConfigBase> {
         const hasJsonObject = !!this.jsonObject;
         const controlButtons = hasJsonObject ? html`
         <div class="flex justify-end absolute end-1 top-1">
-            <button class="btn btn-blue btn-sm" @click=${this.expandAll}>Expand All</button>
-            <button class="btn btn-blue btn-sm ml-2" @click=${this.collapseAll}>Collapse All</button>
+            <t-button variant="blue" class="btn-sm" @click=${this.expandAll}>Expand All</t-button>
+            <t-button variant="blue" class="btn-sm" @click=${this.collapseAll}>Collapse All</t-button>
         </div>
     ` : null;
 
@@ -142,15 +141,9 @@ export class JsonViewer extends WebComponentBase<IConfigBase> {
         <div class="json-viewer">
             <div class="editor mb-4">
                 <div class="text-end">
-                    <button class="btn btn-blue btn-sm mb-2" @click=${this.formatJson}>Format</button>
+                    <t-button variant="blue" class="btn-sm" @click=${this.formatJson}>Format</t-button>
                 </div>
-                <textarea
-                    class="form-textarea"
-                    .value=${this.jsonString}
-                    @input=${this.onJsonInputChange}
-                    placeholder="Enter JSON string"
-                    rows="10"
-                ></textarea>
+                <t-textarea placeholder="Enter JSON string" rows="10" .value=${String(this.jsonString)} @t-input=${this.onJsonInputChange}></t-textarea>
             </div>
             <div class="json-display bg-gray-600 overflow-x-auto relative">
                 ${controlButtons}

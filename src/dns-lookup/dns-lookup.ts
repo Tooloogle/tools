@@ -2,11 +2,12 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import dnsLookupStyles from './dns-lookup.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
+import '../t-button';
+import '../t-input';
 
 @customElement('dns-lookup')
 export class DnsLookup extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, dnsLookupStyles];
+    static override styles = [WebComponentBase.styles, dnsLookupStyles];
 
     @property({ type: String }) domain = '';
     @property({ type: String }) recordType = 'A';
@@ -46,12 +47,7 @@ export class DnsLookup extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">Domain Name:</label>
-                    <input
-                        type="text"
-                        class="form-input w-full"
-                        placeholder="example.com"
-                        .value=${this.domain}
-                        @input=${(e: Event) => { this.domain = (e.target as HTMLInputElement).value; }}
+                    <t-input placeholder="example.com" class="w-full"></t-input> { this.domain = e.detail.value; }}
                         @keypress=${(e: KeyboardEvent) => { if (e.key === 'Enter') {void this.lookup();} }}
                     />
                 </div>
@@ -59,7 +55,7 @@ export class DnsLookup extends WebComponentBase<IConfigBase> {
                     <div>
                         <label class="block mb-2 font-semibold">Record Type:</label>
                         <select class="form-input w-full" .value=${this.recordType}
-                            @change=${(e: Event) => { this.recordType = (e.target as HTMLSelectElement).value; }}>
+                            @change=${(e: CustomEvent) => { this.recordType = e.detail.value; }}>
                             <option value="A">A</option>
                             <option value="AAAA">AAAA</option>
                             <option value="CNAME">CNAME</option>
@@ -69,9 +65,9 @@ export class DnsLookup extends WebComponentBase<IConfigBase> {
                         </select>
                     </div>
                     <div class="flex items-end">
-                        <button class="btn btn-blue w-full" @click=${this.lookup} ?disabled=${this.loading}>
+                        <t-button variant="blue" @click=${this.lookup} ?disabled=${this.loading}>
                             ${this.loading ? 'Looking up...' : 'Lookup'}
-                        </button>
+                        </t-button>
                     </div>
                 </div>
                 ${this.error ? html`<div class="text-red-600 text-sm">${this.error}</div>` : ''}

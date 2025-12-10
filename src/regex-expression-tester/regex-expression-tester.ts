@@ -1,10 +1,10 @@
 import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import regexExpressionTesterStyles from './regex-expression-tester.css.js';
 import { createRef, ref, Ref } from 'lit/directives/ref.js';
+import '../t-input';
+import '../t-textarea';
 
 interface Flag {
     value: string;
@@ -13,7 +13,7 @@ interface Flag {
 
 @customElement('regex-expression-tester')
 export class RegexExpressionTester extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, regexExpressionTesterStyles];
+    static override styles = [WebComponentBase.styles, regexExpressionTesterStyles];
 
     @property({ type: String }) pattern = '';
     @property({ type: String }) flags = '';
@@ -91,29 +91,13 @@ export class RegexExpressionTester extends WebComponentBase<IConfigBase> {
         <div class="regex-expression-tester">
             <div class="editor mb-4">
                 <label for="pattern">Pattern:</label>
-                <input
-                    id="pattern"
-                    class="form-input"
-                    type="text"
-                    .value=${this.pattern}
-                    @input=${this.onPatternInputChange}
-                    placeholder="Enter regex pattern"
-                    ${ref(this.inputRef)}
-                />
+                <t-input placeholder="Enter regex pattern"></t-input>
                 <label for="flags">Flags:</label>
                 <select id="flags" class="form-input" @change=${this.onFlagsInputChange} multiple>
                     ${this.getFlagOptions()}
                 </select>
                 <label for="testString">Test String:</label>
-                <textarea
-                    id="testString"
-                    class="form-textarea"
-                    .value=${this.testString}
-                    @input=${this.onTestStringInputChange}
-                    placeholder="Enter the string to test the regex against"
-                    rows="10"
-                    ${ref(this.testStringRef)}
-                ></textarea>
+                <t-textarea placeholder="Enter the string to test the regex against" rows="10"></t-textarea>
             </div>
 
             <div class="editor mb-4 result-container">

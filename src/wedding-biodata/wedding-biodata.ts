@@ -6,9 +6,11 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import weddingBiodataStyles from './wedding-biodata.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
+import '../t-button';
+import '../t-input';
+import '../t-select';
+import '../t-textarea';
 import {
   PersonalInfo,
   FamilyDetails,
@@ -22,10 +24,7 @@ import {
 export class WeddingBiodata extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    weddingBiodataStyles,
-  ];
+    weddingBiodataStyles];
 
   @property({ type: String }) activeSection = 'personal';
   @property({ type: Boolean }) showPreview = false;
@@ -111,8 +110,7 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
       { id: 'family', label: 'Family Details' },
       { id: 'education', label: 'Education & Job' },
       { id: 'contact', label: 'Contact Info' },
-      { id: 'preferences', label: 'Partner Preferences' },
-    ];
+      { id: 'preferences', label: 'Partner Preferences' }];
 
     return html`
       <div class="section-navigation">
@@ -148,61 +146,34 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
         <div class="form-grid">
           <label class="form-group">
             <span>Full Name *</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.personal.fullName}
-              @input=${(e: Event) =>
+            <t-input
+              @t-input=${(e: CustomEvent) =>
                 this.handleInputChange(
                   'personal',
                   'fullName',
-                  (e.target as HTMLInputElement).value
+                  e.detail.value
                 )}
               placeholder="Enter full name"
-            />
+            ></t-input>
           </label>
 
           <label class="form-group">
             <span>Date of Birth *</span>
-            <input
-              type="date"
-              class="form-input"
-              .value=${this.personal.dateOfBirth}
-              @input=${(e: Event) =>
-                this.handleInputChange(
-                  'personal',
-                  'dateOfBirth',
-                  (e.target as HTMLInputElement).value
-                )}
-            />
+            <t-input type="date" @t-input=${(e: CustomEvent) => this.handleInputChange("personal", "dateOfBirth", e.detail.value)}></t-input>
           </label>
 
           <label class="form-group">
             <span>Time of Birth</span>
-            <input
-              type="time"
-              class="form-input"
-              .value=${this.personal.timeOfBirth}
-              @input=${(e: Event) =>
-                this.handleInputChange(
-                  'personal',
-                  'timeOfBirth',
-                  (e.target as HTMLInputElement).value
-                )}
-            />
+            <t-input type="time" @t-input=${(e: CustomEvent) => this.handleInputChange("personal", "timeOfBirth", e.detail.value)}></t-input>
           </label>
 
           <label class="form-group">
             <span>Place of Birth</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.personal.placeOfBirth}
-              @input=${(e: Event) =>
+            <t-input></t-input>
                 this.handleInputChange(
                   'personal',
                   'placeOfBirth',
-                  (e.target as HTMLInputElement).value
+                  e.detail.value
                 )}
               placeholder="City, State"
             />
@@ -210,50 +181,35 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
 
           <label class="form-group">
             <span>Age *</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.personal.age}
-              @input=${(e: Event) =>
-                this.handleInputChange('personal', 'age', (e.target as HTMLInputElement).value)}
+            <t-input></t-input>
+                this.handleInputChange('personal', 'age', e.detail.value)}
               placeholder="e.g., 25 years"
             />
           </label>
 
           <label class="form-group">
             <span>Height *</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.personal.height}
-              @input=${(e: Event) =>
-                this.handleInputChange('personal', 'height', (e.target as HTMLInputElement).value)}
+            <t-input></t-input>
+                this.handleInputChange('personal', 'height', e.detail.value)}
               placeholder='e.g., 5&apos;6"'
             />
           </label>
 
           <label class="form-group">
             <span>Weight</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.personal.weight}
-              @input=${(e: Event) =>
-                this.handleInputChange('personal', 'weight', (e.target as HTMLInputElement).value)}
+            <t-input></t-input>
+                this.handleInputChange('personal', 'weight', e.detail.value)}
               placeholder="e.g., 65 kg"
             />
           </label>
 
           <label class="form-group">
             <span>Complexion</span>
-            <select
-              class="form-select"
-              .value=${this.personal.complexion}
-              @change=${(e: Event) =>
+            <t-select .value=${String(this.personal.complexion)}>
                 this.handleInputChange(
                   'personal',
                   'complexion',
-                  (e.target as HTMLSelectElement).value
+                  e.detail.value
                 )}
             >
               <option value="">Select</option>
@@ -261,19 +217,16 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
               <option value="Wheatish">Wheatish</option>
               <option value="Medium">Medium</option>
               <option value="Dark">Dark</option>
-            </select>
+            </t-select>
           </label>
 
           <label class="form-group">
             <span>Blood Group</span>
-            <select
-              class="form-select"
-              .value=${this.personal.bloodGroup}
-              @change=${(e: Event) =>
+            <t-select .value=${String(this.personal.bloodGroup)}>
                 this.handleInputChange(
                   'personal',
                   'bloodGroup',
-                  (e.target as HTMLSelectElement).value
+                  e.detail.value
                 )}
             >
               <option value="">Select</option>
@@ -285,38 +238,31 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
               <option value="AB-">AB-</option>
               <option value="O+">O+</option>
               <option value="O-">O-</option>
-            </select>
+            </t-select>
           </label>
 
           <label class="form-group">
             <span>Marital Status *</span>
-            <select
-              class="form-select"
-              .value=${this.personal.maritalStatus}
-              @change=${(e: Event) =>
+            <t-select .value=${String(this.personal.maritalStatus)}>
                 this.handleInputChange(
                   'personal',
                   'maritalStatus',
-                  (e.target as HTMLSelectElement).value
+                  e.detail.value
                 )}
             >
               <option value="Never Married">Never Married</option>
               <option value="Divorced">Divorced</option>
               <option value="Widowed">Widowed</option>
-            </select>
+            </t-select>
           </label>
 
           <label class="form-group">
             <span>Mother Tongue</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.personal.motherTongue}
-              @input=${(e: Event) =>
+            <t-input></t-input>
                 this.handleInputChange(
                   'personal',
                   'motherTongue',
-                  (e.target as HTMLInputElement).value
+                  e.detail.value
                 )}
               placeholder="e.g., Hindi, English"
             />
@@ -324,15 +270,11 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
 
           <label class="form-group">
             <span>Religion</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.personal.religion}
-              @input=${(e: Event) =>
+            <t-input></t-input>
                 this.handleInputChange(
                   'personal',
                   'religion',
-                  (e.target as HTMLInputElement).value
+                  e.detail.value
                 )}
               placeholder="e.g., Hindu, Muslim, Christian"
             />
@@ -340,57 +282,36 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
 
           <label class="form-group">
             <span>Caste</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.personal.caste}
-              @input=${(e: Event) =>
-                this.handleInputChange('personal', 'caste', (e.target as HTMLInputElement).value)}
+            <t-input></t-input>
+                this.handleInputChange('personal', 'caste', e.detail.value)}
             />
           </label>
 
           <label class="form-group">
             <span>Sub-Caste</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.personal.subCaste}
-              @input=${(e: Event) =>
-                this.handleInputChange(
-                  'personal',
-                  'subCaste',
-                  (e.target as HTMLInputElement).value
-                )}
-            />
+            <t-input @t-input=${(e: CustomEvent) => this.handleInputChange("personal", "subCaste", e.detail.value)}></t-input>
           </label>
 
           <label class="form-group">
             <span>Gotra</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.personal.gotra}
-              @input=${(e: Event) =>
-                this.handleInputChange('personal', 'gotra', (e.target as HTMLInputElement).value)}
+            <t-input></t-input>
+                this.handleInputChange('personal', 'gotra', e.detail.value)}
             />
           </label>
 
           <label class="form-group">
             <span>Manglik</span>
-            <select
-              class="form-select"
-              .value=${this.personal.manglik}
-              @change=${(e: Event) =>
+            <t-select .value=${String(this.personal.manglik)}>
                 this.handleInputChange(
                   'personal',
                   'manglik',
-                  (e.target as HTMLSelectElement).value
+                  e.detail.value
                 )}
             >
               <option value="No">No</option>
               <option value="Yes">Yes</option>
               <option value="Not Sure">Not Sure</option>
-            </select>
+            </t-select>
           </label>
         </div>
       </div>
@@ -404,153 +325,92 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
         <div class="form-grid">
           <label class="form-group">
             <span>Father's Name *</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.family.fatherName}
-              @input=${(e: Event) =>
-                this.handleInputChange(
-                  'family',
-                  'fatherName',
-                  (e.target as HTMLInputElement).value
-                )}
-            />
+            <t-input @t-input=${(e: CustomEvent) => this.handleInputChange("family", "fatherName", e.detail.value)}></t-input>
           </label>
 
           <label class="form-group">
             <span>Father's Occupation</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.family.fatherOccupation}
-              @input=${(e: Event) =>
-                this.handleInputChange(
-                  'family',
-                  'fatherOccupation',
-                  (e.target as HTMLInputElement).value
-                )}
-            />
+            <t-input @t-input=${(e: CustomEvent) => this.handleInputChange("family", "fatherOccupation", e.detail.value)}></t-input>
           </label>
 
           <label class="form-group">
             <span>Mother's Name *</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.family.motherName}
-              @input=${(e: Event) =>
-                this.handleInputChange(
-                  'family',
-                  'motherName',
-                  (e.target as HTMLInputElement).value
-                )}
-            />
+            <t-input @t-input=${(e: CustomEvent) => this.handleInputChange("family", "motherName", e.detail.value)}></t-input>
           </label>
 
           <label class="form-group">
             <span>Mother's Occupation</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.family.motherOccupation}
-              @input=${(e: Event) =>
-                this.handleInputChange(
-                  'family',
-                  'motherOccupation',
-                  (e.target as HTMLInputElement).value
-                )}
-            />
+            <t-input @t-input=${(e: CustomEvent) => this.handleInputChange("family", "motherOccupation", e.detail.value)}></t-input>
           </label>
 
           <label class="form-group">
             <span>Brothers</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.family.brothers}
-              @input=${(e: Event) =>
-                this.handleInputChange('family', 'brothers', (e.target as HTMLInputElement).value)}
+            <t-input></t-input>
+                this.handleInputChange('family', 'brothers', e.detail.value)}
               placeholder="e.g., 1 (Married), 1 (Unmarried)"
             />
           </label>
 
           <label class="form-group">
             <span>Sisters</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.family.sisters}
-              @input=${(e: Event) =>
-                this.handleInputChange('family', 'sisters', (e.target as HTMLInputElement).value)}
+            <t-input></t-input>
+                this.handleInputChange('family', 'sisters', e.detail.value)}
               placeholder="e.g., 1 (Married), 1 (Unmarried)"
             />
           </label>
 
           <label class="form-group">
             <span>Family Type</span>
-            <select
-              class="form-select"
-              .value=${this.family.familyType}
-              @change=${(e: Event) =>
+            <t-select .value=${String(this.family.familyType)}>
                 this.handleInputChange(
                   'family',
                   'familyType',
-                  (e.target as HTMLSelectElement).value
+                  e.detail.value
                 )}
             >
               <option value="Nuclear">Nuclear</option>
               <option value="Joint">Joint</option>
-            </select>
+            </t-select>
           </label>
 
           <label class="form-group">
             <span>Family Status</span>
-            <select
-              class="form-select"
-              .value=${this.family.familyStatus}
-              @change=${(e: Event) =>
+            <t-select .value=${String(this.family.familyStatus)}>
                 this.handleInputChange(
                   'family',
                   'familyStatus',
-                  (e.target as HTMLSelectElement).value
+                  e.detail.value
                 )}
             >
               <option value="Lower Class">Lower Class</option>
               <option value="Middle Class">Middle Class</option>
               <option value="Upper Middle Class">Upper Middle Class</option>
               <option value="Upper Class">Upper Class</option>
-            </select>
+            </t-select>
           </label>
 
           <label class="form-group">
             <span>Family Values</span>
-            <select
-              class="form-select"
-              .value=${this.family.familyValues}
-              @change=${(e: Event) =>
+            <t-select .value=${String(this.family.familyValues)}>
                 this.handleInputChange(
                   'family',
                   'familyValues',
-                  (e.target as HTMLSelectElement).value
+                  e.detail.value
                 )}
             >
               <option value="Traditional">Traditional</option>
               <option value="Moderate">Moderate</option>
               <option value="Liberal">Liberal</option>
-            </select>
+            </t-select>
           </label>
 
           <label class="form-group span-2">
             <span>Native Place</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.family.nativePlace}
-              @input=${(e: Event) =>
+            <t-input></t-input>
                 this.handleInputChange(
                   'family',
                   'nativePlace',
-                  (e.target as HTMLInputElement).value
+                  e.detail.value
                 )}
               placeholder="City, State"
             />
@@ -567,15 +427,11 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
         <div class="form-grid">
           <label class="form-group">
             <span>Highest Education *</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.education.highestEducation}
-              @input=${(e: Event) =>
+            <t-input></t-input>
                 this.handleInputChange(
                   'education',
                   'highestEducation',
-                  (e.target as HTMLInputElement).value
+                  e.detail.value
                 )}
               placeholder="e.g., B.Tech, MBA, M.Sc"
             />
@@ -583,31 +439,16 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
 
           <label class="form-group span-2">
             <span>Education Details</span>
-            <textarea
-              class="form-textarea"
-              .value=${this.education.educationDetails}
-              @input=${(e: Event) =>
-                this.handleInputChange(
-                  'education',
-                  'educationDetails',
-                  (e.target as HTMLTextAreaElement).value
-                )}
-              rows="2"
-              placeholder="College/University name, year of passing, etc."
-            ></textarea>
+            <t-textarea .value=${String(this.education.educationDetails)}></t-textarea>
           </label>
 
           <label class="form-group">
             <span>Occupation *</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.education.occupation}
-              @input=${(e: Event) =>
+            <t-input></t-input>
                 this.handleInputChange(
                   'education',
                   'occupation',
-                  (e.target as HTMLInputElement).value
+                  e.detail.value
                 )}
               placeholder="e.g., Software Engineer, Doctor"
             />
@@ -615,31 +456,16 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
 
           <label class="form-group span-2">
             <span>Occupation Details</span>
-            <textarea
-              class="form-textarea"
-              .value=${this.education.occupationDetails}
-              @input=${(e: Event) =>
-                this.handleInputChange(
-                  'education',
-                  'occupationDetails',
-                  (e.target as HTMLTextAreaElement).value
-                )}
-              rows="2"
-              placeholder="Company name, designation, experience, etc."
-            ></textarea>
+            <t-textarea .value=${String(this.education.occupationDetails)}></t-textarea>
           </label>
 
           <label class="form-group">
             <span>Annual Income</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.education.annualIncome}
-              @input=${(e: Event) =>
+            <t-input></t-input>
                 this.handleInputChange(
                   'education',
                   'annualIncome',
-                  (e.target as HTMLInputElement).value
+                  e.detail.value
                 )}
               placeholder="e.g., 10-15 LPA"
             />
@@ -647,15 +473,11 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
 
           <label class="form-group">
             <span>Work Location</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.education.workLocation}
-              @input=${(e: Event) =>
+            <t-input></t-input>
                 this.handleInputChange(
                   'education',
                   'workLocation',
-                  (e.target as HTMLInputElement).value
+                  e.detail.value
                 )}
               placeholder="City, State, Country"
             />
@@ -672,74 +494,43 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
         <div class="form-grid">
           <label class="form-group span-2">
             <span>Address *</span>
-            <textarea
-              class="form-textarea"
-              .value=${this.contact.address}
-              @input=${(e: Event) =>
-                this.handleInputChange(
-                  'contact',
-                  'address',
-                  (e.target as HTMLTextAreaElement).value
-                )}
-              rows="2"
-              placeholder="Enter full address"
-            ></textarea>
+            <t-textarea .value=${String(this.contact.address)}></t-textarea>
           </label>
 
           <label class="form-group">
             <span>City *</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.contact.city}
-              @input=${(e: Event) =>
-                this.handleInputChange('contact', 'city', (e.target as HTMLInputElement).value)}
+            <t-input></t-input>
+                this.handleInputChange('contact', 'city', e.detail.value)}
             />
           </label>
 
           <label class="form-group">
             <span>State *</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.contact.state}
-              @input=${(e: Event) =>
-                this.handleInputChange('contact', 'state', (e.target as HTMLInputElement).value)}
+            <t-input></t-input>
+                this.handleInputChange('contact', 'state', e.detail.value)}
             />
           </label>
 
           <label class="form-group">
             <span>Pincode</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.contact.pincode}
-              @input=${(e: Event) =>
-                this.handleInputChange('contact', 'pincode', (e.target as HTMLInputElement).value)}
+            <t-input></t-input>
+                this.handleInputChange('contact', 'pincode', e.detail.value)}
               placeholder="6-digit pincode"
             />
           </label>
 
           <label class="form-group">
             <span>Phone *</span>
-            <input
-              type="tel"
-              class="form-input"
-              .value=${this.contact.phone}
-              @input=${(e: Event) =>
-                this.handleInputChange('contact', 'phone', (e.target as HTMLInputElement).value)}
+            <t-input type="tel"></t-input>
+                this.handleInputChange('contact', 'phone', e.detail.value)}
               placeholder="+91 XXXXXXXXXX"
             />
           </label>
 
           <label class="form-group span-2">
             <span>Email</span>
-            <input
-              type="email"
-              class="form-input"
-              .value=${this.contact.email}
-              @input=${(e: Event) =>
-                this.handleInputChange('contact', 'email', (e.target as HTMLInputElement).value)}
+            <t-input type="email"></t-input>
+                this.handleInputChange('contact', 'email', e.detail.value)}
               placeholder="your.email@example.com"
             />
           </label>
@@ -755,15 +546,11 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
         <div class="form-grid">
           <label class="form-group">
             <span>Age Range</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.preferences.ageRange}
-              @input=${(e: Event) =>
+            <t-input></t-input>
                 this.handleInputChange(
                   'preferences',
                   'ageRange',
-                  (e.target as HTMLInputElement).value
+                  e.detail.value
                 )}
               placeholder="e.g., 23-28 years"
             />
@@ -771,15 +558,11 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
 
           <label class="form-group">
             <span>Height Range</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.preferences.heightRange}
-              @input=${(e: Event) =>
+            <t-input></t-input>
                 this.handleInputChange(
                   'preferences',
                   'heightRange',
-                  (e.target as HTMLInputElement).value
+                  e.detail.value
                 )}
               placeholder='e.g., 5&apos;4" - 5&apos;8"'
             />
@@ -787,15 +570,11 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
 
           <label class="form-group span-2">
             <span>Education</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.preferences.education}
-              @input=${(e: Event) =>
+            <t-input></t-input>
                 this.handleInputChange(
                   'preferences',
                   'education',
-                  (e.target as HTMLInputElement).value
+                  e.detail.value
                 )}
               placeholder="e.g., Graduate or above"
             />
@@ -803,15 +582,11 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
 
           <label class="form-group span-2">
             <span>Occupation</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.preferences.occupation}
-              @input=${(e: Event) =>
+            <t-input></t-input>
                 this.handleInputChange(
                   'preferences',
                   'occupation',
-                  (e.target as HTMLInputElement).value
+                  e.detail.value
                 )}
               placeholder="e.g., Any professional job"
             />
@@ -819,15 +594,11 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
 
           <label class="form-group span-2">
             <span>Location Preference</span>
-            <input
-              type="text"
-              class="form-input"
-              .value=${this.preferences.location}
-              @input=${(e: Event) =>
+            <t-input></t-input>
                 this.handleInputChange(
                   'preferences',
                   'location',
-                  (e.target as HTMLInputElement).value
+                  e.detail.value
                 )}
               placeholder="e.g., Anywhere in India"
             />
@@ -835,18 +606,7 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
 
           <label class="form-group span-2">
             <span>Other Expectations</span>
-            <textarea
-              class="form-textarea"
-              .value=${this.preferences.otherExpectations}
-              @input=${(e: Event) =>
-                this.handleInputChange(
-                  'preferences',
-                  'otherExpectations',
-                  (e.target as HTMLTextAreaElement).value
-                )}
-              rows="3"
-              placeholder="Any other preferences or expectations..."
-            ></textarea>
+            <t-textarea .value=${String(this.preferences.otherExpectations)}></t-textarea>
           </label>
         </div>
       </div>
@@ -860,11 +620,8 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
           <div class="theme-selector">
             <label>
               <span>Select Theme:</span>
-              <select
-                class="form-select"
-                .value=${this.selectedTheme}
-                @change=${(e: Event) => {
-                  this.selectedTheme = (e.target as HTMLSelectElement).value;
+              <t-select .value=${String(this.selectedTheme)}> {
+                  this.selectedTheme = e.detail.value;
                 }}
               >
                 <option value="classic">Classic</option>
@@ -872,14 +629,14 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
                 <option value="modern">Modern</option>
                 <option value="royal">Royal</option>
                 <option value="floral">Floral</option>
-              </select>
+              </t-select>
             </label>
           </div>
           <div class="action-buttons">
-            <button class="btn btn-green" @click=${this.handleDownloadImage}>
+            <t-button variant="green" @click=${this.handleDownloadImage}>
               Download Image
-            </button>
-            <button class="btn btn-blue" @click=${this.handlePrint}>Print Biodata</button>
+            </t-button>
+            <t-button variant="blue" @click=${this.handlePrint}>Print Biodata</t-button>
           </div>
         </div>
 

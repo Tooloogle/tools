@@ -2,13 +2,12 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import urlParserStyles from './url-parser.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import tableStyles from '../_styles/table.css.js';
+import '../t-button';
+import '../t-input';
 
 @customElement('url-parser')
 export class UrlParser extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, tableStyles, urlParserStyles];
+    static override styles = [WebComponentBase.styles, urlParserStyles];
 
     @property()
     input = '';
@@ -19,8 +18,8 @@ export class UrlParser extends WebComponentBase<IConfigBase> {
     @property()
     error = '';
 
-    private handleInputChange(e: Event) {
-        this.input = (e.target as HTMLInputElement).value;
+    private handleInputChange(e: CustomEvent) {
+        this.input = e.detail.value;
     }
 
     private parseUrl() {
@@ -72,19 +71,12 @@ export class UrlParser extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">URL:</span>
-                <input
-                    type="text"
-                    class="form-input"
-                    placeholder="https://example.com/path?key=value#hash"
-                    autofocus
-                    .value=${this.input}
-                    @input=${this.handleInputChange}
-                />
+                <t-input placeholder="https://example.com/path?key=value#hash"></t-input>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
-                <button class="btn btn-blue" @click=${this.parseUrl}>Parse URL</button>
-                <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                <t-button variant="blue" @click=${this.parseUrl}>Parse URL</t-button>
+                <t-button variant="red" @click=${this.clear}>Clear</t-button>
             </div>
 
             ${this.error ? html`

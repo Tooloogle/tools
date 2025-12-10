@@ -2,13 +2,13 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import barcodeGeneratorStyles from './barcode-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import { isCanvasSupported } from '../_utils/DomUtils.js';
 import JsBarcode from 'jsbarcode';
+import '../t-input';
 
 @customElement('barcode-generator')
 export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, barcodeGeneratorStyles];
+    static override styles = [WebComponentBase.styles, barcodeGeneratorStyles];
 
     @property({ type: String }) inputText = '123456789012';
     @property({ type: String }) format = 'CODE128';
@@ -47,13 +47,7 @@ export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">Barcode Text:</label>
-                    <input
-                        type="text"
-                        class="form-input w-full"
-                        placeholder="Enter text or number..."
-                        .value=${this.inputText}
-                        @input=${(e: Event) => { this.inputText = (e.target as HTMLInputElement).value; }}
-                    />
+                    <t-input placeholder="Enter text or number..." .value=${this.inputText} @t-input=${(e: CustomEvent) => { this.inputText = e.detail.value; }} class="w-full"></t-input>
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Format:</label>

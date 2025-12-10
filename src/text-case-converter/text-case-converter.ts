@@ -2,14 +2,14 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import textCaseConverterStyles from './text-case-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import { downloadText } from '../_utils/DomUtils.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-button';
+import '../t-textarea';
 
 @customElement('text-case-converter')
 export class TextCaseConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, textCaseConverterStyles];
+    static override styles = [WebComponentBase.styles, textCaseConverterStyles];
 
     @property()
     text = "";
@@ -99,8 +99,8 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
         this.placeholder = "Type or paste your content here.";
     }
 
-    private handleTextChange(e: Event) {
-        this.text = (e.target as HTMLTextAreaElement).value;
+    private handleTextChange(e: CustomEvent) {
+        this.text = e.detail.value;
     }
 
     private handleLowerClick() {
@@ -170,33 +170,26 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
     override render() {
         return html`
     <label class="block py-1">
-        <textarea
-            name="email"
-            class="form-textarea"
-            autofocus
-            .placeholder=${this.placeholder}
-            rows="5"
-            .value=${this.text}
-            @change=${this.handleTextChange}></textarea>
+        <t-textarea rows="5"></t-textarea>
     </label>
 
     <div class="col btns">
-        <button class="btn btn-blue" @click=${this.handleLowerClick}>lower case</button>
-        <button class="btn btn-blue" @click=${this.handleUpperClick}>UPPER CASE</button>
-        <button class="btn btn-blue" @click=${this.handleCapitalizeClick}>Capitalized Case</button>
-        <button class="btn btn-blue" @click=${this.handleSentenceClick}>Sentence case</button>
-        <button class="btn btn-blue" @click=${this.handleAlternateClick}>aLtErNaTiNg cAsE</button>
-        <button class="btn btn-blue" @click=${this.handleInverseClick}>iNVERSE cASE</button>
-        <button class="btn btn-blue" @click=${this.handleCamelClick}>camelCase</button>
-        <button class="btn btn-blue" @click=${this.handlePascalClick}>PascalCase</button>
-        <button class="btn btn-blue" @click=${this.handleSnakeClick}>snake_case</button>
-        <button class="btn btn-blue" @click=${this.handleKebabClick}>kebab-case</button>
-        <button class="btn btn-blue" @click=${this.handleConstantClick}>CONSTANT_CASE</button>
-        <button class="btn btn-blue" @click=${this.handleDotClick}>dot.case</button>
+        <t-button variant="blue" @click=${this.handleLowerClick}>lower case</t-button>
+        <t-button variant="blue" @click=${this.handleUpperClick}>UPPER CASE</t-button>
+        <t-button variant="blue" @click=${this.handleCapitalizeClick}>Capitalized Case</t-button>
+        <t-button variant="blue" @click=${this.handleSentenceClick}>Sentence case</t-button>
+        <t-button variant="blue" @click=${this.handleAlternateClick}>aLtErNaTiNg cAsE</t-button>
+        <t-button variant="blue" @click=${this.handleInverseClick}>iNVERSE cASE</t-button>
+        <t-button variant="blue" @click=${this.handleCamelClick}>camelCase</t-button>
+        <t-button variant="blue" @click=${this.handlePascalClick}>PascalCase</t-button>
+        <t-button variant="blue" @click=${this.handleSnakeClick}>snake_case</t-button>
+        <t-button variant="blue" @click=${this.handleKebabClick}>kebab-case</t-button>
+        <t-button variant="blue" @click=${this.handleConstantClick}>CONSTANT_CASE</t-button>
+        <t-button variant="blue" @click=${this.handleDotClick}>dot.case</t-button>
 
         <t-copy-button .isIcon=${false} .text=${this.text}></t-copy-button>
-        <button class="btn btn-green" @click=${this.handleDownloadClick}>Download</button>
-        <button class="btn btn-red" @click=${this.clear}>Clear</button>
+        <t-button variant="green" @click=${this.handleDownloadClick}>Download</t-button>
+        <t-button variant="red" @click=${this.clear}>Clear</t-button>
     </div>
     `;
     }

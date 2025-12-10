@@ -2,11 +2,11 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import colorContrastCheckerStyles from './color-contrast-checker.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
+import '../t-input';
 
 @customElement('color-contrast-checker')
 export class ColorContrastChecker extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, colorContrastCheckerStyles];
+    static override styles = [WebComponentBase.styles, colorContrastCheckerStyles];
 
     @property()
     foreground = '#000000';
@@ -17,13 +17,13 @@ export class ColorContrastChecker extends WebComponentBase<IConfigBase> {
     @property()
     contrastRatio = 21;
 
-    private handleForegroundChange(e: Event) {
-        this.foreground = (e.target as HTMLInputElement).value;
+    private handleForegroundChange(e: CustomEvent) {
+        this.foreground = e.detail.value;
         this.calculateContrast();
     }
 
-    private handleBackgroundChange(e: Event) {
-        this.background = (e.target as HTMLInputElement).value;
+    private handleBackgroundChange(e: CustomEvent) {
+        this.background = e.detail.value;
         this.calculateContrast();
     }
 
@@ -75,12 +75,7 @@ export class ColorContrastChecker extends WebComponentBase<IConfigBase> {
                                 @input=${this.handleForegroundChange}
                                 class="h-10 w-16"
                             />
-                            <input
-                                type="text"
-                                class="form-input"
-                                .value=${this.foreground}
-                                @input=${this.handleForegroundChange}
-                            />
+                            <t-input></t-input>
                         </div>
                     </label>
 
@@ -93,12 +88,7 @@ export class ColorContrastChecker extends WebComponentBase<IConfigBase> {
                                 @input=${this.handleBackgroundChange}
                                 class="h-10 w-16"
                             />
-                            <input
-                                type="text"
-                                class="form-input"
-                                .value=${this.background}
-                                @input=${this.handleBackgroundChange}
-                            />
+                            <t-input></t-input>
                         </div>
                     </label>
                 </div>

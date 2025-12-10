@@ -1,4 +1,43 @@
 @import 'tailwindcss';
-.tooltip {
-  @apply min-w-40 text-center;
+
+.tooltip-wrapper {
+    @apply relative;
+}
+
+.tooltip-wrapper .tooltip {
+    @apply absolute inline-block text-center px-2 py-1 text-sm text-white rounded-lg shadow-sm bg-gray-900 dark:bg-gray-800 opacity-0 min-w-40;
+    pointer-events: none;
+    width: auto;
+    left: 50%;
+    bottom: calc(100% + 12px);
+    transform: translate(-50%, 0);
+}
+
+.tooltip-wrapper .tooltip:before {
+    bottom: -20px;
+    content: " ";
+    display: block;
+    height: 20px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+}
+
+.tooltip-wrapper .tooltip:after {
+    @apply absolute border-solid border-gray-900 dark:border-gray-800;
+    border-left: solid transparent 10px;
+    border-right: solid transparent 10px;
+    border-top-width: 10px;
+    border-bottom: none;
+    bottom: -10px;
+    content: " ";
+    height: 0;
+    left: 50%;
+    margin-left: -13px;
+    width: 0;
+}
+
+.tooltip-wrapper:hover .tooltip {
+    opacity: 1;
+    pointer-events: auto;
 }

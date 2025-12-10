@@ -5,13 +5,13 @@ import {
   IConfigBase,
   WebComponentBase,
 } from '../_web-component/WebComponentBase.js';
-import buttonStyles from '../_styles/button.css.js';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { formatNumber } from '../_utils/NumberHelper.js';
-import inputStyles from '../_styles/input.css.js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration.js';
+import '../t-button';
+import '../t-input';
 
 dayjs.extend(duration);
 
@@ -19,10 +19,7 @@ dayjs.extend(duration);
 export class AgeDifferenceCalculator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    ageDifferenceCalculatorStyles,
-  ];
+    ageDifferenceCalculatorStyles];
 
   @property()
   haveTime = false;
@@ -61,12 +58,12 @@ export class AgeDifferenceCalculator extends WebComponentBase<IConfigBase> {
     };
   }
 
-  private handleDate1Change(e: Event) {
-    this.date1 = (e.target as HTMLInputElement).value;
+  private handleDate1Change(e: CustomEvent) {
+    this.date1 = e.detail.value;
   }
 
-  private handleDate2Change(e: Event) {
-    this.date2 = (e.target as HTMLInputElement).value;
+  private handleDate2Change(e: CustomEvent) {
+    this.date2 = e.detail.value;
   }
 
   private handleHaveTimeChange(e: Event) {
@@ -128,27 +125,11 @@ export class AgeDifferenceCalculator extends WebComponentBase<IConfigBase> {
       <div class="grid grid-cols-1 gap-4 dark:bg-gray-600">
         <label class="block">
           <span>First Date</span>
-          <input
-            name="date1"
-            class="form-input"
-            type="${this.haveTime ? 'datetime-local' : 'date'}"
-            pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
-            .value=${this.date1}
-            @change=${this.handleDate1Change}
-            required
-          />
+          <t-input type="${this.haveTime ? 'datetime-local' : 'date'}" ?required=${true} .value=${this.date1} @t-change=${this.handleDate1Change}></t-input>
         </label>
         <label class="block">
           <span>Second Date</span>
-          <input
-            name="date2"
-            class="form-input"
-            type="${this.haveTime ? 'datetime-local' : 'date'}"
-            pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
-            .value=${this.date2}
-            @change=${this.handleDate2Change}
-            required
-          />
+          <t-input type="${this.haveTime ? 'datetime-local' : 'date'}" ?required=${true} .value=${this.date2} @t-change=${this.handleDate2Change}></t-input>
         </label>
         <label class="block">
           <input
@@ -160,13 +141,9 @@ export class AgeDifferenceCalculator extends WebComponentBase<IConfigBase> {
         </label>
       </div>
       <div class="text-end">
-        <button
-          .disabled=${!this.date1 || !this.date2}
-          class="btn btn-blue"
-          @click=${this.calculate}
-        >
+        <t-button variant="blue">
           Calculate Difference
-        </button>
+        </t-button>
       </div>
     `;
   }

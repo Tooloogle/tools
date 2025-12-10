@@ -1,6 +1,7 @@
 import { html, TemplateResult } from 'lit';
 import { Education } from './resume-builder-types.js';
 import { TemplateHandlers } from './resume-builder-templates.js';
+import '../t-button';
 
 export class EducationTemplate {
   static renderEducationSection(
@@ -11,9 +12,9 @@ export class EducationTemplate {
       <div class="section education">
         <div class="section-header">
           <h3>Education</h3>
-          <button class="btn btn-primary" @click="${handlers.addEducation}">
+          <t-button variant="blue" @click="${handlers.addEducation}">
             Add Education
-          </button>
+          </t-button>
         </div>
         ${this.renderEducationItems(education, handlers)}
       </div>
@@ -84,8 +85,7 @@ export class EducationTemplate {
         type: 'text',
         label: 'GPA (Optional)',
         placeholder: '3.8/4.0',
-      },
-    ];
+      }];
 
     return fields.map(field => this.renderEducationField(field, edu, handlers));
   }
@@ -100,11 +100,11 @@ export class EducationTemplate {
     edu: Education,
     handlers: TemplateHandlers
   ): TemplateResult {
-    const handleFieldChange = (e: Event) => {
+    const handleFieldChange = (e: CustomEvent) => {
       handlers.updateEducation(
         edu.id,
         fieldInfo.field,
-        (e.target as HTMLInputElement).value
+        e.detail.value
       );
     };
 

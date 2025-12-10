@@ -5,23 +5,21 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import binaryToTextConverterStyles from './binary-to-text-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
+import '../t-textarea';
 
 @customElement('binary-to-text-converter')
 export class BinaryToTextConverter extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    binaryToTextConverterStyles,
-  ];
+    binaryToTextConverterStyles];
 
   @property({ type: String }) inputBinary = '';
   @property({ type: String }) outputText = '';
   @property({ type: String }) error = '';
 
-  private handleInput(e: Event) {
-    this.inputBinary = (e.target as HTMLTextAreaElement).value;
+  private handleInput(e: CustomEvent) {
+    this.inputBinary = e.detail.value;
     this.error = '';
     try {
       this.outputText = this.binaryToText(this.inputBinary);
@@ -51,23 +49,14 @@ export class BinaryToTextConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Binary Input:</label>
-          <textarea
-            class="form-textarea w-full h-32 font-mono"
-            placeholder="Enter binary (e.g., 01001000 01100101 01101100 01101100 01101111)..."
-            .value=${this.inputBinary}
-            @input=${this.handleInput}
-          ></textarea>
+          <t-textarea placeholder="Enter binary (e.g., 01001000 01100101 01101100 01101100 01101111)..." class="w-full h-32 font-mono"></t-textarea>
           ${this.error
             ? html`<p class="text-red-600 text-sm mt-1">${this.error}</p>`
             : ''}
         </div>
         <div>
           <label class="block mb-2 font-semibold">Text Output:</label>
-          <textarea
-            class="form-textarea w-full h-32"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button
                 .text=${this.outputText}

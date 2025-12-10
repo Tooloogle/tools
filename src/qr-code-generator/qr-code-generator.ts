@@ -6,23 +6,22 @@ import {
 import qrCodeGeneratorStyles from './qr-code-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { Ref, createRef, ref } from 'lit/directives/ref.js';
-import inputStyles from '../_styles/input.css.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { IQrStyleListItem, QrStyleList } from './qr-style-list.js';
 import { Logo } from './logo.js';
-import buttonStyles from '../_styles/button.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 import QRCodeStyling, { FileExtension } from 'qr-code-styling';
+import '../t-button';
+import '../t-input';
+import '../t-select';
+import '../t-textarea';
 
 /* eslint-disable max-lines */
 @customElement('qr-code-generator')
 export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    qrCodeGeneratorStyles,
-    inputStyles,
-    buttonStyles,
-  ];
+    qrCodeGeneratorStyles];
   container: Ref<HTMLDivElement> = createRef();
 
   qrCode: QRCodeStyling = isBrowser()
@@ -167,7 +166,7 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
     this.qrCode.update({ cornersSquareOptions: { color: this.squareColor } });
   }
 
-  private handleDownloadExtChange(e: Event) {
+  private handleDownloadExtChange(e: CustomEvent) {
     const target = e.target as HTMLSelectElement;
     this.downloadExt = (target?.value as FileExtension) || 'jpeg';
   }
@@ -202,33 +201,16 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
         <div class="grid grid-cols-1 gap-4">
           <label>
             URL/Plain Text
-            <textarea
-              placeholder="Please enter the contents to be encoded into the QR Code."
-              rows="3"
-              class="form-textarea"
-              .value=${this.text}
-              @keyup=${this.onTextChange}
-              @change=${this.onTextChange}
-            ></textarea>
+            <t-textarea placeholder="Please enter the contents to be encoded into the QR Code." rows="3"></t-textarea>
           </label>
           <div class="flex justify-between gap-2">
             <label>
               Width
-              <input
-                class="form-input"
-                type="number"
-                .value=${this.width}
-                @keyup=${this.handleWidthChange}
-              />
+              <t-input type="number" .value=${String(this.width)}></t-input>
             </label>
             <label>
               Height
-              <input
-                class="form-input"
-                type="number"
-                .value=${this.height}
-                @keyup=${this.handleHeightChange}
-              />
+              <t-input type="number" .value=${String(this.height)}></t-input>
             </label>
           </div>
           <label>
@@ -281,12 +263,9 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
                 @change=${this.onImageUpload}
               />
             </label>
-            <button
-              class="btn btn-red btn-sm btn-remove"
-              @click=${this.removeLogo}
-            >
+            <t-button variant="red" class="btn-sm">
               Remove logo
-            </button>
+            </t-button>
           </div>
           <div class="qr-style-list">
             ${repeat(
@@ -305,15 +284,15 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
         <div>
           <div class="text-center qr" ${ref(this.container)}></div>
           <div class="grid grid-cols-2 gap-4">
-            <select class="form-select" @change=${this.handleDownloadExtChange}>
+            <t-select @t-change=${this.handleDownloadExtChange}>
               <option>jpeg</option>
               <option>png</option>
               <option>svg</option>
               <option>webp</option>
-            </select>
-            <button class="btn btn-green btn-sm" @click=${this.download}>
+            </t-select>
+            <t-button variant="green" class="btn-sm">
               Download
-            </button>
+            </t-button>
           </div>
         </div>
       </div>

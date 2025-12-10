@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import unitConverterStyles from './unit-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
+import '../t-input';
 
 interface ConversionUnit {
     name: string;
@@ -17,7 +17,7 @@ interface UnitCategory {
 
 @customElement('unit-converter')
 export class UnitConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, unitConverterStyles];
+    static override styles = [WebComponentBase.styles, unitConverterStyles];
 
     @property({ type: Number }) inputValue = 1;
     @property({ type: String }) fromUnit = 'meter';
@@ -123,8 +123,8 @@ export class UnitConverter extends WebComponentBase<IConfigBase> {
         this.result = `${resultValue.toFixed(6)} ${toUnitDef.name.match(/\(([^)]+)\)/)?.[1] || this.toUnit}`;
     }
 
-    private handleCategoryChange(e: Event) {
-        this.category = (e.target as HTMLSelectElement).value;
+    private handleCategoryChange(e: CustomEvent) {
+        this.category = e.detail.value;
         const firstUnit = Object.keys(this.categories[this.category].units)[0];
         const secondUnit = Object.keys(this.categories[this.category].units)[1] || firstUnit;
         this.fromUnit = firstUnit;
@@ -132,18 +132,18 @@ export class UnitConverter extends WebComponentBase<IConfigBase> {
         this.convert();
     }
 
-    private handleValueInput(e: Event) {
-        this.inputValue = Number((e.target as HTMLInputElement).value);
+    private handleValueInput(e: CustomEvent) {
+        this.inputValue = Number(e.detail.value);
         this.convert();
     }
 
-    private handleFromUnitChange(e: Event) {
-        this.fromUnit = (e.target as HTMLSelectElement).value;
+    private handleFromUnitChange(e: CustomEvent) {
+        this.fromUnit = e.detail.value;
         this.convert();
     }
 
-    private handleToUnitChange(e: Event) {
-        this.toUnit = (e.target as HTMLSelectElement).value;
+    private handleToUnitChange(e: CustomEvent) {
+        this.toUnit = e.detail.value;
         this.convert();
     }
 
@@ -175,13 +175,7 @@ export class UnitConverter extends WebComponentBase<IConfigBase> {
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Value:</label>
-                    <input
-                        type="number"
-                        step="any"
-                        class="form-input w-full"
-                        .value=${String(this.inputValue)}
-                        @input=${this.handleValueInput}
-                    />
+                    <t-input type="number" class="w-full"></t-input>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>

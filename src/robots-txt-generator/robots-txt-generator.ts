@@ -5,16 +5,15 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import robotsTxtGeneratorStyles from './robots-txt-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
+import '../t-input';
+import '../t-textarea';
 
 @customElement('robots-txt-generator')
 export class RobotsTxtGenerator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    robotsTxtGeneratorStyles,
-  ];
+    robotsTxtGeneratorStyles];
 
   @property({ type: String }) userAgent = '*';
   @property({ type: Boolean }) allowAll = false;
@@ -29,12 +28,12 @@ export class RobotsTxtGenerator extends WebComponentBase<IConfigBase> {
     this.process();
   }
 
-  private handleUserAgent(e: Event) {
-    this.userAgent = (e.target as HTMLInputElement).value || '*';
+  private handleUserAgent(e: CustomEvent) {
+    this.userAgent = e.detail.value || '*';
     this.process();
   }
 
-  private handleAllowAll(e: Event) {
+  private handleAllowAll(e: CustomEvent) {
     this.allowAll = (e.target as HTMLInputElement).checked;
     if (this.allowAll) {
       this.disallowAll = false;
@@ -43,7 +42,7 @@ export class RobotsTxtGenerator extends WebComponentBase<IConfigBase> {
     this.process();
   }
 
-  private handleDisallowAll(e: Event) {
+  private handleDisallowAll(e: CustomEvent) {
     this.disallowAll = (e.target as HTMLInputElement).checked;
     if (this.disallowAll) {
       this.allowAll = false;
@@ -52,18 +51,18 @@ export class RobotsTxtGenerator extends WebComponentBase<IConfigBase> {
     this.process();
   }
 
-  private handleDisallowPaths(e: Event) {
-    this.disallowPaths = (e.target as HTMLTextAreaElement).value;
+  private handleDisallowPaths(e: CustomEvent) {
+    this.disallowPaths = e.detail.value;
     this.process();
   }
 
-  private handleAllowPaths(e: Event) {
-    this.allowPaths = (e.target as HTMLTextAreaElement).value;
+  private handleAllowPaths(e: CustomEvent) {
+    this.allowPaths = e.detail.value;
     this.process();
   }
 
-  private handleSitemap(e: Event) {
-    this.sitemapUrl = (e.target as HTMLInputElement).value;
+  private handleSitemap(e: CustomEvent) {
+    this.sitemapUrl = e.detail.value;
     this.process();
   }
 
@@ -111,13 +110,7 @@ export class RobotsTxtGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">User-Agent:</label>
-        <input
-          type="text"
-          class="form-input w-full"
-          placeholder="*"
-          .value=${this.userAgent}
-          @input=${this.handleUserAgent}
-        />
+        <t-input placeholder="*" class="w-full"></t-input>
       </div>
     `;
   }
@@ -152,24 +145,14 @@ export class RobotsTxtGenerator extends WebComponentBase<IConfigBase> {
             <label class="block mb-2 font-semibold"
               >Disallow Paths (one per line):</label
             >
-            <textarea
-              class="form-textarea w-full h-24"
-              placeholder="/admin&#10;/private&#10;/tmp"
-              .value=${this.disallowPaths}
-              @input=${this.handleDisallowPaths}
-            ></textarea>
+            <t-textarea placeholder="/admin&#10;/private&#10;/tmp" class="w-full h-24"></t-textarea>
           </div>
 
           <div>
             <label class="block mb-2 font-semibold"
               >Allow Paths (one per line):</label
             >
-            <textarea
-              class="form-textarea w-full h-24"
-              placeholder="/public&#10;/images"
-              .value=${this.allowPaths}
-              @input=${this.handleAllowPaths}
-            ></textarea>
+            <t-textarea placeholder="/public&#10;/images" class="w-full h-24"></t-textarea>
           </div>
         `
       : '';
@@ -179,13 +162,7 @@ export class RobotsTxtGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Sitemap URL (optional):</label>
-        <input
-          type="url"
-          class="form-input w-full"
-          placeholder="https://example.com/sitemap.xml"
-          .value=${this.sitemapUrl}
-          @input=${this.handleSitemap}
-        />
+        <t-input type="url" placeholder="https://example.com/sitemap.xml" class="w-full"></t-input>
       </div>
     `;
   }
@@ -194,11 +171,7 @@ export class RobotsTxtGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Generated robots.txt:</label>
-        <textarea
-          class="form-textarea w-full h-32"
-          readonly
-          .value=${this.outputText}
-        ></textarea>
+        <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
         ${this.outputText
           ? html`<t-copy-button
               .text=${this.outputText}

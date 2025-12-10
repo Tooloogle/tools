@@ -2,13 +2,13 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import unicodeConverterStyles from './unicode-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button';
+import '../t-button';
+import '../t-textarea';
 
 @customElement('unicode-converter')
 export class UnicodeConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, unicodeConverterStyles];
+    static override styles = [WebComponentBase.styles, unicodeConverterStyles];
 
     @property()
     input = '';
@@ -16,8 +16,8 @@ export class UnicodeConverter extends WebComponentBase<IConfigBase> {
     @property()
     output = '';
 
-    private handleInputChange(e: Event) {
-        this.input = (e.target as HTMLTextAreaElement).value;
+    private handleInputChange(e: CustomEvent) {
+        this.input = e.detail.value;
     }
 
     private toUnicode() {
@@ -60,33 +60,21 @@ export class UnicodeConverter extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">Input:</span>
-                <textarea
-                    class="form-textarea"
-                    placeholder="Enter text or Unicode escapes..."
-                    rows="6"
-                    autofocus
-                    .value=${this.input}
-                    @input=${this.handleInputChange}
-                ></textarea>
+                <t-textarea placeholder="Enter text or Unicode escapes..." rows="6" .value=${String(this.input)} @t-input=${this.handleInputChange}></t-textarea>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
-                <button class="btn btn-blue" @click=${this.toUnicode}>To Unicode (Non-ASCII only)</button>
-                <button class="btn btn-blue" @click=${this.toUnicodeEscape}>To Unicode (All)</button>
-                <button class="btn btn-blue" @click=${this.fromUnicode}>From Unicode</button>
-                <button class="btn btn-blue" @click=${this.toCodePoints}>To Code Points</button>
-                <button class="btn btn-red" @click=${this.clear}>Clear</button>
+                <t-button variant="blue" @click=${this.toUnicode}>To Unicode (Non-ASCII only)</t-button>
+                <t-button variant="blue" @click=${this.toUnicodeEscape}>To Unicode (All)</t-button>
+                <t-button variant="blue" @click=${this.fromUnicode}>From Unicode</t-button>
+                <t-button variant="blue" @click=${this.toCodePoints}>To Code Points</t-button>
+                <t-button variant="red" @click=${this.clear}>Clear</t-button>
             </div>
 
             ${this.output ? html`
                 <label class="block py-1">
                     <span class="inline-block py-1 font-bold">Output:</span>
-                    <textarea
-                        class="form-textarea font-mono text-sm"
-                        rows="6"
-                        readonly
-                        .value=${this.output}
-                    ></textarea>
+                    <t-textarea rows="6" ?readonly=${true} class="font-mono text-sm"></t-textarea>
                     <div class="py-2 text-right">
                         <t-copy-button .isIcon=${false} .text=${this.output}></t-copy-button>
                     </div>

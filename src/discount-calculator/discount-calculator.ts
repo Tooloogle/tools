@@ -2,11 +2,11 @@ import { html } from 'lit';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import discountCalculatorStyles from './discount-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
+import '../t-input';
 
 @customElement('discount-calculator')
 export class DiscountCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, discountCalculatorStyles];
+    static override styles = [WebComponentBase.styles, discountCalculatorStyles];
 
     @property({ type: Number }) originalPrice = 0;
     @property({ type: Number }) discountPercent = 0;
@@ -25,25 +25,11 @@ export class DiscountCalculator extends WebComponentBase<IConfigBase> {
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 font-semibold">Original Price ($):</label>
-                    <input
-                        type="number"
-                        class="form-input w-full"
-                        min="0"
-                        step="0.01"
-                        .value=${String(this.originalPrice)}
-                        @input=${(e: Event) => { this.originalPrice = Number((e.target as HTMLInputElement).value); this.calculate(); }}
-                    />
+                    <t-input .value=${this.originalPrice.toString()} @t-input=${(e: CustomEvent) => { this.originalPrice = Number(e.detail.value); this.calculate(); }} type="number" class="w-full"></t-input>
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Discount (%):</label>
-                    <input
-                        type="number"
-                        class="form-input w-full"
-                        min="0"
-                        max="100"
-                        .value=${String(this.discountPercent)}
-                        @input=${(e: Event) => { this.discountPercent = Number((e.target as HTMLInputElement).value); this.calculate(); }}
-                    />
+                    <t-input .value=${this.discountPercent.toString()} @t-input=${(e: CustomEvent) => { this.discountPercent = Number(e.detail.value); this.calculate(); }} type="number" class="w-full"></t-input>
                 </div>
                 ${this.originalPrice > 0 ? html`
                     <div class="bg-gray-100 p-4 rounded space-y-2">

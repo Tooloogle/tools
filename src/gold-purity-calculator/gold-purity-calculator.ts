@@ -2,11 +2,11 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
 import goldPurityCalculatorStyles from './gold-purity-calculator.css.js';
-import inputStyles from '../_styles/input.css.js';
+import '../t-input';
 
 @customElement('gold-purity-calculator')
 export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, goldPurityCalculatorStyles];
+    static override styles = [WebComponentBase.styles, goldPurityCalculatorStyles];
 
     @property()
     karat = 24
@@ -84,29 +84,11 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <label>
                         <span class="text-sm block mb-1">Karat</span>
-                        <input 
-                            placeholder="Karat"
-                            class="form-input" 
-                            type="number"
-                            min="1"
-                            max="24"
-                            step="0.1"
-                            .value=${this.karat}
-                            @keyup=${this.onKaratChange}
-                            @change=${this.onKaratChange} />
+                        <t-input type="number" placeholder="Karat"></t-input>
                     </label>
                     <label>
                         <span class="text-sm block mb-1">Gold Purity (%)</span>
-                        <input 
-                            placeholder="Purity"
-                            class="form-input" 
-                            type="number"
-                            min="1"
-                            max="100"
-                            step="0.1"
-                            .value=${this.purity}
-                            @keyup=${this.onPurityChange}
-                            @change=${this.onPurityChange} />
+                        <t-input type="number" placeholder="Purity"></t-input>
                     </label>
                 </div>
             </div>
@@ -120,27 +102,11 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <label>
                         <span class="text-sm block mb-1">Weight (grams)</span>
-                        <input 
-                            placeholder="Enter weight"
-                            class="form-input" 
-                            type="number"
-                            min="0"
-                            step="0.01"
-                            .value=${this.weight || ''}
-                            @input=${this.onWeightChange}
-                            @change=${this.onWeightChange} />
+                        <t-input type="number" placeholder="Enter weight"></t-input>
                     </label>
                     <label>
                         <span class="text-sm block mb-1">Price per Gram (24k)</span>
-                        <input 
-                            placeholder="Enter price per gram"
-                            class="form-input" 
-                            type="number"
-                            min="0"
-                            step="0.01"
-                            .value=${this.pricePerGram || ''}
-                            @input=${this.onPricePerGramChange}
-                            @change=${this.onPricePerGramChange} />
+                        <t-input type="number" placeholder="Enter price per gram"></t-input>
                     </label>
                 </div>
                 

@@ -5,18 +5,15 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import heifToJpgConverterStyles from './heif-to-jpg-converter.css.js';
 import { customElement, state } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import { downloadImage, isBrowser } from '../_utils/DomUtils.js';
+import '../t-button';
+import '../t-input';
 
 @customElement('heif-to-jpg-converter')
 export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    heifToJpgConverterStyles,
-  ];
+    heifToJpgConverterStyles];
 
   @state() file: File | null = null;
   @state() converting = false;
@@ -30,8 +27,7 @@ export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {
       'image/heif',
       'image/heic',
       'image/heif-sequence',
-      'image/heic-sequence',
-    ];
+      'image/heic-sequence'];
 
     if (
       file &&
@@ -97,24 +93,15 @@ export class HeifToJpgConverter extends WebComponentBase<IConfigBase> {
     return html`
       <div class="space-y-3">
         <label>Select HEIF or HEIC file:</label>
-        <input
-          type="file"
-          accept=".heif,.heic,image/heif,image/heic"
-          class="form-input"
-          @change=${this.handleFileChange}
-        />
+        <t-input type="file" @t-change=${this.handleFileChange}></t-input>
 
         ${this.error
           ? html`<div class="text-rose-500">${this.error}</div>`
           : ''}
 
-        <button
-          class="btn btn-blue"
-          @click=${this.convert}
-          ?disabled=${!this.file || this.converting}
-        >
+        <t-button variant="blue" @click=${this.convert} ?disabled=${!this.file || this.converting}>
           ${this.converting ? 'Converting...' : 'Convert to JPG'}
-        </button>
+        </t-button>
 
         <ul class="list-disc pl-5 text-sm">
           <li>Supports both HEIF and HEIC images (iPhone, iPad, etc.)</li>
