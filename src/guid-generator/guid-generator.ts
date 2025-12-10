@@ -35,10 +35,10 @@ export class GuidGenerator extends WebComponentBase<IConfigBase> {
 
     override render() {
         return html`
-            <t-input @t-change=${this.onGuidChange} ?readonly=${true}></t-input>
+            <t-input .value=${this.guid} @t-change=${this.onGuidChange} ?readonly=${true}></t-input>
 
               <div class="py-2 text-right">
-                <t-button variant="blue" class="btn-sm">Re-generate</t-button>
+                <t-button variant="blue" @click=${this.regenerateGuid} class="btn-sm">Re-generate</t-button>
                 <t-copy-button .isIcon=${false} .text=${this.guid}></t-copy-button>
              </div>
         `;

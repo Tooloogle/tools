@@ -71,7 +71,7 @@ export class GradientTextGenerator extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Text:</label>
-          <t-input placeholder="Enter text..." class="w-full"></t-input>
+          <t-input .value=${this.inputText} @t-input=${this.handleInput} placeholder="Enter text..." class="w-full"></t-input>
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
@@ -83,7 +83,7 @@ export class GradientTextGenerator extends WebComponentBase<IConfigBase> {
                 @input=${this.handleColor1Change}
                 class="h-10 w-16"
               />
-              <t-input></t-input>
+              <t-input .value=${this.color1} @t-input=${this.handleColor1Change}></t-input>
             </div>
           </div>
           <div>
@@ -95,7 +95,7 @@ export class GradientTextGenerator extends WebComponentBase<IConfigBase> {
                 @input=${this.handleColor2Change}
                 class="h-10 w-16"
               />
-              <t-input></t-input>
+              <t-input .value=${this.color2} @t-input=${this.handleColor2Change}></t-input>
             </div>
           </div>
         </div>
@@ -137,7 +137,7 @@ export class GradientTextGenerator extends WebComponentBase<IConfigBase> {
         </div>
         <div>
           <label class="block mb-2 font-semibold">CSS Code:</label>
-          <t-textarea ?readonly=${true} class="w-full h-40 font-mono text-sm"></t-textarea>
+          <t-textarea .value=${cssCode} ?readonly=${true} class="w-full h-40 font-mono text-sm"></t-textarea>
           <t-copy-button .text=${cssCode} .isIcon=${false}></t-copy-button>
         </div>
       </div>

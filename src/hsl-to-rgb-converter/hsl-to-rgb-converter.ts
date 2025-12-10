@@ -102,14 +102,14 @@ export class HslToRgbConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">HSL Input:</label>
-          <t-textarea placeholder="Enter HSL color (e.g., hsl(360, 100%, 50%))..." class="w-full h-32"></t-textarea>
+          <t-textarea .value=${this.inputText} @t-input=${this.handleInput} placeholder="Enter HSL color (e.g., hsl(360, 100%, 50%))..." class="w-full h-32"></t-textarea>
         </div>
         ${this.error
           ? html`<div class="text-red-600 text-sm">${this.error}</div>`
           : ''}
         <div>
           <label class="block mb-2 font-semibold">RGB Output:</label>
-          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
+          <t-textarea .value=${this.outputText} ?readonly=${true} class="w-full h-32"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}
