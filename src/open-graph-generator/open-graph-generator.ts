@@ -134,12 +134,12 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Title:</label>
-        <t-input placeholder="Page Title" class="w-full"></t-input>
+        <t-input placeholder="Page Title" class="w-full" .value="${this.title}" @t-input=${this.handleInput('title')}></t-input>
       </div>
 
       <div>
         <label class="block mb-2 font-semibold">Description:</label>
-        <t-textarea placeholder="Page description for social media sharing" class="w-full h-20"></t-textarea>
+        <t-textarea placeholder="Page description for social media sharing" class="w-full h-20" .value="${this.description}" @t-input=${this.handleInput('description')}></t-textarea>
       </div>
     `;
   }
@@ -148,12 +148,12 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">URL:</label>
-        <t-input type="url" placeholder="https://example.com/page" class="w-full"></t-input>
+        <t-input type="url" placeholder="https://example.com/page" class="w-full" .value="${this.url}" @t-input=${this.handleInput('url')}></t-input>
       </div>
 
       <div>
         <label class="block mb-2 font-semibold">Image URL:</label>
-        <t-input type="url" placeholder="https://example.com/image.jpg" class="w-full"></t-input>
+        <t-input type="url" placeholder="https://example.com/image.jpg" class="w-full" .value="${this.image}" @t-input=${this.handleInput('image')}></t-input>
       </div>
     `;
   }
@@ -162,7 +162,7 @@ export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Site Name:</label>
-        <t-input placeholder="My Website" class="w-full"></t-input>
+        <t-input placeholder="My Website" class="w-full" .value="${this.siteName}" @t-input=${this.handleInput('siteName')}></t-input>
       </div>
     `;
   }

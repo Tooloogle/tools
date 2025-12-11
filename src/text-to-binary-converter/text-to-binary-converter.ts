@@ -34,11 +34,11 @@ export class TextToBinaryConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Input Text:</label>
-          <t-textarea placeholder="Enter text to convert to binary..." class="w-full h-32"></t-textarea>
+          <t-textarea placeholder="Enter text to convert to binary..." class="w-full h-32" .value="${this.inputText}" @t-input=${this.handleInput}></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Binary Output:</label>
-          <t-textarea ?readonly=${true} class="w-full h-32 font-mono"></t-textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32 font-mono" .value="${this.outputBinary}"></t-textarea>
           ${this.outputBinary
             ? html`<t-copy-button .text=${this.outputBinary}></t-copy-button>`
             : ''}

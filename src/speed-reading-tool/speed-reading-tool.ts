@@ -72,8 +72,7 @@ export class SpeedReadingTool extends WebComponentBase<IConfigBase> {
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Speed (WPM):</label>
-                    <t-input type="number" class="w-full"></t-input> { this.wpm = Number(e.detail.value); }}
-                    />
+                    <t-input type="number" class="w-full" .value="${String(this.wpm)}" @t-input=${(e: CustomEvent) => { this.wpm = Number(e.detail.value); }}></t-input>
                 </div>
                 <div class="flex gap-2">
                     <button

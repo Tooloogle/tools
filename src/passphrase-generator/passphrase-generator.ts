@@ -56,11 +56,11 @@ export class PassphraseGenerator extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Number of Words:</label>
-          <t-textarea placeholder="Enter number of words (default: 4)..." class="w-full h-32"></t-textarea>
+          <t-textarea placeholder="Enter number of words (default: 4)..." class="w-full h-32" .value="${this.inputText}" @t-input=${this.handleInput}></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Generated Passphrase:</label>
-          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32" .value="${this.outputText}"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}

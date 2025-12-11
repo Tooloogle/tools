@@ -38,27 +38,24 @@ export class SimpleInterestCalculator extends WebComponentBase<IConfigBase> {
         return html`
             <div>
                 <label class="block mb-2 font-semibold">Principal Amount ($):</label>
-                <t-input type="number" class="w-full"></t-input> { 
+                <t-input type="number" class="w-full" .value="${String(this.principal)}" @t-input=${(e: CustomEvent) => { 
                         this.principal = Number(e.detail.value); 
                         this.calculate(); 
-                    }}
-                />
+                    }}></t-input>
             </div>
             <div>
                 <label class="block mb-2 font-semibold">Rate of Interest (% per annum):</label>
-                <t-input type="number" class="w-full"></t-input> { 
+                <t-input type="number" class="w-full" .value="${String(this.rate)}" @t-input=${(e: CustomEvent) => { 
                         this.rate = Number(e.detail.value); 
                         this.calculate(); 
-                    }}
-                />
+                    }}></t-input>
             </div>
             <div>
                 <label class="block mb-2 font-semibold">Time Period (years):</label>
-                <t-input type="number" class="w-full"></t-input> { 
+                <t-input type="number" class="w-full" .value="${String(this.time)}" @t-input=${(e: CustomEvent) => { 
                         this.time = Number(e.detail.value); 
                         this.calculate(); 
-                    }}
-                />
+                    }}></t-input>
             </div>
         `;
     }
