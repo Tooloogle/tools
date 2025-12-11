@@ -91,13 +91,13 @@ export class RegexExpressionTester extends WebComponentBase<IConfigBase> {
         <div class="regex-expression-tester">
             <div class="editor mb-4">
                 <label for="pattern">Pattern:</label>
-                <t-input placeholder="Enter regex pattern"></t-input>
+                <t-input placeholder="Enter regex pattern" .value="${this.pattern}" @t-input=${this.onPatternInputChange}></t-input>
                 <label for="flags">Flags:</label>
                 <select id="flags" class="form-input" @change=${this.onFlagsInputChange} multiple>
                     ${this.getFlagOptions()}
                 </select>
                 <label for="testString">Test String:</label>
-                <t-textarea placeholder="Enter the string to test the regex against" rows="10"></t-textarea>
+                <t-textarea placeholder="Enter the string to test the regex against" rows="10" .value="${this.testString}" @t-input=${this.onTestStringInputChange}></t-textarea>
             </div>
 
             <div class="editor mb-4 result-container">

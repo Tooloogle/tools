@@ -148,7 +148,7 @@ export class UserAgentParser extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">User Agent String:</span>
-                <t-textarea placeholder="Paste user agent string or click 'Use Current Browser' button..." rows="4" class="font-mono text-sm"></t-textarea>
+                <t-textarea placeholder="Paste user agent string or click 'Use Current Browser' button..." rows="4" class="font-mono text-sm" .value="${this.input}" @t-input=${this.handleInputChange}></t-textarea>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">

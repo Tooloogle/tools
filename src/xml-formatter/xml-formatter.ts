@@ -97,7 +97,7 @@ export class XmlFormatter extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">XML Input:</span>
-                <t-textarea placeholder="Paste XML here..." rows="10" class="font-mono text-sm"></t-textarea>
+                <t-textarea placeholder="Paste XML here..." rows="10" class="font-mono text-sm" .value="${this.input}" @t-input=${this.handleInputChange}></t-textarea>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
@@ -117,7 +117,7 @@ export class XmlFormatter extends WebComponentBase<IConfigBase> {
             ${this.output ? html`
                 <label class="block py-1">
                     <span class="inline-block py-1 font-bold">Formatted Output:</span>
-                    <t-textarea rows="10" ?readonly=${true} class="font-mono text-sm"></t-textarea>
+                    <t-textarea rows="10" ?readonly=${true} class="font-mono text-sm" .value="${this.output}"></t-textarea>
                     <div class="py-2 text-right">
                         <t-copy-button .isIcon=${false} .text=${this.output}></t-copy-button>
                     </div>

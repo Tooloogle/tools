@@ -71,7 +71,7 @@ export class UrlParser extends WebComponentBase<IConfigBase> {
         return html`
             <label class="block py-1">
                 <span class="inline-block py-1 font-bold">URL:</span>
-                <t-input placeholder="https://example.com/path?key=value#hash"></t-input>
+                <t-input placeholder="https://example.com/path?key=value#hash" .value="${this.input}" @t-input=${this.handleInputChange}></t-input>
             </label>
 
             <div class="py-2 flex flex-wrap gap-2">
