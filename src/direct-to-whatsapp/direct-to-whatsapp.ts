@@ -34,11 +34,11 @@ export class DirectToWhatsApp extends WebComponentBase<IConfigBase> {
         <div class="grid grid-cols-1 gap-4">
           <label class="block">
             <span>Phone number with country code, e.g. +919876543210</span>
-            <t-input placeholder="Phone number with country code, e.g. +919876543210"></t-input>
+            <t-input placeholder="Phone number with country code, e.g. +919876543210" .value="${this.phone}" @t-input=${this.onPhoneChange} name="phone"></t-input>
           </label>
           <label class="block">
             <span>Message (optional)</span>
-            <t-textarea placeholder="Message (optional)"></t-textarea>
+            <t-textarea placeholder="Message (optional)" name="text"></t-textarea>
           </label>
           <div class="text-end">
             <t-button variant="blue">Open in Whatsapp</t-button>
