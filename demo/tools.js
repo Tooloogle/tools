@@ -170,7 +170,18 @@ const tools = [
     "xpath-tester",
     "yaml-to-json-converter",
     "yaml-to-xml-converter",
-    "yaml-validator"
+    "yaml-validator",
+    "color-luminance-calculator",
+    "text-statistics-analyzer",
+    "leap-year-checker",
+    "letter-frequency-analyzer",
+    "multi-base-converter",
+    "http-status-lookup",
+    "timezone-offset-calculator",
+    "ipv6-address-formatter",
+    "regex-pattern-library",
+    "character-entity-reference",
+    "image-to-ico-converter"
 ];
 
 if (typeof window !== "undefined") {
