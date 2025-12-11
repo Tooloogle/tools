@@ -13,6 +13,9 @@ export class DirectToWhatsApp extends WebComponentBase<IConfigBase> {
   @property()
   phone = "";
 
+  @property()
+  message = "";
+
   validateForm(e: FormDataEvent) {
     if (!this.phone
       || !/^[0-9\-+]{9,15}$/.test(this.phone)) {
@@ -23,9 +26,12 @@ export class DirectToWhatsApp extends WebComponentBase<IConfigBase> {
     return false;
   }
 
-  private onPhoneChange(e: Event) {
-    const target = e.target as HTMLInputElement;
-    this.phone = target?.value?.replace(/ |-/g, "") || "";
+  private onPhoneChange(e: CustomEvent) {
+    this.phone = e.detail.value?.replace(/ |-/g, "") || "";
+  }
+
+  private onMessageChange(e: CustomEvent) {
+    this.message = e.detail.value || "";
   }
 
   override render() {
@@ -38,7 +44,7 @@ export class DirectToWhatsApp extends WebComponentBase<IConfigBase> {
           </label>
           <label class="block">
             <span>Message (optional)</span>
-            <t-textarea placeholder="Message (optional)" name="text"></t-textarea>
+            <t-textarea placeholder="Message (optional)" .value="${this.message}" @t-input=${this.onMessageChange} name="text"></t-textarea>
           </label>
           <div class="text-end">
             <t-button variant="blue">Open in Whatsapp</t-button>

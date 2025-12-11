@@ -201,16 +201,16 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
         <div class="grid grid-cols-1 gap-4">
           <label>
             URL/Plain Text
-            <t-textarea placeholder="Please enter the contents to be encoded into the QR Code." rows="3"></t-textarea>
+            <t-textarea placeholder="Please enter the contents to be encoded into the QR Code." rows="3" .value=${this.text} @t-input=${this.onTextChange}></t-textarea>
           </label>
           <div class="flex justify-between gap-2">
             <label>
               Width
-              <t-input type="number" .value=${String(this.width)}></t-input>
+              <t-input type="number" .value=${String(this.width)} @t-input=${this.handleWidthChange}></t-input>
             </label>
             <label>
               Height
-              <t-input type="number" .value=${String(this.height)}></t-input>
+              <t-input type="number" .value=${String(this.height)} @t-input=${this.handleHeightChange}></t-input>
             </label>
           </div>
           <label>
