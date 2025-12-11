@@ -101,7 +101,7 @@
   "include": [
     "src/**/*"
   ],
-  "exclude": [
-    "**/*.spec.ts"
-  ]
+  // "exclude": [
+  //   "**/*.spec.ts"
+  // ]
 }

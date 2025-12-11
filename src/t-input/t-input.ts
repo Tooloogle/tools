@@ -1,36 +1,36 @@
-import { html, nothing } from 'lit';
+import { html, nothing } from "lit";
 import {
   IConfigBase,
   WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
-import tInputStyles from './t-input.css.js';
-import { customElement, property } from 'lit/decorators.js';
+} from "../_web-component/WebComponentBase.js";
+import tInputStyles from "./t-input.css.js";
+import { customElement, property } from "lit/decorators.js";
 
-@customElement('t-input')
+@customElement("t-input")
 export class TInput extends WebComponentBase<IConfigBase> {
   static override styles = [WebComponentBase.styles, tInputStyles];
 
   @property({ type: String })
   type:
-    | 'text'
-    | 'number'
-    | 'email'
-    | 'password'
-    | 'date'
-    | 'datetime-local'
-    | 'file' = 'text';
+    | "text"
+    | "number"
+    | "email"
+    | "password"
+    | "date"
+    | "datetime-local"
+    | "file" = "text";
 
   @property({ type: String })
-  value = '';
+  value = "";
 
   @property({ type: String })
-  placeholder = '';
+  placeholder = "";
 
   @property({ type: String })
-  name = '';
+  name = "";
 
   @property({ type: String })
-  id = '';
+  id = "";
 
   @property({ type: Boolean })
   disabled = false;
@@ -43,14 +43,14 @@ export class TInput extends WebComponentBase<IConfigBase> {
 
   /** File type filter for file inputs (e.g., 'image/*', '.pdf,.doc') */
   @property({ type: String })
-  accept = '';
+  accept = "";
 
   private handleInput(e: Event) {
     const target = e.target as HTMLInputElement;
-    if (this.type === 'file') {
+    if (this.type === "file") {
       const files = target.files ?? null;
       this.dispatchEvent(
-        new CustomEvent('t-input', {
+        new CustomEvent("t-change", {
           detail: { files },
           bubbles: true,
           composed: true,
@@ -59,7 +59,7 @@ export class TInput extends WebComponentBase<IConfigBase> {
     } else {
       this.value = target.value;
       this.dispatchEvent(
-        new CustomEvent('t-input', {
+        new CustomEvent("t-change", {
           detail: { value: this.value },
           bubbles: true,
           composed: true,
@@ -72,11 +72,11 @@ export class TInput extends WebComponentBase<IConfigBase> {
     return html`
       <input
         type=${this.type}
-        .value=${this.type !== 'file' ? this.value : ''}
+        .value=${this.type !== "file" ? this.value : ""}
         placeholder=${this.placeholder}
         name=${this.name || nothing}
         id=${this.id || nothing}
-        accept=${this.type === 'file' && this.accept ? this.accept : nothing}
+        accept=${this.type === "file" && this.accept ? this.accept : nothing}
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
         ?required=${this.required}
@@ -88,6 +88,6 @@ export class TInput extends WebComponentBase<IConfigBase> {
 
 declare global {
   interface HTMLElementTagNameMap {
-    't-input': TInput;
+    "t-input": TInput;
   }
 }
