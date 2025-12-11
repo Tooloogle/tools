@@ -5,6 +5,7 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import hexRgbStyles from './hex-rgb.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-input';
 
 @customElement('hex-rgb')
 export class HexRgb extends WebComponentBase<IConfigBase> {
@@ -61,27 +62,23 @@ export class HexRgb extends WebComponentBase<IConfigBase> {
     return v;
   }
 
-  private onHexInput(e: Event) {
-    const input = e.target as HTMLInputElement;
-    this.hex = input.value;
+  private onHexInput(e: CustomEvent) {
+    this.hex = e.detail.value;
     this.hexToRgb();
   }
 
-  private onRInput(e: Event) {
-    const input = e.target as HTMLInputElement;
-    this.r = this.validateAndParseRGBValue(input.value);
+  private onRInput(e: CustomEvent) {
+    this.r = this.validateAndParseRGBValue(e.detail.value);
     this.rgbToHex();
   }
 
-  private onGInput(e: Event) {
-    const input = e.target as HTMLInputElement;
-    this.g = this.validateAndParseRGBValue(input.value);
+  private onGInput(e: CustomEvent) {
+    this.g = this.validateAndParseRGBValue(e.detail.value);
     this.rgbToHex();
   }
 
-  private onBInput(e: Event) {
-    const input = e.target as HTMLInputElement;
-    this.b = this.validateAndParseRGBValue(input.value);
+  private onBInput(e: CustomEvent) {
+    this.b = this.validateAndParseRGBValue(e.detail.value);
     this.rgbToHex();
   }
 
@@ -90,37 +87,37 @@ export class HexRgb extends WebComponentBase<IConfigBase> {
       <div class="py-2">
         <label class="block">
           <span class="inline-block py-1">Hex</span>
-          <input
+          <t-input
             placeholder="Hex value"
-            class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm"
+            class="text-end w-full sm:w-3/4 md:w-1/3 text-sm"
             .value=${this.hex}
-            @keyup=${this.onHexInput}
-          />
+            @t-input=${this.onHexInput}
+          ></t-input>
         </label>
       </div>
       <label class="block">
         <span class="inline-block">RGB</span>
         <div class="grid grid-cols-3 gap-1">
-          <input
+          <t-input
             placeholder="Custom format"
-            class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm"
+            class="text-end w-full sm:w-3/4 md:w-1/3 text-sm"
             .value=${this.r}
-            @keyup=${this.onRInput}
-          />
+            @t-input=${this.onRInput}
+          ></t-input>
 
-          <input
+          <t-input
             placeholder="Custom format"
-            class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm"
+            class="text-end w-full sm:w-3/4 md:w-1/3 text-sm"
             .value=${this.g}
-            @keyup=${this.onGInput}
-          />
+            @t-input=${this.onGInput}
+          ></t-input>
 
-          <input
+          <t-input
             placeholder="Custom format"
-            class="text-end w-full sm:w-3/4 md:w-1/3 form-input text-sm"
+            class="text-end w-full sm:w-3/4 md:w-1/3 text-sm"
             .value=${this.b}
-            @keyup=${this.onBInput}
-          />
+            @t-input=${this.onBInput}
+          ></t-input>
         </div>
       </label>
     `;
