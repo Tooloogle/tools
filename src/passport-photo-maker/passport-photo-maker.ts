@@ -4,7 +4,7 @@ import passportPhotoMakerStyles from './passport-photo-maker.css.js';
 import { customElement, state } from 'lit/decorators.js';
 import inputStyles from '../_styles/input.css.js';
 import buttonStyles from '../_styles/button.css.js';
-import { isBrowser } from '../_utils/DomUtils.js';
+import { downloadImage, isBrowser } from '../_utils/DomUtils.js';
 
 interface PhotoSize {
   name: string;
@@ -123,7 +123,7 @@ export class PassportPhotoMaker extends WebComponentBase<IConfigBase> {
     }
 
     try {
-      // @ts-ignore - Dynamic import for SSR compatibility
+      // @ts-expect-error - heic2any has no TypeScript declarations, dynamic import for SSR compatibility
       const heic2any = (await import('heic2any')).default;
       const result = await heic2any({
         blob: this.selectedFile,
@@ -210,16 +210,14 @@ export class PassportPhotoMaker extends WebComponentBase<IConfigBase> {
     });
   }
 
-  private downloadImage(): void {
+  private download(): void {
     if (!this.outputImageUrl) {
       return;
     }
 
-    const link = document.createElement('a');
+    const filename = `passport-photo-${this.selectedSize.widthMM}x${this.selectedSize.heightMM}mm.jpg`;
 
-    link.href = this.outputImageUrl;
-    link.download = `passport-photo-${this.selectedSize.widthMM}x${this.selectedSize.heightMM}mm.jpg`;
-    link.click();
+    downloadImage(filename, this.outputImageUrl);
   }
 
   override disconnectedCallback(): void {
@@ -270,7 +268,7 @@ export class PassportPhotoMaker extends WebComponentBase<IConfigBase> {
                 <p><strong>Dimensions:</strong> ${widthMM}x${heightMM}mm (${widthInch}x${heightInch}")</p>
                 <p><strong>Resolution:</strong> ${dpi} DPI</p>
               </div>
-              <button class="btn btn-green w-full" @click=${this.downloadImage}>Download</button>
+              <button class="btn btn-green w-full" @click=${this.download}>Download</button>
             </div>`
           : ''}
       </div>
