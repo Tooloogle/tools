@@ -170,7 +170,8 @@ const tools = [
     "xpath-tester",
     "yaml-to-json-converter",
     "yaml-to-xml-converter",
-    "yaml-validator"
+    "yaml-validator",
+    "passport-photo-maker"
 ];
 
 if (typeof window !== "undefined") {
