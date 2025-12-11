@@ -36,7 +36,7 @@ export class UrlEncoderDecoder extends WebComponentBase<IConfigBase> {
     override render() {
         return html`
         <lable class="block">
-            <t-textarea rows="5"></t-textarea>
+            <t-textarea rows="5" .value="${this.value}" @t-input=${this.onChange}></t-textarea>
         </lable>
         <div class="text-end">
             <t-button variant="blue" @click=${this.encode}>Encode</t-button>

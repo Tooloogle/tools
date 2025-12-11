@@ -39,11 +39,11 @@ export class Base64EncoderDecoder extends WebComponentBase<IConfigBase> {
         <div>
             <label class="block">
                 <span class="inline-block py-1">Text to encode (decoded)</span>
-                <t-textarea placeholder="Enter text to encode" rows="5"></t-textarea>
+                <t-textarea placeholder="Enter text to encode" rows="5" .value="${this.decoded}" @t-input=${this.onDecodedChange}></t-textarea>
             </label>
             <label class="block">
                 <span class="inline-block py-1">Base64 string to decode (encoded)</span>
-                <t-textarea placeholder="Enter base64 string to decode" rows="5"></t-textarea>
+                <t-textarea placeholder="Enter base64 string to decode" rows="5" .value="${this.encoded}" @t-input=${this.onEncodedChange}></t-textarea>
             </label>
         </div>`;
     }

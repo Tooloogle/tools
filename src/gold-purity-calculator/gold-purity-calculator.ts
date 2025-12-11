@@ -84,11 +84,11 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <label>
                         <span class="text-sm block mb-1">Karat</span>
-                        <t-input type="number" placeholder="Karat"></t-input>
+                        <t-input type="number" placeholder="Karat" .value="${String(this.karat)}" @t-input=${this.onKaratChange}></t-input>
                     </label>
                     <label>
                         <span class="text-sm block mb-1">Gold Purity (%)</span>
-                        <t-input type="number" placeholder="Purity"></t-input>
+                        <t-input type="number" placeholder="Purity" .value="${String(this.purity)}" @t-input=${this.onPurityChange}></t-input>
                     </label>
                 </div>
             </div>
@@ -102,11 +102,11 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <label>
                         <span class="text-sm block mb-1">Weight (grams)</span>
-                        <t-input type="number" placeholder="Enter weight"></t-input>
+                        <t-input type="number" placeholder="Enter weight" .value="${String(this.weight)}" @t-input=${this.onWeightChange}></t-input>
                     </label>
                     <label>
                         <span class="text-sm block mb-1">Price per Gram (24k)</span>
-                        <t-input type="number" placeholder="Enter price per gram"></t-input>
+                        <t-input type="number" placeholder="Enter price per gram" .value="${String(this.pricePerGram)}" @t-input=${this.onPricePerGramChange}></t-input>
                     </label>
                 </div>
                 

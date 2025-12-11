@@ -58,17 +58,17 @@ export class TemperatureConverter extends WebComponentBase<IConfigBase> {
         return html`
         <label class="block">
             <span class="inline-block py-1">Degree Celsius</span>
-            <t-input placeholder="Enter temperature in °C" class="text-center"></t-input>
+            <t-input placeholder="Enter temperature in °C" class="text-center" .value="${String(this.toNumber(this.c))}" @t-input=${this.onCelsiusChange}></t-input>
         </label>
 
         <label class="block">
             <span class="inline-block py-1">Fahrenheit</span>
-            <t-input placeholder="Enter temperature in °F" class="text-center"></t-input>
+            <t-input placeholder="Enter temperature in °F" class="text-center" .value="${String(this.toNumber(this.f))}" @t-input=${this.onFahrenheitChange}></t-input>
         </label>
 
         <label class="block">
             <span class="inline-block py-1">Kelvin</span>
-            <t-input placeholder="Enter temperature in K" class="text-center"></t-input>
+            <t-input placeholder="Enter temperature in K" class="text-center" .value="${String(this.toNumber(this.k))}" @t-input=${this.onKelvinChange}></t-input>
         </label>
     `;
     }

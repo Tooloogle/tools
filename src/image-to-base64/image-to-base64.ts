@@ -62,11 +62,11 @@ export class ImageToBase64 extends WebComponentBase<IConfigBase> {
                 `)}
                 <label class="block">
                     <span class="inline-block py-1">Base64 string</span>
-                    <t-textarea placeholder="Base64 string" rows="5" ?readonly=${true}></t-textarea>
+                    <t-textarea placeholder="Base64 string" rows="5" ?readonly=${true} .value="${this.base64}"></t-textarea>
                 </label>
 
                 <div class="text-right">
-                    <t-button variant="blue" class="btn-sm">Download Base64 text</t-button>
+                    <t-button variant="blue" class="btn-sm" @click=${this.downloadBase64}>Download Base64 text</t-button>
                     <t-copy-button .isIcon=${false} .text=${this.base64}></t-copy-button>
                 </div>
             </div>
