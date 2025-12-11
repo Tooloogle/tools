@@ -75,11 +75,11 @@ export class TextToMorseConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Input Text:</label>
-          <t-textarea placeholder="Enter text to convert to Morse code..." class="w-full h-32"></t-textarea>
+          <t-textarea placeholder="Enter text to convert to Morse code..." class="w-full h-32" .value="${this.inputText}" @t-input=${this.handleInput}></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Morse Code Output:</label>
-          <t-textarea ?readonly=${true} class="w-full h-32 font-mono text-lg"></t-textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32 font-mono text-lg" .value="${this.outputMorse}"></t-textarea>
           ${this.outputMorse
             ? html`<t-copy-button .text=${this.outputMorse}></t-copy-button>`
             : ""}

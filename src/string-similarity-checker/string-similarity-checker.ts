@@ -39,11 +39,11 @@ export class StringSimilarityChecker extends WebComponentBase<IConfigBase> {
           <label class="block mb-2 font-semibold"
             >Input Text (separate lines for comparison):</label
           >
-          <t-textarea placeholder="Enter two texts on separate lines..." class="w-full h-32"></t-textarea>
+          <t-textarea placeholder="Enter two texts on separate lines..." class="w-full h-32" .value="${this.inputText}" @t-input=${this.handleInput}></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Similarity Result:</label>
-          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32" .value="${this.outputText}"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ""}

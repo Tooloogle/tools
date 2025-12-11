@@ -35,11 +35,11 @@ export class TextTruncator extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Input Text:</label>
-          <t-textarea placeholder="Enter text to truncate..." class="w-full h-32"></t-textarea>
+          <t-textarea placeholder="Enter text to truncate..." class="w-full h-32" .value="${this.inputText}" @t-input=${this.handleInput}></t-textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Truncated Output:</label>
-          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32" .value="${this.outputText}"></t-textarea>
           ${this.outputText
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}
