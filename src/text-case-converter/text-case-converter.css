@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-.btn {
-    margin-bottom: 3px;
-    padding: 0.4rem 0.75rem;
+t-button {
+    display: inline-block;
+    margin-bottom: 0.25rem;
 }

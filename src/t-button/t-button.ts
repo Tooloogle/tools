@@ -38,7 +38,7 @@ export class TButton extends WebComponentBase<IConfigBase> {
     override render() {
         return html`
             <button
-                class="btn btn-${this.variant} btn-${this.size}"
+                class="btn ${this.variant} ${this.size}"
                 ?disabled=${this.disabled || this.loading}
                 @click=${this.handleClick}
             >

@@ -174,22 +174,22 @@ export class TextCaseConverter extends WebComponentBase<IConfigBase> {
     </label>
 
     <div class="col btns">
-        <t-button variant="blue" @click=${this.handleLowerClick}>lower case</t-button>
-        <t-button variant="blue" @click=${this.handleUpperClick}>UPPER CASE</t-button>
-        <t-button variant="blue" @click=${this.handleCapitalizeClick}>Capitalized Case</t-button>
-        <t-button variant="blue" @click=${this.handleSentenceClick}>Sentence case</t-button>
-        <t-button variant="blue" @click=${this.handleAlternateClick}>aLtErNaTiNg cAsE</t-button>
-        <t-button variant="blue" @click=${this.handleInverseClick}>iNVERSE cASE</t-button>
-        <t-button variant="blue" @click=${this.handleCamelClick}>camelCase</t-button>
-        <t-button variant="blue" @click=${this.handlePascalClick}>PascalCase</t-button>
-        <t-button variant="blue" @click=${this.handleSnakeClick}>snake_case</t-button>
-        <t-button variant="blue" @click=${this.handleKebabClick}>kebab-case</t-button>
-        <t-button variant="blue" @click=${this.handleConstantClick}>CONSTANT_CASE</t-button>
-        <t-button variant="blue" @click=${this.handleDotClick}>dot.case</t-button>
+        <t-button variant="blue" size="sm" @click=${this.handleLowerClick}>lower case</t-button>
+        <t-button variant="blue" size="sm" @click=${this.handleUpperClick}>UPPER CASE</t-button>
+        <t-button variant="blue" size="sm" @click=${this.handleCapitalizeClick}>Capitalized Case</t-button>
+        <t-button variant="blue" size="sm" @click=${this.handleSentenceClick}>Sentence case</t-button>
+        <t-button variant="blue" size="sm" @click=${this.handleAlternateClick}>aLtErNaTiNg cAsE</t-button>
+        <t-button variant="blue" size="sm" @click=${this.handleInverseClick}>iNVERSE cASE</t-button>
+        <t-button variant="blue" size="sm" @click=${this.handleCamelClick}>camelCase</t-button>
+        <t-button variant="blue" size="sm" @click=${this.handlePascalClick}>PascalCase</t-button>
+        <t-button variant="blue" size="sm" @click=${this.handleSnakeClick}>snake_case</t-button>
+        <t-button variant="blue" size="sm" @click=${this.handleKebabClick}>kebab-case</t-button>
+        <t-button variant="blue" size="sm" @click=${this.handleConstantClick}>CONSTANT_CASE</t-button>
+        <t-button variant="blue" size="sm" @click=${this.handleDotClick}>dot.case</t-button>
 
         <t-copy-button .isIcon=${false} .text=${this.text}></t-copy-button>
-        <t-button variant="green" @click=${this.handleDownloadClick}>Download</t-button>
-        <t-button variant="red" @click=${this.clear}>Clear</t-button>
+        <t-button variant="green" size="sm" @click=${this.handleDownloadClick}>Download</t-button>
+        <t-button variant="red" size="sm" @click=${this.clear}>Clear</t-button>
     </div>
     `;
     }
