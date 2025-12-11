@@ -1,0 +1,160 @@
+import { html } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
+import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
+import csvToJsonConverterStyles from './csv-to-json-converter.css.js';
+import "../t-copy-button/t-copy-button.js";
+import '../t-button';
+import '../t-select';
+import '../t-textarea';
+
+@customElement('csv-to-json-converter')
+export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
+  static override styles = [WebComponentBase.styles, csvToJsonConverterStyles];
+
+  @property({ type: String }) csvString = '';
+  @state() jsonString = '';
+  @state() separator = ',';
+  @state() parseNumbers = false;
+  @state() parseJson = false;
+  @state() outputAsArray = true;
+  @state() minifyOutput = false;
+
+  private onCsvInputChange(event: Event) {
+    const inputElement = event.target as HTMLTextAreaElement;
+    this.csvString = inputElement.value;
+  }
+
+  private convertCsvToJson() {
+    const rows = this.csvString.split('\n');
+    const headers = rows[0].split(this.separator);
+    const jsonArray = rows.slice(1).map(row => {
+      const values = row.split(this.separator);
+      const jsonObject = headers.reduce((acc, header, index) => {
+        let value: number | string = values[index]?.trim() || '';
+        if (this.parseNumbers && !isNaN(Number(value))) {
+          value = Number(value);
+        } else if (this.parseJson) {
+          try {
+            value = JSON.parse(value);
+          } catch {
+            // Keep as string if JSON parsing fails
+          }
+        }
+
+        acc[header.trim()] = value;
+        return acc;
+      }, {} as Record<string, unknown>);
+      return jsonObject;
+    });
+
+    this.jsonString = this.outputAsArray
+      ? JSON.stringify(jsonArray, null, this.minifyOutput ? 0 : 2)
+      : JSON.stringify(jsonArray.reduce((acc: Record<string, unknown>, obj) => {
+        acc[String(obj[headers[0]] || '')] = obj;
+        return acc;
+      }, {} as Record<string, unknown>), null, this.minifyOutput ? 0 : 2);
+  }
+
+  private formatJson() {
+    try {
+      const formattedJson = JSON.stringify(JSON.parse(this.jsonString), null, 2);
+      this.jsonString = formattedJson;
+    } catch (err) {
+      // Handle JSON formatting error if needed
+    }
+  }
+
+  private handleFileUpload(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const file = inputElement.files?.[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.csvString = e.target?.result as string;
+      };
+
+      reader.readAsText(file);
+    }
+  }
+
+  private downloadJSON() {
+    const blob = new Blob([this.jsonString], { type: 'text/json;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'output.json');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  private onParseNumbersChange(e: CustomEvent) {
+    this.parseNumbers = (e.target as HTMLInputElement).checked;
+  }
+
+  private onOutputAsArrayChange(e: CustomEvent) {
+    this.outputAsArray = (e.target as HTMLInputElement).checked;
+  }
+
+  private onMinifyOutputChange(e: CustomEvent) {
+    this.minifyOutput = (e.target as HTMLInputElement).checked;
+  }
+
+  private onSeparatorChange(e: CustomEvent) {
+    this.separator = e.detail.value;
+  }
+  // eslint-disable-next-line max-lines-per-function
+  render() {
+    return html`
+      <div class="csv-to-json-converter">
+        <div class="editor mb-4">
+          <t-textarea placeholder="Paste CSV data here or upload a file" rows="10" .value=${this.csvString} @t-input=${this.onCsvInputChange}></t-textarea>
+          <input type="file" accept=".csv" @change="${this.handleFileUpload}" class="file-input" />
+          <t-button variant="blue" @click="${this.convertCsvToJson}">Convert to JSON</t-button>
+        </div>
+
+        <div class="config mb-4">
+          <label for="separator">Separator:</label>
+          <t-select @t-change=${this.onSeparatorChange}>
+            <option value=",">Comma</option>
+            <option value=";">Semicolon</option>
+            <option value="\t">Tab</option>
+          </t-select>
+
+          <label>
+            <input type="checkbox" @change=${this.onParseNumbersChange} />
+            Parse Numbers
+          </label>
+          
+          <label>
+            <input type="checkbox" @change=${this.onOutputAsArrayChange} checked />
+            Output as Array
+          </label>
+
+          <label>
+            <input type="checkbox" @change=${this.onMinifyOutputChange} />
+            Minify Output
+          </label>
+          
+        </div>
+
+        <div class="editor mb-4 relative">
+          <t-textarea placeholder="Converted JSON will appear here" rows="10" .value=${this.jsonString} ?readonly=${true}></t-textarea>
+          <t-button variant="blue" @click="${this.downloadJSON}">Download JSON</t-button>
+          <div class="absolute top-2 end-2">
+            <t-copy-button class="text-blue" .isIcon=${false} .text=${this.jsonString}></t-copy-button>
+            <t-button variant="blue" @click="${this.formatJson}" class="btn-sm">Format JSON</t-button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'csv-to-json-converter': CsvToJsonConverter;
+  }
+}
