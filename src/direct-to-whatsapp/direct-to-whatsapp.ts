@@ -23,7 +23,7 @@ export class DirectToWhatsApp extends WebComponentBase<IConfigBase> {
       return false;
     }
 
-    return false;
+    return true;
   }
 
   private onPhoneChange(e: CustomEvent) {
