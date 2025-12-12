@@ -49,14 +49,14 @@ export class BinaryToTextConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">Binary Input:</label>
-          <t-textarea placeholder="Enter binary (e.g., 01001000 01100101 01101100 01101100 01101111)..." class="w-full h-32 font-mono"></t-textarea>
+          <t-textarea placeholder="Enter binary (e.g., 01001000 01100101 01101100 01101100 01101111)..." class="w-full h-32 font-mono" .value=${this.inputBinary} @t-input=${this.handleInput}></t-textarea>
           ${this.error
             ? html`<p class="text-red-600 text-sm mt-1">${this.error}</p>`
             : ''}
         </div>
         <div>
           <label class="block mb-2 font-semibold">Text Output:</label>
-          <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
+          <t-textarea ?readonly=${true} class="w-full h-32" .value=${this.outputText}></t-textarea>
           ${this.outputText
             ? html`<t-copy-button
                 .text=${this.outputText}

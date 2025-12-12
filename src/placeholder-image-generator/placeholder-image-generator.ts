@@ -159,7 +159,7 @@ export class PlaceholderImageGenerator extends WebComponentBase<IConfigBase> {
                 <div class="p-4 bg-gray-100 rounded">
                     <p class="font-bold mb-2">Generated URL:</p>
                     <div class="flex gap-2">
-                        <t-input ?readonly=${true} class="font-mono text-sm"></t-input>
+                        <t-input ?readonly=${true} class="font-mono text-sm" .value=${url}></t-input>
                         <t-copy-button .isIcon=${false} .text=${url}></t-copy-button>
                     </div>
                 </div>
