@@ -109,11 +109,11 @@ export class SvgToPngConverter extends WebComponentBase<IConfigBase> {
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block mb-2 font-semibold">Width (px):</label>
-                    <t-input type="number" class="w-full"></t-input>
+                    <t-input type="number" class="w-full" .value=${this.width.toString()} @t-input=${this.handleWidthInput}></t-input>
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">Height (px):</label>
-                    <t-input type="number" class="w-full"></t-input>
+                    <t-input type="number" class="w-full" .value=${this.height.toString()} @t-input=${this.handleHeightInput}></t-input>
                 </div>
             </div>
         `;

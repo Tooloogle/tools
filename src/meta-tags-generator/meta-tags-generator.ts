@@ -29,10 +29,8 @@ export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
   }
 
   private handleInput(field: string) {
-    return (e: Event) => {
-      (this as any)[field] = (
-        e.target as HTMLInputElement | HTMLTextAreaElement
-      ).value;
+    return (e: CustomEvent) => {
+      (this as any)[field] = e.detail.value;
       this.process();
     };
   }
@@ -103,7 +101,7 @@ export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Page Title:</label>
-        <t-input placeholder="My Website - Home" class="w-full"></t-input>
+        <t-input placeholder="My Website - Home" class="w-full" .value=${this.title} @t-input=${this.handleInput('title')}></t-input>
       </div>
     `;
   }
@@ -112,7 +110,7 @@ export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Description:</label>
-        <t-textarea placeholder="A brief description of your page for search engines" class="w-full h-20"></t-textarea>
+        <t-textarea placeholder="A brief description of your page for search engines" class="w-full h-20" .value=${this.description} @t-input=${this.handleInput('description')}></t-textarea>
       </div>
     `;
   }
@@ -123,7 +121,7 @@ export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
         <label class="block mb-2 font-semibold"
           >Keywords (comma-separated):</label
         >
-        <t-input placeholder="web development, HTML, CSS, JavaScript" class="w-full"></t-input>
+        <t-input placeholder="web development, HTML, CSS, JavaScript" class="w-full" .value=${this.keywords} @t-input=${this.handleInput('keywords')}></t-input>
       </div>
     `;
   }
@@ -132,7 +130,7 @@ export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Author:</label>
-        <t-input placeholder="Your Name" class="w-full"></t-input>
+        <t-input placeholder="Your Name" class="w-full" .value=${this.author} @t-input=${this.handleInput('author')}></t-input>
       </div>
     `;
   }
@@ -141,7 +139,7 @@ export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
     return html`
       <div>
         <label class="block mb-2 font-semibold">Viewport:</label>
-        <t-input class="w-full"></t-input>
+        <t-input class="w-full" .value=${this.viewport} @t-input=${this.handleInput('viewport')}></t-input>
       </div>
     `;
   }
@@ -152,7 +150,7 @@ export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
         <label class="block mb-2 font-semibold"
           >Generated HTML Meta Tags:</label
         >
-        <t-textarea ?readonly=${true} class="w-full h-32"></t-textarea>
+        <t-textarea ?readonly=${true} class="w-full h-32" .value=${this.outputText}></t-textarea>
         ${this.outputText
           ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
           : ''}
