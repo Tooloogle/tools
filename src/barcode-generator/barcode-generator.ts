@@ -68,16 +68,24 @@ export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
         }
 
         // Regenerate all saved barcodes
+        let hasErrorChanges = false;
+
         this.barcodes.forEach((barcode) => {
             const barcodeCanvas = this.shadowRoot?.querySelector(`#barcode-${barcode.id}`) as HTMLCanvasElement;
+
             if (barcodeCanvas) {
                 const error = this.generateBarcode(barcodeCanvas, barcode.text, barcode.format);
+
                 if (error !== barcode.error) {
                     barcode.error = error;
-                    this.requestUpdate();
+                    hasErrorChanges = true;
                 }
             }
         });
+
+        if (hasErrorChanges) {
+            this.requestUpdate();
+        }
     }
 
     private addBarcode() {
@@ -95,10 +103,15 @@ export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
     }
 
     private downloadBarcode(id: number) {
+        const barcode = this.barcodes.find(b => b.id === id);
         const canvas = this.shadowRoot?.querySelector(`#barcode-${id}`) as HTMLCanvasElement;
-        if (canvas) {
+
+        if (canvas && barcode) {
             const dataUrl = canvas.toDataURL('image/png');
-            downloadImage(`barcode-${id}.png`, dataUrl);
+            const sanitizedText = barcode.text.replace(/[^a-zA-Z0-9]/g, '_');
+            const filename = `barcode-${sanitizedText}-${barcode.format}.png`;
+
+            downloadImage(filename, dataUrl);
         }
     }
 
@@ -110,14 +123,22 @@ export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
         }
     }
 
-    private downloadAllBarcodes() {
-        this.barcodes.forEach((barcode) => {
-            const canvas = this.shadowRoot?.querySelector(`#barcode-${barcode.id}`) as HTMLCanvasElement;
-            if (canvas) {
-                const dataUrl = canvas.toDataURL('image/png');
-                downloadImage(`barcode-${barcode.id}.png`, dataUrl);
+    private async downloadAllBarcodes() {
+        for (const barcode of this.barcodes) {
+            if (!barcode.error) {
+                const canvas = this.shadowRoot?.querySelector(`#barcode-${barcode.id}`) as HTMLCanvasElement;
+
+                if (canvas) {
+                    const dataUrl = canvas.toDataURL('image/png');
+                    const sanitizedText = barcode.text.replace(/[^a-zA-Z0-9]/g, '_');
+                    const filename = `barcode-${sanitizedText}-${barcode.format}.png`;
+
+                    downloadImage(filename, dataUrl);
+                    // Add delay between downloads to prevent overwhelming the browser
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                }
             }
-        });
+        }
     }
 
     private handleInputChange(e: Event) {
