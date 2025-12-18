@@ -19,12 +19,8 @@ export async function renderAndStoreWebComponentHtmls() {
 
     const tools = getToolList();
     for (const tool of tools) {
-        try {
-            const content = await renderWebComponent(tool);
-            writeFileSync(path.join(tempFolder, `${tool}.txt`), content, `utf-8`);
-        } catch (err) {
-            console.log(`Error rendering tool ${tool}:`, err);
-        }
+        const content = await renderWebComponent(tool);
+        writeFileSync(path.join(tempFolder, `${tool}.txt`), content, `utf-8`);
     }
 }
 
@@ -50,6 +46,7 @@ async function renderWebComponent(webComponent) {
         content = await collectResult(result);
     } catch (err) {
         console.log(err);
+        throw err;
     }
 
     return content
