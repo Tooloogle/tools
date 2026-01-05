@@ -132,7 +132,6 @@ const tools = [
     "stylish-text-generator",
     "svg-optimizer",
     "svg-to-png-converter",
-    "t-copy-button",
     "temperature-converter",
     "text-case-converter",
     "text-diff",
