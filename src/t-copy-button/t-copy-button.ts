@@ -6,12 +6,13 @@ import {
 } from "../_web-component/WebComponentBase.js";
 import { hasClipboard } from "../_utils/DomUtils.js";
 import tCopyButtonStyles from "./t-copy-button.css.js";
-import themeStyles from "../_styles/theme.css.js";
+import tooltipStyles from "../_styles/tooltip.css.js";
+import buttonStyles from "../_styles/button.css.js";
 import { when } from "lit/directives/when.js";
 
 @customElement("t-copy-button")
 export class TCopyButton extends WebComponentBase<IConfigBase> {
-  static override styles = [tCopyButtonStyles, themeStyles];
+  static override styles = [tCopyButtonStyles, tooltipStyles, buttonStyles];
 
   @property({ type: Boolean })
   isIcon = true;

@@ -5,7 +5,8 @@ import {
   IConfigBase,
   WebComponentBase,
 } from '../_web-component/WebComponentBase.js';
-import themeStyles from '../_styles/theme.css.js';
+import inputStyles from '../_styles/input.css.js';
+import buttonStyles from '../_styles/button.css.js';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { formatNumber } from '../_utils/NumberHelper.js';
@@ -18,7 +19,8 @@ dayjs.extend(duration);
 export class AgeCalculator extends WebComponentBase<IConfigBase> {
   static override styles = [
     WebComponentBase.styles,
-    themeStyles,
+    inputStyles,
+    buttonStyles,
     ageCalculatorStyles,
   ];
 

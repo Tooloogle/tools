@@ -5,12 +5,12 @@ import {
 } from '../_web-component/WebComponentBase.js';
 import asciiToHexConverterStyles from './ascii-to-hex-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import themeStyles from '../_styles/theme.css.js';
+import inputStyles from '../_styles/input.css.js';
 import '../t-copy-button';
 
 @customElement('ascii-to-hex-converter')
 export class AsciiToHexConverter extends WebComponentBase<IConfigBase> {
-  static override styles = [WebComponentBase.styles, themeStyles, asciiToHexConverterStyles];
+  static override styles = [WebComponentBase.styles, inputStyles, asciiToHexConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
