@@ -7,7 +7,15 @@ import cssnanoPlugin from "cssnano";
 
 const cssFiles = globSync("./src/**/*.css");
 
+// Skip theme.css - it will be imported by individual tool CSS files
+const filesToSkip = ['theme.css'];
+
 cssFiles.forEach(cssFile => {
+    const fileName = path.parse(cssFile).base;
+    if (filesToSkip.includes(fileName)) {
+        console.log(`Skipping ${cssFile} (will be imported by tool CSS files)`);
+        return;
+    }
     transformCssToTs(cssFile);
 });
 

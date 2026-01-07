@@ -4,47 +4,10 @@ input.form-input {
   @apply w-full rounded-lg border border-solid border-gray-300 px-4 py-2 text-gray-400 bg-inherit dark:border-gray-500 dark:focus:ring-gray-400 dark:focus:border-gray-400;
 }
 
-input.form-input:disabled {
-  @apply opacity-60 cursor-not-allowed bg-gray-100 dark:bg-gray-800;
-}
-
-input.form-input:read-only {
-  @apply bg-gray-50 dark:bg-gray-900;
-}
-
-input[type='file'].form-input {
-  @apply cursor-pointer;
-}
-
 textarea.form-textarea {
   @apply w-full rounded-lg border border-solid border-gray-300 px-4 py-2 text-gray-400 bg-inherit dark:border-gray-500 dark:focus:ring-gray-400 dark:focus:border-gray-400;
 }
 
-textarea.form-textarea:disabled {
-  @apply opacity-60 cursor-not-allowed bg-gray-100 dark:bg-gray-800;
-}
-
-textarea.form-textarea:read-only {
-  @apply bg-gray-50 dark:bg-gray-900;
-}
-
 select.form-select {
   @apply w-full rounded-lg border border-solid border-gray-300 px-4 py-2 text-gray-400 bg-inherit dark:border-gray-500 dark:focus:ring-gray-400 dark:focus:border-gray-400;
-}
-
-/* Checkbox */
-.checkbox-wrapper {
-  @apply inline-flex items-center gap-1 cursor-pointer text-sm;
-}
-
-input[type='checkbox'].form-checkbox {
-  @apply w-3.5 h-3.5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 cursor-pointer;
-}
-
-input[type='checkbox'].form-checkbox:disabled {
-  @apply opacity-60 cursor-not-allowed;
-}
-
-.checkbox-wrapper span {
-  @apply text-gray-900 dark:text-gray-300;
 }
