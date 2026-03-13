@@ -61,7 +61,7 @@ export class ImageToBase64 extends WebComponentBase {
                 <label class="block">
                     <span class="inline-block py-1">Base64 string</span>
                     <textarea
-                        name="email"
+                        name="base64"
                         class="form-textarea"
                         rows="5"
                         placeholder="Base64 string"

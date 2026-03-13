@@ -169,7 +169,7 @@ export class TextCaseConverter extends WebComponentBase {
         return html`
     <label class="block py-1">
         <textarea
-            name="email"
+            name="text"
             class="form-textarea"
             autofocus
             .placeholder=${this.placeholder}

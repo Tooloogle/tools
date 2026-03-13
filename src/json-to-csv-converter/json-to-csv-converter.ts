@@ -46,7 +46,7 @@ export class JsonToCsvConverter extends WebComponentBase {
     private convertJsonToCsv() {
         try {
             const jsonArray = JSON.parse(this.jsonString);
-            const headers = this.includeHeader ? Object.keys(jsonArray[0]) : [];
+            const headers = Object.keys(jsonArray[0]);
             const csvRows = [];
 
             if (this.includeHeader) {

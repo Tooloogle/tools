@@ -57,10 +57,10 @@ export class HexToRgbaConverter extends WebComponentBase {
             return;
         }
 
-        const [ r, g, b, a] = rgbaMatch.map(Number);
+        const [, r, g, b, a] = rgbaMatch.map(Number);
 
         // Convert alpha to hexadecimal value
-        const alphaHex = Math.round(a * 255).toString(16).padStart(2, '0');
+        const alphaHex = Math.round((isNaN(a) ? 1 : a) * 255).toString(16).padStart(2, '0');
 
         this.output = `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}${alphaHex.toUpperCase()}`;
         this.hexInput = this.output;

@@ -30,6 +30,15 @@ export class FractionCalculator extends WebComponentBase {
     }
 
     private calculate() {
+        if (this.den1 === 0 || this.den2 === 0) {
+            this.result = 'Denominator cannot be zero';
+            return;
+        }
+        if (this.operation === '/' && this.num2 === 0) {
+            this.result = 'Cannot divide by zero';
+            return;
+        }
+
         let resultNum = 0;
         let resultDen = 1;
 

@@ -16,9 +16,9 @@ export class Base64EncoderDecoder extends WebComponentBase {
         const target = e.target as HTMLTextAreaElement;
         this.decoded = target?.value;
         try {
-            this.encoded = btoa(this.decoded);
+            this.encoded = btoa(unescape(encodeURIComponent(this.decoded)));
         } catch (err) {
-            console.error(err);
+            this.encoded = 'Error: Unable to encode';
         }
     }
 
@@ -26,9 +26,9 @@ export class Base64EncoderDecoder extends WebComponentBase {
         const target = e.target as HTMLTextAreaElement;
         this.encoded = target?.value;
         try {
-            this.decoded = atob(this.encoded);
+            this.decoded = decodeURIComponent(escape(atob(this.encoded)));
         } catch (err) {
-            console.error(err);
+            this.decoded = 'Error: Invalid Base64 string';
         }
     }
 
@@ -38,7 +38,7 @@ export class Base64EncoderDecoder extends WebComponentBase {
             <label class="block">
                 <span class="inline-block py-1">Text to encode (decoded)</span>
                 <textarea
-                    name="email"
+                    name="decoded"
                     class="form-textarea"
                     autofocus
                     placeholder="Enter text to encode"
@@ -49,7 +49,7 @@ export class Base64EncoderDecoder extends WebComponentBase {
             <label class="block">
                 <span class="inline-block py-1">Base64 string to decode (encoded)</span>
                 <textarea
-                    name="email"
+                    name="encoded"
                     class="form-textarea"
                     rows="5"
                     placeholder="Enter base64 string to decode"

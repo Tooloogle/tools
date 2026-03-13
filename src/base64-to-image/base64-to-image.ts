@@ -34,7 +34,7 @@ export class Base64ToImage extends WebComponentBase {
             <label class="block">
                 <span class="inline-block py-1">Base64 string to decode (encoded)</span>
                 <textarea
-                    name="email"
+                    name="base64"
                     class="form-textarea"
                     rows="5"
                     placeholder="Enter base64 string to decode"

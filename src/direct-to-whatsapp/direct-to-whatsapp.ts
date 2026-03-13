@@ -37,7 +37,7 @@ export class DirectToWhatsApp extends WebComponentBase {
               autofocus
               placeholder="Phone number with country code, e.g. +919876543210"
               .value=${this.phone}
-              @change=${this.onPhoneChange} />
+              @input=${this.onPhoneChange} />
           </label>
           <label class="block">
             <span>Message (optional)</span>
