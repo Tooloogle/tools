@@ -1,20 +1,19 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import hexColorPickerStyles from './hex-color-picker.css.js';
-import "../t-copy-button/t-copy-button.js";
+import '../t-copy-button/index.js';
 import { createRef, ref, Ref } from 'lit/directives/ref.js';
 
 @customElement('hex-color-picker')
-export class HexColorPicker extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, hexColorPickerStyles];
+export class HexColorPicker extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, hexColorPickerStyles];
 
     @property({ type: String }) hexColor = '#1d4ed8';
 
     private input: Ref<HTMLInputElement> = createRef();
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
     }
 
@@ -22,10 +21,6 @@ export class HexColorPicker extends WebComponentBase<IConfigBase> {
         const inputElement = event.target as HTMLInputElement;
         this.hexColor = inputElement.value.toUpperCase();
         this.requestUpdate();
-    }
-
-    private isValidHex(hex: string) {
-        return /^#[0-9A-F]{6}$/i.test(hex);
     }
 
     private hexToRgb(hex: string) {
@@ -82,7 +77,7 @@ export class HexColorPicker extends WebComponentBase<IConfigBase> {
         this.input?.value?.click();
     }
 
-    render() {
+    override render() {
         const rgbColor = this.hexToRgb(this.hexColor);
         const hslColor = this.hexToHsl(this.hexColor);
 

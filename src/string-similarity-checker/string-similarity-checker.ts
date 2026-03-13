@@ -1,20 +1,13 @@
 import { html } from "lit";
-import {
-  IConfigBase,
-  WebComponentBase,
-} from "../_web-component/WebComponentBase.js";
+import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import stringSimilarityCheckerStyles from "./string-similarity-checker.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
-import "../t-copy-button";
+import '../t-copy-button/index.js';
 
 @customElement("string-similarity-checker")
-export class StringSimilarityChecker extends WebComponentBase<IConfigBase> {
+export class StringSimilarityChecker extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    stringSimilarityCheckerStyles,
-  ];
+    WebComponentBase.styles,    stringSimilarityCheckerStyles];
 
   @property({ type: String }) inputText = "";
   @property({ type: String }) outputText = "";

@@ -1,4 +1,12 @@
-@import 'tailwindcss';
+.copy-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  outline: inherit;
+}
+
 .tooltip {
   @apply min-w-40 text-center;
 }

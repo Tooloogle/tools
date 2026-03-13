@@ -1,14 +1,11 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import urlParserStyles from './url-parser.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import tableStyles from '../_styles/table.css.js';
 
 @customElement('url-parser')
-export class UrlParser extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, tableStyles, urlParserStyles];
+export class UrlParser extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, urlParserStyles];
 
     @property()
     input = '';
@@ -97,11 +94,11 @@ export class UrlParser extends WebComponentBase<IConfigBase> {
 
             ${this.parsed ? html`
                 <div class="py-2">
-                    <table class="table">
+                    <table class="w-full">
                         <thead>
                             <tr>
-                                <th>Component</th>
-                                <th>Value</th>
+                                <th class="border-t border-gray-300 p-1 text-left">Component</th>
+                                <th class="border-t border-gray-300 p-1 text-left">Value</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -147,11 +144,11 @@ export class UrlParser extends WebComponentBase<IConfigBase> {
                     ${Object.keys(this.parsed.params).length > 0 ? html`
                         <div class="mt-4">
                             <h3 class="font-bold py-2">Query Parameters:</h3>
-                            <table class="table">
+                            <table class="w-full">
                                 <thead>
                                     <tr>
-                                        <th>Key</th>
-                                        <th>Value</th>
+                                        <th class="border-t border-gray-300 p-1 text-left">Key</th>
+                                        <th class="border-t border-gray-300 p-1 text-left">Value</th>
                                     </tr>
                                 </thead>
                                 <tbody>

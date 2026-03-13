@@ -1,12 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import loremPicsumPlaceholderStyles from './lorem-picsum-placeholder.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('lorem-picsum-placeholder')
-export class LoremPicsumPlaceholder extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, loremPicsumPlaceholderStyles];
+export class LoremPicsumPlaceholder extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, loremPicsumPlaceholderStyles];
 
     @property({ type: Number }) width = 300;
     @property({ type: Number }) height = 200;

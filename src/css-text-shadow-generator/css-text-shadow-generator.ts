@@ -1,19 +1,12 @@
 import { html } from "lit";
-import {
-  IConfigBase,
-  WebComponentBase,
-} from "../_web-component/WebComponentBase.js";
+import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import cssTextShadowGeneratorStyles from "./css-text-shadow-generator.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
-import "../t-copy-button";
+import '../t-copy-button/index.js';
 @customElement("css-text-shadow-generator")
-export class CssTextShadowGenerator extends WebComponentBase<IConfigBase> {
+export class CssTextShadowGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    cssTextShadowGeneratorStyles,
-  ];
+    WebComponentBase.styles,    cssTextShadowGeneratorStyles];
 
   @property({ type: Number }) offsetX = 2;
   @property({ type: Number }) offsetY = 2;
@@ -21,7 +14,7 @@ export class CssTextShadowGenerator extends WebComponentBase<IConfigBase> {
   @property({ type: String }) color = "#000000";
   @property({ type: String }) outputText = "";
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.process();
   }

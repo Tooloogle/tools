@@ -1,14 +1,13 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import emojiPickerStyles from './emoji-picker.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button/index.js';
 
 @customElement('emoji-picker')
-export class EmojiPicker extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, emojiPickerStyles];
+export class EmojiPicker extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, emojiPickerStyles];
 
     @property()
     searchQuery = '';

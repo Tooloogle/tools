@@ -1,14 +1,13 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import barcodeGeneratorStyles from './barcode-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import { isCanvasSupported } from '../_utils/DomUtils.js';
 import JsBarcode from 'jsbarcode';
 
 @customElement('barcode-generator')
-export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, barcodeGeneratorStyles];
+export class BarcodeGenerator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, barcodeGeneratorStyles];
 
     @property({ type: String }) inputText = '123456789012';
     @property({ type: String }) format = 'CODE128';
@@ -38,7 +37,7 @@ export class BarcodeGenerator extends WebComponentBase<IConfigBase> {
         }
     }
 
-    updated() {
+    override updated() {
         this.generateBarcode();
     }
 

@@ -1,19 +1,16 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import guidGeneratorStyles from './guid-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import "../t-copy-button/t-copy-button.js";
-import buttonStyles from '../_styles/button.css.js';
-
+import '../t-copy-button/index.js';
 @customElement('guid-generator')
-export class GuidGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, guidGeneratorStyles];
+export class GuidGenerator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, guidGeneratorStyles];
 
     @property()
     guid = "";
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
         this.guid = this.uuidv4();
     }

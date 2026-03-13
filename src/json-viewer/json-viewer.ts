@@ -1,8 +1,6 @@
 import { html, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import jsonViewerStyles from './json-viewer.css.js';
 
 interface JsonNode {
@@ -14,13 +12,13 @@ interface JsonNode {
 }
 
 @customElement('json-viewer')
-export class JsonViewer extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, jsonViewerStyles];
+export class JsonViewer extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, jsonViewerStyles];
 
     @property({ type: String }) jsonString = '';
     @state() jsonObject: JsonNode | null = null;
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
         this.updateJsonObject();
     }
@@ -125,7 +123,7 @@ export class JsonViewer extends WebComponentBase<IConfigBase> {
         }
     }
 
-    render() {
+    override render() {
         const hasJsonObject = !!this.jsonObject;
         const controlButtons = hasJsonObject ? html`
         <div class="flex justify-end absolute end-1 top-1">

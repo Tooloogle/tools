@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import htaccessGeneratorStyles from './htaccess-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('htaccess-generator')
-export class HtaccessGenerator extends WebComponentBase<IConfigBase> {
+export class HtaccessGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    htaccessGeneratorStyles,
-  ];
+    WebComponentBase.styles,    htaccessGeneratorStyles];
 
   @property({ type: Boolean }) enableWwwRedirect = false;
   @property({ type: Boolean }) enableHttpsRedirect = false;

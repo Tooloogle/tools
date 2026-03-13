@@ -1,26 +1,24 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
-import buttonStyles from '../_styles/button.css.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import passwordGeneratorStyles from './password-generator.css.js';
 import { when } from 'lit/directives/when.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button/index.js';
 
 const passwordChars =
   '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
+/** Cryptographically secure random index in range [0, max). */
+function secureRandomIndex(max: number): number {
+  const arr = new Uint32Array(1);
+  crypto.getRandomValues(arr);
+  return arr[0] % max;
+}
+
 @customElement('password-generator')
-export class PasswordGenerator extends WebComponentBase<IConfigBase> {
+export class PasswordGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    passwordGeneratorStyles,
-  ];
+    WebComponentBase.styles,    passwordGeneratorStyles];
 
   @property()
   length = 10;
@@ -32,7 +30,7 @@ export class PasswordGenerator extends WebComponentBase<IConfigBase> {
     this.password = Array(Number(this.length))
       .fill(passwordChars)
       .map(x => {
-        return x[Math.floor(Math.random() * passwordChars.length)];
+        return x[secureRandomIndex(passwordChars.length)];
       })
       .join('');
   }

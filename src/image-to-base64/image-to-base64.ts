@@ -1,16 +1,14 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import imageToBase64Styles from './image-to-base64.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import { downloadText } from '../_utils/DomUtils.js';
-import buttonStyles from '../_styles/button.css.js';
 import { when } from 'lit/directives/when.js';
-import "../t-copy-button/t-copy-button.js";
+import '../t-copy-button/index.js';
 
 @customElement('image-to-base64')
-export class ImageToBase64 extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, imageToBase64Styles, inputStyles, buttonStyles];
+export class ImageToBase64 extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, imageToBase64Styles];
 
     @property()
     image = "";

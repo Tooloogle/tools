@@ -1,13 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import yamlValidatorStyles from './yaml-validator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-
 @customElement('yaml-validator')
-export class YamlValidator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, yamlValidatorStyles];
+export class YamlValidator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, yamlValidatorStyles];
 
     @property()
     input = '';

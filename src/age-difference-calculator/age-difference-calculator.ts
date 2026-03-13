@@ -1,28 +1,19 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import ageDifferenceCalculatorStyles from './age-difference-calculator.css.js';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
-import buttonStyles from '../_styles/button.css.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { formatNumber } from '../_utils/NumberHelper.js';
-import inputStyles from '../_styles/input.css.js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration.js';
 
 dayjs.extend(duration);
 
 @customElement('age-difference-calculator')
-export class AgeDifferenceCalculator extends WebComponentBase<IConfigBase> {
+export class AgeDifferenceCalculator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    ageDifferenceCalculatorStyles,
-  ];
+    WebComponentBase.styles,    ageDifferenceCalculatorStyles];
 
   @property()
   haveTime = false;

@@ -1,11 +1,6 @@
 import { html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import {
-  IConfigBase,
-  WebComponentBase,
-} from "../_web-component/WebComponentBase.js";
-import inputStyles from "../_styles/input.css.js";
-import buttonStyles from "../_styles/button.css.js";
+import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import xmlToJsonConverterStyles from "./xml-to-json-converter.css.js";
 
 interface JsonObject {
@@ -15,13 +10,9 @@ interface JsonObject {
 }
 
 @customElement("xml-to-json-converter")
-export class XmlToJsonConverter extends WebComponentBase<IConfigBase> {
+export class XmlToJsonConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    xmlToJsonConverterStyles,
-  ];
+    WebComponentBase.styles,    xmlToJsonConverterStyles];
 
   @property({ type: Object }) file: File | null = null;
   @property({ type: String }) error = "";

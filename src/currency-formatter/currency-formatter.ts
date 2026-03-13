@@ -1,12 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import currencyFormatterStyles from './currency-formatter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('currency-formatter')
-export class CurrencyFormatter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, currencyFormatterStyles];
+export class CurrencyFormatter extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, currencyFormatterStyles];
 
     @property()
     amount = '';

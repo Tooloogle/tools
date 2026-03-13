@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import fibonacciGeneratorStyles from './fibonacci-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('fibonacci-generator')
-export class FibonacciGenerator extends WebComponentBase<IConfigBase> {
+export class FibonacciGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    fibonacciGeneratorStyles,
-  ];
+    WebComponentBase.styles,    fibonacciGeneratorStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

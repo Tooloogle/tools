@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import vowelConsonantCounterStyles from './vowel-consonant-counter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('vowel-consonant-counter')
-export class VowelConsonantCounter extends WebComponentBase<IConfigBase> {
+export class VowelConsonantCounter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    vowelConsonantCounterStyles,
-  ];
+    WebComponentBase.styles,    vowelConsonantCounterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

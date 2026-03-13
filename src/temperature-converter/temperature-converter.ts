@@ -1,12 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import temperatureConverterStyles from './temperature-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('temperature-converter')
-export class TemperatureConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, temperatureConverterStyles];
+export class TemperatureConverter extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, temperatureConverterStyles];
 
     @property()
     c = 0;

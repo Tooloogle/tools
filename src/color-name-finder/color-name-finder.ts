@@ -1,10 +1,7 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import colorNameFinderStyles from './color-name-finder.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-
 // Basic color names mapping
 const colorNames: { [key: string]: string } = {
     'FF0000': 'Red', '00FF00': 'Green', '0000FF': 'Blue',
@@ -17,8 +14,8 @@ const colorNames: { [key: string]: string } = {
 };
 
 @customElement('color-name-finder')
-export class ColorNameFinder extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, colorNameFinderStyles];
+export class ColorNameFinder extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, colorNameFinderStyles];
 
     @property()
     hexColor = '#FF0000';
@@ -35,7 +32,7 @@ export class ColorNameFinder extends WebComponentBase<IConfigBase> {
     @property()
     colorName = '';
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
         this.findColorName();
     }

@@ -1,21 +1,14 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import aesEncryptionStyles from './aes-encryption.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import CryptoJS from 'crypto-js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('aes-encryption')
-export class AesEncryption extends WebComponentBase<IConfigBase> {
+export class AesEncryption extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    aesEncryptionStyles,
-  ];
+    WebComponentBase.styles,    aesEncryptionStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) secretKey = '';

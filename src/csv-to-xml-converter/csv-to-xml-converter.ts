@@ -1,21 +1,14 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import csvToXmlConverterStyles from './csv-to-xml-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import Papa from 'papaparse';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('csv-to-xml-converter')
-export class CsvToXmlConverter extends WebComponentBase<IConfigBase> {
+export class CsvToXmlConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    csvToXmlConverterStyles,
-  ];
+    WebComponentBase.styles,    csvToXmlConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

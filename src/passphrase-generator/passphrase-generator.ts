@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import passphraseGeneratorStyles from './passphrase-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('passphrase-generator')
-export class PassphraseGenerator extends WebComponentBase<IConfigBase> {
+export class PassphraseGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    passphraseGeneratorStyles,
-  ];
+    WebComponentBase.styles,    passphraseGeneratorStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -42,7 +35,7 @@ export class PassphraseGenerator extends WebComponentBase<IConfigBase> {
       'thunder',
       'lightning',
       'phoenix',
-      'tiger',
+      'tiger'
     ];
 
     const result = [];

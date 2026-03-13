@@ -1,9 +1,6 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import bmiCalculatorStyles from './bmi-calculator.css.js';
 import {
   validateInput,
@@ -13,7 +10,7 @@ import {
 } from './bmi-calculator-utils.js';
 
 @customElement('bmi-calculator')
-export class BmiCalculator extends WebComponentBase<IConfigBase> {
+export class BmiCalculator extends WebComponentBase {
   static override styles = [WebComponentBase.styles, bmiCalculatorStyles];
 
   @property({ type: Number }) height = 0;

@@ -1,19 +1,12 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import cssBoxShadowGeneratorStyles from './css-box-shadow-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 @customElement('css-box-shadow-generator')
-export class CssBoxShadowGenerator extends WebComponentBase<IConfigBase> {
+export class CssBoxShadowGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    cssBoxShadowGeneratorStyles,
-  ];
+    WebComponentBase.styles,    cssBoxShadowGeneratorStyles];
 
   @property({ type: Number }) offsetX = 0;
   @property({ type: Number }) offsetY = 4;
@@ -23,7 +16,7 @@ export class CssBoxShadowGenerator extends WebComponentBase<IConfigBase> {
   @property({ type: Number }) opacity = 0.3;
   @property({ type: String }) outputText = '';
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.process();
   }

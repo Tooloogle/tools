@@ -1,13 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import textDiffStyles from './text-diff.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-
 @customElement('text-diff')
-export class TextDiff extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, textDiffStyles];
+export class TextDiff extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, textDiffStyles];
 
     @property()
     text1 = '';

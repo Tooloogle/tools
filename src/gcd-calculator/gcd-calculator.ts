@@ -1,18 +1,16 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import gcdCalculatorStyles from './gcd-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('gcd-calculator')
-export class GcdCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, gcdCalculatorStyles];
+export class GcdCalculator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, gcdCalculatorStyles];
 
     @property({ type: Number }) num1 = 48;
     @property({ type: Number }) num2 = 18;
     @property({ type: Number }) result = 0;
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
         this.calculate();
     }

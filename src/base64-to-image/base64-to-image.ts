@@ -1,15 +1,12 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import base64ToImageStyles from './base64-to-image.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import { downloadImage } from '../_utils/DomUtils.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-
 @customElement('base64-to-image')
-export class Base64ToImage extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, base64ToImageStyles, inputStyles, buttonStyles];
+export class Base64ToImage extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, base64ToImageStyles];
 
     @property()
     base64 = "";

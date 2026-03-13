@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import letterCounterStyles from './letter-counter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('letter-counter')
-export class LetterCounter extends WebComponentBase<IConfigBase> {
+export class LetterCounter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    letterCounterStyles,
-  ];
+    WebComponentBase.styles,    letterCounterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

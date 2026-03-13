@@ -1,12 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import base64EncoderDecoderStyles from './base64-encoder-decoder.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('base64-encoder-decoder')
-export class Base64EncoderDecoder extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, base64EncoderDecoderStyles];
+export class Base64EncoderDecoder extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, base64EncoderDecoderStyles];
 
     @property()
     encoded = "";

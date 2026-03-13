@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import rot13EncoderDecoderStyles from './rot13-encoder-decoder.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('rot13-encoder-decoder')
-export class Rot13EncoderDecoder extends WebComponentBase<IConfigBase> {
+export class Rot13EncoderDecoder extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    rot13EncoderDecoderStyles,
-  ];
+    WebComponentBase.styles,    rot13EncoderDecoderStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

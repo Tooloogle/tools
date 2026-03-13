@@ -1,14 +1,12 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import unicodeConverterStyles from './unicode-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button/index.js';
 
 @customElement('unicode-converter')
-export class UnicodeConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, unicodeConverterStyles];
+export class UnicodeConverter extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, unicodeConverterStyles];
 
     @property()
     input = '';
@@ -37,7 +35,7 @@ export class UnicodeConverter extends WebComponentBase<IConfigBase> {
 
     private fromUnicode() {
         try {
-            this.output = this.input.replace(/\\u([\da-f]{4})/gi, (match, code) => 
+            this.output = this.input.replace(/\\u([\da-f]{4})/gi, (_match, code) => 
                 String.fromCharCode(parseInt(code, 16))
             );
         } catch (e) {

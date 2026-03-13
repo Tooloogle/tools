@@ -1,13 +1,12 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import stopwatchToolStyles from './stopwatch-tool.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import buttonStyles from '../_styles/button.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('stopwatch-tool')
-export class StopwatchTool extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, buttonStyles, stopwatchToolStyles];
+export class StopwatchTool extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, stopwatchToolStyles];
 
     @property({ type: Number }) elapsedTime = 0;
     @property({ type: Boolean }) isRunning = false;

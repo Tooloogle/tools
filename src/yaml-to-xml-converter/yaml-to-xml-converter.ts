@@ -1,21 +1,14 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import yamlToXmlConverterStyles from './yaml-to-xml-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import * as yaml from 'js-yaml';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('yaml-to-xml-converter')
-export class YamlToXmlConverter extends WebComponentBase<IConfigBase> {
+export class YamlToXmlConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    yamlToXmlConverterStyles,
-  ];
+    WebComponentBase.styles,    yamlToXmlConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -33,7 +26,7 @@ export class YamlToXmlConverter extends WebComponentBase<IConfigBase> {
     let xml = `<${rootName}>`;
 
     if (Array.isArray(obj)) {
-      obj.forEach((item, index) => {
+      obj.forEach((item) => {
         xml += `<item>${this.jsonToXml(item, 'item')}</item>`;
       });
     } else {

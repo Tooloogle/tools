@@ -1,13 +1,12 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import speedReadingToolStyles from './speed-reading-tool.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('speed-reading-tool')
-export class SpeedReadingTool extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, speedReadingToolStyles];
+export class SpeedReadingTool extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, speedReadingToolStyles];
 
     @property({ type: String }) inputText = '';
     @property({ type: String }) currentWord = '';
@@ -113,7 +112,7 @@ export class SpeedReadingTool extends WebComponentBase<IConfigBase> {
         `;
     }
 
-    disconnectedCallback() {
+    override disconnectedCallback() {
         super.disconnectedCallback();
         if (this.intervalId !== null && isBrowser()) {
             window.clearInterval(this.intervalId);

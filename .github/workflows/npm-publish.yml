@@ -32,7 +32,7 @@ jobs:
         run: npm test
 
       - name: Verify ssr html generation
-        run: node ./scripts/web-component-ssr-html.js
+        run: node ./scripts/ssr-cli.js
 
       - name: Prepare dist for release
         run: |

@@ -1,14 +1,12 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import placeholderImageGeneratorStyles from './placeholder-image-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button/index.js';
 
 @customElement('placeholder-image-generator')
-export class PlaceholderImageGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, placeholderImageGeneratorStyles];
+export class PlaceholderImageGenerator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, placeholderImageGeneratorStyles];
 
     @property()
     width = 300;

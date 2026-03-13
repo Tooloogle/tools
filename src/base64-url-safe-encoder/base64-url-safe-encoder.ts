@@ -1,22 +1,13 @@
 import { html } from "lit";
-import {
-  IConfigBase,
-  WebComponentBase,
-} from "../_web-component/WebComponentBase.js";
+import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import base64UrlSafeEncoderStyles from "./base64-url-safe-encoder.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
-import buttonStyles from "../_styles/button.css.js";
-import "../t-copy-button";
+import '../t-copy-button/index.js';
 
 @customElement("base64-url-safe-encoder")
-export class Base64UrlSafeEncoder extends WebComponentBase<IConfigBase> {
+export class Base64UrlSafeEncoder extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    base64UrlSafeEncoderStyles,
-  ];
+    WebComponentBase.styles,    base64UrlSafeEncoderStyles];
 
   @property()
   input = "";

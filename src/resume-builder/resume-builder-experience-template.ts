@@ -99,8 +99,7 @@ export class ExperienceTemplate {
         type: 'textarea',
         label: 'Job Description',
         placeholder: 'Describe your responsibilities and achievements...',
-      },
-    ];
+      }];
 
     return fields.map(field =>
       this.renderExperienceField(field, exp, handlers)

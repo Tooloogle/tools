@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import markdownToHtmlConverterStyles from './markdown-to-html-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import { marked } from 'marked';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 @customElement('markdown-to-html-converter')
-export class MarkdownToHtmlConverter extends WebComponentBase<IConfigBase> {
+export class MarkdownToHtmlConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    markdownToHtmlConverterStyles,
-  ];
+    WebComponentBase.styles,    markdownToHtmlConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

@@ -10,8 +10,6 @@
     <title>Tooloogle Web Components</title>
     <link href="_style.css" rel="stylesheet" />
     <script src="tools.js" type="module"></script>
-    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../node_modules/lit/polyfill-support.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -105,158 +103,235 @@
     </div>
 
     <script type="module">
-      // Function to update URL query parameters
-      function updateURL(tool, fullWidth) {
-        const url = new URL(window.location);
-        if (tool) {
-          url.searchParams.set('q', tool);
-        }
-        if (fullWidth !== undefined) {
-          if (fullWidth) {
-            url.searchParams.set('f', '1');
-          } else {
-            url.searchParams.delete('f');
-          }
-        }
-        window.history.replaceState({}, '', url);
-      }
-
-      async function initTool(tool, updateUrl = true) {
-        const container = document.getElementById('demo-container');
-        const wrapper = document.getElementById('container');
-
-        const fullWidthTools = [
-          'qr-code-generator',
-          'javascript-beautifier',
-          'css-beautifier',
-          'html-beautifier',
-          'json-viewer',
-          'csv-to-json-converter',
-          'json-to-csv-converter',
-          'regex-expression-tester',
-          'resume-builder',
-          'stylish-text-generator',
-          'svg-optimizer',
-          'email-template-generator',
-        ];
-        
-        // Check if full width view is requested via checkbox
-        const fullWidthToggle = document.getElementById('full-width-toggle');
-        const forceFullWidth = fullWidthToggle?.checked || false;
-        
-        wrapper.className = (fullWidthTools.includes(tool) || forceFullWidth)
-          ? 'w-full'
-          : 'lg:w-2/5 pr-4 pl-4 md:w-3/5 pr-4 pl-4 sm:w-2/3 pr-4 pl-4 w-full';
-
-        try {
-          const mod = await import(`../src/${tool}/${tool}.ts`);
-          mod?.default?.();
-          container.innerHTML = `<${tool}></${tool}>`;
-          localStorage.setItem('demo-selected-tool', tool);
-          
-          // Update URL with current tool and full-width state
-          if (updateUrl) {
-            updateURL(tool, forceFullWidth);
-          }
-        } catch (err) {
-          console.error('Error loading tool:', tool, err);
-          container.innerHTML = `<p>${tool} Not found.</p>`;
-        }
-      }
-
       const searchInput = document.getElementById('search-input');
       const dropdown = document.getElementById('dropdown');
       const toolsList = document.getElementById('tools-list');
       const clearIcon = document.getElementById('clear-icon');
       const fullWidthToggle = document.getElementById('full-width-toggle');
 
+      let activeIndex = -1;
+      let currentFiltered = [];
+
+      // --- URL helpers ---
+      function updateURL(tool, fullWidth) {
+        const url = new URL(window.location);
+        if (tool) url.searchParams.set('q', tool);
+        if (fullWidth !== undefined) {
+          fullWidth ? url.searchParams.set('f', '1') : url.searchParams.delete('f');
+        }
+        window.history.replaceState({}, '', url);
+      }
+
+      // --- Tool loading ---
+      async function initTool(tool, updateUrl = true) {
+        const container = document.getElementById('demo-container');
+        const wrapper = document.getElementById('container');
+
+        const fullWidthTools = [
+          'qr-code-generator', 'javascript-beautifier', 'css-beautifier',
+          'html-beautifier', 'json-viewer', 'csv-to-json-converter',
+          'json-to-csv-converter', 'regex-expression-tester', 'resume-builder',
+          'stylish-text-generator', 'svg-optimizer', 'email-template-generator',
+        ];
+
+        const forceFullWidth = fullWidthToggle?.checked || false;
+        wrapper.className = (fullWidthTools.includes(tool) || forceFullWidth)
+          ? 'w-full'
+          : 'lg:w-2/5 pr-4 pl-4 md:w-3/5 pr-4 pl-4 sm:w-2/3 pr-4 pl-4 w-full';
+
+        container.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;padding:3rem;color:#6b7280;">
+          <svg width="24" height="24" viewBox="0 0 24 24" style="animation:spin 1s linear infinite;margin-right:0.5rem;">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="31.4 31.4" stroke-linecap="round"/>
+          </svg>
+          Loading ${tool.replace(/-/g, ' ')}…
+        </div>`;
+
+        try {
+          const mod = await import(`../src/${tool}/${tool}.ts`);
+          mod?.default?.();
+          container.innerHTML = `<${tool}></${tool}>`;
+          localStorage.setItem('demo-selected-tool', tool);
+          if (updateUrl) updateURL(tool, forceFullWidth);
+        } catch (err) {
+          console.error('Error loading tool:', tool, err);
+          container.innerHTML = `<div style="padding:2rem;text-align:center;color:#dc2626;">
+            <p style="font-size:1.25rem;font-weight:600;">Failed to load "${tool.replace(/-/g, ' ')}"</p>
+            <p style="color:#6b7280;margin-top:0.5rem;">${err.message || 'Module not found or failed to compile.'}</p>
+          </div>`;
+        }
+      }
+
+      // --- Dropdown rendering ---
       function renderTools(filteredTools) {
         toolsList.innerHTML = '';
+        activeIndex = -1;
+        currentFiltered = filteredTools;
+
         filteredTools.forEach((t, i) => {
           const div = document.createElement('div');
-          div.className =
-            'px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer capitalize';
+          div.className = 'px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer capitalize';
           div.textContent = `${i + 1}. ${t.replace(/-/g, ' ')}`;
-          div.onclick = () => {
-            searchInput.value = t.replace(/-/g, ' ');
-            dropdown.classList.add('hidden');
-            clearIcon.classList.remove('hidden');
-            initTool(t);
-          };
+          div.dataset.index = i;
+          div.dataset.tool = t;
+          // Use mousedown (fires before blur) with preventDefault to keep focus on input
+          div.addEventListener('mousedown', e => {
+            e.preventDefault();
+            selectTool(t);
+          });
+          div.addEventListener('mouseenter', () => {
+            setActiveItem(i);
+          });
           toolsList.appendChild(div);
         });
       }
 
-      // Show dropdown on focus
-      searchInput.addEventListener('focus', () => {
+      function selectTool(tool) {
+        searchInput.value = tool.replace(/-/g, ' ');
+        hideDropdown();
+        clearIcon.classList.remove('hidden');
+        initTool(tool);
+      }
+
+      function showDropdown() {
         dropdown.classList.remove('hidden');
-        renderTools(tools);
+      }
+
+      function hideDropdown() {
+        dropdown.classList.add('hidden');
+        activeIndex = -1;
+      }
+
+      function setActiveItem(index) {
+        const items = toolsList.children;
+        // Remove highlight from all
+        for (const item of items) {
+          item.classList.remove('bg-gray-100', 'dark:bg-gray-600');
+        }
+        // Wrap around
+        if (index < 0) index = items.length - 1;
+        if (index >= items.length) index = 0;
+
+        activeIndex = index;
+        if (items[activeIndex]) {
+          items[activeIndex].classList.add('bg-gray-100', 'dark:bg-gray-600');
+          items[activeIndex].scrollIntoView({ block: 'nearest' });
+        }
+      }
+
+      // --- Keyboard navigation (on the input itself) ---
+      searchInput.addEventListener('keydown', e => {
+        const isVisible = !dropdown.classList.contains('hidden');
+
+        switch (e.key) {
+          case 'ArrowDown':
+            e.preventDefault();
+            if (!isVisible) {
+              // Open dropdown if closed
+              const q = searchInput.value.trim().toLowerCase();
+              const list = q
+                ? tools.filter(t => t.replace(/-/g, ' ').toLowerCase().includes(q))
+                : tools;
+              renderTools(list);
+              showDropdown();
+            }
+            setActiveItem(activeIndex + 1);
+            break;
+
+          case 'ArrowUp':
+            e.preventDefault();
+            if (isVisible) {
+              setActiveItem(activeIndex - 1);
+            }
+            break;
+
+          case 'Enter':
+            if (isVisible && activeIndex >= 0 && activeIndex < currentFiltered.length) {
+              e.preventDefault();
+              selectTool(currentFiltered[activeIndex]);
+            }
+            break;
+
+          case 'Escape':
+            if (isVisible) {
+              e.preventDefault();
+              hideDropdown();
+            }
+            break;
+
+          case 'Tab':
+            hideDropdown();
+            break;
+        }
       });
 
-      // Filter tools as user types
+      // --- Show dropdown on focus (re-filter with current text) ---
+      searchInput.addEventListener('focus', () => {
+        const query = searchInput.value.trim().toLowerCase();
+        const filtered = query
+          ? tools.filter(t => t.replace(/-/g, ' ').toLowerCase().includes(query))
+          : tools;
+        renderTools(filtered);
+        showDropdown();
+      });
+
+      // --- Filter as user types ---
       searchInput.addEventListener('input', e => {
         const query = e.target.value.toLowerCase();
         const filtered = tools.filter(t =>
           t.replace(/-/g, ' ').toLowerCase().includes(query)
         );
         renderTools(filtered);
-        dropdown.classList.remove('hidden');
+        showDropdown();
         clearIcon.classList.toggle('hidden', !e.target.value);
       });
 
-      // Clear search input
-      clearIcon.addEventListener('click', () => {
+      // --- Clear button ---
+      clearIcon.addEventListener('mousedown', e => {
+        e.preventDefault(); // keep focus on input
         searchInput.value = '';
         clearIcon.classList.add('hidden');
-        dropdown.classList.remove('hidden');
         renderTools(tools);
+        showDropdown();
         searchInput.focus();
       });
 
-      // Hide dropdown if clicking outside
-      document.addEventListener('click', e => {
+      // --- Close dropdown on outside click ---
+      document.addEventListener('mousedown', e => {
         if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
-          dropdown.classList.add('hidden');
+          hideDropdown();
         }
       });
 
-      // Toggle full width view when checkbox changes
+      // --- Full width toggle ---
       fullWidthToggle.addEventListener('change', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const currentTool = urlParams.get('q') || localStorage.getItem('demo-selected-tool');
+        const currentTool = new URLSearchParams(window.location.search).get('q')
+          || localStorage.getItem('demo-selected-tool');
         if (currentTool && tools.includes(currentTool)) {
           initTool(currentTool);
         }
       });
 
-      // Initialize tool based on priority: query param > localStorage > default
+      // --- Initial load ---
       const urlParams = new URLSearchParams(window.location.search);
       const queryTool = urlParams.get('q');
-      const queryFullWidth = urlParams.get('f') === '1' || urlParams.get('f') === 'true';
+      const queryFullWidth = urlParams.get('f') === '1';
       const lastSelectedTool = localStorage.getItem('demo-selected-tool');
-      
-      // Set initial checkbox state from URL
+
       fullWidthToggle.checked = queryFullWidth;
-      
+
       let toolToLoad = null;
-      
-      // Priority 1: Check if query parameter is provided and valid
       if (queryTool && tools.includes(queryTool)) {
         toolToLoad = queryTool;
-      }
-      // Priority 2: Check localStorage for last selected tool
-      else if (lastSelectedTool && tools.includes(lastSelectedTool)) {
+      } else if (lastSelectedTool && tools.includes(lastSelectedTool)) {
         toolToLoad = lastSelectedTool;
-      }
-      // Priority 3: Default to last tool in the array
-      else if (tools.length > 0) {
+      } else if (tools.length > 0) {
         toolToLoad = tools[tools.length - 1];
       }
-      
+
       if (toolToLoad) {
         searchInput.value = toolToLoad.replace(/-/g, ' ');
         clearIcon.classList.remove('hidden');
-        initTool(toolToLoad, false); // Don't update URL on initial load
+        initTool(toolToLoad, false);
       }
     </script>
   </body>

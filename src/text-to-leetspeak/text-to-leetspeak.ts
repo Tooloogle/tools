@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import textToLeetspeakStyles from './text-to-leetspeak.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('text-to-leetspeak')
-export class TextToLeetspeak extends WebComponentBase<IConfigBase> {
+export class TextToLeetspeak extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    textToLeetspeakStyles,
-  ];
+    WebComponentBase.styles,    textToLeetspeakStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

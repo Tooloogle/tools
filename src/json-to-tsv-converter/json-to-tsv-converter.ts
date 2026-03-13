@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import jsonToTsvConverterStyles from './json-to-tsv-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('json-to-tsv-converter')
-export class JsonToTsvConverter extends WebComponentBase<IConfigBase> {
+export class JsonToTsvConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    jsonToTsvConverterStyles,
-  ];
+    WebComponentBase.styles,    jsonToTsvConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

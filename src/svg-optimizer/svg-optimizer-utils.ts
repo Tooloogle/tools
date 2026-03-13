@@ -133,10 +133,9 @@ export class SvgOptimizerUtils {
     let result = optimized;
     const ids = [...result.matchAll(/id="([^"]+)"/gi)];
 
-    ids.forEach(([, id]) => {
+    ids.forEach(([ id]) => {
       const references = [
-        ...result.matchAll(new RegExp(`(#${id}|url\\(#${id}\\))`, 'gi')),
-      ];
+        ...result.matchAll(new RegExp(`(#${id}|url\\(#${id}\\))`, 'gi'))];
       if (references.length <= 1) {
         result = result.replace(new RegExp(`\\s*id="${id}"`, 'gi'), '');
       }

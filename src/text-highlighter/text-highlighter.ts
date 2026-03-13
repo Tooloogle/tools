@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import textHighlighterStyles from './text-highlighter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('text-highlighter')
-export class TextHighlighter extends WebComponentBase<IConfigBase> {
+export class TextHighlighter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    textHighlighterStyles,
-  ];
+    WebComponentBase.styles,    textHighlighterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

@@ -1,12 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import fractionCalculatorStyles from './fraction-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('fraction-calculator')
-export class FractionCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, fractionCalculatorStyles];
+export class FractionCalculator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, fractionCalculatorStyles];
 
     @property({ type: Number }) num1 = 1;
     @property({ type: Number }) den1 = 2;
@@ -15,7 +13,7 @@ export class FractionCalculator extends WebComponentBase<IConfigBase> {
     @property({ type: String }) operation = '+';
     @property({ type: String }) result = '';
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
         this.calculate();
     }

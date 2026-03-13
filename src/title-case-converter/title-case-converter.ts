@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import titleCaseConverterStyles from './title-case-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('title-case-converter')
-export class TitleCaseConverter extends WebComponentBase<IConfigBase> {
+export class TitleCaseConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    titleCaseConverterStyles,
-  ];
+    WebComponentBase.styles,    titleCaseConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import binaryToTextConverterStyles from './binary-to-text-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('binary-to-text-converter')
-export class BinaryToTextConverter extends WebComponentBase<IConfigBase> {
+export class BinaryToTextConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    binaryToTextConverterStyles,
-  ];
+    WebComponentBase.styles,    binaryToTextConverterStyles];
 
   @property({ type: String }) inputBinary = '';
   @property({ type: String }) outputText = '';

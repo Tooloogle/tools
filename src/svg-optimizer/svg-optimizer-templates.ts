@@ -153,8 +153,7 @@ export class SvgOptimizerTemplates {
       { key: 'convertStyleToAttrs', label: 'Convert styles to attributes' },
       { key: 'removeUnusedNS', label: 'Remove unused namespaces' },
       { key: 'cleanupNumericValues', label: 'Cleanup numeric values' },
-      { key: 'collapseGroups', label: 'Collapse empty groups' },
-    ];
+      { key: 'collapseGroups', label: 'Collapse empty groups' }];
 
     const optionCheckboxes = optionConfigs.map(({ key, label }) =>
       this.renderOptionCheckbox(

@@ -1,13 +1,11 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import bytesToStringConverterStyles from './bytes-to-string-converter.css.js';
 
 @customElement('bytes-to-string-converter')
-export class BytesToStringConverter extends WebComponentBase<IConfigBase> {
-  static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, bytesToStringConverterStyles];
+export class BytesToStringConverter extends WebComponentBase {
+  static override styles = [WebComponentBase.styles, bytesToStringConverterStyles];
 
   @property({ type: String }) byteInput = '';
   @property({ type: String }) stringOutput = '';
@@ -28,7 +26,7 @@ export class BytesToStringConverter extends WebComponentBase<IConfigBase> {
     }
   }
 
-  render() {
+  override render() {
     return html`
       <div class="container">
         <label for="byteInput">Bytes (space or comma separated):</label>

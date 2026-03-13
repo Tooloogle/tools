@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import sentenceCaseConverterStyles from './sentence-case-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('sentence-case-converter')
-export class SentenceCaseConverter extends WebComponentBase<IConfigBase> {
+export class SentenceCaseConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    sentenceCaseConverterStyles,
-  ];
+    WebComponentBase.styles,    sentenceCaseConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
