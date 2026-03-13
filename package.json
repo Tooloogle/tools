@@ -2,6 +2,7 @@
   "name": "@tooloogle/tools",
   "version": "1.0.0",
   "description": "Web components library for the tooloogle.com",
+  "type": "module",
   "bin": {
     "tooloogle-ssr": "./ssr/cli.js"
   },

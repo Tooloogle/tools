@@ -33,12 +33,12 @@ describe('password-generator web component test', () => {
         expect(component.password.length).toBe(15);
     });
 
-    it('should generate password with alphanumeric characters only', () => {
+    it('should generate password with valid characters', () => {
         const component = window.document.createElement(componentTag) as PasswordGenerator;
         component.generate();
         
-        const alphanumericPattern = /^[0-9A-Za-z]+$/;
-        expect(alphanumericPattern.test(component.password)).toBe(true);
+        const validPattern = /^[0-9A-Za-z!@#$%^&*_+\-=]+$/;
+        expect(validPattern.test(component.password)).toBe(true);
     });
 
     it('should generate different passwords on each call', () => {

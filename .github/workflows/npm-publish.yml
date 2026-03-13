@@ -36,13 +36,6 @@ jobs:
       - name: Verify ssr html generation
         run: node ./scripts/ssr-cli.js
 
-      - name: Prepare dist for release
-        run: |
-          cp package.json dist/package.json
-          cp package-lock.json dist/package-lock.json
-          cp README.md dist/README.md
-          cp LICENSE dist/LICENSE
-
       - name: Publish npm package
         run: |
           npm install -g @semantic-release/changelog @semantic-release/git semantic-release

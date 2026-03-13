@@ -48,6 +48,10 @@ export class RegexExpressionTester extends WebComponentBase {
         this.testRegex();
     }
 
+    private escapeHtml(text: string): string {
+        return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
     private testRegex() {
         try {
             const regex = new RegExp(this.pattern, this.flags);
@@ -65,11 +69,11 @@ export class RegexExpressionTester extends WebComponentBase {
 
                     const end = start + matchedText.length;
 
-                    acc += `${this.testString.slice(lastIndex, start)}<mark title="Match ${index + 1}: ${matchedText} at position ${start}">${matchedText}</mark>`;
+                    acc += `${this.escapeHtml(this.testString.slice(lastIndex, start))}<mark title="Match ${index + 1}: ${this.escapeHtml(matchedText)} at position ${start}">${this.escapeHtml(matchedText)}</mark>`;
                     lastIndex = end;
                     return acc;
                 }, '');
-                this.resultString += this.testString.slice(lastIndex);
+                this.resultString += this.escapeHtml(this.testString.slice(lastIndex));
             } else {
                 this.resultString = 'No matches found.';
             }

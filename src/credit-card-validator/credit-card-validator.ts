@@ -51,7 +51,7 @@ export class CreditCardValidator extends WebComponentBase {
         }
 
         // Mastercard
-        if (/^5[1-5]/.test(num) || /^2[2-7]/.test(num)) {
+        if (/^5[1-5]/.test(num) || /^2(?:2[2-9]\d|2[3-9]\d|[3-6]\d{2}|7[01]\d|720)/.test(num)) {
             return 'Mastercard';
         }
 

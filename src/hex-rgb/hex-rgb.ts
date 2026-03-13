@@ -18,9 +18,6 @@ export class HexRgb extends WebComponentBase {
   @property()
   b = 0;
 
-  @property()
-  a = 0;
-
   hexToRgb() {
     if (!this.hex) {
       return;
@@ -47,8 +44,8 @@ export class HexRgb extends WebComponentBase {
   }
 
   validateAndParseRGBValue(val: string) {
-    const v = this.stringToDec(val);
-    if (v < 0) {
+    const v = parseInt(val, 10);
+    if (isNaN(v) || v < 0) {
       return 0;
     } else if (v > 255) {
       return 255;

@@ -6,7 +6,7 @@ import { when } from 'lit/directives/when.js';
 import '../t-copy-button/index.js';
 
 const passwordChars =
-  '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*_+-=';
 
 /** Cryptographically secure random index in range [0, max). */
 function secureRandomIndex(max: number): number {
@@ -18,7 +18,8 @@ function secureRandomIndex(max: number): number {
 @customElement('password-generator')
 export class PasswordGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    passwordGeneratorStyles];
+    WebComponentBase.styles,
+    passwordGeneratorStyles];
 
   @property()
   length = 10;
@@ -51,7 +52,7 @@ export class PasswordGenerator extends WebComponentBase {
     return html` <label class="block">
         <span class="inline-block py-1">Password length</span>
         <input
-          name="email"
+          name="length"
           class="form-input text-end"
           type="number"
           max="100"

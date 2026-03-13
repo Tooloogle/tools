@@ -36,6 +36,13 @@ export class ScientificCalculator extends WebComponentBase {
                 .replace(/\bpi\b/g, 'Math.PI')
                 .replace(/\be\b/g, 'Math.E');
             
+            // Only allow safe math expressions: digits, operators, parentheses, dots, commas, whitespace, and Math.*
+            const sanitized = expr.replace(/Math\.[A-Z]+\d*|Math\.[a-z]+\([^)]*\)/g, '0');
+            if (!/^[\d+\-*/().,%\s]*$/.test(sanitized)) {
+                this.outputText = 'Error: Invalid expression';
+                return;
+            }
+
             const result = Function(`"use strict"; return (${  expr  })`)();
             this.outputText = String(result);
         } catch (error) {

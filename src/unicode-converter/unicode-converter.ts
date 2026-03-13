@@ -21,7 +21,11 @@ export class UnicodeConverter extends WebComponentBase {
     private toUnicode() {
         this.output = Array.from(this.input)
             .map(char => {
-                const code = char.charCodeAt(0);
+                const code = char.codePointAt(0)!;
+                if (code > 0xffff) {
+                    return `\\u{${code.toString(16)}}`;
+                }
+
                 return code > 127 ? `\\u${code.toString(16).padStart(4, '0')}` : char;
             })
             .join('');
@@ -29,14 +33,21 @@ export class UnicodeConverter extends WebComponentBase {
 
     private toUnicodeEscape() {
         this.output = Array.from(this.input)
-            .map(char => `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`)
+            .map(char => {
+                const code = char.codePointAt(0)!;
+                if (code > 0xffff) {
+                    return `\\u{${code.toString(16)}}`;
+                }
+
+                return `\\u${code.toString(16).padStart(4, '0')}`;
+            })
             .join('');
     }
 
     private fromUnicode() {
         try {
-            this.output = this.input.replace(/\\u([\da-f]{4})/gi, (_match, code) => 
-                String.fromCharCode(parseInt(code, 16))
+            this.output = this.input.replace(/\\u\{([\da-f]+)\}|\\u([\da-f]{4})/gi, (_match, codeExt, code4) =>
+                String.fromCodePoint(parseInt(codeExt || code4, 16))
             );
         } catch (e) {
             this.output = 'Error: Invalid Unicode escape sequence';
@@ -45,7 +56,7 @@ export class UnicodeConverter extends WebComponentBase {
 
     private toCodePoints() {
         this.output = Array.from(this.input)
-            .map(char => `U+${char.charCodeAt(0).toString(16).toUpperCase().padStart(4, '0')}`)
+            .map(char => `U+${char.codePointAt(0)!.toString(16).toUpperCase().padStart(4, '0')}`)
             .join(' ');
     }
 

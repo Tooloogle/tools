@@ -17,12 +17,12 @@ export class EmailValidator extends WebComponentBase {
     private onChange(e: Event) {
         const target = e.target as HTMLInputElement;
         this.value = target?.value;
-        this.isValid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.value);
+        this.isValid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.value);
     }
 
     override render() {
         return html`
-        <lable class="block">
+        <label class="block">
             <span class="inline-block py-1">Email id</span>
             <input
                 name="email"
@@ -32,7 +32,7 @@ export class EmailValidator extends WebComponentBase {
                 .value=${this.value}
                 @keyup=${this.onChange}
                 />
-        </lable>
+        </label>
         <div class="py-2">
             ${when(this.value, () => html`
                 <strong>${this.isValid ? "Valid" : "Invalid"}</strong>
