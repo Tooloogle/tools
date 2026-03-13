@@ -1,6 +1,7 @@
 import { JestConfigWithTsJest } from 'ts-jest'
 const jestConfig: JestConfigWithTsJest = {
     testEnvironment: "jsdom",
+    setupFiles: ['./jest.setup.ts'],
     preset: 'ts-jest/presets/default-esm',
     moduleNameMapper: {
         "\\.(css|style)$": "jest-css-modules-transform",

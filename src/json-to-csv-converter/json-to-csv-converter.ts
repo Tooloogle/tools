@@ -45,15 +45,32 @@ export class JsonToCsvConverter extends WebComponentBase {
 
     private convertJsonToCsv() {
         try {
-            const jsonArray = JSON.parse(this.jsonString);
-            const headers = Object.keys(jsonArray[0]);
+            const parsed = JSON.parse(this.jsonString);
+
+            if (!Array.isArray(parsed)) {
+                this.csvString = 'Error: JSON must be an array of objects';
+                return;
+            }
+
+            if (parsed.length === 0) {
+                this.csvString = '';
+                return;
+            }
+
+            const firstRow = parsed[0];
+            if (firstRow === null || typeof firstRow !== 'object' || Array.isArray(firstRow)) {
+                this.csvString = 'Error: JSON array must contain objects';
+                return;
+            }
+
+            const headers = Object.keys(firstRow as Record<string, unknown>);
             const csvRows = [];
 
             if (this.includeHeader) {
                 csvRows.push(headers.join(this.separator));
             }
 
-            jsonArray.forEach((row: Record<string, unknown>) => {
+            parsed.forEach((row: Record<string, unknown>) => {
                 const values = headers.map(header => {
                     const value = row[header] !== undefined ? row[header] : '';
                     return `"${String(value).replace(/"/g, '""')}"`;
