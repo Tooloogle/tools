@@ -8,11 +8,15 @@ import '../t-copy-button/index.js';
 const passwordChars =
   '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*_+-=';
 
-/** Cryptographically secure random index in range [0, max). */
+/** Cryptographically secure unbiased random index in range [0, max). */
 function secureRandomIndex(max: number): number {
   const arr = new Uint32Array(1);
-  crypto.getRandomValues(arr);
-  return arr[0] % max;
+  const limit = Math.floor(0x100000000 / max) * max;
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    crypto.getRandomValues(arr);
+    if (arr[0] < limit) return arr[0] % max;
+  }
 }
 
 @customElement('password-generator')
@@ -38,7 +42,8 @@ export class PasswordGenerator extends WebComponentBase {
 
   private handleLengthChange(e: Event) {
     const target = e.target as HTMLInputElement;
-    this.length = Number(target?.value);
+    const raw = Number(target?.value);
+    this.length = Number.isFinite(raw) ? Math.min(100, Math.max(1, Math.floor(raw))) : 10;
   }
 
   private renderPasswordWithCopyButton = () => {
@@ -55,6 +60,7 @@ export class PasswordGenerator extends WebComponentBase {
           name="length"
           class="form-input text-end"
           type="number"
+          min="1"
           max="100"
           autofocus
           .value=${this.length}

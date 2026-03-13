@@ -2,6 +2,20 @@ import { html } from 'lit';
 import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import base64EncoderDecoderStyles from './base64-encoder-decoder.css.js';
 import { customElement, property } from 'lit/decorators.js';
+
+function utf8ToBase64(str: string): string {
+    const bytes = new TextEncoder().encode(str);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+    return btoa(binary);
+}
+
+function base64ToUtf8(b64: string): string {
+    const binary = atob(b64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+}
 @customElement('base64-encoder-decoder')
 export class Base64EncoderDecoder extends WebComponentBase {
     static override styles = [WebComponentBase.styles, base64EncoderDecoderStyles];
@@ -16,7 +30,7 @@ export class Base64EncoderDecoder extends WebComponentBase {
         const target = e.target as HTMLTextAreaElement;
         this.decoded = target?.value;
         try {
-            this.encoded = btoa(unescape(encodeURIComponent(this.decoded)));
+            this.encoded = utf8ToBase64(this.decoded);
         } catch (err) {
             this.encoded = 'Error: Unable to encode';
         }
@@ -26,7 +40,7 @@ export class Base64EncoderDecoder extends WebComponentBase {
         const target = e.target as HTMLTextAreaElement;
         this.encoded = target?.value;
         try {
-            this.decoded = decodeURIComponent(escape(atob(this.encoded)));
+            this.decoded = base64ToUtf8(this.encoded);
         } catch (err) {
             this.decoded = 'Error: Invalid Base64 string';
         }
