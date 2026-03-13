@@ -160,7 +160,8 @@ const tools = [
     "xml-to-yaml-converter",
     "yaml-to-json-converter",
     "yaml-to-xml-converter",
-    "yaml-validator"
+    "yaml-validator",
+    "passport-photo-maker"
 ];
 
 if (typeof window !== "undefined") {
