@@ -11,8 +11,8 @@ const OPERATORS: Record<string, { prec: number; assoc: 'L' | 'R'; args: 1 | 2 }>
     '-': { prec: 1, assoc: 'L', args: 2 },
     '*': { prec: 2, assoc: 'L', args: 2 },
     '/': { prec: 2, assoc: 'L', args: 2 },
-    '^': { prec: 3, assoc: 'R', args: 2 },
-    'u-': { prec: 4, assoc: 'R', args: 1 },
+    '^': { prec: 4, assoc: 'R', args: 2 },
+    'u-': { prec: 3, assoc: 'R', args: 1 },
 };
 
 const FUNCTIONS: Record<string, (x: number) => number> = {

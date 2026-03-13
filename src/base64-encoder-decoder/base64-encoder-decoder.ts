@@ -5,12 +5,12 @@ import { customElement, property } from 'lit/decorators.js';
 
 function utf8ToBase64(str: string): string {
     const bytes = new TextEncoder().encode(str);
-    let binary = '';
+    const chars = new Array<string>(bytes.length);
     for (let i = 0; i < bytes.length; i++) {
-        binary += String.fromCharCode(bytes[i]);
+        chars[i] = String.fromCharCode(bytes[i]);
     }
 
-    return btoa(binary);
+    return btoa(chars.join(''));
 }
 
 function base64ToUtf8(b64: string): string {
