@@ -23,98 +23,182 @@ const FUNCTIONS: Record<string, (x: number) => number> = {
 
 const CONSTANTS: Record<string, number> = { pi: Math.PI, e: Math.E };
 
+function safePop<T>(arr: T[]): T {
+    if (!arr.length) {
+        throw new Error('Invalid expression');
+    }
+
+    return arr.pop() as T;
+}
+
+function readNumber(input: string, start: number): [Token, number] {
+    let i = start;
+    while (i < input.length && /[0-9.]/.test(input[i])) { i++; }
+
+    const value = input.slice(start, i);
+    if (!Number.isFinite(Number(value))) {
+        throw new Error('Invalid number');
+    }
+
+    return [{ type: 'number', value }, i];
+}
+
+function readIdentifier(input: string, start: number): [Token, number] {
+    let i = start;
+    while (i < input.length && /[a-zA-Z]/.test(input[i])) { i++; }
+
+    const id = input.slice(start, i).toLowerCase();
+    if (id in CONSTANTS) {
+        return [{ type: 'number', value: String(CONSTANTS[id]) }, i];
+    }
+
+    if (id in FUNCTIONS) {
+        return [{ type: 'func', value: id }, i];
+    }
+
+    throw new Error(`Unknown: ${id}`);
+}
+
+function isUnaryPosition(prev: Token | null): boolean {
+    return !prev || prev.type === 'operator' || prev.type === 'lparen' || prev.type === 'func';
+}
+
 function tokenize(input: string): Token[] {
     const tokens: Token[] = [];
     let prev: Token | null = null;
     let i = 0;
 
     while (i < input.length) {
+        if (/\s/.test(input[i])) { i++; continue; }
+
         const ch = input[i];
-        if (/\s/.test(ch)) { i++; continue; }
+        let token: Token;
 
         if (/[0-9.]/.test(ch)) {
-            const start = i;
-            while (i < input.length && /[0-9.]/.test(input[i])) i++;
-            const t: Token = { type: 'number', value: input.slice(start, i) };
-            if (!Number.isFinite(Number(t.value))) throw new Error('Invalid number');
-            tokens.push(t); prev = t; continue;
+            [token, i] = readNumber(input, i);
+        } else if (/[a-zA-Z]/.test(ch)) {
+            [token, i] = readIdentifier(input, i);
+        } else if (ch === '(' || ch === ')') {
+            token = { type: ch === '(' ? 'lparen' : 'rparen', value: ch }; i++;
+        } else if ('+-*/^'.includes(ch)) {
+            token = readOperator(ch, prev); i++;
+        } else {
+            throw new Error(`Invalid character: ${ch}`);
         }
 
-        if (/[a-zA-Z]/.test(ch)) {
-            const start = i;
-            while (i < input.length && /[a-zA-Z]/.test(input[i])) i++;
-            const id = input.slice(start, i).toLowerCase();
-            if (id in CONSTANTS) {
-                const t: Token = { type: 'number', value: String(CONSTANTS[id]) };
-                tokens.push(t); prev = t; continue;
-            }
-            if (id in FUNCTIONS) {
-                const t: Token = { type: 'func', value: id };
-                tokens.push(t); prev = t; continue;
-            }
-            throw new Error(`Unknown: ${id}`);
-        }
-
-        if (ch === '(') { const t: Token = { type: 'lparen', value: ch }; tokens.push(t); prev = t; i++; continue; }
-        if (ch === ')') { const t: Token = { type: 'rparen', value: ch }; tokens.push(t); prev = t; i++; continue; }
-
-        if ('+-*/^'.includes(ch)) {
-            const isUnary = !prev || prev.type === 'operator' || prev.type === 'lparen' || prev.type === 'func';
-            if (ch === '-' && isUnary) {
-                const t: Token = { type: 'operator', value: 'u-' }; tokens.push(t); prev = t; i++; continue;
-            }
-            if (ch === '+' && isUnary) { i++; continue; }
-            const t: Token = { type: 'operator', value: ch }; tokens.push(t); prev = t; i++; continue;
-        }
-
-        throw new Error(`Invalid character: ${ch}`);
+        tokens.push(token);
+        prev = token;
     }
+
     return tokens;
 }
 
-function evaluate(input: string): number {
-    const tokens = tokenize(input.trim());
+function readOperator(ch: string, prev: Token | null): Token {
+    if (ch === '-' && isUnaryPosition(prev)) {
+        return { type: 'operator', value: 'u-' };
+    }
+
+    if (ch === '+' && isUnaryPosition(prev)) {
+        return { type: 'number', value: '0' };
+    }
+
+    return { type: 'operator', value: ch };
+}
+
+function shouldPopOperator(o1: typeof OPERATORS[string], top: Token): boolean {
+    if (top.type === 'func') { return true; }
+
+    if (top.type !== 'operator') { return false; }
+
+    const o2 = OPERATORS[top.value];
+    return (o1.assoc === 'L' && o1.prec <= o2.prec) || (o1.assoc === 'R' && o1.prec < o2.prec);
+}
+
+function toPostfix(tokens: Token[]): Token[] {
     const out: Token[] = [];
     const ops: Token[] = [];
 
     for (const t of tokens) {
-        if (t.type === 'number') { out.push(t); }
-        else if (t.type === 'func') { ops.push(t); }
-        else if (t.type === 'operator') {
-            const o1 = OPERATORS[t.value];
-            while (ops.length) {
-                const top = ops[ops.length - 1];
-                if (top.type === 'func') { out.push(ops.pop()!); continue; }
-                if (top.type !== 'operator') break;
-                const o2 = OPERATORS[top.value];
-                if ((o1.assoc === 'L' && o1.prec <= o2.prec) || (o1.assoc === 'R' && o1.prec < o2.prec)) {
-                    out.push(ops.pop()!);
-                } else break;
-            }
-            ops.push(t);
-        }
-        else if (t.type === 'lparen') { ops.push(t); }
-        else if (t.type === 'rparen') {
-            let found = false;
-            while (ops.length) { const top = ops[ops.length - 1]; if (top.type === 'lparen') { ops.pop(); found = true; break; } out.push(ops.pop()!); }
-            if (!found) throw new Error('Mismatched parentheses');
-            if (ops.length && ops[ops.length - 1].type === 'func') out.push(ops.pop()!);
-        }
-    }
-    while (ops.length) { const top = ops.pop()!; if (top.type === 'lparen') throw new Error('Mismatched parentheses'); out.push(top); }
+        if (t.type === 'number') { out.push(t); continue; }
 
-    const stack: number[] = [];
-    for (const t of out) {
-        if (t.type === 'number') { stack.push(Number(t.value)); }
-        else if (t.type === 'operator') {
-            const op = OPERATORS[t.value];
-            if (op.args === 1) { stack.push(-stack.pop()!); }
-            else { const b = stack.pop()!, a = stack.pop()!; switch (t.value) { case '+': stack.push(a + b); break; case '-': stack.push(a - b); break; case '*': stack.push(a * b); break; case '/': stack.push(a / b); break; case '^': stack.push(Math.pow(a, b)); break; } }
+        if (t.type === 'func') { ops.push(t); continue; }
+
+        if (t.type === 'lparen') { ops.push(t); continue; }
+
+        if (t.type === 'operator') {
+            shuntOperator(t, ops, out);
+            continue;
         }
-        else if (t.type === 'func') { stack.push(FUNCTIONS[t.value](stack.pop()!)); }
+
+        if (t.type === 'rparen') {
+            shuntRparen(ops, out);
+        }
     }
-    if (stack.length !== 1) throw new Error('Invalid expression');
+
+    drainOps(ops, out);
+    return out;
+}
+
+function shuntOperator(t: Token, ops: Token[], out: Token[]) {
+    const o1 = OPERATORS[t.value];
+    while (ops.length && shouldPopOperator(o1, ops[ops.length - 1])) {
+        out.push(safePop(ops));
+    }
+
+    ops.push(t);
+}
+
+function shuntRparen(ops: Token[], out: Token[]) {
+    while (ops.length && ops[ops.length - 1].type !== 'lparen') {
+        out.push(safePop(ops));
+    }
+
+    if (!ops.length) { throw new Error('Mismatched parentheses'); }
+
+    ops.pop();
+    if (ops.length && ops[ops.length - 1].type === 'func') { out.push(safePop(ops)); }
+}
+
+function drainOps(ops: Token[], out: Token[]) {
+    while (ops.length) {
+        const top = safePop(ops);
+        if (top.type === 'lparen') { throw new Error('Mismatched parentheses'); }
+
+        out.push(top);
+    }
+}
+
+function applyBinary(op: string, a: number, b: number): number {
+    switch (op) {
+        case '+': return a + b;
+        case '-': return a - b;
+        case '*': return a * b;
+        case '/': return a / b;
+        case '^': return Math.pow(a, b);
+        default: throw new Error('Unknown operator');
+    }
+}
+
+function evalPostfix(rpn: Token[]): number {
+    const stack: number[] = [];
+
+    for (const t of rpn) {
+        if (t.type === 'number') { stack.push(Number(t.value)); continue; }
+
+        if (t.type === 'func') { stack.push(FUNCTIONS[t.value](safePop(stack))); continue; }
+
+        const op = OPERATORS[t.value];
+        if (op.args === 1) { stack.push(-safePop(stack)); }
+        else { const b = safePop(stack), a = safePop(stack); stack.push(applyBinary(t.value, a, b)); }
+    }
+
+    if (stack.length !== 1) { throw new Error('Invalid expression'); }
+
     return stack[0];
+}
+
+function evaluate(input: string): number {
+    return evalPostfix(toPostfix(tokenize(input.trim())));
 }
 
 @customElement('scientific-calculator')
@@ -134,6 +218,7 @@ export class ScientificCalculator extends WebComponentBase {
             this.outputText = '';
             return;
         }
+
         try {
             this.outputText = String(evaluate(this.inputText));
         } catch {

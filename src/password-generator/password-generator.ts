@@ -15,7 +15,9 @@ function secureRandomIndex(max: number): number {
   // eslint-disable-next-line no-constant-condition
   while (true) {
     crypto.getRandomValues(arr);
-    if (arr[0] < limit) return arr[0] % max;
+    if (arr[0] < limit) {
+      return arr[0] % max;
+    }
   }
 }
 

@@ -6,16 +6,23 @@ import { customElement, property } from 'lit/decorators.js';
 function utf8ToBase64(str: string): string {
     const bytes = new TextEncoder().encode(str);
     let binary = '';
-    for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+    for (let i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+
     return btoa(binary);
 }
 
 function base64ToUtf8(b64: string): string {
     const binary = atob(b64);
     const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+    }
+
     return new TextDecoder().decode(bytes);
 }
+
 @customElement('base64-encoder-decoder')
 export class Base64EncoderDecoder extends WebComponentBase {
     static override styles = [WebComponentBase.styles, base64EncoderDecoderStyles];
