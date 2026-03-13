@@ -34,6 +34,7 @@ export class FractionCalculator extends WebComponentBase {
             this.result = 'Denominator cannot be zero';
             return;
         }
+
         if (this.operation === '/' && this.num2 === 0) {
             this.result = 'Cannot divide by zero';
             return;

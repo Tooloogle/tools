@@ -22,7 +22,10 @@ export class UnicodeConverter extends WebComponentBase {
         this.output = Array.from(this.input)
             .map(char => {
                 const code = char.codePointAt(0)!;
-                if (code > 0xffff) return `\\u{${code.toString(16)}}`;
+                if (code > 0xffff) {
+                    return `\\u{${code.toString(16)}}`;
+                }
+
                 return code > 127 ? `\\u${code.toString(16).padStart(4, '0')}` : char;
             })
             .join('');
@@ -32,7 +35,10 @@ export class UnicodeConverter extends WebComponentBase {
         this.output = Array.from(this.input)
             .map(char => {
                 const code = char.codePointAt(0)!;
-                if (code > 0xffff) return `\\u{${code.toString(16)}}`;
+                if (code > 0xffff) {
+                    return `\\u{${code.toString(16)}}`;
+                }
+
                 return `\\u${code.toString(16).padStart(4, '0')}`;
             })
             .join('');
@@ -40,7 +46,7 @@ export class UnicodeConverter extends WebComponentBase {
 
     private fromUnicode() {
         try {
-            this.output = this.input.replace(/\\u\{([\da-f]+)\}|\\u([\da-f]{4})/gi, (_match, codeExt, code4) => 
+            this.output = this.input.replace(/\\u\{([\da-f]+)\}|\\u([\da-f]{4})/gi, (_match, codeExt, code4) =>
                 String.fromCodePoint(parseInt(codeExt || code4, 16))
             );
         } catch (e) {
