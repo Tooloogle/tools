@@ -1,9 +1,6 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import emailTemplateGeneratorStyles from './email-template-generator.css.js';
 import {
   EmailTemplateUtils,
@@ -37,11 +34,10 @@ type EmailTemplateProperty =
   | 'eventLocation';
 
 @customElement('email-template-generator')
-export class EmailTemplateGenerator extends WebComponentBase<IConfigBase> {
+export class EmailTemplateGenerator extends WebComponentBase {
   static override styles = [
     WebComponentBase.styles,
-    emailTemplateGeneratorStyles,
-  ];
+    emailTemplateGeneratorStyles];
 
   @property({ type: String }) templateType = 'welcome';
   @property({ type: String }) companyName = 'Your Company';

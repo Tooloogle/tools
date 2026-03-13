@@ -1,18 +1,16 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import lcmCalculatorStyles from './lcm-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('lcm-calculator')
-export class LcmCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, lcmCalculatorStyles];
+export class LcmCalculator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, lcmCalculatorStyles];
 
     @property({ type: Number }) num1 = 12;
     @property({ type: Number }) num2 = 18;
     @property({ type: Number }) result = 0;
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
         this.calculate();
     }

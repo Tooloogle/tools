@@ -17,15 +17,15 @@ const demoFolder = path.join(cwd(), "demo");
 
 fs.mkdirSync(folder)
 
-const cssContent = `@import "tailwindcss";`
+const cssContent = ``
 
 const tsContent = `import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import ${toolCamelcase}Styles from './${tool}.css.js';
 import { customElement } from 'lit/decorators.js';
 
 @customElement('${tool}')
-export class ${capitalize(toolCamelcase)} extends WebComponentBase<IConfigBase> {
+export class ${capitalize(toolCamelcase)} extends WebComponentBase {
     static override styles = [WebComponentBase.styles, ${toolCamelcase}Styles];
 
     override render() {
@@ -47,6 +47,31 @@ declare global {
 
 const indexTsContent = `export * from './${tool}.js';\n`;
 
+const specTsContent = `import { LitElement } from 'lit';
+import { ${capitalize(toolCamelcase)} } from './${tool}.js';
+
+describe('${tool} web component test', () => {
+    const componentTag = '${tool}';
+
+    afterEach(() => {
+        document.body.innerHTML = '';
+    });
+
+    it('should render web component', async () => {
+        const component = document.createElement(componentTag) as LitElement;
+        document.body.appendChild(component);
+        await component.updateComplete;
+        expect(component).toBeTruthy();
+        expect(component.renderRoot).toBeTruthy();
+    });
+
+    it('should be an instance of ${capitalize(toolCamelcase)}', () => {
+        const component = document.createElement(componentTag) as ${capitalize(toolCamelcase)};
+        expect(component).toBeInstanceOf(${capitalize(toolCamelcase)});
+    });
+});
+`;
+
 // Only add to tools.json if not a reusable component (t- prefixed)
 if (!tool.startsWith('t-')) {
     fs.writeFileSync(path.join(demoFolder, `tools.js`), `const tools = ${JSON.stringify([...demoListJson, tool], null, 4)};
@@ -60,6 +85,7 @@ export default tools;
 }
 fs.writeFileSync(path.join(folder, `${tool}.css`), cssContent);
 fs.writeFileSync(path.join(folder, `${tool}.ts`), tsContent);
+fs.writeFileSync(path.join(folder, `${tool}.spec.ts`), specTsContent);
 fs.writeFileSync(path.join(folder, `index.ts`), indexTsContent);
 
 console.log("Done!");

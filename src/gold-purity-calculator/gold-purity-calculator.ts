@@ -1,12 +1,10 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import goldPurityCalculatorStyles from './gold-purity-calculator.css.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('gold-purity-calculator')
-export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, goldPurityCalculatorStyles];
+export class GoldPurityCalculator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, goldPurityCalculatorStyles];
 
     @property()
     karat = 24
@@ -79,7 +77,7 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
 
     renderPurityConversion() {
         return html`
-            <div class="p-4 bg-blue-50 rounded">
+            <div class="p-4 rounded">
                 <h3 class="font-bold mb-3">Gold Purity Conversion</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <label>
@@ -115,7 +113,7 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
 
     renderPriceCalculator() {
         return html`
-            <div class="p-4 bg-green-50 rounded">
+            <div class="p-4 rounded">
                 <h3 class="font-bold mb-3">Price Calculator</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <label>
@@ -155,7 +153,7 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
         }
         
         return html`
-            <div class="mt-4 p-3 bg-white rounded border-2 border-green-500">
+            <div class="mt-4 p-3 rounded border-2 border-green-500">
                 <div class="text-sm text-gray-600">Total Price:</div>
                 <div class="text-3xl font-bold text-green-600">
                     ${this.totalPrice.toFixed(2)}
@@ -172,7 +170,7 @@ export class GoldPurityCalculator extends WebComponentBase<IConfigBase> {
             <div class="grid grid-cols-1 gap-4">
                 ${this.renderPurityConversion()}
                 ${this.renderPriceCalculator()}
-                <div class="text-xs text-gray-500 p-2 bg-gray-50 rounded">
+                <div class="text-xs text-gray-500 p-2 rounded">
                     <strong>Note:</strong> Enter the current gold price per gram for accurate calculations. 
                     Gold prices fluctuate constantly.
                 </div>

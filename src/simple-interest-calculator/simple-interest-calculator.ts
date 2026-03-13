@@ -1,12 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import simpleInterestCalculatorStyles from './simple-interest-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('simple-interest-calculator')
-export class SimpleInterestCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, simpleInterestCalculatorStyles];
+export class SimpleInterestCalculator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, simpleInterestCalculatorStyles];
 
     @property({ type: Number }) principal = 1000;
     @property({ type: Number }) rate = 5;
@@ -14,7 +12,7 @@ export class SimpleInterestCalculator extends WebComponentBase<IConfigBase> {
     @property({ type: Number }) interest = 0;
     @property({ type: Number }) totalAmount = 0;
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
         this.calculate();
     }

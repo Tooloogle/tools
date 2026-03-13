@@ -1,14 +1,12 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import textReverserStyles from './text-reverser.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button/index.js';
 
 @customElement('text-reverser')
-export class TextReverser extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, textReverserStyles];
+export class TextReverser extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, textReverserStyles];
 
     @property()
     input = '';

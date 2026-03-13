@@ -1,12 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import octalConverterStyles from './octal-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('octal-converter')
-export class OctalConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, octalConverterStyles];
+export class OctalConverter extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, octalConverterStyles];
 
     @property({ type: String }) inputText = '';
     @property({ type: String }) decimalOutput = '';

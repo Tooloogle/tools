@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import gradientTextGeneratorStyles from './gradient-text-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('gradient-text-generator')
-export class GradientTextGenerator extends WebComponentBase<IConfigBase> {
+export class GradientTextGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    gradientTextGeneratorStyles,
-  ];
+    WebComponentBase.styles,    gradientTextGeneratorStyles];
 
   @property({ type: String }) inputText = 'Gradient Text';
   @property({ type: String }) color1 = '#ff0000';

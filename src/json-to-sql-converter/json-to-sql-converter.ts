@@ -1,20 +1,13 @@
 import { html } from "lit";
-import {
-  IConfigBase,
-  WebComponentBase,
-} from "../_web-component/WebComponentBase.js";
+import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import jsonToSqlConverterStyles from "./json-to-sql-converter.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
-import "../t-copy-button";
+import '../t-copy-button/index.js';
 
 @customElement("json-to-sql-converter")
-export class JsonToSqlConverter extends WebComponentBase<IConfigBase> {
+export class JsonToSqlConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    jsonToSqlConverterStyles,
-  ];
+    WebComponentBase.styles,    jsonToSqlConverterStyles];
 
   @property({ type: String }) inputText = "";
   @property({ type: String }) outputText = "";

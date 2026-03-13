@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import robotsTxtGeneratorStyles from './robots-txt-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('robots-txt-generator')
-export class RobotsTxtGenerator extends WebComponentBase<IConfigBase> {
+export class RobotsTxtGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    robotsTxtGeneratorStyles,
-  ];
+    WebComponentBase.styles,    robotsTxtGeneratorStyles];
 
   @property({ type: String }) userAgent = '*';
   @property({ type: Boolean }) allowAll = false;

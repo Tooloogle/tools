@@ -1,14 +1,12 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import romanNumeralConverterStyles from './roman-numeral-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button/index.js';
 
 @customElement('roman-numeral-converter')
-export class RomanNumeralConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, romanNumeralConverterStyles];
+export class RomanNumeralConverter extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, romanNumeralConverterStyles];
 
     @property()
     input = '';

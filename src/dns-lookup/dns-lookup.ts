@@ -1,12 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import dnsLookupStyles from './dns-lookup.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('dns-lookup')
-export class DnsLookup extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, dnsLookupStyles];
+export class DnsLookup extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, dnsLookupStyles];
 
     @property({ type: String }) domain = '';
     @property({ type: String }) recordType = 'A';

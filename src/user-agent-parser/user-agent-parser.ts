@@ -1,15 +1,12 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import userAgentParserStyles from './user-agent-parser.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import tableStyles from '../_styles/table.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('user-agent-parser')
-export class UserAgentParser extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, tableStyles, userAgentParserStyles];
+export class UserAgentParser extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, userAgentParserStyles];
 
     @property()
     input = '';
@@ -167,11 +164,11 @@ export class UserAgentParser extends WebComponentBase<IConfigBase> {
 
             ${this.parsed ? html`
                 <div class="py-2">
-                    <table class="table">
+                    <table class="w-full">
                         <thead>
                             <tr>
-                                <th>Property</th>
-                                <th>Value</th>
+                                <th class="border-t border-gray-300 p-1 text-left">Property</th>
+                                <th class="border-t border-gray-300 p-1 text-left">Value</th>
                             </tr>
                         </thead>
                         <tbody>

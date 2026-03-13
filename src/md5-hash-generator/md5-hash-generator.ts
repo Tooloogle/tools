@@ -1,23 +1,14 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import md5HashGeneratorStyles from './md5-hash-generator.css.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import buttonStyles from '../_styles/button.css.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button/index.js';
 import md5 from 'blueimp-md5';
 
 @customElement('md5-hash-generator')
-export class Md5HashGenerator extends WebComponentBase<IConfigBase> {
+export class Md5HashGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    md5HashGeneratorStyles,
-  ];
+    WebComponentBase.styles,    md5HashGeneratorStyles];
 
   @property() input = '';
   @property() hash = '';

@@ -1,12 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import wordCounterStyles from './word-counter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('word-counter')
-export class WordCounter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, wordCounterStyles];
+export class WordCounter extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, wordCounterStyles];
 
     @property()
     text = '';

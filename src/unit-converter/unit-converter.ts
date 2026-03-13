@@ -1,9 +1,7 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import unitConverterStyles from './unit-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 interface ConversionUnit {
     name: string;
     toBase: (value: number) => number;
@@ -16,8 +14,8 @@ interface UnitCategory {
 }
 
 @customElement('unit-converter')
-export class UnitConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, unitConverterStyles];
+export class UnitConverter extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, unitConverterStyles];
 
     @property({ type: Number }) inputValue = 1;
     @property({ type: String }) fromUnit = 'meter';
@@ -92,7 +90,7 @@ export class UnitConverter extends WebComponentBase<IConfigBase> {
         }
     };
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
         this.convert();
     }

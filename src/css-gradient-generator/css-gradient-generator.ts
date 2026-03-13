@@ -1,19 +1,18 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import cssGradientGeneratorStyles from './css-gradient-generator.css.js'; // Import for CSS styles
 
 @customElement('css-gradient-generator')
-export class CssGradientGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, cssGradientGeneratorStyles];
+export class CssGradientGenerator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, cssGradientGeneratorStyles];
 
     @property({ type: String }) color1 = '#ff0000'; // Default color 1
     @property({ type: String }) color2 = '#0000ff'; // Default color 2
     @property({ type: String }) gradientType = 'linear'; // Default gradient type
     @property({ type: Number }) angle = 90; // Default gradient angle for linear gradient
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
         this.onColorInputChange = this.onColorInputChange.bind(this);
         this.initColorPickers();
@@ -76,7 +75,7 @@ export class CssGradientGenerator extends WebComponentBase<IConfigBase> {
         return `${this.color1}`;
     }
 
-    render() {
+    override render() {
         const gradientStyle = this.generateGradient();
         const solidBackground = this.generateSolidBackground();
 

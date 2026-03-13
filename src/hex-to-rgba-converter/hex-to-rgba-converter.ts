@@ -1,12 +1,11 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import hexToRgbaConverterStyles from './hex-to-rgba-converter.css.js';
 
 @customElement('hex-to-rgba-converter')
-export class HexToRgbaConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, hexToRgbaConverterStyles];
+export class HexToRgbaConverter extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, hexToRgbaConverterStyles];
 
     @property({ type: String }) hexInput = '';
     @property({ type: String }) rgbaInput = '';
@@ -58,7 +57,7 @@ export class HexToRgbaConverter extends WebComponentBase<IConfigBase> {
             return;
         }
 
-        const [, r, g, b, a] = rgbaMatch.map(Number);
+        const [ r, g, b, a] = rgbaMatch.map(Number);
 
         // Convert alpha to hexadecimal value
         const alphaHex = Math.round(a * 255).toString(16).padStart(2, '0');
@@ -76,7 +75,7 @@ export class HexToRgbaConverter extends WebComponentBase<IConfigBase> {
     `;
     }
 
-    render() {
+    override render() {
         return html`
       <div class="container">
         <label for="hexInput">Hex Color:</label>

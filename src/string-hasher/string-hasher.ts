@@ -1,15 +1,13 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import stringHasherStyles from './string-hasher.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import md5 from 'blueimp-md5';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button/index.js';
 
 @customElement('string-hasher')
-export class StringHasher extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, stringHasherStyles];
+export class StringHasher extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, stringHasherStyles];
 
     @property()
     input = '';

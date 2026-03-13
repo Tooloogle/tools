@@ -15,9 +15,14 @@ const outDir = 'dist';
     );
 });
 
+// copy SSR files (plain JS, not compiled by tsc)
 fs.copySync(
-    resolve("src/_libs"),
-    resolve(outDir, "_libs")
+    resolve("scripts/render-to-html.js"),
+    resolve(outDir, "ssr/render-to-html.js")
+);
+fs.copySync(
+    resolve("scripts/ssr-cli.js"),
+    resolve(outDir, "ssr/cli.js")
 );
 
 // modify distributed package.json

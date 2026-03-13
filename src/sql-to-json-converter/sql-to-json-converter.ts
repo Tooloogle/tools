@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import sqlToJsonConverterStyles from './sql-to-json-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('sql-to-json-converter')
-export class SqlToJsonConverter extends WebComponentBase<IConfigBase> {
+export class SqlToJsonConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    sqlToJsonConverterStyles,
-  ];
+    WebComponentBase.styles,    sqlToJsonConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -73,7 +66,7 @@ export class SqlToJsonConverter extends WebComponentBase<IConfigBase> {
   private parseHeaders(headerLine: string): string[] {
     return headerLine
       .trim()
-      .split(/[\t|,]/)
+      .split(/[\t|]/)
       .map(h => h.trim())
       .filter(h => h);
   }
@@ -87,7 +80,7 @@ export class SqlToJsonConverter extends WebComponentBase<IConfigBase> {
         continue;
       }
 
-      const values = trimmedLine.split(/[\t|,]/).map(v => v.trim());
+      const values = trimmedLine.split(/[\t|]/).map(v => v.trim());
 
       if (values.length !== headers.length) {
         continue;

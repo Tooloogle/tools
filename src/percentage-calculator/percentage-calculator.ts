@@ -1,13 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import percentageCalculatorStyles from './percentage-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-
 @customElement('percentage-calculator')
-export class PercentageCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, percentageCalculatorStyles];
+export class PercentageCalculator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, percentageCalculatorStyles];
 
     @property()
     value1 = 0;

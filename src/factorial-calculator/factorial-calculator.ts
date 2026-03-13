@@ -1,18 +1,16 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import factorialCalculatorStyles from './factorial-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('factorial-calculator')
-export class FactorialCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, factorialCalculatorStyles];
+export class FactorialCalculator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, factorialCalculatorStyles];
 
     @property({ type: Number }) inputNumber = 5;
     @property({ type: String }) result = '';
     @property({ type: String }) error = '';
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
         this.calculate();
     }

@@ -1,12 +1,11 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import dateTimeFormatStyles from './date-time-format.css.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { hasClipboard, isBrowser } from '../_utils/DomUtils.js';
-import "../t-copy-button/t-copy-button.js";
+import '../t-copy-button/index.js';
 import { when } from 'lit/directives/when.js';
-import inputStyles from '../_styles/input.css.js';
 import dayjs from 'dayjs';
 
 const localStorageKey = "t-date-time-format-custom";
@@ -26,8 +25,8 @@ function setCustomFormat(format: string) {
 }
 
 @customElement('date-time-format')
-export class DateTimeFormat extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, dateTimeFormatStyles];
+export class DateTimeFormat extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, dateTimeFormatStyles];
     private dateFormats = [
         "MM/DD/YYYY HH:mm:ss",
         "MM/DD/YYYY hh:mm:ss A",
@@ -64,7 +63,7 @@ export class DateTimeFormat extends WebComponentBase<IConfigBase> {
     @property()
     result: { format: string, value: string }[] = this.getDateFormats(this.value);
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
 
         this.result = this.getDateFormats(this.value);

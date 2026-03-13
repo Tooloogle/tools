@@ -1,22 +1,15 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import metaTagsGeneratorStyles from './meta-tags-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('meta-tags-generator')
-export class MetaTagsGenerator extends WebComponentBase<IConfigBase> {
+export class MetaTagsGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    metaTagsGeneratorStyles,
-  ];
+    WebComponentBase.styles,    metaTagsGeneratorStyles];
 
-  @property({ type: String }) title = '';
+  @property({ type: String }) override title = '';
   @property({ type: String }) description = '';
   @property({ type: String }) keywords = '';
   @property({ type: String }) author = '';

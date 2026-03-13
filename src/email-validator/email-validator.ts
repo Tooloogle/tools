@@ -1,13 +1,12 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from "../_styles/input.css.js"
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import emailValidatorStyles from './email-validator.css.js';
 import { when } from 'lit/directives/when.js';
 
 @customElement('email-validator')
-export class EmailValidator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, emailValidatorStyles];
+export class EmailValidator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, emailValidatorStyles];
 
     @property()
     value = "";

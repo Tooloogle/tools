@@ -1,13 +1,11 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import characterCounterStyles from './character-counter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import tableStyles from '../_styles/table.css.js';
 
 @customElement('character-counter')
-export class CharacterCounter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, tableStyles, characterCounterStyles];
+export class CharacterCounter extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, characterCounterStyles];
 
     @property()
     input = '';
@@ -109,12 +107,12 @@ export class CharacterCounter extends WebComponentBase<IConfigBase> {
                 <div class="py-2">
                     <h3 class="font-bold py-2">Character Frequency:</h3>
                     <div class="max-h-64 overflow-auto">
-                        <table class="table">
+                        <table class="w-full">
                             <thead>
                                 <tr>
-                                    <th>Character</th>
-                                    <th>Count</th>
-                                    <th>Percentage</th>
+                                    <th class="border-t border-gray-300 p-1 text-left">Character</th>
+                                    <th class="border-t border-gray-300 p-1 text-left">Count</th>
+                                    <th class="border-t border-gray-300 p-1 text-left">Percentage</th>
                                 </tr>
                             </thead>
                             <tbody>

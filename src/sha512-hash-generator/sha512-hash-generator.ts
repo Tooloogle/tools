@@ -1,21 +1,14 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import sha512HashGeneratorStyles from './sha512-hash-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('sha512-hash-generator')
-export class Sha512HashGenerator extends WebComponentBase<IConfigBase> {
+export class Sha512HashGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    sha512HashGeneratorStyles,
-  ];
+    WebComponentBase.styles,    sha512HashGeneratorStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

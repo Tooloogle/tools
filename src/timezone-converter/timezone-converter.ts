@@ -1,19 +1,12 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import timezoneConverterStyles from './timezone-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 @customElement('timezone-converter')
-export class TimezoneConverter extends WebComponentBase<IConfigBase> {
+export class TimezoneConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    timezoneConverterStyles,
-  ];
+    WebComponentBase.styles,    timezoneConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

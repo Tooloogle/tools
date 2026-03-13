@@ -2,10 +2,7 @@ import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import {
   WebComponentBase,
-  IConfigBase,
 } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import cssBeautifierStyles from './css-beautifier.css.js';
 import jsBeautify from 'js-beautify';
 
@@ -22,13 +19,9 @@ declare global {
   }
 }
 @customElement('css-beautifier')
-export class CssBeautifier extends WebComponentBase<IConfigBase> {
+export class CssBeautifier extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    cssBeautifierStyles,
-  ];
+    WebComponentBase.styles,    cssBeautifierStyles];
 
   @property({ type: String }) codeInput = '';
   @state() indentSize = 4;
@@ -61,7 +54,7 @@ export class CssBeautifier extends WebComponentBase<IConfigBase> {
     this[propName] = inputElement.checked;
   }
 
-  render() {
+  override render() {
     return html`
       <div class="css-beautifier">
         <div

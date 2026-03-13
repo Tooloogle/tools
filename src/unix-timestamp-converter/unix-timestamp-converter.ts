@@ -1,14 +1,12 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import unixTimestampConverterStyles from './unix-timestamp-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import dayjs from 'dayjs';
 
 @customElement('unix-timestamp-converter')
-export class UnixTimestampConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, unixTimestampConverterStyles];
+export class UnixTimestampConverter extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, unixTimestampConverterStyles];
 
     @property()
     timestamp = Math.floor(Date.now() / 1000);
@@ -19,7 +17,7 @@ export class UnixTimestampConverter extends WebComponentBase<IConfigBase> {
     @property()
     humanReadable = '';
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
         this.updateFromTimestamp();
     }

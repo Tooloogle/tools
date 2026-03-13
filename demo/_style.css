@@ -17,3 +17,8 @@ ol li a {
 #tools-menu li.active {
     background-color: #ddd;
 }
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

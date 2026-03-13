@@ -1,14 +1,12 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import svgToPngConverterStyles from './svg-to-png-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('svg-to-png-converter')
-export class SvgToPngConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, svgToPngConverterStyles];
+export class SvgToPngConverter extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, svgToPngConverterStyles];
 
     @property({ type: String }) inputText = '';
     @property({ type: String }) outputDataUrl = '';

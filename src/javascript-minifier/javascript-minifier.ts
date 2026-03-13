@@ -1,14 +1,12 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import javascriptMinifierStyles from './javascript-minifier.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import '../t-copy-button/t-copy-button.js';
+import '../t-copy-button/index.js';
 
 @customElement('javascript-minifier')
-export class JavascriptMinifier extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, javascriptMinifierStyles];
+export class JavascriptMinifier extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, javascriptMinifierStyles];
 
     @property()
     input = '';

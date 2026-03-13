@@ -1,12 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import tipCalculatorStyles from './tip-calculator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('tip-calculator')
-export class TipCalculator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, tipCalculatorStyles];
+export class TipCalculator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, tipCalculatorStyles];
 
     @property({ type: Number }) billAmount = 0;
     @property({ type: Number }) tipPercent = 15;

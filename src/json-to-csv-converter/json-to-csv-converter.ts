@@ -1,14 +1,12 @@
 import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import jsonToCsvConverterStyles from './json-to-csv-converter.css.js';
-import "../t-copy-button/t-copy-button.js";
+import '../t-copy-button/index.js';
 
 @customElement('json-to-csv-converter')
-export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, jsonToCsvConverterStyles];
+export class JsonToCsvConverter extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, jsonToCsvConverterStyles];
 
     @property({ type: String }) jsonString = '';
     @state() csvString = '';
@@ -77,7 +75,7 @@ export class JsonToCsvConverter extends WebComponentBase<IConfigBase> {
         this.includeHeader = (event.target as HTMLInputElement).checked;
     }
 
-    render() {
+    override render() {
         return html`
             <div class="json-to-csv-converter">
                 <div class="editor mb-4">

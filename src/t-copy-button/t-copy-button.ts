@@ -1,18 +1,13 @@
 import { html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import {
-  IConfigBase,
-  WebComponentBase,
-} from "../_web-component/WebComponentBase.js";
+import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import { hasClipboard } from "../_utils/DomUtils.js";
 import tCopyButtonStyles from "./t-copy-button.css.js";
 import tooltipStyles from "../_styles/tooltip.css.js";
 import { when } from "lit/directives/when.js";
-import buttonStyles from "../_styles/button.css.js";
-
 @customElement("t-copy-button")
-export class TCopyButton extends WebComponentBase<IConfigBase> {
-  static override styles = [tCopyButtonStyles, tooltipStyles, buttonStyles];
+export class TCopyButton extends WebComponentBase {
+  static override styles = [WebComponentBase.styles, tCopyButtonStyles, tooltipStyles];
 
   @property({ type: Boolean })
   isIcon = true;
@@ -24,7 +19,7 @@ export class TCopyButton extends WebComponentBase<IConfigBase> {
   copying = false;
 
   @property({ type: String })
-  title = "Copy to clipboard";
+  override title = "Copy to clipboard";
 
   private copyTimeoutId?: number;
 
@@ -67,17 +62,19 @@ export class TCopyButton extends WebComponentBase<IConfigBase> {
 
   override render() {
     return html`
-      <div
-        class="inline-block ${this.isIcon
+      <button
+        type="button"
+        class="copy-btn inline-block ${this.isIcon
           ? "px-1"
           : ""} cursor-pointer text-slate-400 tooltip-wrapper"
         @click=${this.onClick}
         @mouseleave=${this.resetTitle}
+        aria-label=${this.title}
       >
         ${when(this.isIcon, this.renderIconContent)}
         ${when(!this.isIcon, this.renderButtonContent)}
-        <div class="tooltip">${this.title}</div>
-      </div>
+        <span class="tooltip" role="status">${this.title}</span>
+      </button>
     `;
   }
 

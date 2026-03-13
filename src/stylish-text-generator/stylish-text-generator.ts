@@ -1,16 +1,14 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import stylishTextGeneratorStyles from './stylish-text-generator.css.js';
 import {
     fontOptions, loadWebFonts, generateImageOnCanvas, downloadCanvasImage, initializeCanvas, applyDefaultSettings
 } from './stylish-text-generator-utils.js';
 
 @customElement('stylish-text-generator')
-export class StylishTextGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, stylishTextGeneratorStyles];
+export class StylishTextGenerator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, stylishTextGeneratorStyles];
 
     @property() text = "Stylish Text";
     @state() private fontSize = 72;
@@ -29,7 +27,7 @@ export class StylishTextGenerator extends WebComponentBase<IConfigBase> {
     private canvas!: HTMLCanvasElement;
     private ctx!: CanvasRenderingContext2D;
 
-    firstUpdated() {
+    override firstUpdated() {
         const { canvas, ctx } = initializeCanvas(this.shadowRoot);
         this.canvas = canvas;
         this.ctx = ctx;

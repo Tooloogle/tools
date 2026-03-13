@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import hexToAsciiConverterStyles from './hex-to-ascii-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('hex-to-ascii-converter')
-export class HexToAsciiConverter extends WebComponentBase<IConfigBase> {
+export class HexToAsciiConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    hexToAsciiConverterStyles,
-  ];
+    WebComponentBase.styles,    hexToAsciiConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

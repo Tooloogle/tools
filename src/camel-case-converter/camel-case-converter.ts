@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import camelCaseConverterStyles from './camel-case-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('camel-case-converter')
-export class CamelCaseConverter extends WebComponentBase<IConfigBase> {
+export class CamelCaseConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    camelCaseConverterStyles,
-  ];
+    WebComponentBase.styles,    camelCaseConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

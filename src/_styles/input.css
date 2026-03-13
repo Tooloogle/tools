@@ -1,13 +1,16 @@
-@import 'tailwindcss';
+/* Shared form-element @utility definitions – tree-shaken by Tailwind v4.
+ * Import this file from a tool's CSS: @import '../_styles/input.css';
+ * Only the utilities actually used in the tool's template will be emitted.
+ */
 
-input.form-input {
+@utility form-input {
   @apply w-full rounded-lg border border-solid border-gray-300 px-4 py-2 text-gray-400 bg-inherit dark:border-gray-500 dark:focus:ring-gray-400 dark:focus:border-gray-400;
 }
 
-textarea.form-textarea {
+@utility form-textarea {
   @apply w-full rounded-lg border border-solid border-gray-300 px-4 py-2 text-gray-400 bg-inherit dark:border-gray-500 dark:focus:ring-gray-400 dark:focus:border-gray-400;
 }
 
-select.form-select {
+@utility form-select {
   @apply w-full rounded-lg border border-solid border-gray-300 px-4 py-2 text-gray-400 bg-inherit dark:border-gray-500 dark:focus:ring-gray-400 dark:focus:border-gray-400;
 }

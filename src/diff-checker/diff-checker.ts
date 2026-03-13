@@ -1,18 +1,15 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import diffCheckerStyles from './diff-checker.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-
 interface DiffLine {
     type: 'equal' | 'added' | 'removed';
     text: string;
 }
 
 @customElement('diff-checker')
-export class DiffChecker extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, diffCheckerStyles];
+export class DiffChecker extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, diffCheckerStyles];
 
     @property()
     text1 = '';

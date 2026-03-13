@@ -1,20 +1,13 @@
 import { html } from "lit";
-import {
-  IConfigBase,
-  WebComponentBase,
-} from "../_web-component/WebComponentBase.js";
+import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import cssBorderRadiusGeneratorStyles from "./css-border-radius-generator.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
-import "../t-copy-button";
+import '../t-copy-button/index.js';
 
 @customElement("css-border-radius-generator")
-export class CssBorderRadiusGenerator extends WebComponentBase<IConfigBase> {
+export class CssBorderRadiusGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    cssBorderRadiusGeneratorStyles,
-  ];
+    WebComponentBase.styles,    cssBorderRadiusGeneratorStyles];
 
   @property({ type: Number }) topLeft = 0;
   @property({ type: Number }) topRight = 0;
@@ -22,7 +15,7 @@ export class CssBorderRadiusGenerator extends WebComponentBase<IConfigBase> {
   @property({ type: Number }) bottomLeft = 0;
   @property({ type: String }) outputText = "";
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.process();
   }

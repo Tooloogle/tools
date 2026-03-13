@@ -1,14 +1,12 @@
 import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import csvToJsonConverterStyles from './csv-to-json-converter.css.js';
-import "../t-copy-button/t-copy-button.js";
+import '../t-copy-button/index.js';
 
 @customElement('csv-to-json-converter')
-export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
-  static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, csvToJsonConverterStyles];
+export class CsvToJsonConverter extends WebComponentBase {
+  static override styles = [WebComponentBase.styles, csvToJsonConverterStyles];
 
   @property({ type: String }) csvString = '';
   @state() jsonString = '';
@@ -105,7 +103,7 @@ export class CsvToJsonConverter extends WebComponentBase<IConfigBase> {
     this.separator = (e.target as HTMLSelectElement).value;
   }
   // eslint-disable-next-line max-lines-per-function
-  render() {
+  override render() {
     return html`
       <div class="csv-to-json-converter">
         <div class="editor mb-4">

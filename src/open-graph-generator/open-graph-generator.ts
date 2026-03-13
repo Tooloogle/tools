@@ -1,22 +1,15 @@
 import { html } from "lit";
-import {
-  IConfigBase,
-  WebComponentBase,
-} from "../_web-component/WebComponentBase.js";
+import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import openGraphGeneratorStyles from "./open-graph-generator.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
-import "../t-copy-button";
+import '../t-copy-button/index.js';
 
 @customElement("open-graph-generator")
-export class OpenGraphGenerator extends WebComponentBase<IConfigBase> {
+export class OpenGraphGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    openGraphGeneratorStyles,
-  ];
+    WebComponentBase.styles,    openGraphGeneratorStyles];
 
-  @property({ type: String }) title = "";
+  @property({ type: String }) override title = "";
   @property({ type: String }) description = "";
   @property({ type: String }) url = "";
   @property({ type: String }) image = "";

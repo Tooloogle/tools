@@ -1,14 +1,12 @@
 import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import textToSpeechStyles from './text-to-speech.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('text-to-speech')
-export class TextToSpeech extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, textToSpeechStyles];
+export class TextToSpeech extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, textToSpeechStyles];
 
     @property({ type: String }) text = '';
     @state() isSpeaking = false;
@@ -19,7 +17,7 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
 
     private synth: SpeechSynthesis = isBrowser() ? window.speechSynthesis : null as unknown as SpeechSynthesis;
 
-    connectedCallback(): void {
+    override connectedCallback(): void {
         super.connectedCallback();
         this.updateVoices();
         if (this.synth.onvoiceschanged !== undefined) {
@@ -103,7 +101,7 @@ export class TextToSpeech extends WebComponentBase<IConfigBase> {
         );
     }
 
-    render() {
+    override render() {
         return html`
             <div class="text-to-speech">
                 <div class="editor mb-4">

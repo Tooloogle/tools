@@ -1,8 +1,6 @@
 import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import regexExpressionTesterStyles from './regex-expression-tester.css.js';
 import { createRef, ref, Ref } from 'lit/directives/ref.js';
 
@@ -12,8 +10,8 @@ interface Flag {
 }
 
 @customElement('regex-expression-tester')
-export class RegexExpressionTester extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, regexExpressionTesterStyles];
+export class RegexExpressionTester extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, regexExpressionTesterStyles];
 
     @property({ type: String }) pattern = '';
     @property({ type: String }) flags = '';
@@ -86,7 +84,7 @@ export class RegexExpressionTester extends WebComponentBase<IConfigBase> {
         );
     }
 
-    render() {
+    override render() {
         return html`
         <div class="regex-expression-tester">
             <div class="editor mb-4">

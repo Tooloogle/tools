@@ -1,20 +1,13 @@
 import { html } from "lit";
-import {
-  IConfigBase,
-  WebComponentBase,
-} from "../_web-component/WebComponentBase.js";
+import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import dataUriGeneratorStyles from "./data-uri-generator.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
-import "../t-copy-button";
+import '../t-copy-button/index.js';
 
 @customElement("data-uri-generator")
-export class DataUriGenerator extends WebComponentBase<IConfigBase> {
+export class DataUriGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    dataUriGeneratorStyles,
-  ];
+    WebComponentBase.styles,    dataUriGeneratorStyles];
 
   @property({ type: String }) inputText = "";
   @property({ type: String }) outputText = "";

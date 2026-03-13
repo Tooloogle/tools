@@ -1,11 +1,11 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import worldClockStyles from './world-clock.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('world-clock')
-export class WorldClock extends WebComponentBase<IConfigBase> {
+export class WorldClock extends WebComponentBase {
     static override styles = [WebComponentBase.styles, worldClockStyles];
 
     @property({ type: String }) currentTime = '';

@@ -2,10 +2,7 @@ import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import {
   WebComponentBase,
-  IConfigBase,
 } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import htmlBeautifierStyles from './html-beautifier.css.js';
 import jsBeautify from 'js-beautify';
 
@@ -24,13 +21,9 @@ declare global {
   }
 }
 @customElement('html-beautifier')
-export class HtmlBeautifier extends WebComponentBase<IConfigBase> {
+export class HtmlBeautifier extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    htmlBeautifierStyles,
-  ];
+    WebComponentBase.styles,    htmlBeautifierStyles];
 
   @property({ type: String }) codeInput = '';
   @state() indentSize = 4;
@@ -88,7 +81,7 @@ export class HtmlBeautifier extends WebComponentBase<IConfigBase> {
   }
 
   // eslint-disable-next-line max-lines-per-function
-  render() {
+  override render() {
     return html`
       <div class="html-beautifier">
         <div

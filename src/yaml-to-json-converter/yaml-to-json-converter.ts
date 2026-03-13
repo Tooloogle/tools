@@ -1,21 +1,14 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import yamlToJsonConverterStyles from './yaml-to-json-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import * as yaml from 'js-yaml';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('yaml-to-json-converter')
-export class YamlToJsonConverter extends WebComponentBase<IConfigBase> {
+export class YamlToJsonConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    yamlToJsonConverterStyles,
-  ];
+    WebComponentBase.styles,    yamlToJsonConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

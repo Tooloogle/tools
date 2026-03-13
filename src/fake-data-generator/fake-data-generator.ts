@@ -1,22 +1,13 @@
 import { html } from "lit";
-import {
-  IConfigBase,
-  WebComponentBase,
-} from "../_web-component/WebComponentBase.js";
+import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import fakeDataGeneratorStyles from "./fake-data-generator.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
-import buttonStyles from "../_styles/button.css.js";
-import "../t-copy-button";
+import '../t-copy-button/index.js';
 
 @customElement("fake-data-generator")
-export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
+export class FakeDataGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    fakeDataGeneratorStyles,
-  ];
+    WebComponentBase.styles,    fakeDataGeneratorStyles];
 
   @property({ type: String }) dataType = "name";
   @property({ type: Number }) count = 10;
@@ -32,7 +23,7 @@ export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
     "Chris",
     "Emma",
     "James",
-    "Lisa",
+    "Lisa"
   ];
   private lastNames = [
     "Smith",
@@ -44,14 +35,14 @@ export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
     "Miller",
     "Davis",
     "Wilson",
-    "Moore",
+    "Moore"
   ];
   private domains = [
     "gmail.com",
     "yahoo.com",
     "outlook.com",
     "example.com",
-    "test.com",
+    "test.com"
   ];
   private streets = [
     "Main St",
@@ -60,7 +51,7 @@ export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
     "Elm St",
     "Maple Dr",
     "Lake View",
-    "Hill St",
+    "Hill St"
   ];
   private cities = [
     "New York",
@@ -69,7 +60,7 @@ export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
     "Houston",
     "Phoenix",
     "Philadelphia",
-    "San Antonio",
+    "San Antonio"
   ];
 
   private random<T>(arr: T[]): T {
@@ -131,7 +122,7 @@ export class FakeDataGenerator extends WebComponentBase<IConfigBase> {
     this.result = items.join("\n");
   }
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.generate();
   }

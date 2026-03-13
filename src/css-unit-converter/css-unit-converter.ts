@@ -1,12 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import cssUnitConverterStyles from './css-unit-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('css-unit-converter')
-export class CssUnitConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, cssUnitConverterStyles];
+export class CssUnitConverter extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, cssUnitConverterStyles];
 
     @property({ type: Number }) inputValue = 16;
     @property({ type: String }) fromUnit = 'px';
@@ -14,7 +12,7 @@ export class CssUnitConverter extends WebComponentBase<IConfigBase> {
     @property({ type: Number }) baseFontSize = 16;
     @property({ type: String }) result = '';
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
         this.convert();
     }

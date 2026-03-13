@@ -50,8 +50,7 @@ export class ResumeBuilderTemplates {
       label: 'Education',
     },
     { id: 'skills', icon: ResumeBuilderIcons.getAwardIcon(), label: 'Skills' },
-    { id: 'preview', icon: ResumeBuilderIcons.getEyeIcon(), label: 'Preview' },
-  ];
+    { id: 'preview', icon: ResumeBuilderIcons.getEyeIcon(), label: 'Preview' }];
 
   static renderNavigation(
     activeSection: string,

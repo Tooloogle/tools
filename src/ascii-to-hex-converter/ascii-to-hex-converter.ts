@@ -1,15 +1,11 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import asciiToHexConverterStyles from './ascii-to-hex-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import '../t-textarea';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('ascii-to-hex-converter')
-export class AsciiToHexConverter extends WebComponentBase<IConfigBase> {
+export class AsciiToHexConverter extends WebComponentBase {
   static override styles = [WebComponentBase.styles, asciiToHexConverterStyles];
 
   @property({ type: String }) inputText = '';
@@ -32,16 +28,17 @@ export class AsciiToHexConverter extends WebComponentBase<IConfigBase> {
       <div class="space-y-4">
         <div>
           <label class="block mb-2 font-semibold">ASCII Text:</label>
-          <t-textarea
+          <textarea
+            class="form-textarea"
             placeholder="Enter ASCII text to convert..."
             .value=${this.inputText}
-            @t-input=${this.handleInput}
+            @input=${this.handleInput}
             rows="8"
-          ></t-textarea>
+          ></textarea>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Hexadecimal Output:</label>
-          <t-textarea readonly .value=${this.outputText} rows="8"></t-textarea>
+          <textarea class="form-textarea" readonly .value=${this.outputText} rows="8"></textarea>
           ${this.outputText
             ? html`<t-copy-button
                 .text=${this.outputText}

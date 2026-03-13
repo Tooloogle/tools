@@ -1,13 +1,10 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from "../_styles/input.css.js"
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import emailValidatorStyles from './url-encoder-decoder.css.js';
-import buttonStyles from '../_styles/button.css.js';
-
 @customElement('url-encoder-decoder')
-export class UrlEncoderDecoder extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, emailValidatorStyles];
+export class UrlEncoderDecoder extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, emailValidatorStyles];
 
     @property()
     value = "";

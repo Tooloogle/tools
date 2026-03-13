@@ -1,4 +1,3 @@
-import { LitElement } from 'lit';
 import { StylishTextGenerator } from "./stylish-text-generator.js";
 
 describe('stylish-text-generator web component test', () => {

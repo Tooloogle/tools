@@ -84,8 +84,7 @@ export class EducationTemplate {
         type: 'text',
         label: 'GPA (Optional)',
         placeholder: '3.8/4.0',
-      },
-    ];
+      }];
 
     return fields.map(field => this.renderEducationField(field, edu, handlers));
   }

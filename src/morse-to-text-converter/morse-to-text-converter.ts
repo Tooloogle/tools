@@ -1,12 +1,8 @@
 import { html } from "lit";
-import {
-  IConfigBase,
-  WebComponentBase,
-} from "../_web-component/WebComponentBase.js";
+import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import morseToTextConverterStyles from "./morse-to-text-converter.css.js";
 import { customElement, property } from "lit/decorators.js";
-import inputStyles from "../_styles/input.css.js";
-import "../t-copy-button";
+import '../t-copy-button/index.js';
 
 const MORSE_TO_TEXT: { [key: string]: string } = {
   ".-": "A",
@@ -49,12 +45,9 @@ const MORSE_TO_TEXT: { [key: string]: string } = {
 };
 
 @customElement("morse-to-text-converter")
-export class MorseToTextConverter extends WebComponentBase<IConfigBase> {
+export class MorseToTextConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    morseToTextConverterStyles,
-  ];
+    WebComponentBase.styles,    morseToTextConverterStyles];
 
   @property({ type: String }) inputMorse = "";
   @property({ type: String }) outputText = "";

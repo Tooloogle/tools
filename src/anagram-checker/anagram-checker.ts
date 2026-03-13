@@ -1,12 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import anagramCheckerStyles from './anagram-checker.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('anagram-checker')
-export class AnagramChecker extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, anagramCheckerStyles];
+export class AnagramChecker extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, anagramCheckerStyles];
 
     @property({ type: String }) text1 = '';
     @property({ type: String }) text2 = '';

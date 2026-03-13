@@ -1,14 +1,11 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import ipAddressConverterStyles from './ip-address-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-import tableStyles from '../_styles/table.css.js';
 
 @customElement('ip-address-converter')
-export class IpAddressConverter extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, tableStyles, ipAddressConverterStyles];
+export class IpAddressConverter extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, ipAddressConverterStyles];
 
     @property()
     input = '';
@@ -127,11 +124,11 @@ export class IpAddressConverter extends WebComponentBase<IConfigBase> {
 
             ${this.decimal ? html`
                 <div class="py-2">
-                    <table class="table">
+                    <table class="w-full">
                         <thead>
                             <tr>
-                                <th>Format</th>
-                                <th>Value</th>
+                                <th class="border-t border-gray-300 p-1 text-left">Format</th>
+                                <th class="border-t border-gray-300 p-1 text-left">Value</th>
                             </tr>
                         </thead>
                         <tbody>

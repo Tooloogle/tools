@@ -1,28 +1,20 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import qrCodeGeneratorStyles from './qr-code-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { Ref, createRef, ref } from 'lit/directives/ref.js';
-import inputStyles from '../_styles/input.css.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { IQrStyleListItem, QrStyleList } from './qr-style-list.js';
 import { Logo } from './logo.js';
-import buttonStyles from '../_styles/button.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 import QRCodeStyling, { FileExtension } from 'qr-code-styling';
 
 /* eslint-disable max-lines */
 @customElement('qr-code-generator')
-export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
+export class QrCodeGenerator extends WebComponentBase {
   static override styles = [
     WebComponentBase.styles,
-    qrCodeGeneratorStyles,
-    inputStyles,
-    buttonStyles,
-  ];
+    qrCodeGeneratorStyles  ];
   container: Ref<HTMLDivElement> = createRef();
 
   qrCode: QRCodeStyling = isBrowser()
@@ -49,7 +41,7 @@ export class QrCodeGenerator extends WebComponentBase<IConfigBase> {
   @property()
   downloadExt: FileExtension = 'jpeg';
 
-  async connectedCallback() {
+  override async connectedCallback() {
     super.connectedCallback();
     setTimeout(() => {
       this.text = 'https://www.tooloogle.com/';

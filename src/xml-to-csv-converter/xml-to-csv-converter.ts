@@ -1,20 +1,13 @@
 import { html } from 'lit';
-import {
-  IConfigBase,
-  WebComponentBase,
-} from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import xmlToCsvConverterStyles from './xml-to-csv-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import '../t-copy-button';
+import '../t-copy-button/index.js';
 
 @customElement('xml-to-csv-converter')
-export class XmlToCsvConverter extends WebComponentBase<IConfigBase> {
+export class XmlToCsvConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    xmlToCsvConverterStyles,
-  ];
+    WebComponentBase.styles,    xmlToCsvConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';

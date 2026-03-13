@@ -1,12 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import colorContrastCheckerStyles from './color-contrast-checker.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-
 @customElement('color-contrast-checker')
-export class ColorContrastChecker extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, colorContrastCheckerStyles];
+export class ColorContrastChecker extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, colorContrastCheckerStyles];
 
     @property()
     foreground = '#000000';

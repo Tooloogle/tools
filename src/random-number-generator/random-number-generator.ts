@@ -1,13 +1,10 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import randomNumberGeneratorStyles from './random-number-generator.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
-
 @customElement('random-number-generator')
-export class RandomNumberGenerator extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, buttonStyles, randomNumberGeneratorStyles];
+export class RandomNumberGenerator extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, randomNumberGeneratorStyles];
 
     @property()
     min = 1;

@@ -1,14 +1,13 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { WebComponentBase, IConfigBase } from '../_web-component/WebComponentBase.js';
-import inputStyles from '../_styles/input.css.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import rgbaColorPickerStyles from './rgba-color-picker.css.js'; // Updated import for CSS styles
-import "../t-copy-button/t-copy-button.js";
+import '../t-copy-button/index.js';
 import { createRef, ref, Ref } from 'lit/directives/ref.js';
 
 @customElement('rgba-color-picker')
-export class RgbaColorPicker extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, rgbaColorPickerStyles];
+export class RgbaColorPicker extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, rgbaColorPickerStyles];
 
     @property({ type: String }) color = 'rgba(255, 0, 0, 1)'; // Default color
     @property({ type: Number }) red = 255;
@@ -18,7 +17,7 @@ export class RgbaColorPicker extends WebComponentBase<IConfigBase> {
 
     private colorInputEl: Ref<HTMLInputElement> = createRef();
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
     }
 
@@ -133,7 +132,7 @@ export class RgbaColorPicker extends WebComponentBase<IConfigBase> {
         }
     }
 
-    render() {
+    override render() {
         const hexColor = this.rgbToHex(this.red, this.green, this.blue);
         const hslColor = this.rgbToHsl(this.red, this.green, this.blue);
 

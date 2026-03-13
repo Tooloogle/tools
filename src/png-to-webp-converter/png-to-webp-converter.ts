@@ -1,21 +1,12 @@
 import { html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import {
-  IConfigBase,
-  WebComponentBase,
-} from "../_web-component/WebComponentBase.js";
-import inputStyles from "../_styles/input.css.js";
-import buttonStyles from "../_styles/button.css.js";
+import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import pngToWebpConverterStyles from "./png-to-webp-converter.css.js";
 
 @customElement("png-to-webp-converter")
-export class PngToWebpConverter extends WebComponentBase<IConfigBase> {
+export class PngToWebpConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    pngToWebpConverterStyles,
-  ];
+    WebComponentBase.styles,    pngToWebpConverterStyles];
 
   @property({ type: Object }) file: File | null = null;
 

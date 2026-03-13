@@ -1,13 +1,12 @@
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import markdownPreviewerStyles from './markdown-previewer.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
 @customElement('markdown-previewer')
-export class MarkdownPreviewer extends WebComponentBase<IConfigBase> {
-    static override styles = [WebComponentBase.styles, inputStyles, markdownPreviewerStyles];
+export class MarkdownPreviewer extends WebComponentBase {
+    static override styles = [WebComponentBase.styles, markdownPreviewerStyles];
 
     @property()
     markdown = '# Hello Markdown!\n\n## Features\n\n- **Bold** and *italic* text\n- [Links](https://example.com)\n- `Code blocks`\n\n```javascript\nconst hello = "world";\n```\n\n> Blockquotes are supported too!';
@@ -15,7 +14,7 @@ export class MarkdownPreviewer extends WebComponentBase<IConfigBase> {
     @property()
     preview = '';
 
-    connectedCallback() {
+    override connectedCallback() {
         super.connectedCallback();
         this.updatePreview();
     }
@@ -30,9 +29,15 @@ export class MarkdownPreviewer extends WebComponentBase<IConfigBase> {
     }
 
     private parseMarkdown(text: string): string {
-        let html = text;
+        // Escape HTML to prevent XSS
+        let html = text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
 
-        // Code blocks
+        // Code blocks (must come before other transformations)
         html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
 
         // Headers

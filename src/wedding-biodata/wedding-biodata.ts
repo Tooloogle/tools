@@ -3,11 +3,9 @@
 /* eslint-disable complexity */
 /* eslint-disable lit/no-template-arrow */
 import { html } from 'lit';
-import { IConfigBase, WebComponentBase } from '../_web-component/WebComponentBase.js';
+import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import weddingBiodataStyles from './wedding-biodata.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import inputStyles from '../_styles/input.css.js';
-import buttonStyles from '../_styles/button.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 import {
   PersonalInfo,
@@ -19,13 +17,9 @@ import {
 } from './wedding-biodata-types.js';
 
 @customElement('wedding-biodata')
-export class WeddingBiodata extends WebComponentBase<IConfigBase> {
+export class WeddingBiodata extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,
-    inputStyles,
-    buttonStyles,
-    weddingBiodataStyles,
-  ];
+    WebComponentBase.styles,    weddingBiodataStyles];
 
   @property({ type: String }) activeSection = 'personal';
   @property({ type: Boolean }) showPreview = false;
@@ -111,7 +105,7 @@ export class WeddingBiodata extends WebComponentBase<IConfigBase> {
       { id: 'family', label: 'Family Details' },
       { id: 'education', label: 'Education & Job' },
       { id: 'contact', label: 'Contact Info' },
-      { id: 'preferences', label: 'Partner Preferences' },
+      { id: 'preferences', label: 'Partner Preferences' }
     ];
 
     return html`
