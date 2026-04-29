@@ -13,12 +13,13 @@
     "build:demo": "npm run css && vite build --config vite.config.demo.js",
     "build:tools": "npm run css && npm run build:tools:esm",
     "build:tools:esm": "tsc -p tsconfig.json --outDir dist",
-    "clean": "npx rimraf dist* && npx rimraf src/**/*.css.ts",
+    "clean": "rimraf --glob \"dist*\" \"src/**/*.css.ts\"",
     "lint": "eslint src/**/*.ts scripts/css-to-ts.js",
     "lint:fix": "npm run lint -- --fix",
     "validate": "node scripts/validate-tools.js",
     "new": "node scripts/create-new-tool.js",
     "postbuild": "node postbuild.js",
+    "prepack": "npm run build:tools && npm run postbuild",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
     "prepare": "husky"
   },
@@ -42,6 +43,9 @@
     "url": "https://github.com/Tooloogle/tools/issues"
   },
   "homepage": "https://github.com/Tooloogle/tools#readme",
+  "engines": {
+    "node": ">=18"
+  },
   "devDependencies": {
     "@lit-labs/ssr": "^3.3.1",
     "@tailwindcss/forms": "^0.5.10",
@@ -66,6 +70,7 @@
     "jest-environment-jsdom": "^29.6.1",
     "lint-staged": "^16.3.3",
     "postcss": "^8.4.25",
+    "rimraf": "^5.0.10",
     "tailwindcss": "^4.1.17",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.2",

@@ -93,6 +93,21 @@ The following reusable web components are available for building tools:
 - `t-image-input`: A drag-and-drop image picker that emits the selected `File` plus a generated data URL.
 - `t-copy-button`: A copy-to-clipboard button with tooltip feedback.
 
+## Server-side rendering (SSR)
+
+The package ships a CLI (`tooloogle-ssr`, exposed via the `bin` field) that pre-renders any of the included web components to static HTML using [@lit-labs/ssr](https://www.npmjs.com/package/@lit-labs/ssr). This is useful for SEO, faster first paint, and embedding tool snippets in static sites.
+
+```
+# Render every tool to .tmp/tooloogle-tools-htmls (default)
+npx tooloogle-ssr
+
+# Render a specific subset to a custom directory
+npx tooloogle-ssr --outDir ./public/tools --tools age-calculator,guid-generator
+
+# Show all options
+npx tooloogle-ssr --help
+```
+
 ## Contributing
 
 Contributions to the "@tooloogle/tools" package are welcome! If you find any bugs, have feature requests, or want to contribute improvements, please open an issue or submit a pull request on the [GitHub repository](https://github.com/Tooloogle/tools).
