@@ -25,12 +25,13 @@ fs.copySync(
     resolve(outDir, "ssr/cli.js")
 );
 
-// modify distributed package.json
+// modify distributed package.json: strip dev-only fields
 const packagePath = resolve(outDir, 'package.json');
 const packageJson = fs.readJsonSync(packagePath);
 delete packageJson.scripts;
 delete packageJson.devDependencies;
 delete packageJson.release;
+delete packageJson['lint-staged'];
 fs.writeJSONSync(packagePath, packageJson, {
     spaces: "\t"
 });

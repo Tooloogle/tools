@@ -107,7 +107,8 @@
             "package-lock.json",
             "README.md",
             "CHANGELOG.md",
-            "dist/**/*.{js}"
+            "dist/**/*.js",
+            "dist/**/*.d.ts"
           ]
         }
       ]

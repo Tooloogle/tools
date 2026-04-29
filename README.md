@@ -10,6 +10,22 @@ To install the "@tooloogle/tools" package, you need to have Node.js and npm inst
 npm install @tooloogle/tools
 ```
 
+## Usage
+
+Each tool is a self-contained custom element. Import the tool you need (this registers the element via Lit's `@customElement` decorator) and drop the tag into your HTML:
+
+```html
+<script type="module">
+  import '@tooloogle/tools/age-calculator/age-calculator.js';
+  import '@tooloogle/tools/json-formatter/json-formatter.js';
+</script>
+
+<age-calculator></age-calculator>
+<json-formatter></json-formatter>
+```
+
+For server-side prerendering see the [SSR section](#server-side-rendering-ssr) below.
+
 ## Components
 
 The `@tooloogle/tools` package includes **159+ self-contained tool web components** built with Lit. A representative selection is highlighted below — see [demo/tools.js](demo/tools.js) for the full list, or browse them live at [tooloogle.com](https://www.tooloogle.com).
@@ -121,8 +137,6 @@ npm run new -- my-tool-name
 ```
 
 The kebab-case name becomes the folder, custom-element tag, and class name. The script creates `src/my-tool-name/` with the `.ts`, `.css`, `.spec.ts`, and `index.ts` files, and registers the tool in [demo/tools.js](demo/tools.js).
-
-Before contributing, please review the [contribution guidelines](CONTRIBUTING.md) for more information.
 
 ## License
 
