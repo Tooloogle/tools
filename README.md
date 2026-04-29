@@ -28,7 +28,7 @@ For server-side prerendering see the [SSR section](#server-side-rendering-ssr) b
 
 ## Components
 
-The `@tooloogle/tools` package includes **159+ self-contained tool web components** built with Lit. A representative selection is highlighted below — see [demo/tools.js](demo/tools.js) for the full list, or browse them live at [tooloogle.com](https://www.tooloogle.com).
+The `@tooloogle/tools` package includes a large collection of self-contained tool web components built with Lit (currently 158). A representative selection is highlighted below — see [demo/tools.js](demo/tools.js) for the full list, or browse them live at [tooloogle.com](https://www.tooloogle.com).
 
 - `age-calculator`: An intuitive online tool that swiftly calculates a person's age based on their birthdate, enabling users to effortlessly determine their current age or calculate the age difference between two dates.
 - `direct-to-whatsapp`: A handy online tool that enables users to send WhatsApp messages to any phone number without the need to save the contact in their mobile device, simplifying the process of initiating conversations and facilitating quick communication.

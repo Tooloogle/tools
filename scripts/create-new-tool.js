@@ -83,7 +83,7 @@ describe('${tool} web component test', () => {
 });
 `;
 
-// Only add to tools.json if not a reusable component (t- prefixed)
+// Only add to demo/tools.js if not a reusable component (t- prefixed)
 if (!tool.startsWith('t-')) {
     const updated = [...demoListJson, tool].sort((a, b) => a.localeCompare(b));
     fs.writeFileSync(path.join(demoFolder, `tools.js`), `const tools = ${JSON.stringify(updated, null, 4)};

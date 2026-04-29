@@ -6,13 +6,13 @@
 // Exits with a non-zero status code on failure so CI catches drift.
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const demoFile = path.join(root, 'demo', 'tools.js');
 const srcDir = path.join(root, 'src');
 
-const { default: tools } = await import(`file:///${demoFile.replace(/\\/g, '/')}`);
+const { default: tools } = await import(pathToFileURL(demoFile).href);
 
 const errors = [];
 
