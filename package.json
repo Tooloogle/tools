@@ -16,6 +16,7 @@
     "clean": "npx rimraf dist* && npx rimraf src/**/*.css.ts",
     "lint": "eslint src/**/*.ts scripts/css-to-ts.js",
     "lint:fix": "npm run lint -- --fix",
+    "validate": "node scripts/validate-tools.js",
     "new": "node scripts/create-new-tool.js",
     "postbuild": "node postbuild.js",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
@@ -109,6 +110,6 @@
   },
   "lint-staged": {
     "src/**/*.ts": "eslint --cache --cache-location node_modules/.cache/eslint/",
-    "scripts/*.js": "eslint --cache --cache-location node_modules/.cache/eslint/"
+    "scripts/css-to-ts.js": "eslint --cache --cache-location node_modules/.cache/eslint/"
   }
 }

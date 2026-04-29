@@ -97,6 +97,16 @@ The following reusable web components are available for building tools:
 
 Contributions to the "@tooloogle/tools" package are welcome! If you find any bugs, have feature requests, or want to contribute improvements, please open an issue or submit a pull request on the [GitHub repository](https://github.com/Tooloogle/tools).
 
+### Scaffolding a new tool
+
+To bootstrap a new tool component, run:
+
+```
+npm run new -- my-tool-name
+```
+
+The kebab-case name becomes the folder, custom-element tag, and class name. The script creates `src/my-tool-name/` with the `.ts`, `.css`, `.spec.ts`, and `index.ts` files, and registers the tool in [demo/tools.js](demo/tools.js).
+
 Before contributing, please review the [contribution guidelines](CONTRIBUTING.md) for more information.
 
 ## License
