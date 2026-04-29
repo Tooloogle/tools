@@ -10,9 +10,25 @@ To install the "@tooloogle/tools" package, you need to have Node.js and npm inst
 npm install @tooloogle/tools
 ```
 
+## Usage
+
+Each tool is a self-contained custom element. Import the tool you need (this registers the element via Lit's `@customElement` decorator) and drop the tag into your HTML:
+
+```html
+<script type="module">
+  import '@tooloogle/tools/age-calculator/age-calculator.js';
+  import '@tooloogle/tools/json-formatter/json-formatter.js';
+</script>
+
+<age-calculator></age-calculator>
+<json-formatter></json-formatter>
+```
+
+For server-side prerendering see the [SSR section](#server-side-rendering-ssr) below.
+
 ## Components
 
-The "@tooloogle/tools" package includes the following web components:
+The `@tooloogle/tools` package includes a large collection of self-contained tool web components built with Lit (currently 158). A representative selection is highlighted below — see [demo/tools.js](demo/tools.js) for the full list, or browse them live at [tooloogle.com](https://www.tooloogle.com).
 
 - `age-calculator`: An intuitive online tool that swiftly calculates a person's age based on their birthdate, enabling users to effortlessly determine their current age or calculate the age difference between two dates.
 - `direct-to-whatsapp`: A handy online tool that enables users to send WhatsApp messages to any phone number without the need to save the contact in their mobile device, simplifying the process of initiating conversations and facilitating quick communication.
@@ -79,7 +95,6 @@ The "@tooloogle/tools" package includes the following web components:
 - `text-diff`: A text comparison tool using longest common subsequence (LCS) algorithm to highlight additions and removals between two text blocks.
 - `whitespace-remover`: A whitespace removal tool with multiple modes: remove all whitespace, remove extra whitespace, trim lines, or remove blank lines.
 - `text-sorter`: A versatile text line sorter with alphabetical, reverse, numerical, length-based, reverse, and shuffle sorting options with case sensitivity control.
-- `case-converter-advanced`: An advanced case converter supporting sentence case, camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, dot.case, and more.
 - `placeholder-image-generator`: A placeholder image URL generator supporting multiple services (Placehold.co, via Placeholder, Dummy Image, Lorem Picsum) with customizable dimensions, colors, and text.
 - `token-generator`: A cryptographically secure random token generator that creates tokens in hexadecimal, Base64 URL-safe, or alphanumeric formats for API keys and security purposes.
 
@@ -90,13 +105,38 @@ The following reusable web components are available for building tools:
 - `t-button`: A styled button component with variant support (`blue`, `green`, `red`) and disabled state.
 - `t-input`: A styled input component supporting multiple types (`text`, `number`, `email`, `password`, `date`, `datetime-local`, `file`) with placeholder, disabled state, and accept attribute for file inputs.
 - `t-textarea`: A styled textarea component with configurable rows, placeholder, and disabled state.
+- `t-checkbox`: A styled checkbox component that emits a `t-change` event with the checked state.
+- `t-image-input`: A drag-and-drop image picker that emits the selected `File` plus a generated data URL.
 - `t-copy-button`: A copy-to-clipboard button with tooltip feedback.
+
+## Server-side rendering (SSR)
+
+The package ships a CLI (`tooloogle-ssr`, exposed via the `bin` field) that pre-renders any of the included web components to static HTML using [@lit-labs/ssr](https://www.npmjs.com/package/@lit-labs/ssr). This is useful for SEO, faster first paint, and embedding tool snippets in static sites.
+
+```
+# Render every tool to .tmp/tooloogle-tools-htmls (default)
+npx tooloogle-ssr
+
+# Render a specific subset to a custom directory
+npx tooloogle-ssr --outDir ./public/tools --tools age-calculator,guid-generator
+
+# Show all options
+npx tooloogle-ssr --help
+```
 
 ## Contributing
 
 Contributions to the "@tooloogle/tools" package are welcome! If you find any bugs, have feature requests, or want to contribute improvements, please open an issue or submit a pull request on the [GitHub repository](https://github.com/Tooloogle/tools).
 
-Before contributing, please review the [contribution guidelines](CONTRIBUTING.md) for more information.
+### Scaffolding a new tool
+
+To bootstrap a new tool component, run:
+
+```
+npm run new -- my-tool-name
+```
+
+The kebab-case name becomes the folder, custom-element tag, and class name. The script creates `src/my-tool-name/` with the `.ts`, `.css`, `.spec.ts`, and `index.ts` files, and registers the tool in [demo/tools.js](demo/tools.js).
 
 ## License
 

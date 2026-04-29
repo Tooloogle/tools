@@ -10,12 +10,23 @@ if (!args.length) {
 }
 
 const tool = args[0];
+
+if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(tool)) {
+    console.error(`Invalid tool name "${tool}". Use lowercase kebab-case starting with a letter (e.g. my-new-tool).`);
+    process.exit(1);
+}
+
 const toolCamelcase = tool.replace(/(-)([a-z])/g, v => v.toUpperCase()).replace(/-/g, "");
 
 const folder = path.join(cwd(), "src", tool);
 const demoFolder = path.join(cwd(), "demo");
 
-fs.mkdirSync(folder)
+if (fs.existsSync(folder)) {
+    console.error(`Folder src/${tool}/ already exists. Choose a different name or delete the existing folder first.`);
+    process.exit(1);
+}
+
+fs.mkdirSync(folder, { recursive: true })
 
 const cssContent = ``
 
@@ -72,9 +83,10 @@ describe('${tool} web component test', () => {
 });
 `;
 
-// Only add to tools.json if not a reusable component (t- prefixed)
+// Only add to demo/tools.js if not a reusable component (t- prefixed)
 if (!tool.startsWith('t-')) {
-    fs.writeFileSync(path.join(demoFolder, `tools.js`), `const tools = ${JSON.stringify([...demoListJson, tool], null, 4)};
+    const updated = [...demoListJson, tool].sort((a, b) => a.localeCompare(b));
+    fs.writeFileSync(path.join(demoFolder, `tools.js`), `const tools = ${JSON.stringify(updated, null, 4)};
 
 if (typeof window !== "undefined") {
     window.tools = tools;
