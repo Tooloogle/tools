@@ -102,19 +102,7 @@
           "pkgRoot": "./dist"
         }
       ],
-      [
-        "@semantic-release/git",
-        {
-          "assets": [
-            "package.json",
-            "package-lock.json",
-            "README.md",
-            "CHANGELOG.md",
-            "dist/**/*.js",
-            "dist/**/*.d.ts"
-          ]
-        }
-      ]
+      "@semantic-release/github"
     ]
   },
   "lint-staged": {

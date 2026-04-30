@@ -41,7 +41,7 @@ jobs:
 
       - name: Publish npm package
         run: |
-          npm install -g @semantic-release/changelog @semantic-release/git semantic-release
+          npm install -g semantic-release
           semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
