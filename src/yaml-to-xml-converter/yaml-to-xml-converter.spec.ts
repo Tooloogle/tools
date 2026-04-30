@@ -39,7 +39,7 @@ describe('yaml-to-xml-converter web component test', () => {
                 .toBe('<root><msg>Tom &amp; Jerry &lt;3&gt;</msg></root>');
         });
 
-        it('wraps array of primitives in a single <item> element', () => {
+        it('wraps each primitive array element in its own <item> element', () => {
             expect(convert('items:\n  - a\n  - b'))
                 .toBe('<root><items><item>a</item><item>b</item></items></root>');
         });
@@ -76,6 +76,14 @@ describe('yaml-to-xml-converter web component test', () => {
         it('wraps a top-level array under <root> with <item> children', () => {
             expect(convert('- a\n- b'))
                 .toBe('<root><item>a</item><item>b</item></root>');
+        });
+
+        it('serializes YAML timestamps (Date objects) as ISO strings instead of empty elements', () => {
+            // js-yaml decodes YAML timestamps to JS Date. Without explicit
+            // handling these would fall into the object branch and produce
+            // an empty <when></when>.
+            const out = convert('when: 2024-01-02T03:04:05Z');
+            expect(out).toBe('<root><when>2024-01-02T03:04:05.000Z</when></root>');
         });
     });
 

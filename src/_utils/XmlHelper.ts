@@ -17,8 +17,10 @@ const XML_ENTITIES: Record<string, string> = {
 const ILLEGAL_XML_CHARS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g;
 
 /**
- * Escape XML entities in a text/attribute value and strip characters that
- * are illegal under XML 1.0. Safe for `<tag>VALUE</tag>` and
+ * Escape XML entities in a text/attribute value and strip the disallowed
+ * C0 control characters and `DEL` covered by `ILLEGAL_XML_CHARS` (XML 1.0
+ * §2.2). Surrogate halves and noncharacters such as U+FFFE/U+FFFF are
+ * intentionally NOT filtered here. Safe for `<tag>VALUE</tag>` and
  * `attr="VALUE"` insertion.
  */
 export function escapeXml(value: unknown): string {
@@ -28,11 +30,15 @@ export function escapeXml(value: unknown): string {
 }
 
 /**
- * Convert an arbitrary string into a valid XML element name.
+ * Convert an arbitrary string into a safe XML element name using a
+ * conservative ASCII-only subset of XML naming rules.
  *
- * XML names must start with a letter or underscore, and may contain
- * letters, digits, hyphens, underscores, or periods. Anything else is
- * replaced with `_`. An empty/invalid result falls back to `_`.
+ * This helper allows names that start with `A-Z`, `a-z`, or `_`, followed
+ * by zero or more `A-Z`, `a-z`, `0-9`, `_`, `.`, or `-` characters. Any
+ * other character is replaced with `_`, including namespace separators
+ * (`:`) and non-ASCII / Unicode name characters that the full XML 1.0
+ * NameStartChar / NameChar productions would allow. An empty/invalid
+ * result falls back to `_`.
  */
 export function sanitizeXmlName(name: string): string {
     if (!name) {
