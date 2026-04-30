@@ -4,7 +4,7 @@ import { SqlToJsonConverter } from "./sql-to-json-converter.js";
 describe('sql-to-json-converter web component test', () => {
 
     const componentTag = "sql-to-json-converter";
-    
+
     it('should render web component', async () => {
         const component = window.document.createElement(componentTag) as LitElement;
         document.body.appendChild(component);
@@ -34,7 +34,7 @@ describe('sql-to-json-converter web component test', () => {
             return component.outputText;
         };
 
-        it('parses comma-separated input (matches "Tab/Pipe/Comma" UI label)', () => {
+        it('parses comma-separated input', () => {
             const out = convert('id,name,active\n1,Alice,true\n2,Bob,false');
             expect(JSON.parse(out)).toEqual([
                 { id: 1, name: 'Alice', active: true },
@@ -42,12 +42,12 @@ describe('sql-to-json-converter web component test', () => {
             ]);
         });
 
-        it('still parses tab-separated input', () => {
+        it('parses tab-separated input', () => {
             const out = convert('id\tname\n1\tAlice');
             expect(JSON.parse(out)).toEqual([{ id: 1, name: 'Alice' }]);
         });
 
-        it('still parses pipe-separated input', () => {
+        it('parses pipe-separated input', () => {
             const out = convert('id|name\n1|Alice');
             expect(JSON.parse(out)).toEqual([{ id: 1, name: 'Alice' }]);
         });
@@ -70,22 +70,39 @@ describe('sql-to-json-converter web component test', () => {
             expect(component.errorMessage).toMatch(/header row.*data row/i);
         });
 
-        it('LIMITATION: leading-zero numeric strings (e.g. zip codes) are coerced to numbers', () => {
-            // Known limitation pinned by this test. parseValue treats every
-            // /^-?\d+(\.\d+)?$/ string as a number, so "00210" becomes 210.
-            // A future fix should preserve leading-zero strings.
-            const out = convert('zip\n00210');
-            expect(JSON.parse(out)).toEqual([{ zip: 210 }]);
+        // -- Behavior fixes (previously pinned as LIMITATION tests) --
+
+        it('preserves leading-zero numeric strings (zip codes, IDs) as strings', () => {
+            const out = convert('zip,id\n00210,007');
+            expect(JSON.parse(out)).toEqual([{ zip: '00210', id: '007' }]);
         });
 
-        it('LIMITATION: rows with column-count mismatch are dropped silently', () => {
-            // Known limitation: comma-in-value (without quoting support)
-            // produces a column-count mismatch and the row is discarded
-            // without surfacing an errorMessage.
-            convert('id,name\n1,"Smith, John"\n2,Bob');
-            const parsed = JSON.parse(component.outputText);
-            expect(parsed).toEqual([{ id: 2, name: 'Bob' }]);
+        it('preserves integers larger than Number.MAX_SAFE_INTEGER as strings', () => {
+            const out = convert('id\n9007199254740993');
+            expect(JSON.parse(out)).toEqual([{ id: '9007199254740993' }]);
+        });
+
+        it('respects double-quoted values that contain the delimiter', () => {
+            const out = convert('id,name\n1,"Smith, John"\n2,Bob');
+            expect(JSON.parse(out)).toEqual([
+                { id: 1, name: 'Smith, John' },
+                { id: 2, name: 'Bob' }
+            ]);
+            // Both rows kept; no warning surfaced.
             expect(component.errorMessage).toBe('');
+        });
+
+        it('surfaces a warning listing the count of skipped column-mismatch rows', () => {
+            // Stray pipe in name field of row 1 produces an extra column;
+            // row 2 is well-formed and should still be emitted.
+            const out = convert('id|name\n1|Smith|John\n2|Bob');
+            expect(JSON.parse(out)).toEqual([{ id: 2, name: 'Bob' }]);
+            expect(component.errorMessage).toMatch(/skipped 1 row/i);
+        });
+
+        it('keeps single 0 / 0.5 / -0.25 as numbers (only multi-digit leading-zero strings are preserved)', () => {
+            const out = convert('a,b,c\n0,0.5,-0.25');
+            expect(JSON.parse(out)).toEqual([{ a: 0, b: 0.5, c: -0.25 }]);
         });
     });
 
