@@ -30,6 +30,7 @@ export class UserAgentParser extends WebComponentBase {
         };
     }
 
+    // eslint-disable-next-line complexity
     private getBrowser(ua: string): string {
         if (ua.includes('Firefox/')) {
             return `Firefox ${  ua.match(/Firefox\/([\d.]+)/)?.[1]}`;
@@ -54,6 +55,7 @@ export class UserAgentParser extends WebComponentBase {
         return 'Unknown';
     }
 
+    // eslint-disable-next-line complexity
     private getOS(ua: string): string {
         if (ua.includes('Windows NT 10.0')) {
             return 'Windows 10/11';
