@@ -62,11 +62,32 @@ export class SqlToJsonConverter extends WebComponentBase {
       return;
     }
 
+    this.errorMessage = this.buildWarnings(parsed.errors, mismatchRows);
+    this.outputText = JSON.stringify(rows, null, 2);
+  }
+
+  private buildWarnings(
+    errors: ParseError[],
+    mismatchRows: Set<number>
+  ): string {
+    const otherErrors = errors.filter(
+      (err) => err.code !== 'TooFewFields' && err.code !== 'TooManyFields'
+    );
+
+    const warnings: string[] = [];
     if (mismatchRows.size > 0) {
-      this.errorMessage = `Warning: skipped ${mismatchRows.size} row(s) with column-count mismatch`;
+      warnings.push(
+        `skipped ${mismatchRows.size} row(s) with column-count mismatch`
+      );
     }
 
-    this.outputText = JSON.stringify(rows, null, 2);
+    if (otherErrors.length > 0) {
+      warnings.push(
+        `${otherErrors.length} parse issue(s): ${otherErrors[0].message}`
+      );
+    }
+
+    return warnings.length > 0 ? `Warning: ${warnings.join('; ')}` : '';
   }
 
   private runPapaParse(input: string, delimiter: Delimiter) {
@@ -75,6 +96,9 @@ export class SqlToJsonConverter extends WebComponentBase {
         header: true,
         skipEmptyLines: true,
         delimiter,
+        // Trim header cells so placeholder-style inputs like `id | name | age`
+        // produce clean JSON keys (and stable field lookups).
+        transformHeader: (header) => header.trim(),
         // Keep everything as strings so our parseValue() can decide.
         dynamicTyping: false,
       });
@@ -116,10 +140,12 @@ export class SqlToJsonConverter extends WebComponentBase {
     };
 
     // Prefer tab > pipe > comma on ties (tab/pipe are unambiguous in SQL
-    // CLI output, comma overlaps with values in plain text).
+    // CLI output, comma overlaps with values in plain text). Initializing
+    // `max` to -1 ensures the all-zero case (single-column input) still
+    // resolves to the first preference (tab).
     const order: Delimiter[] = ['\t', '|', ','];
-    let best: Delimiter = ',';
-    let max = 0;
+    let best: Delimiter = order[0];
+    let max = -1;
     for (const d of order) {
       if (counts[d] > max) {
         max = counts[d];

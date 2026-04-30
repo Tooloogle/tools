@@ -100,7 +100,7 @@ describe('sql-to-json-converter web component test', () => {
             expect(component.errorMessage).toMatch(/skipped 1 row/i);
         });
 
-        it('keeps single 0 / 0.5 / -0 as numbers (only multi-digit leading-zero strings are preserved)', () => {
+        it('keeps single 0 / 0.5 / -0.25 as numbers (only multi-digit leading-zero strings are preserved)', () => {
             const out = convert('a,b,c\n0,0.5,-0.25');
             expect(JSON.parse(out)).toEqual([{ a: 0, b: 0.5, c: -0.25 }]);
         });
