@@ -8,7 +8,7 @@ export class DnsLookup extends WebComponentBase {
 
     @property({ type: String }) domain = '';
     @property({ type: String }) recordType = 'A';
-    @property({ type: Array }) results: any[] = [];
+    @property({ type: Array }) results: Array<{ name: string; type: number; TTL: number; data: string }> = [];
     @property({ type: String }) error = '';
     @property({ type: Boolean }) loading = false;
 

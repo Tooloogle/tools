@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('tsv-to-json-converter')
 export class TsvToJsonConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    tsvToJsonConverterStyles];
+    WebComponentBase.styles,
+    tsvToJsonConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -37,7 +38,7 @@ export class TsvToJsonConverter extends WebComponentBase {
       // Parse remaining lines as data
       const data = lines.slice(1).map(line => {
         const values = line.split('\t');
-        const obj: any = {};
+        const obj: Record<string, string> = {};
         headers.forEach((header, index) => {
           obj[header] = values[index] || '';
         });

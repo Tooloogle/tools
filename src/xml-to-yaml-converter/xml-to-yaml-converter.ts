@@ -8,7 +8,8 @@ import '../t-copy-button/index.js';
 @customElement('xml-to-yaml-converter')
 export class XmlToYamlConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    xmlToYamlConverterStyles];
+    WebComponentBase.styles,
+    xmlToYamlConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -18,7 +19,7 @@ export class XmlToYamlConverter extends WebComponentBase {
     this.process();
   }
 
-  private xmlToJson(xml: string): any {
+  private xmlToJson(xml: string): unknown {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xml, 'text/xml');
 
@@ -26,12 +27,12 @@ export class XmlToYamlConverter extends WebComponentBase {
       throw new Error('Invalid XML');
     }
 
-    const parseNode = (node: Element): any => {
+    const parseNode = (node: Element): unknown => {
       if (node.children.length === 0) {
         return node.textContent || '';
       }
 
-      const obj: any = {};
+      const obj: Record<string, unknown> = {};
       const children = Array.from(node.children);
 
       children.forEach(child => {
@@ -43,7 +44,7 @@ export class XmlToYamlConverter extends WebComponentBase {
             obj[key] = [obj[key]];
           }
 
-          obj[key].push(value);
+          (obj[key] as unknown[]).push(value);
         } else {
           obj[key] = value;
         }

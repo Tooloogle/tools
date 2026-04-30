@@ -8,7 +8,8 @@ import '../t-copy-button/index.js';
 @customElement('yaml-to-xml-converter')
 export class YamlToXmlConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    yamlToXmlConverterStyles];
+    WebComponentBase.styles,
+    yamlToXmlConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -18,7 +19,7 @@ export class YamlToXmlConverter extends WebComponentBase {
     this.process();
   }
 
-  private jsonToXml(obj: any, rootName = 'root'): string {
+  private jsonToXml(obj: unknown, rootName = 'root'): string {
     if (typeof obj !== 'object' || obj === null) {
       return String(obj);
     }
@@ -30,9 +31,10 @@ export class YamlToXmlConverter extends WebComponentBase {
         xml += `<item>${this.jsonToXml(item, 'item')}</item>`;
       });
     } else {
-      for (const key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) {
-          const value = obj[key];
+      const record = obj as Record<string, unknown>;
+      for (const key in record) {
+        if (Object.prototype.hasOwnProperty.call(record, key)) {
+          const value = record[key];
           if (typeof value === 'object' && value !== null) {
             xml += this.jsonToXml(value, key);
           } else {

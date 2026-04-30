@@ -13,7 +13,8 @@ dayjs.extend(duration);
 @customElement('age-calculator')
 export class AgeCalculator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    ageCalculatorStyles];
+    WebComponentBase.styles,
+    ageCalculatorStyles];
 
   @property()
   haveTime = false;
@@ -25,7 +26,16 @@ export class AgeCalculator extends WebComponentBase {
   dob = '';
 
   @property()
-  result: any = {};
+  result: Partial<{
+    days: number;
+    months: number;
+    years: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+    milliseconds: number;
+    total: Record<string, number | string>;
+  }> = {};
 
   calculate() {
     // TODO: fix the date diff either in dayjs or use another lib or write our own code to calculate date diff
@@ -114,7 +124,7 @@ export class AgeCalculator extends WebComponentBase {
                 <table class="w-full table table-auto border-collapse">
                   <tbody>
                     ${repeat(
-                      Object.keys(this.result.total),
+                      Object.keys(this.result.total ?? {}),
                       key => html`
                         <tr
                           class="border-0 border-t border-solid dark:border-gray-700"
@@ -123,7 +133,7 @@ export class AgeCalculator extends WebComponentBase {
                             ${key}
                           </td>
                           <td class="px-6 py-2 text-end">
-                            ${formatNumber(this.result.total[key], 0)}
+                            ${formatNumber(Number(this.result.total?.[key] ?? 0), 0)}
                           </td>
                         </tr>
                       `
