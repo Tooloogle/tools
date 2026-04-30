@@ -44,7 +44,7 @@
   },
   "homepage": "https://github.com/Tooloogle/tools#readme",
   "engines": {
-    "node": ">=18"
+    "node": ">=18.18.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

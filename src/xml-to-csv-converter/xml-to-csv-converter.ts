@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('xml-to-csv-converter')
 export class XmlToCsvConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    xmlToCsvConverterStyles];
+    WebComponentBase.styles,
+    xmlToCsvConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -17,7 +18,7 @@ export class XmlToCsvConverter extends WebComponentBase {
     this.process();
   }
 
-  private xmlToJson(xml: string): any[] {
+  private xmlToJson(xml: string): Array<Record<string, unknown>> {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xml, 'text/xml');
 
@@ -25,12 +26,12 @@ export class XmlToCsvConverter extends WebComponentBase {
       throw new Error('Invalid XML');
     }
 
-    const parseNode = (node: Element): any => {
+    const parseNode = (node: Element): unknown => {
       if (node.children.length === 0) {
         return node.textContent || '';
       }
 
-      const obj: any = {};
+      const obj: Record<string, unknown> = {};
       Array.from(node.children).forEach(child => {
         const key = child.tagName;
         const value =
@@ -42,7 +43,7 @@ export class XmlToCsvConverter extends WebComponentBase {
     };
 
     const rows = Array.from(xmlDoc.documentElement.children);
-    return rows.map(row => parseNode(row));
+    return rows.map(row => parseNode(row) as Record<string, unknown>);
   }
 
   private process() {

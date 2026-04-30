@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('sql-to-json-converter')
 export class SqlToJsonConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    sqlToJsonConverterStyles];
+    WebComponentBase.styles,
+    sqlToJsonConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -71,8 +72,8 @@ export class SqlToJsonConverter extends WebComponentBase {
       .filter(h => h);
   }
 
-  private parseDataRows(lines: string[], headers: string[]): any[] {
-    const result: any[] = [];
+  private parseDataRows(lines: string[], headers: string[]): Array<Record<string, unknown>> {
+    const result: Array<Record<string, unknown>> = [];
 
     for (const line of lines) {
       const trimmedLine = line.trim();
@@ -86,7 +87,7 @@ export class SqlToJsonConverter extends WebComponentBase {
         continue;
       }
 
-      const obj: any = {};
+      const obj: Record<string, unknown> = {};
       headers.forEach((header, index) => {
         obj[header] = this.parseValue(values[index]);
       });
@@ -97,7 +98,7 @@ export class SqlToJsonConverter extends WebComponentBase {
     return result;
   }
 
-  private parseValue(value: any): any {
+  private parseValue(value: string): string | number | boolean | null {
     // Try to parse as number
     if (/^-?\d+(\.\d+)?$/.test(value)) {
       return parseFloat(value);

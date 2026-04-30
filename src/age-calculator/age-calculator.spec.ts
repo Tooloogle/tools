@@ -65,7 +65,7 @@ describe('age-calculator web component test', () => {
         component.today = '2000-01-02';
         component.calculate();
 
-        expect(component.result.total.days).toBe(1);
+        expect(component.result.total?.days).toBe(1);
     });
 
     it('should handle same date correctly', () => {

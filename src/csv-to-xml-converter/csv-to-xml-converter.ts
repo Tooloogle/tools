@@ -8,7 +8,8 @@ import '../t-copy-button/index.js';
 @customElement('csv-to-xml-converter')
 export class CsvToXmlConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    csvToXmlConverterStyles];
+    WebComponentBase.styles,
+    csvToXmlConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -37,7 +38,7 @@ export class CsvToXmlConverter extends WebComponentBase {
 
       let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<root>\n';
 
-      result.data.forEach((row: any) => {
+      (result.data as Array<Record<string, unknown>>).forEach((row) => {
         xml += '  <row>\n';
         for (const key in row) {
           if (Object.prototype.hasOwnProperty.call(row, key)) {

@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('meta-tags-generator')
 export class MetaTagsGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    metaTagsGeneratorStyles];
+    WebComponentBase.styles,
+    metaTagsGeneratorStyles];
 
   @property({ type: String }) override title = '';
   @property({ type: String }) description = '';
@@ -24,7 +25,7 @@ export class MetaTagsGenerator extends WebComponentBase {
 
   private handleInput(field: string) {
     return (e: Event) => {
-      (this as any)[field] = (
+      (this as unknown as Record<string, unknown>)[field] = (
         e.target as HTMLInputElement | HTMLTextAreaElement
       ).value;
       this.process();

@@ -6,7 +6,8 @@ import globals from 'globals';
 
 export default [
     {
-        // Only lint src TS files (mirrors legacy .eslintignore behavior).
+        // Mirrors legacy .eslintignore behavior. scripts/css-to-ts.js is
+        // linted via the dedicated `files` block below.
         ignores: [
             'node_modules/**',
             'dist/**',
@@ -14,7 +15,10 @@ export default [
             'src/_libs/**',
             '**/*.spec.ts',
             '**/*.css.ts',
-            'scripts/**',
+            'scripts/create-new-tool.js',
+            'scripts/render-to-html.js',
+            'scripts/ssr-cli.js',
+            'scripts/validate-tools.js',
             'demo/**',
             'postbuild.js',
             'jest.config.ts',
@@ -52,7 +56,7 @@ export default [
                     varsIgnorePattern: '^_'
                 }
             ],
-            '@typescript-eslint/no-explicit-any': 'warn',
+            '@typescript-eslint/no-explicit-any': 'error',
             '@typescript-eslint/no-floating-promises': 'error',
             '@typescript-eslint/no-misused-promises': 'error',
             '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
@@ -134,6 +138,17 @@ export default [
                     ]
                 }
             ]
+        }
+    },
+    {
+        // Lint the css-to-ts build helper (was explicitly linted in the
+        // legacy setup and is still in the lint-staged glob).
+        files: ['scripts/css-to-ts.js'],
+        languageOptions: {
+            sourceType: 'module',
+            globals: {
+                ...globals.node
+            }
         }
     }
 ];

@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('htaccess-generator')
 export class HtaccessGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    htaccessGeneratorStyles];
+    WebComponentBase.styles,
+    htaccessGeneratorStyles];
 
   @property({ type: Boolean }) enableWwwRedirect = false;
   @property({ type: Boolean }) enableHttpsRedirect = false;
@@ -23,7 +24,7 @@ export class HtaccessGenerator extends WebComponentBase {
 
   private handleCheckbox(field: string) {
     return (e: Event) => {
-      (this as any)[field] = (e.target as HTMLInputElement).checked;
+      (this as unknown as Record<string, unknown>)[field] = (e.target as HTMLInputElement).checked;
       this.process();
     };
   }
