@@ -41,6 +41,7 @@ export class QrCodeGenerator extends WebComponentBase {
   @property()
   downloadExt: FileExtension = 'jpeg';
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   override async connectedCallback() {
     super.connectedCallback();
     setTimeout(() => {

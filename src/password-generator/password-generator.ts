@@ -12,7 +12,6 @@ const passwordChars =
 function secureRandomIndex(max: number): number {
   const arr = new Uint32Array(1);
   const limit = Math.floor(0x100000000 / max) * max;
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     crypto.getRandomValues(arr);
     if (arr[0] < limit) {

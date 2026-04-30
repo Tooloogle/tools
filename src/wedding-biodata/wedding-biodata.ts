@@ -98,7 +98,6 @@ export class WeddingBiodata extends WebComponentBase {
     }
   }
 
-  /* eslint-disable-next-line lit/no-template-map */
   private renderNavigation() {
     const sections = [
       { id: 'personal', label: 'Personal Info' },

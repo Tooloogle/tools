@@ -165,7 +165,6 @@ export class EmailTemplateGenerator extends WebComponentBase {
     this.generateTemplate();
   }
 
-  // eslint-disable-next-line max-lines-per-function
   override render() {
     return html`
       <div class="container">
