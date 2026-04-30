@@ -3,6 +3,7 @@ import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import csvToXmlConverterStyles from './csv-to-xml-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import Papa from 'papaparse';
+import { escapeXml, sanitizeXmlName } from '../_utils/XmlHelper.js';
 import '../t-copy-button/index.js';
 
 @customElement('csv-to-xml-converter')
@@ -42,7 +43,8 @@ export class CsvToXmlConverter extends WebComponentBase {
         xml += '  <row>\n';
         for (const key in row) {
           if (Object.prototype.hasOwnProperty.call(row, key)) {
-            xml += `    <${key}>${row[key]}</${key}>\n`;
+            const safeKey = sanitizeXmlName(key);
+            xml += `    <${safeKey}>${escapeXml(row[key])}</${safeKey}>\n`;
           }
         }
 

@@ -3,6 +3,7 @@ import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import yamlToXmlConverterStyles from './yaml-to-xml-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import * as yaml from 'js-yaml';
+import { escapeXml, sanitizeXmlName } from '../_utils/XmlHelper.js';
 import '../t-copy-button/index.js';
 
 @customElement('yaml-to-xml-converter')
@@ -20,15 +21,24 @@ export class YamlToXmlConverter extends WebComponentBase {
   }
 
   private jsonToXml(obj: unknown, rootName = 'root'): string {
+    const safeRoot = sanitizeXmlName(rootName);
+
     if (typeof obj !== 'object' || obj === null) {
-      return String(obj);
+      return `<${safeRoot}>${escapeXml(obj)}</${safeRoot}>`;
     }
 
-    let xml = `<${rootName}>`;
+    let xml = `<${safeRoot}>`;
 
     if (Array.isArray(obj)) {
+      // Each array item gets its own <item> wrapper. We pass the wrapper name
+      // to jsonToXml when the item is an object/array (so the recursive call
+      // wraps), and emit the wrapper directly for primitives.
       obj.forEach((item) => {
-        xml += `<item>${this.jsonToXml(item, 'item')}</item>`;
+        if (typeof item === 'object' && item !== null) {
+          xml += this.jsonToXml(item, 'item');
+        } else {
+          xml += `<item>${escapeXml(item)}</item>`;
+        }
       });
     } else {
       const record = obj as Record<string, unknown>;
@@ -38,13 +48,14 @@ export class YamlToXmlConverter extends WebComponentBase {
           if (typeof value === 'object' && value !== null) {
             xml += this.jsonToXml(value, key);
           } else {
-            xml += `<${key}>${String(value)}</${key}>`;
+            const safeKey = sanitizeXmlName(key);
+            xml += `<${safeKey}>${escapeXml(value)}</${safeKey}>`;
           }
         }
       }
     }
 
-    xml += `</${rootName}>`;
+    xml += `</${safeRoot}>`;
     return xml;
   }
 

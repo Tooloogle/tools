@@ -20,6 +20,31 @@ describe('xml-to-yaml-converter web component test', () => {
         expect(component).toBeInstanceOf(XmlToYamlConverter);
     });
 
+    describe('XML -> YAML conversion', () => {
+        let component: XmlToYamlConverter;
+
+        beforeEach(() => {
+            component = window.document.createElement(componentTag) as XmlToYamlConverter;
+            document.body.appendChild(component);
+        });
+
+        const convert = (xml: string): string => {
+            component.inputText = xml;
+            (component as unknown as { process: () => void }).process();
+            return component.outputText;
+        };
+
+        it('aggregates duplicate tags into an array even when the first value is empty', () => {
+            // Bug: previously `if (obj[key])` treated the empty-string first
+            // value as falsy and overwrote it with the second value instead
+            // of producing an array.
+            const yamlOut = convert('<root><item></item><item>second</item></root>');
+            // js-yaml emits arrays as block sequences with `-` items; the
+            // empty first item appears as `null` (or empty), the second as 'second'.
+            expect(yamlOut).toMatch(/item:\s*\n\s*-\s*('?'?|null|~)\s*\n\s*-\s*second/);
+        });
+    });
+
     afterEach(() => {
         document.body.innerHTML = '';
     });

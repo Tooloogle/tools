@@ -20,6 +20,33 @@ describe('csv-to-xml-converter web component test', () => {
         expect(component).toBeInstanceOf(CsvToXmlConverter);
     });
 
+    describe('CSV -> XML conversion', () => {
+        let component: CsvToXmlConverter;
+
+        beforeEach(() => {
+            component = window.document.createElement(componentTag) as CsvToXmlConverter;
+            document.body.appendChild(component);
+        });
+
+        const convert = (csv: string): string => {
+            component.inputText = csv;
+            (component as unknown as { process: () => void }).process();
+            return component.outputText;
+        };
+
+        it('escapes XML entities in cell values', () => {
+            const xml = convert('name,bio\nAlice,"Tom & <Jerry>"');
+            expect(xml).toContain('<bio>Tom &amp; &lt;Jerry&gt;</bio>');
+            expect(xml).not.toContain('Tom & <Jerry>');
+        });
+
+        it('sanitizes invalid characters in column names', () => {
+            const xml = convert('first name,age\nAlice,30');
+            expect(xml).toContain('<first_name>Alice</first_name>');
+            expect(xml).not.toContain('<first name>');
+        });
+    });
+
     afterEach(() => {
         document.body.innerHTML = '';
     });
