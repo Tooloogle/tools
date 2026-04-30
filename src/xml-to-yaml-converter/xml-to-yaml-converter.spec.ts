@@ -43,6 +43,36 @@ describe('xml-to-yaml-converter web component test', () => {
             // empty first item appears as `null` (or empty), the second as 'second'.
             expect(yamlOut).toMatch(/item:\s*\n\s*-\s*('?'?|null|~)\s*\n\s*-\s*second/);
         });
+
+        it('returns empty output for empty/whitespace input', () => {
+            expect(convert('')).toBe('');
+            expect(convert('   \n\t')).toBe('');
+        });
+
+        it('handles nested elements', () => {
+            const out = convert('<root><user><name>Alice</name></user></root>');
+            expect(out).toMatch(/user:\s*\n\s+name:\s*Alice/);
+        });
+
+        it('surfaces an Error: prefix when XML is invalid', () => {
+            expect(convert('<unclosed>')).toMatch(/^Error:/);
+        });
+
+        it('drops attributes (pinned current limitation)', () => {
+            // Known limitation: XML attributes are not preserved. If we ever
+            // change this, update both the implementation and this test.
+            const out = convert('<book id="42">Dune</book>');
+            expect(out).not.toContain('42');
+            expect(out).toMatch(/Dune/);
+        });
+
+        it('drops mixed-content text siblings (pinned current limitation)', () => {
+            // Known limitation: only child elements are walked; raw text
+            // around child elements is discarded.
+            const out = convert('<p>hello <b>world</b>!</p>');
+            expect(out).toMatch(/b:\s*world/);
+            expect(out).not.toMatch(/hello/);
+        });
     });
 
     afterEach(() => {

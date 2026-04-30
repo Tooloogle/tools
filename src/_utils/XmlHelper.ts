@@ -10,12 +10,21 @@ const XML_ENTITIES: Record<string, string> = {
     "'": '&apos;'
 };
 
+// XML 1.0 forbids most C0 control characters in element/attribute text.
+// Only \t (0x09), \n (0x0A), and \r (0x0D) are legal; everything else in
+// 0x00-0x1F (and the lone 0x7F DEL) must be stripped.
+// eslint-disable-next-line no-control-regex
+const ILLEGAL_XML_CHARS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g;
+
 /**
- * Escape XML entities in a text/attribute value. Leaves all other characters
- * untouched. Safe for `<tag>VALUE</tag>` and `attr="VALUE"` insertion.
+ * Escape XML entities in a text/attribute value and strip characters that
+ * are illegal under XML 1.0. Safe for `<tag>VALUE</tag>` and
+ * `attr="VALUE"` insertion.
  */
 export function escapeXml(value: unknown): string {
-    return String(value ?? '').replace(/[&<>"']/g, ch => XML_ENTITIES[ch]);
+    return String(value ?? '')
+        .replace(ILLEGAL_XML_CHARS, '')
+        .replace(/[&<>"']/g, ch => XML_ENTITIES[ch]);
 }
 
 /**

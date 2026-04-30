@@ -53,6 +53,30 @@ describe('yaml-to-xml-converter web component test', () => {
             expect(convert('"first name": Alice'))
                 .toBe('<root><first_name>Alice</first_name></root>');
         });
+
+        it('returns empty output for empty/whitespace input', () => {
+            expect(convert('')).toBe('');
+            expect(convert('   \n\t')).toBe('');
+        });
+
+        it('handles nested objects', () => {
+            expect(convert('user:\n  name: Alice\n  age: 30'))
+                .toBe('<root><user><name>Alice</name><age>30</age></user></root>');
+        });
+
+        it('emits numeric and boolean values without quoting', () => {
+            expect(convert('count: 42\nactive: true'))
+                .toBe('<root><count>42</count><active>true</active></root>');
+        });
+
+        it('wraps a top-level scalar under <root>', () => {
+            expect(convert('hello')).toBe('<root>hello</root>');
+        });
+
+        it('wraps a top-level array under <root> with <item> children', () => {
+            expect(convert('- a\n- b'))
+                .toBe('<root><item>a</item><item>b</item></root>');
+        });
     });
 
     afterEach(() => {

@@ -21,6 +21,12 @@ describe('XmlHelper', () => {
             expect(escapeXml(null)).toBe('');
             expect(escapeXml(undefined)).toBe('');
         });
+
+        it('strips illegal XML 1.0 control characters but keeps \\t, \\n, \\r', () => {
+            expect(escapeXml('a\u0000b\u0001c')).toBe('abc');
+            expect(escapeXml('a\u0008b\u000Bc\u000Cd\u007Fe')).toBe('abcde');
+            expect(escapeXml('line1\nline2\rline3\tend')).toBe('line1\nline2\rline3\tend');
+        });
     });
 
     describe('sanitizeXmlName', () => {
