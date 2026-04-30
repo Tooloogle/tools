@@ -39,7 +39,9 @@ export class XmlToYamlConverter extends WebComponentBase {
         const key = child.tagName;
         const value = parseNode(child);
 
-        if (obj[key]) {
+        // Use an own-property check (not a truthy check) so an empty-string
+        // or object first value still triggers array aggregation on duplicates.
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
           if (!Array.isArray(obj[key])) {
             obj[key] = [obj[key]];
           }

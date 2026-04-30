@@ -3,7 +3,29 @@ import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import yamlToXmlConverterStyles from './yaml-to-xml-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import * as yaml from 'js-yaml';
+import { escapeXml, sanitizeXmlName } from '../_utils/XmlHelper.js';
 import '../t-copy-button/index.js';
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  if (value === null || typeof value !== 'object') {
+    return false;
+  }
+
+  const proto = Object.getPrototypeOf(value);
+  return proto === Object.prototype || proto === null;
+}
+
+function isStructural(value: unknown): boolean {
+  return Array.isArray(value) || isPlainObject(value);
+}
+
+function scalarToString(value: unknown): string {
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+
+  return String(value ?? '');
+}
 
 @customElement('yaml-to-xml-converter')
 export class YamlToXmlConverter extends WebComponentBase {
@@ -20,31 +42,54 @@ export class YamlToXmlConverter extends WebComponentBase {
   }
 
   private jsonToXml(obj: unknown, rootName = 'root'): string {
-    if (typeof obj !== 'object' || obj === null) {
-      return String(obj);
+    const safeRoot = sanitizeXmlName(rootName);
+
+    // Treat non-plain objects (Date, RegExp, etc. — js-yaml deserializes
+    // YAML timestamps to Date) as scalars. Otherwise they fall into the
+    // object branch below and serialize as empty elements because they
+    // have no enumerable own keys.
+    if (!isStructural(obj)) {
+      return `<${safeRoot}>${escapeXml(scalarToString(obj))}</${safeRoot}>`;
     }
 
-    let xml = `<${rootName}>`;
+    const body = Array.isArray(obj)
+      ? this.arrayToXml(obj)
+      : this.recordToXml(obj as Record<string, unknown>);
 
-    if (Array.isArray(obj)) {
-      obj.forEach((item) => {
-        xml += `<item>${this.jsonToXml(item, 'item')}</item>`;
-      });
-    } else {
-      const record = obj as Record<string, unknown>;
-      for (const key in record) {
-        if (Object.prototype.hasOwnProperty.call(record, key)) {
-          const value = record[key];
-          if (typeof value === 'object' && value !== null) {
-            xml += this.jsonToXml(value, key);
-          } else {
-            xml += `<${key}>${String(value)}</${key}>`;
-          }
-        }
+    return `<${safeRoot}>${body}</${safeRoot}>`;
+  }
+
+  private arrayToXml(arr: unknown[]): string {
+    let xml = '';
+    // Each array item gets its own <item> wrapper. We pass the wrapper name
+    // to jsonToXml when the item is a structural object/array (so the
+    // recursive call wraps), and emit the wrapper directly for scalars.
+    arr.forEach((item) => {
+      if (isStructural(item)) {
+        xml += this.jsonToXml(item, 'item');
+      } else {
+        xml += `<item>${escapeXml(scalarToString(item))}</item>`;
+      }
+    });
+    return xml;
+  }
+
+  private recordToXml(record: Record<string, unknown>): string {
+    let xml = '';
+    for (const key in record) {
+      if (!Object.prototype.hasOwnProperty.call(record, key)) {
+        continue;
+      }
+
+      const value = record[key];
+      if (isStructural(value)) {
+        xml += this.jsonToXml(value, key);
+      } else {
+        const safeKey = sanitizeXmlName(key);
+        xml += `<${safeKey}>${escapeXml(scalarToString(value))}</${safeKey}>`;
       }
     }
 
-    xml += `</${rootName}>`;
     return xml;
   }
 

@@ -67,7 +67,7 @@ export class SqlToJsonConverter extends WebComponentBase {
   private parseHeaders(headerLine: string): string[] {
     return headerLine
       .trim()
-      .split(/[\t|]/)
+      .split(/[\t|,]/)
       .map(h => h.trim())
       .filter(h => h);
   }
@@ -81,7 +81,7 @@ export class SqlToJsonConverter extends WebComponentBase {
         continue;
       }
 
-      const values = trimmedLine.split(/[\t|]/).map(v => v.trim());
+      const values = trimmedLine.split(/[\t|,]/).map(v => v.trim());
 
       if (values.length !== headers.length) {
         continue;
