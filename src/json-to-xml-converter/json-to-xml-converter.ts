@@ -2,6 +2,8 @@ import { html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import jsonToXmlConverterStyles from "./json-to-xml-converter.css.js";
+import "../t-file-dropzone/index.js";
+import type { TFileDropzoneChangeDetail } from "../t-file-dropzone/t-file-dropzone.js";
 
 interface JsonObject {
   [key: string]: unknown;
@@ -21,14 +23,14 @@ type JsonValue =
 @customElement("json-to-xml-converter")
 export class JsonToXmlConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    jsonToXmlConverterStyles];
+    WebComponentBase.styles,
+    jsonToXmlConverterStyles];
 
   @property({ type: Object }) file: File | null = null;
   @property({ type: String }) error = "";
 
-  private handleFileChange(e: Event) {
-    const input = e.target as HTMLInputElement;
-    this.file = input.files?.[0] ?? null;
+  private handleFileChange(e: CustomEvent<TFileDropzoneChangeDetail>) {
+    this.file = e.detail.file;
     this.error = "";
   }
 
@@ -205,13 +207,11 @@ export class JsonToXmlConverter extends WebComponentBase {
   override render() {
     return html`
       <div class="space-y-3">
-        <label>Select a JSON file:</label>
-        <input
-          type="file"
+        <t-file-dropzone
           accept="application/json,text/json,.json"
-          class="form-input"
-          @change="${this.handleFileChange}"
-        />
+          label="Drop a JSON file here or click to browse"
+          @change=${this.handleFileChange}
+        ></t-file-dropzone>
         <button
           class="btn btn-blue"
           @click="${this.convert}"
