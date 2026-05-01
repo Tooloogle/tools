@@ -62,6 +62,8 @@ const tools = [
     "html-entity-encoder-decoder",
     "html-tags-stripper",
     "html-to-markdown-converter",
+    "image-compressor",
+    "image-resizer",
     "image-to-base64",
     "ip-address-converter",
     "javascript-beautifier",

@@ -1,0 +1,24 @@
+.preview-img {
+  @apply mt-3 block w-full max-w-md rounded border border-slate-200;
+}
+
+.dim-row {
+  @apply flex flex-wrap items-end gap-3;
+}
+
+.dim-field {
+  @apply flex-1;
+  min-width: 7rem;
+}
+
+.mode-toggle {
+  @apply mb-2 flex gap-3 text-sm;
+}
+
+.stat-row {
+  @apply mt-3 flex flex-wrap gap-4 text-sm;
+}
+
+.stat-row strong {
+  @apply font-semibold;
+}
