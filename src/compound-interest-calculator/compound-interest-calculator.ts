@@ -33,7 +33,7 @@ export class CompoundInterestCalculator extends WebComponentBase {
     private renderInputFields() {
         return html`
             <div>
-                <label class="block mb-2 font-semibold">Principal Amount ($):</label>
+                <label class="block mb-2 font-semibold">Principal Amount:</label>
                 <input
                     type="number"
                     min="0"
@@ -100,11 +100,11 @@ export class CompoundInterestCalculator extends WebComponentBase {
             <div class="bg-blue-50 p-4 rounded-lg space-y-2">
                 <div class="flex justify-between">
                     <span class="font-semibold">Total Amount:</span>
-                    <span class="text-xl font-bold text-blue-600">$${this.totalAmount.toFixed(2)}</span>
+                    <span class="text-xl font-bold text-blue-600">${this.totalAmount.toFixed(2)}</span>
                 </div>
                 <div class="flex justify-between">
                     <span class="font-semibold">Interest Earned:</span>
-                    <span class="text-lg font-semibold text-green-600">$${this.interest.toFixed(2)}</span>
+                    <span class="text-lg font-semibold text-green-600">${this.interest.toFixed(2)}</span>
                 </div>
             </div>
         `;

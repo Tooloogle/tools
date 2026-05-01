@@ -22,7 +22,7 @@ export class DiscountCalculator extends WebComponentBase {
         return html`
             <div class="space-y-4">
                 <div>
-                    <label class="block mb-2 font-semibold">Original Price ($):</label>
+                    <label class="block mb-2 font-semibold">Original Price:</label>
                     <input
                         type="number"
                         class="form-input w-full"
@@ -47,15 +47,15 @@ export class DiscountCalculator extends WebComponentBase {
                     <div class="bg-gray-100 p-4 rounded space-y-2">
                         <div class="flex justify-between">
                             <span>Discount Amount:</span>
-                            <span class="font-bold text-red-600">-$${this.discountAmount.toFixed(2)}</span>
+                            <span class="font-bold text-red-600">-${this.discountAmount.toFixed(2)}</span>
                         </div>
                         <div class="flex justify-between">
                             <span>You Save:</span>
-                            <span class="font-bold text-green-600">$${this.savings.toFixed(2)}</span>
+                            <span class="font-bold text-green-600">${this.savings.toFixed(2)}</span>
                         </div>
                         <div class="flex justify-between border-t pt-2">
                             <span>Final Price:</span>
-                            <span class="font-bold text-lg text-blue-600">$${this.finalPrice.toFixed(2)}</span>
+                            <span class="font-bold text-lg text-blue-600">${this.finalPrice.toFixed(2)}</span>
                         </div>
                     </div>
                 ` : ''}

@@ -28,15 +28,15 @@ export class TipCalculator extends WebComponentBase {
             <div class="bg-gray-100 p-4 rounded space-y-2">
                 <div class="flex justify-between">
                     <span>Tip Amount:</span>
-                    <span class="font-bold">$${this.tipAmount.toFixed(2)}</span>
+                    <span class="font-bold">${this.tipAmount.toFixed(2)}</span>
                 </div>
                 <div class="flex justify-between">
                     <span>Total Amount:</span>
-                    <span class="font-bold">$${this.totalAmount.toFixed(2)}</span>
+                    <span class="font-bold">${this.totalAmount.toFixed(2)}</span>
                 </div>
                 <div class="flex justify-between border-t pt-2">
                     <span>Per Person:</span>
-                    <span class="font-bold text-lg">$${this.perPersonAmount.toFixed(2)}</span>
+                    <span class="font-bold text-lg">${this.perPersonAmount.toFixed(2)}</span>
                 </div>
             </div>
         `;
@@ -46,7 +46,7 @@ export class TipCalculator extends WebComponentBase {
         return html`
             <div class="space-y-4">
                 <div>
-                    <label class="block mb-2 font-semibold">Bill Amount ($):</label>
+                    <label class="block mb-2 font-semibold">Bill Amount:</label>
                     <input type="number" class="form-input w-full" min="0" step="0.01"
                         .value=${String(this.billAmount)}
                         @input=${(e: Event) => { this.billAmount = Number((e.target as HTMLInputElement).value); this.calculate(); }}
