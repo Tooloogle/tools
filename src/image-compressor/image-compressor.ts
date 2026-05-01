@@ -41,14 +41,25 @@ export class ImageCompressor extends WebComponentBase {
     @property({ type: Number }) debounceMs = 150;
 
     private debounceTimer?: number;
+    private runId = 0;
+
+    private clearSelectedFileState() {
+        this.runId++;
+        this.revokePreview();
+        this.resetOutput();
+        this.file = null;
+        this.originalSize = 0;
+        this.busy = false;
+    }
 
     onFileChange = async (e: CustomEvent<TFileDropzoneChangeDetail>) => {
         const file = e.detail.file;
-        this.resetOutput();
         if (!file) {
+            this.clearSelectedFileState();
             return;
         }
 
+        this.resetOutput();
         this.file = file;
         this.originalSize = file.size;
         this.revokePreview();
@@ -57,7 +68,23 @@ export class ImageCompressor extends WebComponentBase {
     };
 
     onModeChange = (e: Event) => {
-        this.mode = (e.target as HTMLInputElement).value as CompressMode;
+        const next = (e.target as HTMLInputElement).value as CompressMode;
+        if (this.mode === next) {
+            return;
+        }
+
+        this.mode = next;
+        if (!this.file) {
+            return;
+        }
+
+        if (next === 'quality') {
+            this.scheduleCompress();
+        } else {
+            // Stale stats from a previous quality-mode run shouldn't linger
+            // until the user clicks "Compress to target size".
+            this.resetOutput();
+        }
     };
 
     onFormatChange = (e: Event) => {
@@ -93,21 +120,37 @@ export class ImageCompressor extends WebComponentBase {
             return;
         }
 
+        const myRun = ++this.runId;
         this.busy = true;
         try {
+            let blob: Blob;
+            let quality: number;
             if (this.mode === 'quality') {
-                const blob = await encode(this.file, this.outputFormat, this.quality);
-                this.commitOutput(blob, this.quality);
+                blob = await encode(this.file, this.outputFormat, this.quality);
+                quality = this.quality;
             } else {
                 const result = await searchTargetSize(this.file, this.outputFormat, this.targetSizeKB * 1024);
-                this.commitOutput(result.blob, result.quality);
+                blob = result.blob;
+                quality = result.quality;
             }
 
+            // A newer run started while we were encoding; discard this result.
+            if (myRun !== this.runId) {
+                return;
+            }
+
+            this.commitOutput(blob, quality);
             this.errorMsg = '';
         } catch (err) {
+            if (myRun !== this.runId) {
+                return;
+            }
+
             this.errorMsg = err instanceof Error ? err.message : 'Compression failed.';
         } finally {
-            this.busy = false;
+            if (myRun === this.runId) {
+                this.busy = false;
+            }
         }
     };
 

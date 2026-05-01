@@ -42,13 +42,25 @@ export class ImageResizer extends WebComponentBase {
 
     @property({ type: Number }) maxScalePercent = 500;
 
+    private clearSelectedFileState() {
+        this.revokePreview();
+        this.resetOutput();
+        this.file = null;
+        this.originalWidth = 0;
+        this.originalHeight = 0;
+        this.targetWidth = 0;
+        this.targetHeight = 0;
+        this.scalePercent = 100;
+    }
+
     onFileChange = async (e: CustomEvent<TFileDropzoneChangeDetail>) => {
         const file = e.detail.file;
-        this.resetOutput();
         if (!file) {
+            this.clearSelectedFileState();
             return;
         }
 
+        this.resetOutput();
         this.file = file;
         this.revokePreview();
         this.previewUrl = URL.createObjectURL(file);
@@ -60,6 +72,7 @@ export class ImageResizer extends WebComponentBase {
             this.targetHeight = dims.height;
             this.scalePercent = 100;
         } catch {
+            this.clearSelectedFileState();
             this.errorMsg = 'Could not read image dimensions.';
         }
     };
