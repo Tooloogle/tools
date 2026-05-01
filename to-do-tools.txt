@@ -5,15 +5,13 @@ Do not re-scaffold any of the names below via `npm run new` without first revisi
 
 ---
 
-## Backlog — Could be implemented later (15 tools)
+## Backlog — Could be implemented later (13 tools)
 
-### [Browser] Requires complex File / Canvas APIs (7)
+### [Browser] Requires complex File / Canvas APIs (5)
 - favicon-generator: Requires file upload and canvas API for favicon generation from images
 - gif-to-webp-converter: Requires file upload, canvas, and format conversion libraries
-- image-compressor: Requires file upload and canvas API for compression
 - image-cropper: Requires file upload, canvas API, and interactive cropping UI
 - image-filter: Requires file upload and canvas API for filter effects
-- image-resizer: Requires file upload and canvas API for resizing
 - qr-code-reader: Requires camera API and QR code scanning library (jsQR)
 
 ### [Server / API] Requires server-side implementation (3)

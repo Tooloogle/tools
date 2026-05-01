@@ -1,0 +1,39 @@
+.preview-img {
+  @apply mt-3 block w-full max-w-md rounded border border-slate-200;
+}
+
+.mode-toggle {
+  @apply mb-2 flex gap-3 text-sm;
+}
+
+.quality-row {
+  @apply flex items-center gap-3;
+}
+
+.quality-row input[type="range"] {
+  @apply flex-1;
+}
+
+.quality-value {
+  @apply min-w-12 text-right font-mono text-sm;
+}
+
+.stat-row {
+  @apply mt-3 grid grid-cols-3 gap-3 text-sm;
+}
+
+.stat-card {
+  @apply rounded border border-slate-200 bg-slate-50 p-3 text-center;
+}
+
+.stat-card .label {
+  @apply block text-xs text-slate-500;
+}
+
+.stat-card .value {
+  @apply block font-mono text-base font-semibold;
+}
+
+.stat-card.savings .value {
+  @apply text-green-600;
+}
