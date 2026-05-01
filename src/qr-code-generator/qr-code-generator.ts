@@ -8,13 +8,16 @@ import { IQrStyleListItem, QrStyleList } from './qr-style-list.js';
 import { Logo } from './logo.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 import QRCodeStyling, { FileExtension } from 'qr-code-styling';
+import '../t-file-dropzone/index.js';
+import type { TFileDropzoneChangeDetail } from '../t-file-dropzone/t-file-dropzone.js';
 
 /* eslint-disable max-lines */
 @customElement('qr-code-generator')
 export class QrCodeGenerator extends WebComponentBase {
   static override styles = [
     WebComponentBase.styles,
-    qrCodeGeneratorStyles  ];
+    qrCodeGeneratorStyles
+  ];
   container: Ref<HTMLDivElement> = createRef();
 
   qrCode: QRCodeStyling = isBrowser()
@@ -98,13 +101,13 @@ export class QrCodeGenerator extends WebComponentBase {
     });
   }
 
-  async onImageUpload(e: Event) {
-    const target = e.target as HTMLInputElement;
-    if (!target.files?.length) {
+  async onImageUpload(e: CustomEvent<TFileDropzoneChangeDetail>) {
+    const file = e.detail.file;
+    if (!file) {
       return;
     }
 
-    this.image = await this.fileToBase64(target.files[0]);
+    this.image = await this.fileToBase64(file);
     this.qrCode.update({ image: this.image });
   }
 
@@ -267,12 +270,11 @@ export class QrCodeGenerator extends WebComponentBase {
           <div class="flex justify-between items-center">
             <label>
               Logo
-              <input
-                class="w-full"
-                type="file"
+              <t-file-dropzone
                 accept="image/*"
+                label="Drop a logo image or click to browse"
                 @change=${this.onImageUpload}
-              />
+              ></t-file-dropzone>
             </label>
             <button
               class="btn btn-red btn-sm btn-remove"

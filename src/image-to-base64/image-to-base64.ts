@@ -5,6 +5,8 @@ import { customElement, property } from 'lit/decorators.js';
 import { downloadText } from '../_utils/DomUtils.js';
 import { when } from 'lit/directives/when.js';
 import '../t-copy-button/index.js';
+import '../t-file-dropzone/index.js';
+import type { TFileDropzoneChangeDetail } from '../t-file-dropzone/t-file-dropzone.js';
 
 @customElement('image-to-base64')
 export class ImageToBase64 extends WebComponentBase {
@@ -16,10 +18,12 @@ export class ImageToBase64 extends WebComponentBase {
     @property()
     base64 = "";
 
-    async onImageChange(e: Event) {
-        const input = e.target as HTMLInputElement;
-        if (input?.files?.length && input.files[0]) {
-            this.base64 = await this.getBase64(input.files[0]) || "";
+    async onImageChange(e: CustomEvent<TFileDropzoneChangeDetail>) {
+        const file = e.detail.file;
+        if (file) {
+            this.base64 = await this.getBase64(file) || "";
+        } else {
+            this.base64 = "";
         }
     }
 
@@ -44,15 +48,11 @@ export class ImageToBase64 extends WebComponentBase {
     override render() {
         return html`
             <div>
-                <label class="block">
-                    <span class="inline-block py-1">Image: </span>
-                    <input
-                        name="image"
-                        accept="image/*"
-                        type="file"
-                        .value=${this.image}
-                        @change=${this.onImageChange}></input>
-                </label>
+                <t-file-dropzone
+                    accept="image/*"
+                    label="Drop an image here or click to browse"
+                    @change=${this.onImageChange}
+                ></t-file-dropzone>
                 ${when(this.base64, () => html`
                     <div class="py-3">
                         <img class="w-full" src=${this.base64} />

@@ -4,6 +4,7 @@ import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import svgOptimizerStyles from './svg-optimizer.css.js';
 import { SvgOptimizerUtils, FileUtils, OptimizationOptions } from './svg-optimizer-utils.js';
 import { SvgOptimizerTemplates } from './svg-optimizer-templates.js';
+import type { TFileDropzoneChangeDetail } from '../t-file-dropzone/t-file-dropzone.js';
 
 @customElement('svg-optimizer')
 export class SvgOptimizer extends WebComponentBase {
@@ -31,9 +32,8 @@ export class SvgOptimizer extends WebComponentBase {
         mergePaths: false
     };
 
-    private handleFileUpload(e: Event) {
-        const input = e.target as HTMLInputElement;
-        const file = input.files?.[0];
+    private handleFileUpload(e: CustomEvent<TFileDropzoneChangeDetail>) {
+        const file = e.detail.file;
 
         if (!file) {
             return;

@@ -3,6 +3,8 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import textToSpeechStyles from './text-to-speech.css.js';
 import { isBrowser } from '../_utils/DomUtils.js';
+import '../t-file-dropzone/index.js';
+import type { TFileDropzoneChangeDetail } from '../t-file-dropzone/t-file-dropzone.js';
 
 @customElement('text-to-speech')
 export class TextToSpeech extends WebComponentBase {
@@ -37,10 +39,9 @@ export class TextToSpeech extends WebComponentBase {
         this.text = inputElement.value;
     }
 
-    handleFileUpload(event: Event) {
-        const inputElement = event.target as HTMLInputElement;
-        if (inputElement.files && inputElement.files.length > 0) {
-            const file = inputElement.files[0];
+    handleFileUpload(event: CustomEvent<TFileDropzoneChangeDetail>) {
+        const file = event.detail.file;
+        if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 this.text = e.target?.result as string;
@@ -101,6 +102,7 @@ export class TextToSpeech extends WebComponentBase {
         );
     }
 
+    // eslint-disable-next-line max-lines-per-function
     override render() {
         return html`
             <div class="text-to-speech">
@@ -114,7 +116,11 @@ export class TextToSpeech extends WebComponentBase {
                     placeholder="Enter text to convert to speech"
                     rows="10"
                 ></textarea>
-                <input class="file-input" type="file" @change="${this.handleFileUpload}" />
+                <t-file-dropzone
+                    accept=".txt,text/plain"
+                    label="Drop a text file here or click to browse"
+                    @change="${this.handleFileUpload}"
+                ></t-file-dropzone>
                 </div>
                 <div class="controls mb-4">
                 <label for="voice">Voice:</label>
