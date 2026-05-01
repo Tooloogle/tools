@@ -2,17 +2,19 @@ import { html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import jpgToWebpConverterStyles from "./jpg-to-webp-converter.css.js";
+import "../t-file-dropzone/index.js";
+import type { TFileDropzoneChangeDetail } from "../t-file-dropzone/t-file-dropzone.js";
 
 @customElement("jpg-to-webp-converter")
 export class JpgToWebpConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    jpgToWebpConverterStyles];
+    WebComponentBase.styles,
+    jpgToWebpConverterStyles];
 
   @property({ type: Object }) file: File | null = null;
 
-  private handleFileChange(e: Event) {
-    const input = e.target as HTMLInputElement;
-    this.file = input.files?.[0] ?? null;
+  private handleFileChange(e: CustomEvent<TFileDropzoneChangeDetail>) {
+    this.file = e.detail.file;
   }
 
   private convert() {
@@ -55,13 +57,11 @@ export class JpgToWebpConverter extends WebComponentBase {
   override render() {
     return html`
       <div class="space-y-3">
-        <label>Select a JPG file:</label>
-        <input
-          type="file"
+        <t-file-dropzone
           accept="image/jpeg,image/jpg"
-          class="form-input"
-          @change="${this.handleFileChange}"
-        />
+          label="Drop a JPG file here or click to browse"
+          @change=${this.handleFileChange}
+        ></t-file-dropzone>
         <button
           class="btn btn-blue"
           @click="${this.convert}"
