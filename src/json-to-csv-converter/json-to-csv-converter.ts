@@ -3,6 +3,8 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import jsonToCsvConverterStyles from './json-to-csv-converter.css.js';
 import '../t-copy-button/index.js';
+import '../t-file-dropzone/index.js';
+import type { TFileDropzoneChangeDetail } from '../t-file-dropzone/t-file-dropzone.js';
 
 @customElement('json-to-csv-converter')
 export class JsonToCsvConverter extends WebComponentBase {
@@ -18,9 +20,8 @@ export class JsonToCsvConverter extends WebComponentBase {
         this.jsonString = inputElement.value;
     }
 
-    private onJsonFileUpload(event: Event) {
-        const inputElement = event.target as HTMLInputElement;
-        const file = inputElement.files ? inputElement.files[0] : null;
+    private onJsonFileUpload(event: CustomEvent<TFileDropzoneChangeDetail>) {
+        const file = event.detail.file;
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -103,7 +104,11 @@ export class JsonToCsvConverter extends WebComponentBase {
                         placeholder="Paste JSON data here or upload a JSON file"
                         rows="10"
                     ></textarea>
-                    <input class="file-input" type="file" @change=${this.onJsonFileUpload} accept=".json" />
+                    <t-file-dropzone
+                        accept=".json,application/json,text/json"
+                        label="Drop a JSON file here or click to browse"
+                        @change=${this.onJsonFileUpload}
+                    ></t-file-dropzone>
                     <button class="btn btn-blue mt-2" @click=${this.convertJsonToCsv}>Convert to CSV</button>
                 </div>
 

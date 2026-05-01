@@ -2,17 +2,19 @@ import { html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import pngToWebpConverterStyles from "./png-to-webp-converter.css.js";
+import "../t-file-dropzone/index.js";
+import type { TFileDropzoneChangeDetail } from "../t-file-dropzone/t-file-dropzone.js";
 
 @customElement("png-to-webp-converter")
 export class PngToWebpConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    pngToWebpConverterStyles];
+    WebComponentBase.styles,
+    pngToWebpConverterStyles];
 
   @property({ type: Object }) file: File | null = null;
 
-  private handleFileChange(e: Event) {
-    const input = e.target as HTMLInputElement;
-    this.file = input.files?.[0] ?? null;
+  private handleFileChange(e: CustomEvent<TFileDropzoneChangeDetail>) {
+    this.file = e.detail.file;
   }
 
   private convert() {
@@ -55,13 +57,11 @@ export class PngToWebpConverter extends WebComponentBase {
   override render() {
     return html`
       <div class="space-y-3">
-        <label>Select a PNG file:</label>
-        <input
-          type="file"
-          accept="image/png"
-          class="form-input"
-          @change="${this.handleFileChange}"
-        />
+        <t-file-dropzone
+          accept="image/png,.png"
+          label="Drop a PNG file here or click to browse"
+          @change=${this.handleFileChange}
+        ></t-file-dropzone>
         <button
           class="btn btn-blue"
           @click="${this.convert}"
