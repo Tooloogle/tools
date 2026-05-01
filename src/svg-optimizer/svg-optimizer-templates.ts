@@ -1,22 +1,23 @@
 import { html, TemplateResult } from 'lit';
 import { OptimizationOptions } from './svg-optimizer-utils.js';
+import '../t-file-dropzone/index.js';
+import type { TFileDropzoneChangeDetail } from '../t-file-dropzone/t-file-dropzone.js';
 
 export class SvgOptimizerTemplates {
   static renderUploadSection(
     originalSvg: string,
-    handleFileUpload: (e: Event) => void,
+    handleFileUpload: (e: CustomEvent<TFileDropzoneChangeDetail>) => void,
     handleSvgTextInput: (e: Event) => void
   ): TemplateResult {
     return html`
       <div class="input-section">
         <label class="upload-label">Upload SVG File</label>
         <div class="upload-area">
-          <input
-            type="file"
+          <t-file-dropzone
             accept=".svg,image/svg+xml"
-            class="form-input"
+            label="Drop an SVG file here or click to browse"
             @change="${handleFileUpload}"
-          />
+          ></t-file-dropzone>
         </div>
         <div class="text-input-area">
           <label>Or paste SVG code:</label>
