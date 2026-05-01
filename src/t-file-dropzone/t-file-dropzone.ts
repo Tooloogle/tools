@@ -1,4 +1,4 @@
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import tFileDropzoneStyles from './t-file-dropzone.css.js';
 import { customElement, property, state } from 'lit/decorators.js';
@@ -14,7 +14,7 @@ export class TFileDropzone extends WebComponentBase {
     static override styles = [WebComponentBase.styles, tFileDropzoneStyles];
 
     @property({ type: String })
-    accept = '*';
+    accept = '';
 
     @property({ type: Boolean })
     multiple = false;
@@ -67,11 +67,13 @@ export class TFileDropzone extends WebComponentBase {
     };
 
     private onDragOver = (e: DragEvent) => {
+        // Always preventDefault so the browser doesn't navigate to the dropped
+        // file when this dropzone is disabled.
+        e.preventDefault();
         if (this.disabled) {
             return;
         }
 
-        e.preventDefault();
         if (e.dataTransfer) {
             e.dataTransfer.dropEffect = 'copy';
         }
@@ -88,11 +90,13 @@ export class TFileDropzone extends WebComponentBase {
     };
 
     private onDrop = (e: DragEvent) => {
+        // Always preventDefault so a disabled dropzone doesn't let the browser
+        // open/navigate to the dropped file.
+        e.preventDefault();
         if (this.disabled) {
             return;
         }
 
-        e.preventDefault();
         this.isDragging = false;
         const dropped = e.dataTransfer?.files ? Array.from(e.dataTransfer.files) : [];
         const accepted = dropped.filter(f => this.matchesAccept(f));
@@ -120,6 +124,18 @@ export class TFileDropzone extends WebComponentBase {
 
         const name = file.name.toLowerCase();
         const type = file.type.toLowerCase();
+        // File.type can be empty for some dropped files (e.g. unknown ext).
+        // Stay lenient and fall back to extension-only matching in that case so
+        // the drop UX matches what the native picker would have allowed.
+        if (!type) {
+            const extTokens = tokens.filter(t => t.startsWith('.'));
+            if (!extTokens.length) {
+                return true;
+            }
+
+            return extTokens.some(t => name.endsWith(t));
+        }
+
         return tokens.some(token => {
             if (token.startsWith('.')) {
                 return name.endsWith(token);
@@ -170,7 +186,7 @@ export class TFileDropzone extends WebComponentBase {
                 <input
                     class="dropzone-input"
                     type="file"
-                    accept=${this.accept}
+                    accept=${this.accept || nothing}
                     ?multiple=${this.multiple}
                     ?disabled=${this.disabled}
                     @change=${this.onInputChange}

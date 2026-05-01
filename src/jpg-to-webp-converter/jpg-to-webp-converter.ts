@@ -58,7 +58,7 @@ export class JpgToWebpConverter extends WebComponentBase {
     return html`
       <div class="space-y-3">
         <t-file-dropzone
-          accept="image/jpeg,image/jpg"
+          accept="image/jpeg,.jpg,.jpeg"
           label="Drop a JPG file here or click to browse"
           @change=${this.handleFileChange}
         ></t-file-dropzone>
