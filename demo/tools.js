@@ -36,6 +36,7 @@ const tools = [
     "date-time-format",
     "days-between-dates",
     "diff-checker",
+    "direct-to-telegram",
     "direct-to-whatsapp",
     "discount-calculator",
     "dns-lookup",
