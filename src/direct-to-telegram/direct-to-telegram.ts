@@ -49,7 +49,14 @@ export class DirectToTelegram extends WebComponentBase {
 
   private onTargetChange(e: Event) {
     const target = e.target as HTMLInputElement;
-    this.target = target?.value?.replace(/ |-/g, "") || "";
+    const value = target?.value || "";
+    // Only strip spaces/dashes for phone-like input (digits with optional +,
+    // spaces, dashes). For usernames, just trim outer whitespace — stripping
+    // hyphens would silently turn an invalid username (e.g. "john-doe") into
+    // a different valid one ("johndoe") and open the wrong chat.
+    this.target = /^[\s+0-9-]+$/.test(value)
+      ? value.replace(/[\s-]/g, "")
+      : value.trim();
   }
 
   override render() {
