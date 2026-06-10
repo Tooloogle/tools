@@ -167,9 +167,8 @@ export class TokenGenerator extends WebComponentBase {
                     </div>
                 ` : ''}
 
-                <div class="mt-4 p-3 bg-yellow-100 text-yellow-800 rounded text-sm">
-                    <p class="font-bold">🔐 Security Note:</p>
-                    <p class="mt-1">These tokens are generated using cryptographically secure random values. Use them for API keys, session tokens, or other security-sensitive purposes.</p>
+                <div class="text-xs text-gray-500">
+                    <strong>Note:</strong> These tokens are generated using cryptographically secure random values. Use them for API keys, session tokens, or other security-sensitive purposes.
                 </div>
             </div>
         `;

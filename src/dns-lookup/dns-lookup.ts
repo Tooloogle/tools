@@ -74,10 +74,10 @@ export class DnsLookup extends WebComponentBase {
                 </div>
                 ${this.error ? html`<div class="text-red-600 text-sm">${this.error}</div>` : ''}
                 ${this.results.length > 0 ? html`
-                    <div class="bg-gray-50 p-4 rounded space-y-2">
+                    <div class="p-4 rounded border border-gray-200 dark:border-gray-700 space-y-2">
                         ${this.results.map(record => html`
-                            <div class="bg-white p-3 rounded border">
-                                <div class="font-mono text-sm">${record.data}</div>
+                            <div class="p-3 rounded border border-gray-100 dark:border-gray-600">
+                                <div class="font-mono text-sm break-all">${record.data}</div>
                                 <div class="text-xs text-gray-500 mt-1">Type: ${record.type} | TTL: ${record.TTL}s</div>
                             </div>
                         `)}

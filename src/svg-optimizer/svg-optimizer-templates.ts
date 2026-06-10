@@ -194,18 +194,21 @@ export class SvgOptimizerTemplates {
 
   static renderNotes(): TemplateResult {
     return html`
-      <ul class="note">
-        <li>
-          Optimizes SVG files by removing unnecessary elements and attributes
-        </li>
-        <li>Preserves visual appearance while reducing file size</li>
-        <li>All optimization happens in your browser - no files uploaded</li>
-        <li>Preview both original and optimized versions side by side</li>
-        <li>
-          <strong>Conservative defaults:</strong> Color-affecting options are
-          disabled by default
-        </li>
-      </ul>
+      <div class="text-xs text-gray-500">
+        <strong>Note:</strong>
+        <ul class="list-disc pl-5 space-y-1 mt-1">
+          <li>
+            Optimizes SVG files by removing unnecessary elements and attributes
+          </li>
+          <li>Preserves visual appearance while reducing file size</li>
+          <li>All optimization happens in your browser - no files uploaded</li>
+          <li>Preview both original and optimized versions side by side</li>
+          <li>
+            Conservative defaults: Color-affecting options are disabled by
+            default
+          </li>
+        </ul>
+      </div>
     `;
   }
 }

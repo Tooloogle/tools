@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('text-highlighter')
 export class TextHighlighter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    textHighlighterStyles];
+    WebComponentBase.styles,
+    textHighlighterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -68,8 +69,8 @@ export class TextHighlighter extends WebComponentBase {
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}
         </div>
-        <div class="text-sm text-gray-600">
-          Note: Highlight search terms in text
+        <div class="text-xs text-gray-500">
+          <strong>Note:</strong> Highlight search terms in text
         </div>
       </div>
     `;

@@ -1,0 +1,35 @@
+.preview-pane h1 {
+  @apply text-2xl font-bold mb-2;
+}
+
+.preview-pane h2 {
+  @apply text-xl font-bold mb-2;
+}
+
+.preview-pane h3 {
+  @apply text-lg font-bold mb-2;
+}
+
+.preview-pane blockquote {
+  @apply border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic text-gray-600 dark:text-gray-400 my-2;
+}
+
+.preview-pane pre {
+  @apply bg-gray-100 dark:bg-gray-800 rounded p-3 overflow-auto my-2;
+}
+
+.preview-pane code {
+  @apply bg-gray-100 dark:bg-gray-800 px-1 rounded text-sm font-mono;
+}
+
+.preview-pane pre code {
+  @apply bg-transparent p-0;
+}
+
+.preview-pane ul {
+  @apply list-disc pl-5 my-2;
+}
+
+.preview-pane a {
+  @apply text-blue-600 dark:text-blue-400 underline pointer-events-none cursor-text;
+}

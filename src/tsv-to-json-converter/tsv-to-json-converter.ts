@@ -74,7 +74,7 @@ export class TsvToJsonConverter extends WebComponentBase {
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}
         </div>
-        <div class="text-sm text-gray-600">Note: Convert TSV to JSON</div>
+        <div class="text-xs text-gray-500"><strong>Note:</strong> Convert TSV to JSON</div>
       </div>
     `;
   }

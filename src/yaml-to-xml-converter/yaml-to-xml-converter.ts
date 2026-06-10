@@ -130,8 +130,8 @@ export class YamlToXmlConverter extends WebComponentBase {
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}
         </div>
-        <div class="text-sm text-gray-600">
-          Note: Convert YAML to XML format
+        <div class="text-xs text-gray-500">
+          <strong>Note:</strong> Convert YAML to XML format
         </div>
       </div>
     `;

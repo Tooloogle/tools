@@ -81,7 +81,7 @@ export class CsvToXmlConverter extends WebComponentBase {
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}
         </div>
-        <div class="text-sm text-gray-600">Note: Convert CSV to XML</div>
+        <div class="text-xs text-gray-500"><strong>Note:</strong> Convert CSV to XML</div>
       </div>
     `;
   }

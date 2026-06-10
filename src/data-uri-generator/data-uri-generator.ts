@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement("data-uri-generator")
 export class DataUriGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    dataUriGeneratorStyles];
+    WebComponentBase.styles,
+    dataUriGeneratorStyles];
 
   @property({ type: String }) inputText = "";
   @property({ type: String }) outputText = "";
@@ -37,7 +38,9 @@ export class DataUriGenerator extends WebComponentBase {
 
     try {
       if (this.useBase64) {
-        const base64Data = btoa(unescape(encodeURIComponent(this.inputText)));
+        const bytes = new TextEncoder().encode(this.inputText);
+        const binary = Array.from(bytes, (b) => String.fromCharCode(b)).join('');
+        const base64Data = btoa(binary);
         this.outputText = `data:${this.mimeType};base64,${base64Data}`;
       } else {
         const encodedData = encodeURIComponent(this.inputText);
@@ -146,12 +149,9 @@ export class DataUriGenerator extends WebComponentBase {
 
   private renderInfoNote() {
     return html`
-      <div class="text-sm text-gray-600">
-        <p>
-          <strong>Note:</strong> Data URIs allow you to embed data directly in
-          HTML/CSS.
-        </p>
-        <p>Base64 encoding is recommended for binary or non-ASCII data.</p>
+      <div class="text-xs text-gray-500">
+        <strong>Note:</strong> Data URIs allow you to embed data directly in
+        HTML/CSS. Base64 encoding is recommended for binary or non-ASCII data.
       </div>
     `;
   }

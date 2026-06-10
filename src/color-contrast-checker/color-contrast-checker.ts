@@ -106,7 +106,7 @@ export class ColorContrastChecker extends WebComponentBase {
                     <p class="text-2xl font-bold">Sample Text (Large Size)</p>
                 </div>
 
-                <div class="p-4 bg-gray-100 rounded">
+                <div class="p-4 rounded border border-gray-200 dark:border-gray-700">
                     <h3 class="text-2xl font-bold mb-2">Contrast Ratio: ${ratio}:1</h3>
                     
                     <div class="space-y-2 mt-4">

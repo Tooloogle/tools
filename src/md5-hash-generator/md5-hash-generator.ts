@@ -8,7 +8,8 @@ import md5 from 'blueimp-md5';
 @customElement('md5-hash-generator')
 export class Md5HashGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    md5HashGeneratorStyles];
+    WebComponentBase.styles,
+    md5HashGeneratorStyles];
 
   @property() input = '';
   @property() hash = '';
@@ -111,12 +112,12 @@ export class Md5HashGenerator extends WebComponentBase {
               <input class="form-input" readonly .value=${this.hash} />
             </label>
 
-            <p>
+            <div class="text-xs text-gray-500">
               <strong>Note:</strong> MD5 is a one-way cryptographic hash
               function. Always produces a 32-character hexadecimal hash (0-9,
               a-f). The same input will always produce the same hash, but the
               original text cannot be recovered from the hash.
-            </p>
+            </div>
           `
         : ''}
     </div>`;
