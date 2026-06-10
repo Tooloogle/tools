@@ -8,7 +8,8 @@ import '../t-copy-button/index.js';
 @customElement('yaml-to-json-converter')
 export class YamlToJsonConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    yamlToJsonConverterStyles];
+    WebComponentBase.styles,
+    yamlToJsonConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -58,8 +59,8 @@ export class YamlToJsonConverter extends WebComponentBase {
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}
         </div>
-        <div class="text-sm text-gray-600">
-          Note: Convert YAML to JSON format
+        <div class="text-xs text-gray-500">
+          <strong>Note:</strong> Convert YAML to JSON format
         </div>
       </div>
     `;

@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('json-to-tsv-converter')
 export class JsonToTsvConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    jsonToTsvConverterStyles];
+    WebComponentBase.styles,
+    jsonToTsvConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -81,7 +82,7 @@ export class JsonToTsvConverter extends WebComponentBase {
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}
         </div>
-        <div class="text-sm text-gray-600">Note: Convert JSON to TSV</div>
+        <div class="text-xs text-gray-500"><strong>Note:</strong> Convert JSON to TSV</div>
       </div>
     `;
   }

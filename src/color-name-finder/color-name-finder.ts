@@ -2,16 +2,8 @@ import { html } from 'lit';
 import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import colorNameFinderStyles from './color-name-finder.css.js';
 import { customElement, property } from 'lit/decorators.js';
-// Basic color names mapping
-const colorNames: { [key: string]: string } = {
-    'FF0000': 'Red', '00FF00': 'Green', '0000FF': 'Blue',
-    'FFFF00': 'Yellow', 'FF00FF': 'Magenta', '00FFFF': 'Cyan',
-    'FFFFFF': 'White', '000000': 'Black', '808080': 'Gray',
-    'C0C0C0': 'Silver', '800000': 'Maroon', '808000': 'Olive',
-    '008000': 'Dark Green', '800080': 'Purple', '008080': 'Teal',
-    '000080': 'Navy', 'FFA500': 'Orange', 'FFC0CB': 'Pink',
-    'A52A2A': 'Brown', 'FFD700': 'Gold', 'F0E68C': 'Khaki'
-};
+import { cssNamedColors } from './color-data.js';
+import '../t-copy-button/index.js';
 
 @customElement('color-name-finder')
 export class ColorNameFinder extends WebComponentBase {
@@ -52,44 +44,40 @@ export class ColorNameFinder extends WebComponentBase {
         const hex = this.hexColor.replace('#', '');
 
         if (hex.length === 6) {
-            this.r = parseInt(hex.substr(0, 2), 16);
-            this.g = parseInt(hex.substr(2, 2), 16);
-            this.b = parseInt(hex.substr(4, 2), 16);
+            this.r = parseInt(hex.substring(0, 2), 16);
+            this.g = parseInt(hex.substring(2, 4), 16);
+            this.b = parseInt(hex.substring(4, 6), 16);
             this.findColorName();
         }
     }
 
     private updateFromRGB() {
-        const toHex = (n: number) => {
-            const hex = n.toString(16);
-            return hex.length === 1 ? `0${hex}` : hex;
-        };
-
+        const toHex = (n: number) => n.toString(16).padStart(2, '0');
         this.hexColor = `#${toHex(this.r)}${toHex(this.g)}${toHex(this.b)}`;
         this.findColorName();
     }
 
     private findColorName() {
         const hex = this.hexColor.replace('#', '').toUpperCase();
-        this.colorName = colorNames[hex] || this.findNearestColorName(hex);
+        this.colorName = cssNamedColors[hex] || this.findNearestColorName(hex);
     }
 
     private findNearestColorName(hex: string): string {
-        const r = parseInt(hex.substr(0, 2), 16);
-        const g = parseInt(hex.substr(2, 2), 16);
-        const b = parseInt(hex.substr(4, 2), 16);
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
 
         let minDistance = Infinity;
         let nearestName = 'Unknown';
 
-        for (const [colorHex, name] of Object.entries(colorNames)) {
-            const cr = parseInt(colorHex.substr(0, 2), 16);
-            const cg = parseInt(colorHex.substr(2, 2), 16);
-            const cb = parseInt(colorHex.substr(4, 2), 16);
+        for (const [colorHex, name] of Object.entries(cssNamedColors)) {
+            const cr = parseInt(colorHex.substring(0, 2), 16);
+            const cg = parseInt(colorHex.substring(2, 4), 16);
+            const cb = parseInt(colorHex.substring(4, 6), 16);
 
             const distance = Math.sqrt(
-                Math.pow(r - cr, 2) + 
-                Math.pow(g - cg, 2) + 
+                Math.pow(r - cr, 2) +
+                Math.pow(g - cg, 2) +
                 Math.pow(b - cb, 2)
             );
 
@@ -118,18 +106,20 @@ export class ColorNameFinder extends WebComponentBase {
         return html`
             <label class="block">
                 <span class="inline-block py-1 font-bold">Hex Color</span>
-                <input
-                    class="form-input"
-                    type="color"
-                    .value=${this.hexColor}
-                    @input=${this.handleHexChange}
-                />
-                <input
-                    class="form-input mt-2"
-                    type="text"
-                    .value=${this.hexColor}
-                    @input=${this.handleHexChange}
-                />
+                <div class="flex gap-2 items-center">
+                    <input
+                        class="h-10 w-16 rounded cursor-pointer"
+                        type="color"
+                        .value=${this.hexColor}
+                        @input=${this.handleHexChange}
+                    />
+                    <input
+                        class="form-input"
+                        type="text"
+                        .value=${this.hexColor}
+                        @input=${this.handleHexChange}
+                    />
+                </div>
             </label>
         `;
     }
@@ -182,9 +172,10 @@ export class ColorNameFinder extends WebComponentBase {
                 </div>
             </div>
 
-            <div class="text-center">
-                <div class="text-sm text-gray-600">RGB: (${this.r}, ${this.g}, ${this.b})</div>
-                <div class="text-sm text-gray-600">Hex: ${this.hexColor.toUpperCase()}</div>
+            <div class="flex items-center justify-center gap-4 text-sm text-gray-500">
+                <span>RGB: (${this.r}, ${this.g}, ${this.b})</span>
+                <span>Hex: ${this.hexColor.toUpperCase()}</span>
+                <t-copy-button .text=${this.hexColor.toUpperCase()}></t-copy-button>
             </div>
         `;
     }

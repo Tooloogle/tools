@@ -76,7 +76,7 @@ export class JavascriptMinifier extends WebComponentBase {
                 <button class="btn btn-red" @click=${this.clear}>Clear</button>
             </div>
 
-            <div class="my-2 p-3 bg-yellow-100 text-yellow-800 rounded text-sm">
+            <div class="text-xs text-gray-500">
                 <strong>Note:</strong> This is a basic minifier. For production use, consider advanced tools like UglifyJS or Terser.
             </div>
 

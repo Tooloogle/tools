@@ -1,58 +1,64 @@
 import { html } from 'lit';
 import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import percentageCalculatorStyles from './percentage-calculator.css.js';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
+
 @customElement('percentage-calculator')
 export class PercentageCalculator extends WebComponentBase {
     static override styles = [WebComponentBase.styles, percentageCalculatorStyles];
 
-    @property()
-    value1 = 0;
+    // Calculator 1: What is X% of Y?
+    @state() private c1Percent = '';
+    @state() private c1Value = '';
 
-    @property()
-    value2 = 0;
+    // Calculator 2: X is what % of Y?
+    @state() private c2X = '';
+    @state() private c2Y = '';
 
-    @property()
-    percentage = 0;
+    // Calculator 3: % change from X to Y
+    @state() private c3From = '';
+    @state() private c3To = '';
 
-    @property()
-    result1 = 0; // What is X% of Y?
+    private getResult1(): string {
+        const pct = parseFloat(this.c1Percent);
+        const val = parseFloat(this.c1Value);
 
-    @property()
-    result2 = 0; // X is what % of Y?
+        if (isNaN(pct) || isNaN(val)) {
+            return '—';
+        }
 
-    @property()
-    result3 = 0; // What is the % increase/decrease from X to Y?
-
-    private handleValue1Change(e: Event) {
-        this.value1 = Number((e.target as HTMLInputElement).value);
-        this.calculate();
+        return ((pct / 100) * val).toFixed(2);
     }
 
-    private handleValue2Change(e: Event) {
-        this.value2 = Number((e.target as HTMLInputElement).value);
-        this.calculate();
+    private getResult2(): string {
+        const x = parseFloat(this.c2X);
+        const y = parseFloat(this.c2Y);
+
+        if (isNaN(x) || isNaN(y) || y === 0) {
+            return '—';
+        }
+
+        return `${((x / y) * 100).toFixed(2)}%`;
     }
 
-    private handlePercentageChange(e: Event) {
-        this.percentage = Number((e.target as HTMLInputElement).value);
-        this.calculate();
-    }
+    private getResult3(): { text: string; positive: boolean } | null {
+        const from = parseFloat(this.c3From);
+        const to = parseFloat(this.c3To);
 
-    private calculate() {
-        // What is X% of Y?
-        this.result1 = (this.percentage / 100) * this.value2;
+        if (isNaN(from) || isNaN(to) || from === 0) {
+            return null;
+        }
 
-        // X is what % of Y?
-        this.result2 = this.value2 !== 0 ? (this.value1 / this.value2) * 100 : 0;
-
-        // What is the % increase/decrease from X to Y?
-        this.result3 = this.value1 !== 0 ? ((this.value2 - this.value1) / this.value1) * 100 : 0;
+        const change = ((to - from) / from) * 100;
+        return {
+            text: `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`,
+            positive: change >= 0,
+        };
     }
 
     private renderCalculator1() {
         return html`
-            <div class="p-4 bg-gray-50 rounded">
+            <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded">
                 <h3 class="font-bold mb-3">What is X% of Y?</h3>
                 <div class="grid grid-cols-2 gap-2">
                     <label class="block">
@@ -61,8 +67,9 @@ export class PercentageCalculator extends WebComponentBase {
                             class="form-input text-end"
                             type="number"
                             step="0.01"
-                            .value=${String(this.percentage)}
-                            @input=${this.handlePercentageChange}
+                            placeholder="10"
+                            .value=${this.c1Percent}
+                            @input=${(e: Event) => { this.c1Percent = (e.target as HTMLInputElement).value; }}
                         />
                     </label>
                     <label class="block">
@@ -71,14 +78,15 @@ export class PercentageCalculator extends WebComponentBase {
                             class="form-input text-end"
                             type="number"
                             step="0.01"
-                            .value=${String(this.value2)}
-                            @input=${this.handleValue2Change}
+                            placeholder="200"
+                            .value=${this.c1Value}
+                            @input=${(e: Event) => { this.c1Value = (e.target as HTMLInputElement).value; }}
                         />
                     </label>
                 </div>
-                <div class="mt-3 p-3 bg-blue-100 rounded text-center">
-                    <div class="text-sm text-gray-600">Result:</div>
-                    <div class="text-2xl font-bold">${this.result1.toFixed(2)}</div>
+                <div class="mt-3 p-3 bg-blue-100 dark:bg-blue-900/30 rounded text-center">
+                    <div class="text-sm text-gray-500">Result</div>
+                    <div class="text-2xl font-bold">${this.getResult1()}</div>
                 </div>
             </div>
         `;
@@ -86,7 +94,7 @@ export class PercentageCalculator extends WebComponentBase {
 
     private renderCalculator2() {
         return html`
-            <div class="p-4 bg-gray-50 rounded">
+            <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded">
                 <h3 class="font-bold mb-3">X is what % of Y?</h3>
                 <div class="grid grid-cols-2 gap-2">
                     <label class="block">
@@ -95,8 +103,9 @@ export class PercentageCalculator extends WebComponentBase {
                             class="form-input text-end"
                             type="number"
                             step="0.01"
-                            .value=${String(this.value1)}
-                            @input=${this.handleValue1Change}
+                            placeholder="25"
+                            .value=${this.c2X}
+                            @input=${(e: Event) => { this.c2X = (e.target as HTMLInputElement).value; }}
                         />
                     </label>
                     <label class="block">
@@ -105,53 +114,65 @@ export class PercentageCalculator extends WebComponentBase {
                             class="form-input text-end"
                             type="number"
                             step="0.01"
-                            .value=${String(this.value2)}
-                            @input=${this.handleValue2Change}
+                            placeholder="200"
+                            .value=${this.c2Y}
+                            @input=${(e: Event) => { this.c2Y = (e.target as HTMLInputElement).value; }}
                         />
                     </label>
                 </div>
-                <div class="mt-3 p-3 bg-green-100 rounded text-center">
-                    <div class="text-sm text-gray-600">Result:</div>
-                    <div class="text-2xl font-bold">${this.result2.toFixed(2)}%</div>
+                <div class="mt-3 p-3 bg-green-100 dark:bg-green-900/30 rounded text-center">
+                    <div class="text-sm text-gray-500">Result</div>
+                    <div class="text-2xl font-bold">${this.getResult2()}</div>
                 </div>
             </div>
         `;
     }
 
     private renderCalculator3() {
+        const result = this.getResult3();
+        const bgClass = result === null
+            ? 'bg-gray-100 dark:bg-gray-700'
+            : result.positive
+                ? 'bg-green-100 dark:bg-green-900/30'
+                : 'bg-red-100 dark:bg-red-900/30';
+
         return html`
-            <div class="p-4 bg-gray-50 rounded">
-                <h3 class="font-bold mb-3">% Increase/Decrease from X to Y</h3>
+            <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded">
+                <h3 class="font-bold mb-3">% Change from X to Y</h3>
                 <div class="grid grid-cols-2 gap-2">
                     <label class="block">
-                        <span class="text-sm">From Value X</span>
+                        <span class="text-sm">From Value</span>
                         <input
                             class="form-input text-end"
                             type="number"
                             step="0.01"
-                            .value=${String(this.value1)}
-                            @input=${this.handleValue1Change}
+                            placeholder="80"
+                            .value=${this.c3From}
+                            @input=${(e: Event) => { this.c3From = (e.target as HTMLInputElement).value; }}
                         />
                     </label>
                     <label class="block">
-                        <span class="text-sm">To Value Y</span>
+                        <span class="text-sm">To Value</span>
                         <input
                             class="form-input text-end"
                             type="number"
                             step="0.01"
-                            .value=${String(this.value2)}
-                            @input=${this.handleValue2Change}
+                            placeholder="100"
+                            .value=${this.c3To}
+                            @input=${(e: Event) => { this.c3To = (e.target as HTMLInputElement).value; }}
                         />
                     </label>
                 </div>
-                <div class="mt-3 p-3 ${this.result3 >= 0 ? 'bg-green-100' : 'bg-red-100'} rounded text-center">
-                    <div class="text-sm text-gray-600">Result:</div>
+                <div class="mt-3 p-3 ${bgClass} rounded text-center">
+                    <div class="text-sm text-gray-500">Result</div>
                     <div class="text-2xl font-bold">
-                        ${this.result3 >= 0 ? '+' : ''}${this.result3.toFixed(2)}%
+                        ${result ? result.text : '—'}
                     </div>
-                    <div class="text-xs text-gray-600">
-                        ${this.result3 >= 0 ? 'Increase' : 'Decrease'}
-                    </div>
+                    ${result
+                        ? html`<div class="text-xs text-gray-500">
+                              ${result.positive ? 'Increase' : 'Decrease'}
+                          </div>`
+                        : ''}
                 </div>
             </div>
         `;
@@ -163,6 +184,11 @@ export class PercentageCalculator extends WebComponentBase {
                 ${this.renderCalculator1()}
                 ${this.renderCalculator2()}
                 ${this.renderCalculator3()}
+
+                <div class="text-xs text-gray-500">
+                    <strong>Note:</strong> Each calculator operates independently.
+                    Enter values and results update instantly.
+                </div>
             </div>
         `;
     }

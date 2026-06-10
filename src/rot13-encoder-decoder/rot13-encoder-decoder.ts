@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('rot13-encoder-decoder')
 export class Rot13EncoderDecoder extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    rot13EncoderDecoderStyles];
+    WebComponentBase.styles,
+    rot13EncoderDecoderStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -49,10 +50,10 @@ export class Rot13EncoderDecoder extends WebComponentBase {
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}
         </div>
-        <p class="text-sm text-gray-600">
-          Note: ROT13 is a simple letter substitution cipher. Applying it twice
-          returns the original text.
-        </p>
+        <div class="text-xs text-gray-500">
+          <strong>Note:</strong> ROT13 is a simple letter substitution cipher.
+          Applying it twice returns the original text.
+        </div>
       </div>
     `;
   }

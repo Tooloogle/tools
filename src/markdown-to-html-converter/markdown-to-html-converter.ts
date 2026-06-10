@@ -2,16 +2,18 @@ import { html } from 'lit';
 import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import markdownToHtmlConverterStyles from './markdown-to-html-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
-import { marked } from 'marked';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { markdownToHtml } from '../_utils/MarkdownParser.js';
 import '../t-copy-button/index.js';
+
 @customElement('markdown-to-html-converter')
 export class MarkdownToHtmlConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    markdownToHtmlConverterStyles];
+    WebComponentBase.styles,
+    markdownToHtmlConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
-  @property({ type: String }) errorMessage = '';
 
   private handleInput(e: Event) {
     this.inputText = (e.target as HTMLTextAreaElement).value;
@@ -19,22 +21,12 @@ export class MarkdownToHtmlConverter extends WebComponentBase {
   }
 
   private process() {
-    this.errorMessage = '';
-
     if (!this.inputText.trim()) {
       this.outputText = '';
       return;
     }
 
-    try {
-      // Convert Markdown to HTML using marked library
-      this.outputText = marked(this.inputText) as string;
-    } catch (error) {
-      this.errorMessage = `Error: ${
-        error instanceof Error ? error.message : 'Failed to convert Markdown'
-      }`;
-      this.outputText = '';
-    }
+    this.outputText = markdownToHtml(this.inputText);
   }
 
   override render() {
@@ -50,29 +42,36 @@ export class MarkdownToHtmlConverter extends WebComponentBase {
           ></textarea>
         </div>
 
-        ${this.errorMessage
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="font-semibold">HTML Output:</label>
+            ${this.outputText
+              ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
+              : ''}
+          </div>
+          <textarea
+            class="form-textarea w-full h-40 font-mono text-sm"
+            readonly
+            .value=${this.outputText}
+          ></textarea>
+        </div>
+
+        ${this.outputText
           ? html`
-              <div class="p-3 bg-red-100 text-red-700 rounded">
-                ${this.errorMessage}
+              <div>
+                <label class="block mb-2 font-semibold">Preview:</label>
+                <div
+                  class="preview-pane border border-gray-200 dark:border-gray-700 rounded p-4 min-h-[100px] overflow-auto"
+                >
+                  ${unsafeHTML(this.outputText)}
+                </div>
               </div>
             `
           : ''}
 
-        <div>
-          <label class="block mb-2 font-semibold">HTML Output:</label>
-          <textarea
-            class="form-textarea w-full h-40"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
-          ${this.outputText
-            ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ''}
-        </div>
-
-        <div class="text-sm text-gray-600">
-          Converts Markdown syntax to HTML using the marked library. Supports
-          headings, lists, bold, italic, links, and more.
+        <div class="text-xs text-gray-500">
+          <strong>Note:</strong> Converts Markdown syntax to HTML. Supports
+          headings, lists, bold, italic, links, code blocks, and blockquotes.
         </div>
       </div>
     `;

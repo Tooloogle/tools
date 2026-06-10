@@ -138,13 +138,17 @@ export class BmiCalculator extends WebComponentBase {
   }
 
   private renderErrorMessage(error: string) {
-    return error ? html`<div class="error-message">${error}</div>` : '';
+    return error
+      ? html`<div class="text-sm font-medium text-red-600 dark:text-red-400">
+          ${error}
+        </div>`
+      : '';
   }
 
   private renderUnitSelector() {
     return html`
-      <div class="unit-selector">
-        <label>Unit System:</label>
+      <label class="flex flex-col gap-1 w-full">
+        <span class="block mb-1 text-sm font-medium">Unit System</span>
         <select class="form-input" @change="${this.handleUnitChange}">
           <option value="metric" ?selected="${this.unit === 'metric'}">
             Metric (cm/kg)
@@ -153,62 +157,68 @@ export class BmiCalculator extends WebComponentBase {
             Imperial (ft/lbs)
           </option>
         </select>
-      </div>
+      </label>
     `;
   }
 
   private renderHeightInput() {
     return html`
-      <div class="input-wrapper">
-        <div class="input-group">
-          <label>Height (${this.unit === 'metric' ? 'cm' : 'ft'}):</label>
-          <input
-            type="number"
-            class="form-input ${this.heightError ? 'error' : ''}"
-            placeholder="${this.unit === 'metric'
-              ? 'Enter height in cm'
-              : 'Enter height in feet'}"
-            step="${this.unit === 'metric' ? '1' : '0.1'}"
-            min="0"
-            .value="${this.heightInputValue}"
-            @input="${this.handleHeightChange}"
-          />
-        </div>
+      <label class="flex flex-col gap-1 w-full">
+        <span class="block mb-1 text-sm font-medium"
+          >Height (${this.unit === 'metric' ? 'cm' : 'ft'})</span
+        >
+        <input
+          type="number"
+          class="form-input ${this.heightError
+            ? 'border-red-500 bg-red-50 dark:bg-red-950'
+            : ''}"
+          placeholder="${this.unit === 'metric'
+            ? 'Enter height in cm'
+            : 'Enter height in feet'}"
+          step="${this.unit === 'metric' ? '1' : '0.1'}"
+          min="0"
+          .value="${this.heightInputValue}"
+          @input="${this.handleHeightChange}"
+        />
         ${this.renderErrorMessage(this.heightError)}
-      </div>
+      </label>
     `;
   }
 
   private renderWeightInput() {
     return html`
-      <div class="input-wrapper">
-        <div class="input-group">
-          <label>Weight (${this.unit === 'metric' ? 'kg' : 'lbs'}):</label>
-          <input
-            type="number"
-            class="form-input ${this.weightError ? 'error' : ''}"
-            placeholder="${this.unit === 'metric'
-              ? 'Enter weight in kg'
-              : 'Enter weight in lbs'}"
-            step="${this.unit === 'metric' ? '0.1' : '1'}"
-            min="0"
-            .value="${this.weightInputValue}"
-            @input="${this.handleWeightChange}"
-          />
-        </div>
+      <label class="flex flex-col gap-1 w-full">
+        <span class="block mb-1 text-sm font-medium"
+          >Weight (${this.unit === 'metric' ? 'kg' : 'lbs'})</span
+        >
+        <input
+          type="number"
+          class="form-input ${this.weightError
+            ? 'border-red-500 bg-red-50 dark:bg-red-950'
+            : ''}"
+          placeholder="${this.unit === 'metric'
+            ? 'Enter weight in kg'
+            : 'Enter weight in lbs'}"
+          step="${this.unit === 'metric' ? '0.1' : '1'}"
+          min="0"
+          .value="${this.weightInputValue}"
+          @input="${this.handleWeightChange}"
+        />
         ${this.renderErrorMessage(this.weightError)}
-      </div>
+      </label>
     `;
   }
 
   private renderResults() {
     return html`
-      <div class="result-container">
-        <div class="bmi-value">
+      <div
+        class="p-4 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-950 dark:to-green-950"
+      >
+        <div class="text-2xl font-bold mb-2">
           BMI:
           <span class="${getCategoryClass(this.category)}">${this.bmi}</span>
         </div>
-        <div class="category-display">
+        <div class="text-lg font-semibold">
           Category:
           <span class="${getCategoryClass(this.category)}"
             >${this.category}</span
@@ -220,9 +230,11 @@ export class BmiCalculator extends WebComponentBase {
 
   private renderBMIRanges() {
     return html`
-      <div class="bmi-ranges">
-        <h3>BMI Categories:</h3>
-        <ul>
+      <div
+        class="p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4 bg-gray-50 dark:bg-gray-800"
+      >
+        <h3 class="font-bold text-lg mb-3">BMI Categories:</h3>
+        <ul class="list-disc pl-5 space-y-1 font-medium">
           <li class="text-blue-500">Underweight: Below 18.5</li>
           <li class="text-green-600">Normal weight: 18.5-24.9</li>
           <li class="text-orange-500">Overweight: 25-29.9</li>
@@ -235,8 +247,8 @@ export class BmiCalculator extends WebComponentBase {
   private renderNotes() {
     return html`
       <div>
-        <h3>Note:</h3>
-        <ul class="note">
+        <h3 class="font-semibold text-sm mb-1">Note:</h3>
+        <ul class="text-xs list-disc pl-5 space-y-1 leading-relaxed text-gray-500">
           <li>BMI is a screening tool and not diagnostic</li>
           <li>Results may vary based on age, gender, and muscle mass</li>
           <li>Consult healthcare professionals for medical advice</li>
@@ -247,9 +259,11 @@ export class BmiCalculator extends WebComponentBase {
 
   override render() {
     return html`
-      <div class="container">
-        ${this.renderUnitSelector()} ${this.renderHeightInput()}
-        ${this.renderWeightInput()}
+      <div class="space-y-4">
+        ${this.renderUnitSelector()}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          ${this.renderHeightInput()} ${this.renderWeightInput()}
+        </div>
         ${this.bmi > 0 && !this.hasErrors
           ? html` ${this.renderResults()} ${this.renderBMIRanges()} `
           : ''}

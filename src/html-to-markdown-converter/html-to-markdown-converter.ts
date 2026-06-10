@@ -2,11 +2,15 @@ import { html } from 'lit';
 import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import htmlToMarkdownConverterStyles from './html-to-markdown-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { markdownToHtml } from '../_utils/MarkdownParser.js';
 import '../t-copy-button/index.js';
+
 @customElement('html-to-markdown-converter')
 export class HtmlToMarkdownConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    htmlToMarkdownConverterStyles];
+    WebComponentBase.styles,
+    htmlToMarkdownConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -86,6 +90,14 @@ export class HtmlToMarkdownConverter extends WebComponentBase {
     this.outputText = markdown.trim();
   }
 
+  private getPreviewHtml(): string {
+    if (!this.outputText) {
+      return '';
+    }
+
+    return markdownToHtml(this.outputText);
+  }
+
   override render() {
     return html`
       <div class="space-y-4">
@@ -98,20 +110,37 @@ export class HtmlToMarkdownConverter extends WebComponentBase {
             @input=${this.handleInput}
           ></textarea>
         </div>
+
         <div>
-          <label class="block mb-2 font-semibold">Markdown Output:</label>
+          <div class="flex items-center justify-between mb-2">
+            <label class="font-semibold">Markdown Output:</label>
+            ${this.outputText
+              ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
+              : ''}
+          </div>
           <textarea
-            class="form-textarea w-full h-40"
+            class="form-textarea w-full h-40 font-mono text-sm"
             readonly
             .value=${this.outputText}
           ></textarea>
-          ${this.outputText
-            ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ''}
         </div>
-        <div class="text-sm text-gray-600">
-          Converts HTML to Markdown syntax. Supports headings, lists, bold,
-          italic, links, images, and code.
+
+        ${this.outputText
+          ? html`
+              <div>
+                <label class="block mb-2 font-semibold">Preview:</label>
+                <div
+                  class="preview-pane border border-gray-200 dark:border-gray-700 rounded p-4 min-h-[100px] overflow-auto"
+                >
+                  ${unsafeHTML(this.getPreviewHtml())}
+                </div>
+              </div>
+            `
+          : ''}
+
+        <div class="text-xs text-gray-500">
+          <strong>Note:</strong> Converts HTML to Markdown syntax. Supports
+          headings, lists, bold, italic, links, images, and code.
         </div>
       </div>
     `;

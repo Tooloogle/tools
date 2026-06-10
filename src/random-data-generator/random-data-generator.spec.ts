@@ -1,9 +1,9 @@
 import { LitElement } from 'lit';
-import { FakeDataGenerator } from "./fake-data-generator.js";
+import { RandomDataGenerator } from "./random-data-generator.js";
 
-describe('fake-data-generator web component test', () => {
+describe('random-data-generator web component test', () => {
 
-    const componentTag = "fake-data-generator";
+    const componentTag = "random-data-generator";
     
     it('should render web component', async () => {
         const component = window.document.createElement(componentTag) as LitElement;
@@ -15,9 +15,9 @@ describe('fake-data-generator web component test', () => {
         expect(component.renderRoot).toBeTruthy();
     });
 
-    it('should be an instance of FakeDataGenerator', () => {
-        const component = window.document.createElement(componentTag) as FakeDataGenerator;
-        expect(component).toBeInstanceOf(FakeDataGenerator);
+    it('should be an instance of RandomDataGenerator', () => {
+        const component = window.document.createElement(componentTag) as RandomDataGenerator;
+        expect(component).toBeInstanceOf(RandomDataGenerator);
     });
 
     afterEach(() => {

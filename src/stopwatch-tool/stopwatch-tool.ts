@@ -1,16 +1,16 @@
 import { html } from 'lit';
 import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import stopwatchToolStyles from './stopwatch-tool.css.js';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 import { isBrowser } from '../_utils/DomUtils.js';
 
 @customElement('stopwatch-tool')
 export class StopwatchTool extends WebComponentBase {
     static override styles = [WebComponentBase.styles, stopwatchToolStyles];
 
-    @property({ type: Number }) elapsedTime = 0;
-    @property({ type: Boolean }) isRunning = false;
-    @property({ type: Array }) laps: number[] = [];
+    @state() private elapsedTime = 0;
+    @state() private isRunning = false;
+    @state() private laps: number[] = [];
     private intervalId: number | null = null;
     private startTime = 0;
     private pausedTime = 0;
@@ -65,34 +65,51 @@ export class StopwatchTool extends WebComponentBase {
         }
     }
 
+    private getSplitTime(index: number): number {
+        if (index === 0) {
+            return this.laps[0];
+        }
+
+        return this.laps[index] - this.laps[index - 1];
+    }
+
     override render() {
         return html`
             <div class="space-y-4">
                 <div class="text-center">
-                    <div class="text-6xl font-mono font-bold mb-4">${this.formatTime(this.elapsedTime)}</div>
+                    <div class="text-4xl sm:text-6xl font-mono font-bold mb-4">${this.formatTime(this.elapsedTime)}</div>
                     <div class="space-x-2">
                         ${!this.isRunning ? html`
-                            <button @click=${this.start} class="btn-primary">Start</button>
+                            <button @click=${this.start} class="btn btn-blue btn-sm">Start</button>
                         ` : html`
-                            <button @click=${this.stop} class="btn-secondary">Stop</button>
-                            <button @click=${this.lap} class="btn-secondary">Lap</button>
+                            <button @click=${this.stop} class="btn btn-red btn-sm">Stop</button>
+                            <button @click=${this.lap} class="btn btn-green btn-sm">Lap</button>
                         `}
-                        <button @click=${this.reset} class="btn-secondary">Reset</button>
+                        <button @click=${this.reset} class="btn btn-red btn-sm">Reset</button>
                     </div>
                 </div>
+
                 ${this.laps.length > 0 ? html`
                     <div>
-                        <h3 class="font-semibold mb-2">Lap Times:</h3>
+                        <h3 class="font-semibold mb-2">Lap Times</h3>
                         <div class="space-y-1">
                             ${this.laps.map((lap, i) => html`
-                                <div class="flex justify-between p-2 bg-gray-50 rounded">
-                                    <span>Lap ${i + 1}</span>
-                                    <span class="font-mono">${this.formatTime(lap)}</span>
+                                <div class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-800 rounded">
+                                    <span class="font-medium">Lap ${i + 1}</span>
+                                    <div class="text-right">
+                                        <span class="font-mono">${this.formatTime(this.getSplitTime(i))}</span>
+                                        <span class="font-mono text-xs text-gray-500 ml-2">(${this.formatTime(lap)})</span>
+                                    </div>
                                 </div>
                             `)}
                         </div>
                     </div>
                 ` : ''}
+
+                <div class="text-xs text-gray-500">
+                    <strong>Note:</strong> Lap times show split duration with
+                    cumulative time in parentheses.
+                </div>
             </div>
         `;
     }

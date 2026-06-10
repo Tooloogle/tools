@@ -3,6 +3,8 @@ import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import markdownPreviewerStyles from './markdown-previewer.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { markdownToHtml } from '../_utils/MarkdownParser.js';
+import '../t-copy-button/index.js';
 
 @customElement('markdown-previewer')
 export class MarkdownPreviewer extends WebComponentBase {
@@ -25,52 +27,7 @@ export class MarkdownPreviewer extends WebComponentBase {
     }
 
     private updatePreview() {
-        this.preview = this.parseMarkdown(this.markdown);
-    }
-
-    private parseMarkdown(text: string): string {
-        // Escape HTML to prevent XSS
-        let html = text
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#039;');
-
-        // Code blocks (must come before other transformations)
-        html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
-
-        // Headers
-        html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-        html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-        html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-
-        // Bold
-        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        html = html.replace(/__(.*?)__/g, '<strong>$1</strong>');
-
-        // Italic
-        html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-        html = html.replace(/_(.*?)_/g, '<em>$1</em>');
-
-        // Links
-        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-
-        // Inline code
-        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-
-        // Blockquotes
-        html = html.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
-
-        // Lists
-        html = html.replace(/^\* (.*$)/gim, '<li>$1</li>');
-        html = html.replace(/^- (.*$)/gim, '<li>$1</li>');
-        html = html.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
-
-        // Line breaks
-        html = html.replace(/\n/g, '<br>');
-
-        return html;
+        this.preview = markdownToHtml(this.markdown);
     }
 
     override render() {
@@ -79,7 +36,7 @@ export class MarkdownPreviewer extends WebComponentBase {
                 <label class="block">
                     <span class="inline-block py-1 font-bold">Markdown Input</span>
                     <textarea
-                        class="form-textarea font-mono"
+                        class="form-textarea w-full font-mono"
                         placeholder="Enter markdown here..."
                         rows="15"
                         .value=${this.markdown}
@@ -88,8 +45,11 @@ export class MarkdownPreviewer extends WebComponentBase {
                 </label>
 
                 <div class="block">
-                    <span class="inline-block py-1 font-bold">Preview</span>
-                    <div class="border rounded p-4 bg-white min-h-[300px]" style="word-wrap: break-word;">
+                    <div class="flex items-center justify-between py-1">
+                        <span class="font-bold">Preview</span>
+                        <t-copy-button .text=${this.markdown} title="Copy Markdown"></t-copy-button>
+                    </div>
+                    <div class="preview-pane border border-gray-200 dark:border-gray-700 rounded p-4 min-h-[300px] overflow-auto">
                         ${unsafeHTML(this.preview)}
                     </div>
                 </div>

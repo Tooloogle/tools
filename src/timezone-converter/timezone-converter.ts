@@ -6,7 +6,8 @@ import '../t-copy-button/index.js';
 @customElement('timezone-converter')
 export class TimezoneConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    timezoneConverterStyles];
+    WebComponentBase.styles,
+    timezoneConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -71,8 +72,8 @@ export class TimezoneConverter extends WebComponentBase {
             ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
             : ''}
         </div>
-        <div class="text-sm text-gray-600">
-          Note: Convert time between timezones
+        <div class="text-xs text-gray-500">
+          <strong>Note:</strong> Convert time between timezones
         </div>
       </div>
     `;
