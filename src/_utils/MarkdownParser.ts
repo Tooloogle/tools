@@ -103,10 +103,14 @@ export function markdownToHtml(text: string): string {
   );
   result = result.replace(/<hr><\/p>/g, '<hr>');
 
-  // Restore code blocks
+  // Restore code blocks before final cleanup so <pre> is never nested in <p>
   codeBlocks.forEach((block, i) => {
     result = result.replace(`%%CODEBLOCK_${i}%%`, block);
   });
+
+  // Unwrap any <pre> that ended up inside <p> after restoration
+  result = result.replace(/<p>(<pre[\s>])/g, '$1');
+  result = result.replace(/(<\/pre>)<\/p>/g, '$1');
 
   // Restore inline codes
   inlineCodes.forEach((code, i) => {

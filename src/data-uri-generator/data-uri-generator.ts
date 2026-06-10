@@ -38,7 +38,9 @@ export class DataUriGenerator extends WebComponentBase {
 
     try {
       if (this.useBase64) {
-        const base64Data = btoa(unescape(encodeURIComponent(this.inputText)));
+        const bytes = new TextEncoder().encode(this.inputText);
+        const binary = Array.from(bytes, (b) => String.fromCharCode(b)).join('');
+        const base64Data = btoa(binary);
         this.outputText = `data:${this.mimeType};base64,${base64Data}`;
       } else {
         const encodedData = encodeURIComponent(this.inputText);

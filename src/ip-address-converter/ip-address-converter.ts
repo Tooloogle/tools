@@ -127,10 +127,15 @@ export class IpAddressConverter extends WebComponentBase {
     }
 
     private isIPv6(input: string): boolean {
-        return /^[0-9a-fA-F:]+$/.test(input) && input.includes(':');;
+        return /^[0-9a-fA-F:]+$/.test(input) && input.includes(':');
     }
 
     private expandIPv6(input: string): string[] {
+        // Reject multiple :: occurrences (invalid IPv6)
+        if ((input.match(/::/g) || []).length > 1) {
+            throw new Error('Invalid IPv6: multiple "::" not allowed');
+        }
+
         let groups = input.split(':');
 
         const doubleColonIdx = input.indexOf('::');

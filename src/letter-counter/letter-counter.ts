@@ -52,8 +52,9 @@ export class LetterCounter extends WebComponentBase {
       ? Math.round((charactersNoSpaces / words) * 10) / 10
       : 0;
 
-    const minutes = Math.floor(words / 200);
-    const seconds = Math.round(((words % 200) / 200) * 60);
+    const totalSeconds = Math.round((words / 200) * 60);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
     let readingTime = '';
 
     if (minutes > 0) {

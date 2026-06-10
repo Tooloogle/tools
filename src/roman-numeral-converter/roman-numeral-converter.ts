@@ -46,15 +46,16 @@ export class RomanNumeralConverter extends WebComponentBase {
 
     private onRomanInput(e: Event) {
         const value = (e.target as HTMLInputElement).value;
-        this.roman = value;
         this.error = '';
 
         if (!value.trim()) {
+            this.roman = '';
             this.decimal = '';
             return;
         }
 
         const upper = value.toUpperCase();
+        this.roman = upper;
 
         if (!/^[MDCLXVI]+$/.test(upper)) {
             this.error = 'Use only M, D, C, L, X, V, I';
