@@ -81,7 +81,7 @@ const PANEL_META: Array<Omit<PanelConfig, 'result'>> = [
     {
         id: 5,
         title: '% Difference between X and Y',
-        formula: '|X − Y| ÷ ((X + Y) ÷ 2) × 100',
+        formula: '|X − Y| ÷ |(X + Y) ÷ 2| × 100',
         fields: [
             { label: 'Value X', placeholder: '40', key: 'c5A' },
             { label: 'Value Y', placeholder: '60', key: 'c5B' },
@@ -165,14 +165,18 @@ export class PercentageCalculator extends WebComponentBase {
             return EMPTY;
         }
 
-        const change = ((to - from) / from) * 100;
+        // Round first, then pick the tone/label from the value the user actually
+        // sees — otherwise a tiny change like 0.0000001% renders as "+0%" yet is
+        // still labelled "Increase".
+        const display = this.fmt(((to - from) / from) * 100);
+        const rounded = Number(display);
 
-        if (change > 0) {
-            return { text: `+${this.fmt(change)}%`, tone: 'positive', subtitle: 'Increase' };
+        if (rounded > 0) {
+            return { text: `+${display}%`, tone: 'positive', subtitle: 'Increase' };
         }
 
-        if (change < 0) {
-            return { text: `${this.fmt(change)}%`, tone: 'negative', subtitle: 'Decrease' };
+        if (rounded < 0) {
+            return { text: `${display}%`, tone: 'negative', subtitle: 'Decrease' };
         }
 
         return { text: '0%', tone: 'neutral', subtitle: 'No change' };

@@ -162,6 +162,21 @@ describe('percentage-calculator web component test', () => {
         expect(result(component, 1)).toBe('—');
     });
 
+    it('should not expose copy controls while results are empty', async () => {
+        const component = await mount();
+
+        expect(component.renderRoot.querySelectorAll('t-copy-button').length).toBe(0);
+    });
+
+    it('should give the copy button the formatted result once computed', async () => {
+        const component = await mount();
+        await setInputs(component, { 0: '10', 1: '200' });
+
+        const copyButtons = component.renderRoot.querySelectorAll('t-copy-button');
+        expect(copyButtons.length).toBe(1);
+        expect((copyButtons[0] as HTMLElement & { text: string }).text).toBe('20');
+    });
+
     afterEach(() => {
         document.body.innerHTML = '';
     });

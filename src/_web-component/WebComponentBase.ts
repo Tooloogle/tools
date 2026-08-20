@@ -50,10 +50,34 @@ export abstract class WebComponentBase extends LitElement {
         this._darkMediaQuery?.removeEventListener('change', this._syncDarkMode);
     }
 
+    private _hasDarkAncestor(): boolean {
+        // Walk the composed ancestor chain (crossing shadow boundaries) starting
+        // OUTSIDE this host. Excluding `this` is essential: once we mirror `.dark`
+        // onto the host, `closest('.dark')` would keep matching itself and could
+        // never fall back to light. Crossing shadow roots also lets nested
+        // components (e.g. <t-copy-button>) inherit a dark outer host.
+        let node: Node | null = this.parentNode;
+
+        while (node) {
+            if (node instanceof ShadowRoot) {
+                node = node.host;
+                continue;
+            }
+
+            if (node instanceof Element && node.classList.contains('dark')) {
+                return true;
+            }
+
+            node = node.parentNode;
+        }
+
+        return false;
+    }
+
     private _syncDarkMode = () => {
         const prefersDark = typeof window.matchMedia === 'function'
             && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const isDark = this.closest('.dark') !== null || prefersDark;
+        const isDark = this._hasDarkAncestor() || prefersDark;
 
         this.classList.toggle('dark', isDark);
     };
