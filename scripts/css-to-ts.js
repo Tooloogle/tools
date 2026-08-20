@@ -84,6 +84,13 @@ export async function transformCssToTs(cssFile) {
 
             const preambleParts = ["@reference 'tailwindcss/theme';"];
 
+            // These tools ship as Shadow-DOM web components. Consumers toggle dark
+            // mode with a `.dark` class on an ancestor (<html>/<body>/wrapper), which
+            // a plain `@media (prefers-color-scheme)` rule cannot observe. WebComponentBase
+            // mirrors that theme onto the host as `.dark`, so map Tailwind's `dark:`
+            // variant to `:host(.dark)` instead of the OS media query.
+            preambleParts.push('@custom-variant dark (&:is(:host(.dark) *));');
+
             // Shared @utility imports only for tool CSS files (not _styles/ files
             // like grid.css, table.css, utils.css which are plain CSS)
             if (!isStylesDir) {
@@ -115,11 +122,23 @@ export async function transformCssToTs(cssFile) {
             cssString = stripTailwindOverhead(cssString);
         }
 
+        // Escape for safe embedding inside a JS template literal (lit `css`).
+        // Tailwind emits escaped selectors like `.dark\:bg-gray-800` and
+        // `.bg-green-900\/30`. Without escaping, the template literal collapses
+        // `\:` → `:` (and `\/` → `/`, `\2014` → invalid), corrupting the selector
+        // so the browser silently drops the rule — which breaks every `dark:`,
+        // `hover:`, `sm:` … variant utility. Double the backslashes (and escape
+        // backticks / `${`) so the runtime CSS keeps the required backslashes.
+        const escapedCssString = cssString
+            .replace(/\\/g, '\\\\')
+            .replace(/`/g, '\\`')
+            .replace(/\$\{/g, '\\${');
+
         // write .css.ts file
         fs.writeFileSync(`${cssFile}.ts`, `
 // THIS IS AUTO GENERATED FILE, DO NOT MAKE ANY CHANGES HERE.
 import { css } from 'lit';
-const ${variableName} = css\`${cssString}\`;
+const ${variableName} = css\`${escapedCssString}\`;
 export default ${variableName}`);
     } catch (err) {
         console.error(err);
