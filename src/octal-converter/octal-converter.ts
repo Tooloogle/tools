@@ -64,7 +64,7 @@ export class OctalConverter extends WebComponentBase {
                 </div>
                 ${this.error ? html`<div class="text-red-600 text-sm">${this.error}</div>` : ''}
                 ${this.decimalOutput ? html`
-                    <div class="bg-gray-100 p-4 rounded space-y-2">
+                    <div class="card space-y-2">
                         <div class="flex justify-between">
                             <span class="font-semibold">Decimal:</span>
                             <span class="font-mono">${this.decimalOutput}</span>

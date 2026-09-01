@@ -86,10 +86,10 @@ export class WorldClock extends WebComponentBase {
                 <h3 class="text-xl font-semibold">World Clock</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     ${this.timezones.map(({ name, tz }) => html`
-                        <div class="p-4 border rounded-lg bg-gray-50">
+                        <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
                             <div class="font-semibold text-lg">${name}</div>
                             <div class="text-3xl font-mono font-bold my-2">${this.getTimeInTimezone(tz)}</div>
-                            <div class="text-sm text-gray-600">${this.getDateInTimezone(tz)}</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">${this.getDateInTimezone(tz)}</div>
                         </div>
                     `)}
                 </div>

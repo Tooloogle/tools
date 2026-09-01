@@ -145,7 +145,7 @@ export class AgeCalculator extends WebComponentBase {
           </div>
         `
       )}
-      <div class="grid grid-cols-1 gap-4 dark:bg-gray-600">
+      <div class="grid grid-cols-1 gap-4">
         <label class="block">
           <span>Date Of Birth</span>
           <input

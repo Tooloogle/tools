@@ -76,7 +76,7 @@ export class UnixTimestampConverter extends WebComponentBase {
 
                 <div class="block">
                     <span class="inline-block py-1 font-bold">Human Readable</span>
-                    <div class="p-3 bg-gray-100 rounded text-lg">
+                    <div class="card text-lg">
                         ${this.humanReadable}
                     </div>
                 </div>

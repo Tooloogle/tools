@@ -81,9 +81,9 @@ export class TextDiff extends WebComponentBase {
     }
 
     private renderDiffLine(line: DiffLine) {
-        const bgClass = line.type === 'removed' ? 'bg-red-100 text-red-800' : 
-                       line.type === 'added' ? 'bg-green-100 text-green-800' : 
-                       'bg-white';
+        const bgClass = line.type === 'removed' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' : 
+                       line.type === 'added' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 
+                       'bg-white dark:bg-gray-800 dark:text-gray-100';
         const symbol = line.type === 'removed' ? '−' : line.type === 'added' ? '+' : ' ';
         
         return html`
