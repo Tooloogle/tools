@@ -11,15 +11,15 @@
 }
 
 .control-group {
-    @apply bg-gray-50 p-4 rounded-lg border border-gray-200;
+    @apply bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700;
 }
 
 .control-group h4 {
-    @apply m-0 mb-2 text-gray-600 text-sm font-semibold;
+    @apply m-0 mb-2 text-gray-600 dark:text-gray-300 text-sm font-semibold;
 }
 
 .color-input {
-    @apply w-full h-10 border border-gray-300 rounded cursor-pointer;
+    @apply w-full h-10 border border-gray-300 dark:border-gray-600 rounded cursor-pointer;
 }
 
 .range-input {
@@ -27,7 +27,7 @@
 }
 
 .font-select, .effect-select {
-    @apply w-full p-2 border border-gray-300 rounded bg-white;
+    @apply w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100;
 }
 
 .preview-section {
@@ -47,5 +47,5 @@
 }
 
 .value-display {
-    @apply text-xs text-gray-600 mt-1;
+    @apply text-xs text-gray-600 dark:text-gray-300 mt-1;
 }
