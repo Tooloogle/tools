@@ -1,5 +1,5 @@
 .preview-img {
-  @apply mt-3 block w-full max-w-md rounded border border-slate-200;
+  @apply mt-3 block w-full max-w-md rounded border border-slate-200 dark:border-slate-600;
 }
 
 .mode-toggle {
@@ -23,11 +23,11 @@
 }
 
 .stat-card {
-  @apply rounded border border-slate-200 bg-slate-50 p-3 text-center;
+  @apply rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 p-3 text-center;
 }
 
 .stat-card .label {
-  @apply block text-xs text-slate-500;
+  @apply block text-xs text-slate-500 dark:text-slate-400;
 }
 
 .stat-card .value {
@@ -35,5 +35,5 @@
 }
 
 .stat-card.savings .value {
-  @apply text-green-600;
+  @apply text-green-600 dark:text-green-400;
 }
