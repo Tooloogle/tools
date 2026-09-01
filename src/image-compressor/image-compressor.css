@@ -23,7 +23,7 @@
 }
 
 .stat-card {
-  @apply rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 p-3 text-center;
+  @apply rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 p-3 text-center;
 }
 
 .stat-card .label {
