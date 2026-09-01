@@ -118,7 +118,7 @@ export class SecurePasswordTester extends WebComponentBase {
                                 <span class="font-semibold">Strength:</span>
                                 <span class="font-bold">${this.strength.level}</span>
                             </div>
-                            <div class="w-full bg-gray-200 rounded h-3">
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded h-3">
                                 <div class="${this.getStrengthColor()} h-3 rounded transition-all" 
                                      style="width: ${(this.strength.score / 5) * 100}%"></div>
                             </div>

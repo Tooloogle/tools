@@ -106,7 +106,7 @@ export class DiffChecker extends WebComponentBase {
             ${this.diff.length > 0 ? html`
                 <div class="mt-4">
                     <h3 class="font-bold mb-2">Differences:</h3>
-                    <div class="border rounded p-2 bg-gray-50">
+                    <div class="border border-gray-200 dark:border-gray-700 rounded p-2 bg-gray-50 dark:bg-gray-900 dark:text-gray-100">
                         ${this.renderDiffLines()}
                     </div>
                 </div>

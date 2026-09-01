@@ -194,7 +194,7 @@ export class PlaceholderImageGenerator extends WebComponentBase {
                     </label>
                 ` : ''}
 
-                <div class="p-4 bg-gray-100 rounded">
+                <div class="p-4 bg-gray-100 dark:bg-gray-800 dark:text-gray-100 rounded">
                     <p class="font-bold mb-2">Generated URL:</p>
                     <div class="flex gap-2">
                         <input

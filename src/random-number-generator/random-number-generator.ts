@@ -120,7 +120,7 @@ export class RandomNumberGenerator extends WebComponentBase {
 
     private renderResultsDisplay() {
         return html`
-            <div class="mt-4 p-4 bg-gray-50 rounded">
+            <div class="mt-4 p-4 bg-gray-50 dark:bg-gray-900 dark:text-gray-100 rounded">
                 <h3 class="font-bold mb-2">Results:</h3>
                 <div class="flex flex-wrap gap-2">
                     ${this.renderResults()}
