@@ -25,7 +25,7 @@ export class TipCalculator extends WebComponentBase {
         }
 
         return html`
-            <div class="bg-gray-100 dark:bg-gray-800 dark:text-gray-100 p-4 rounded space-y-2">
+            <div class="card space-y-2">
                 <div class="flex justify-between">
                     <span>Tip Amount:</span>
                     <span class="font-bold">${this.tipAmount.toFixed(2)}</span>

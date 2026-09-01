@@ -143,7 +143,7 @@ export class SvgToPngConverter extends WebComponentBase {
         return this.outputDataUrl ? html`
             <div>
                 <label class="block mb-2 font-semibold">PNG Preview:</label>
-                <div class="border border-gray-200 dark:border-gray-700 p-4 bg-gray-50 dark:bg-gray-900 rounded">
+                <div class="card-muted border border-gray-200 dark:border-gray-700">
                     <img src="${this.outputDataUrl}" alt="PNG Preview" class="max-w-full" />
                 </div>
                 <div class="mt-2">

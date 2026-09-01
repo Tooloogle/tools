@@ -136,7 +136,7 @@ export class DataUriGenerator extends WebComponentBase {
     }
 
     return html`
-      <div class="p-4 bg-gray-100 dark:bg-gray-800 dark:text-gray-100 rounded">
+      <div class="card">
         <p class="font-bold mb-2">HTML Preview:</p>
         <iframe
           src="${this.outputText}"

@@ -18,6 +18,7 @@ const cssFiles = globSync("./src/**/*.css");
 const SHARED_UTILITY_IMPORTS = [
     'input.css',
     'button.css',
+    'card.css',
 ];
 
 cssFiles.forEach(cssFile => {

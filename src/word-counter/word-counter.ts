@@ -65,27 +65,27 @@ export class WordCounter extends WebComponentBase {
             </label>
 
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                <div class="p-4 bg-gray-100 dark:bg-gray-800 dark:text-gray-100 rounded">
+                <div class="card">
                     <div class="text-2xl font-bold">${this.wordCount}</div>
                     <div class="text-sm text-gray-600 dark:text-gray-400">Words</div>
                 </div>
-                <div class="p-4 bg-gray-100 dark:bg-gray-800 dark:text-gray-100 rounded">
+                <div class="card">
                     <div class="text-2xl font-bold">${this.charCount}</div>
                     <div class="text-sm text-gray-600 dark:text-gray-400">Characters</div>
                 </div>
-                <div class="p-4 bg-gray-100 dark:bg-gray-800 dark:text-gray-100 rounded">
+                <div class="card">
                     <div class="text-2xl font-bold">${this.charCountNoSpaces}</div>
                     <div class="text-sm text-gray-600 dark:text-gray-400">Characters (no spaces)</div>
                 </div>
-                <div class="p-4 bg-gray-100 dark:bg-gray-800 dark:text-gray-100 rounded">
+                <div class="card">
                     <div class="text-2xl font-bold">${this.lineCount}</div>
                     <div class="text-sm text-gray-600 dark:text-gray-400">Lines</div>
                 </div>
-                <div class="p-4 bg-gray-100 dark:bg-gray-800 dark:text-gray-100 rounded">
+                <div class="card">
                     <div class="text-2xl font-bold">${this.sentenceCount}</div>
                     <div class="text-sm text-gray-600 dark:text-gray-400">Sentences</div>
                 </div>
-                <div class="p-4 bg-gray-100 dark:bg-gray-800 dark:text-gray-100 rounded">
+                <div class="card">
                     <div class="text-2xl font-bold">${this.paragraphCount}</div>
                     <div class="text-sm text-gray-600 dark:text-gray-400">Paragraphs</div>
                 </div>

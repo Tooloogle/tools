@@ -1,0 +1,12 @@
+/* Shared surface/card @utility definitions – tree-shaken by Tailwind v4.
+ * Auto-injected into every tool's CSS via SHARED_UTILITY_IMPORTS in
+ * scripts/css-to-ts.js; only emitted when the class is used in a template.
+ */
+
+@utility card {
+  @apply bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-4 rounded-lg;
+}
+
+@utility card-muted {
+  @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4 rounded-lg;
+}

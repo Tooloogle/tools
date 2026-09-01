@@ -44,7 +44,7 @@ export class DiscountCalculator extends WebComponentBase {
                     />
                 </div>
                 ${this.originalPrice > 0 ? html`
-                    <div class="bg-gray-100 dark:bg-gray-800 dark:text-gray-100 p-4 rounded space-y-2">
+                    <div class="card space-y-2">
                         <div class="flex justify-between">
                             <span>Discount Amount:</span>
                             <span class="font-bold text-red-600">-${this.discountAmount.toFixed(2)}</span>
