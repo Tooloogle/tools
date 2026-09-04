@@ -1,0 +1,7 @@
+# Tools pending deletion
+
+These tools are superseded by `css-color-converter` (universal HEX/RGB/HSL + alpha
+converter with live preview and color picker). They are kept for now because they are
+live on production; remove them once traffic/links are migrated.
+
+- hex-to-rgba-converter  # superseded by css-color-converter (RGBA/alpha covered)

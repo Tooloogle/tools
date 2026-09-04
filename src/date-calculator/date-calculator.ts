@@ -71,7 +71,9 @@ export class DateCalculator extends WebComponentBase {
           <div class="bg-green-50 p-4 rounded-lg">
             <div class="text-sm text-gray-600 mb-1">Result Date:</div>
             <div class="text-2xl font-bold text-green-600">${this.resultDate}</div>
-            <t-copy-button .text=${this.resultDate}></t-copy-button>
+            <div class="py-2 text-right">
+              <t-copy-button .isIcon=${false} .text=${this.resultDate}></t-copy-button>
+            </div>
           </div>
         ` : ''}
       </div>

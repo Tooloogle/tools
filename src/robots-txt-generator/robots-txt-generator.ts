@@ -1,57 +1,68 @@
 import { html } from 'lit';
 import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import robotsTxtGeneratorStyles from './robots-txt-generator.css.js';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 import '../t-copy-button/index.js';
+
+interface RobotsGroup {
+  userAgent: string;
+  mode: 'custom' | 'allowAll' | 'disallowAll';
+  disallow: string;
+  allow: string;
+}
+
+function emptyGroup(): RobotsGroup {
+  return { userAgent: '*', mode: 'custom', disallow: '', allow: '' };
+}
 
 @customElement('robots-txt-generator')
 export class RobotsTxtGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    robotsTxtGeneratorStyles];
+    WebComponentBase.styles,
+    robotsTxtGeneratorStyles];
 
-  @property({ type: String }) userAgent = '*';
-  @property({ type: Boolean }) allowAll = false;
-  @property({ type: Boolean }) disallowAll = false;
-  @property({ type: String }) disallowPaths = '';
-  @property({ type: String }) allowPaths = '';
-  @property({ type: String }) sitemapUrl = '';
-  @property({ type: String }) outputText = '';
+  @state() groups: RobotsGroup[] = [emptyGroup()];
+  @state() sitemapUrl = '';
+  @state() outputText = '';
 
   override connectedCallback() {
     super.connectedCallback();
     this.process();
   }
 
-  private handleUserAgent(e: Event) {
-    this.userAgent = (e.target as HTMLInputElement).value || '*';
+  private onGroupField(e: Event) {
+    const el = e.target as
+      | HTMLInputElement
+      | HTMLTextAreaElement
+      | HTMLSelectElement;
+    const index = Number(el.dataset.index);
+    const field = el.dataset.field as keyof RobotsGroup;
+    this.updateGroup(index, { [field]: el.value } as Partial<RobotsGroup>);
+  }
+
+  private onRemoveGroup(e: Event) {
+    const index = Number((e.currentTarget as HTMLElement).dataset.index);
+    this.removeGroup(index);
+  }
+
+  private updateGroup(index: number, patch: Partial<RobotsGroup>) {
+    this.groups = this.groups.map((group, i) =>
+      i === index ? { ...group, ...patch } : group
+    );
     this.process();
   }
 
-  private handleAllowAll(e: Event) {
-    this.allowAll = (e.target as HTMLInputElement).checked;
-    if (this.allowAll) {
-      this.disallowAll = false;
+  private addGroup() {
+    this.groups = [...this.groups, emptyGroup()];
+    this.process();
+  }
+
+  private removeGroup(index: number) {
+    if (this.groups.length <= 1) {
+      return;
     }
 
-    this.process();
-  }
-
-  private handleDisallowAll(e: Event) {
-    this.disallowAll = (e.target as HTMLInputElement).checked;
-    if (this.disallowAll) {
-      this.allowAll = false;
-    }
-
-    this.process();
-  }
-
-  private handleDisallowPaths(e: Event) {
-    this.disallowPaths = (e.target as HTMLTextAreaElement).value;
-    this.process();
-  }
-
-  private handleAllowPaths(e: Event) {
-    this.allowPaths = (e.target as HTMLTextAreaElement).value;
+    this.groups = this.groups.filter((_, i) => i !== index);
     this.process();
   }
 
@@ -61,111 +72,149 @@ export class RobotsTxtGenerator extends WebComponentBase {
   }
 
   private process() {
-    let output = `User-agent: ${this.userAgent}\n`;
+    let output = this.groups.map(group => this.groupToText(group)).join('\n\n');
 
-    if (this.allowAll) {
-      output += 'Allow: /\n';
-    } else if (this.disallowAll) {
-      output += 'Disallow: /\n';
-    } else {
-      if (this.disallowPaths) {
-        const paths = this.disallowPaths.split('\n').filter(p => p.trim());
-        paths.forEach(path => {
-          output += `Disallow: ${path.trim()}\n`;
-        });
-      }
-
-      if (this.allowPaths) {
-        const paths = this.allowPaths.split('\n').filter(p => p.trim());
-        paths.forEach(path => {
-          output += `Allow: ${path.trim()}\n`;
-        });
-      }
-    }
-
-    if (this.sitemapUrl) {
-      output += `\nSitemap: ${this.sitemapUrl}`;
+    if (this.sitemapUrl.trim()) {
+      output += `\n\nSitemap: ${this.sitemapUrl.trim()}`;
     }
 
     this.outputText = output;
   }
 
+  private groupToText(group: RobotsGroup): string {
+    let text = `User-agent: ${group.userAgent.trim() || '*'}\n`;
+
+    if (group.mode === 'allowAll') {
+      text += 'Allow: /';
+    } else if (group.mode === 'disallowAll') {
+      text += 'Disallow: /';
+    } else {
+      text += this.pathLines(group);
+    }
+
+    return text.trimEnd();
+  }
+
+  private pathLines(group: RobotsGroup): string {
+    const rule = (prefix: string, raw: string) =>
+      raw
+        .split('\n')
+        .map(p => p.trim())
+        .filter(Boolean)
+        .map(p => `${prefix}: ${p}`);
+
+    return [
+      ...rule('Disallow', group.disallow),
+      ...rule('Allow', group.allow),
+    ].join('\n');
+  }
+
+  private downloadRobots() {
+    const blob = new Blob([this.outputText], {
+      type: 'text/plain;charset=utf-8;',
+    });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'robots.txt');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
   override render() {
+    const groups = this.groups.map((group, index) =>
+      this.renderGroup(group, index)
+    );
+
     return html`
-      <div class="space-y-4">
-        ${this.renderUserAgentInput()} ${this.renderAllowDisallowCheckboxes()}
-        ${this.renderPathInputs()} ${this.renderSitemapInput()}
-        ${this.renderOutput()}
+      <div class="space-y-4 text-gray-900 dark:text-gray-100">
+        ${groups}
+        <button class="btn btn-blue btn-sm" @click=${this.addGroup}>
+          + Add user-agent group
+        </button>
+        ${this.renderSitemapInput()} ${this.renderOutput()}
       </div>
     `;
   }
 
-  private renderUserAgentInput() {
+  private renderGroup(group: RobotsGroup, index: number) {
+    return html`
+      <div class="card space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="font-semibold">Group ${index + 1}</span>
+          ${this.groups.length > 1
+            ? html`<button
+                class="btn btn-red btn-sm"
+                data-index=${index}
+                @click=${this.onRemoveGroup}
+              >
+                Remove
+              </button>`
+            : ''}
+        </div>
+        <div>
+          <label class="block mb-1 text-sm font-medium">User-Agent:</label>
+          <input
+            type="text"
+            class="form-input w-full"
+            placeholder="*"
+            data-index=${index}
+            data-field="userAgent"
+            .value=${group.userAgent}
+            @input=${this.onGroupField}
+          />
+        </div>
+        <div>
+          <label class="block mb-1 text-sm font-medium">Rules:</label>
+          <select
+            class="form-select w-full"
+            data-index=${index}
+            data-field="mode"
+            .value=${group.mode}
+            @change=${this.onGroupField}
+          >
+            <option value="custom">Custom paths</option>
+            <option value="allowAll">Allow all (Allow: /)</option>
+            <option value="disallowAll">Disallow all (Disallow: /)</option>
+          </select>
+        </div>
+        ${group.mode === 'custom' ? this.renderPaths(group, index) : ''}
+      </div>
+    `;
+  }
+
+  private renderPaths(group: RobotsGroup, index: number) {
     return html`
       <div>
-        <label class="block mb-2 font-semibold">User-Agent:</label>
-        <input
-          type="text"
-          class="form-input w-full"
-          placeholder="*"
-          .value=${this.userAgent}
-          @input=${this.handleUserAgent}
-        />
+        <label class="block mb-1 text-sm font-medium"
+          >Disallow paths (one per line):</label
+        >
+        <textarea
+          class="form-textarea w-full h-20"
+          placeholder="/admin&#10;/private"
+          data-index=${index}
+          data-field="disallow"
+          .value=${group.disallow}
+          @input=${this.onGroupField}
+        ></textarea>
+      </div>
+      <div>
+        <label class="block mb-1 text-sm font-medium"
+          >Allow paths (one per line):</label
+        >
+        <textarea
+          class="form-textarea w-full h-20"
+          placeholder="/public&#10;/images"
+          data-index=${index}
+          data-field="allow"
+          .value=${group.allow}
+          @input=${this.onGroupField}
+        ></textarea>
       </div>
     `;
-  }
-
-  private renderAllowDisallowCheckboxes() {
-    return html`
-      <div class="flex gap-4">
-        <label class="flex items-center">
-          <input
-            type="checkbox"
-            .checked=${this.allowAll}
-            @change=${this.handleAllowAll}
-          />
-          <span class="ml-2">Allow All</span>
-        </label>
-        <label class="flex items-center">
-          <input
-            type="checkbox"
-            .checked=${this.disallowAll}
-            @change=${this.handleDisallowAll}
-          />
-          <span class="ml-2">Disallow All</span>
-        </label>
-      </div>
-    `;
-  }
-
-  private renderPathInputs() {
-    return !this.allowAll && !this.disallowAll
-      ? html`
-          <div>
-            <label class="block mb-2 font-semibold"
-              >Disallow Paths (one per line):</label
-            >
-            <textarea
-              class="form-textarea w-full h-24"
-              placeholder="/admin&#10;/private&#10;/tmp"
-              .value=${this.disallowPaths}
-              @input=${this.handleDisallowPaths}
-            ></textarea>
-          </div>
-
-          <div>
-            <label class="block mb-2 font-semibold"
-              >Allow Paths (one per line):</label
-            >
-            <textarea
-              class="form-textarea w-full h-24"
-              placeholder="/public&#10;/images"
-              .value=${this.allowPaths}
-              @input=${this.handleAllowPaths}
-            ></textarea>
-          </div>
-        `
-      : '';
   }
 
   private renderSitemapInput() {
@@ -188,16 +237,24 @@ export class RobotsTxtGenerator extends WebComponentBase {
       <div>
         <label class="block mb-2 font-semibold">Generated robots.txt:</label>
         <textarea
-          class="form-textarea w-full h-32"
+          class="form-textarea w-full h-32 font-mono text-sm"
           readonly
           .value=${this.outputText}
         ></textarea>
-        ${this.outputText
-          ? html`<t-copy-button
-              .text=${this.outputText}
-              .isIcon=${false}
-            ></t-copy-button>`
-          : ''}
+        <div class="flex items-center justify-end gap-2 py-2">
+          <button
+            class="btn btn-blue btn-sm"
+            ?disabled=${!this.outputText}
+            @click=${this.downloadRobots}
+          >
+            Download robots.txt
+          </button>
+          <t-copy-button
+            .text=${this.outputText}
+            .isIcon=${false}
+            .disabled=${!this.outputText}
+          ></t-copy-button>
+        </div>
       </div>
     `;
   }

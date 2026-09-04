@@ -37,16 +37,19 @@ export class HtaccessGenerator extends WebComponentBase {
   private process() {
     let output = '# Apache .htaccess Configuration\n\n';
 
+    if (this.enableWwwRedirect || this.enableHttpsRedirect) {
+      output += 'RewriteEngine On\n\n';
+    }
+
     if (this.enableWwwRedirect) {
       output += '# Redirect to www version\n';
-      output += 'RewriteEngine On\n';
       output += 'RewriteCond %{HTTP_HOST} !^www\\. [NC]\n';
-      output += 'RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]\n\n';
+      output +=
+        'RewriteRule ^(.*)$ %{REQUEST_SCHEME}://www.%{HTTP_HOST}/$1 [R=301,L]\n\n';
     }
 
     if (this.enableHttpsRedirect) {
       output += '# Force HTTPS\n';
-      output += 'RewriteEngine On\n';
       output += 'RewriteCond %{HTTPS} off\n';
       output +=
         'RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]\n\n';
@@ -61,38 +64,48 @@ export class HtaccessGenerator extends WebComponentBase {
     }
 
     if (this.enableCaching) {
-      output += '# Browser Caching\n';
-      output += '<IfModule mod_expires.c>\n';
-      output += '  ExpiresActive On\n';
-      output += '  ExpiresByType image/jpg "access plus 1 year"\n';
-      output += '  ExpiresByType image/jpeg "access plus 1 year"\n';
-      output += '  ExpiresByType image/gif "access plus 1 year"\n';
-      output += '  ExpiresByType image/png "access plus 1 year"\n';
-      output += '  ExpiresByType text/css "access plus 1 month"\n';
-      output +=
-        '  ExpiresByType application/javascript "access plus 1 month"\n';
-      output += '</IfModule>\n\n';
+      output += this.cachingRules();
     }
 
     if (this.customRedirects.trim()) {
-      output += '# Custom Redirects\n';
-      output += 'RewriteEngine On\n';
-      const redirects = this.customRedirects.split('\n').filter(r => r.trim());
-      redirects.forEach(redirect => {
-        const parts = redirect.trim().split(/\s+/);
-        if (parts.length >= 2) {
-          output += `Redirect 301 ${parts[0]} ${parts[1]}\n`;
-        }
-      });
-      output += '\n';
+      output += this.customRedirectRules();
     }
 
     this.outputText = output.trim();
   }
 
+  private cachingRules(): string {
+    return (
+      '# Browser Caching\n' +
+      '<IfModule mod_expires.c>\n' +
+      '  ExpiresActive On\n' +
+      '  ExpiresByType image/jpg "access plus 1 year"\n' +
+      '  ExpiresByType image/jpeg "access plus 1 year"\n' +
+      '  ExpiresByType image/gif "access plus 1 year"\n' +
+      '  ExpiresByType image/png "access plus 1 year"\n' +
+      '  ExpiresByType text/css "access plus 1 month"\n' +
+      '  ExpiresByType application/javascript "access plus 1 month"\n' +
+      '</IfModule>\n\n'
+    );
+  }
+
+  private customRedirectRules(): string {
+    let output = '# Custom Redirects\n';
+    const redirects = this.customRedirects.split('\n').filter(r => r.trim());
+    redirects.forEach(redirect => {
+      const parts = redirect.trim().split(/\s+/);
+      if (parts.length >= 2) {
+        output += `Redirect 301 ${parts[0]} ${parts[1]}\n`;
+      } else {
+        output += `# Skipped invalid redirect: ${redirect.trim()}\n`;
+      }
+    });
+    return `${output}\n`;
+  }
+
   override render() {
     return html`
-      <div class="space-y-4">
+      <div class="space-y-4 text-gray-900 dark:text-gray-100">
         ${this.renderCheckboxes()} ${this.renderRedirectsInput()}
         ${this.renderOutput()}
       </div>
@@ -163,12 +176,13 @@ export class HtaccessGenerator extends WebComponentBase {
           readonly
           .value=${this.outputText}
         ></textarea>
-        ${this.outputText
-          ? html`<t-copy-button
-              .text=${this.outputText}
-              .isIcon=${false}
-            ></t-copy-button>`
-          : ''}
+        <div class="py-2 text-right">
+          <t-copy-button
+            .text=${this.outputText}
+            .isIcon=${false}
+            .disabled=${!this.outputText}
+          ></t-copy-button>
+        </div>
       </div>
     `;
   }

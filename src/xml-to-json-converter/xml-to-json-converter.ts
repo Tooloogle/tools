@@ -3,6 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { WebComponentBase } from "../_web-component/WebComponentBase.js";
 import xmlToJsonConverterStyles from "./xml-to-json-converter.css.js";
 import "../t-file-dropzone/index.js";
+import "../t-copy-button/index.js";
 import type { TFileDropzoneChangeDetail } from "../t-file-dropzone/t-file-dropzone.js";
 
 interface JsonObject {
@@ -17,29 +18,40 @@ export class XmlToJsonConverter extends WebComponentBase {
     WebComponentBase.styles,
     xmlToJsonConverterStyles];
 
+  @property({ type: String }) inputText = "";
+  @property({ type: String }) outputText = "";
   @property({ type: Object }) file: File | null = null;
   @property({ type: String }) error = "";
 
-  private handleFileChange(e: CustomEvent<TFileDropzoneChangeDetail>) {
-    this.file = e.detail.file;
-    this.error = "";
+  private handleInput(e: Event) {
+    this.inputText = (e.target as HTMLTextAreaElement).value;
+    this.process();
+  }
+
+  private handleFileUpload(e: CustomEvent<TFileDropzoneChangeDetail>) {
+    const file = e.detail.file;
+    this.file = file;
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        this.inputText = event.target?.result as string;
+        this.process();
+      };
+
+      reader.readAsText(file);
+    }
   }
 
   private xmlToJson(xml: string): JsonObject | string {
-    try {
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xml, "text/xml");
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xml, "text/xml");
 
-      const parseError = xmlDoc.querySelector("parsererror");
-      if (parseError) {
-        throw new Error("Invalid XML format. Please check your XML syntax.");
-      }
-
-      return this.xmlNodeToJson(xmlDoc.documentElement);
-    } catch (error) {
-      console.error("XML parsing error:", error);
-      throw new Error("Failed to parse XML. The file might be corrupted or invalid.");
+    const parseError = xmlDoc.querySelector("parsererror");
+    if (parseError) {
+      throw new Error("Invalid XML format. Please check your XML syntax.");
     }
+
+    return this.xmlNodeToJson(xmlDoc.documentElement);
   }
 
   private xmlNodeToJson(node: Element): JsonObject | string {
@@ -128,53 +140,90 @@ export class XmlToJsonConverter extends WebComponentBase {
     }
   }
 
-  private async convert() {
-    if (!this.file) {
-        return;
+  private process() {
+    this.error = "";
+
+    if (!this.inputText.trim()) {
+      this.outputText = "";
+      return;
     }
 
     try {
-      this.error = "";
-      const text = await this.file.text();
-      const jsonObj = this.xmlToJson(text);
-      const jsonString = JSON.stringify(jsonObj, null, 2);
-
-      this.downloadJson(jsonString);
+      const jsonObj = this.xmlToJson(this.inputText);
+      this.outputText = JSON.stringify(jsonObj, null, 2);
     } catch (error) {
-      console.error("Conversion failed:", error);
-      this.error = error instanceof Error ? error.message : "Failed to convert XML file. Please check if the XML is valid.";
+      this.error =
+        error instanceof Error ? error.message : "Failed to parse XML.";
+      this.outputText = "";
     }
   }
 
-  private downloadJson(jsonString: string): void {
-    if (!this.file) {
-        return;
+  private downloadJson(): void {
+    if (!this.outputText) {
+      return;
     }
 
-    const blob = new Blob([jsonString], { type: "application/json" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    const fileName = this.file.name.replace(/\.[^/.]+$/, ".json");
-    a.download = fileName;
-    a.click();
+    const blob = new Blob([this.outputText], {
+      type: "application/json;charset=utf-8;",
+    });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    link.download = this.file
+      ? this.file.name.replace(/\.[^/.]+$/, ".json")
+      : "output.json";
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   }
 
   override render() {
+    const hasOutput = Boolean(this.outputText);
+
     return html`
-      <div class="space-y-3">
-        <t-file-dropzone
-          accept="application/xml,text/xml,.xml"
-          label="Drop an XML file here or click to browse"
-          @change=${this.handleFileChange}
-        ></t-file-dropzone>
-        <button
-          class="btn btn-blue"
-          @click="${this.convert}"
-          ?disabled="${!this.file}"
-        >
-          Convert to JSON
-        </button>
-        ${this.error ? html`<div class="text-rose-500">${this.error}</div>` : ''}
+      <div class="space-y-4 text-gray-900 dark:text-gray-100">
+        <div>
+          <label class="block mb-2 font-semibold">XML Input:</label>
+          <textarea
+            class="form-textarea w-full h-40 font-mono text-sm"
+            placeholder="&lt;note&gt;&lt;to&gt;Tove&lt;/to&gt;&lt;from&gt;Jani&lt;/from&gt;&lt;/note&gt;"
+            .value=${this.inputText}
+            @input=${this.handleInput}
+          ></textarea>
+          <t-file-dropzone
+            class="block mt-2"
+            accept="application/xml,text/xml,.xml"
+            label="Drop an XML file here or click to browse"
+            @change=${this.handleFileUpload}
+          ></t-file-dropzone>
+        </div>
+        ${this.error
+          ? html`<div
+              class="p-3 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded"
+            >
+              ${this.error}
+            </div>`
+          : ""}
+        <div>
+          <label class="block mb-2 font-semibold">JSON Output:</label>
+          <textarea
+            class="form-textarea w-full h-40 font-mono text-sm"
+            readonly
+            .value=${this.outputText}
+          ></textarea>
+          <div class="flex items-center justify-end gap-2 py-2">
+            <button
+              class="btn btn-blue btn-sm"
+              ?disabled=${!hasOutput}
+              @click=${this.downloadJson}
+            >
+              Download JSON
+            </button>
+            <t-copy-button .isIcon=${false} .disabled=${!hasOutput} .text=${this.outputText}></t-copy-button>
+          </div>
+        </div>
       </div>
     `;
   }

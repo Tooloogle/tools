@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import cssUnitConverterStyles from './css-unit-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
+import '../t-copy-button/index.js';
 @customElement('css-unit-converter')
 export class CssUnitConverter extends WebComponentBase {
     static override styles = [WebComponentBase.styles, cssUnitConverterStyles];
@@ -18,28 +19,30 @@ export class CssUnitConverter extends WebComponentBase {
     }
 
     private convert() {
+        // Fall back to 16 when the base font input is cleared to avoid divide-by-zero.
+        const base = this.baseFontSize || 16;
         let pxValue = this.inputValue;
-        
+
         // Convert to px first
         if (this.fromUnit === 'rem' || this.fromUnit === 'em') {
-            pxValue = this.inputValue * this.baseFontSize;
+            pxValue = this.inputValue * base;
         } else if (this.fromUnit === 'pt') {
             pxValue = this.inputValue * (96 / 72);
         } else if (this.fromUnit === '%') {
-            pxValue = this.inputValue * this.baseFontSize / 100;
+            pxValue = this.inputValue * base / 100;
         }
-        
+
         // Convert from px to target unit
         let resultValue = pxValue;
         if (this.toUnit === 'rem' || this.toUnit === 'em') {
-            resultValue = pxValue / this.baseFontSize;
+            resultValue = pxValue / base;
         } else if (this.toUnit === 'pt') {
             resultValue = pxValue * (72 / 96);
         } else if (this.toUnit === '%') {
-            resultValue = (pxValue / this.baseFontSize) * 100;
+            resultValue = (pxValue / base) * 100;
         }
-        
-        this.result = `${resultValue.toFixed(4)} ${this.toUnit}`;
+
+        this.result = `${parseFloat(resultValue.toFixed(4))}${this.toUnit}`;
     }
 
     override render() {
@@ -59,23 +62,24 @@ export class CssUnitConverter extends WebComponentBase {
                     </div>
                     <div>
                         <label class="block mb-2 font-semibold">From Unit:</label>
-                        <select class="form-input w-full" .value=${this.fromUnit}
+                        <select class="form-input w-full"
                             @change=${(e: Event) => { this.fromUnit = (e.target as HTMLSelectElement).value; this.convert(); }}>
-                            ${units.map(u => html`<option value="${u}">${u}</option>`)}
+                            ${units.map(u => html`<option value="${u}" ?selected=${u === this.fromUnit}>${u}</option>`)}
                         </select>
                     </div>
                 </div>
                 <div>
                     <label class="block mb-2 font-semibold">To Unit:</label>
-                    <select class="form-input w-full" .value=${this.toUnit}
+                    <select class="form-input w-full"
                         @change=${(e: Event) => { this.toUnit = (e.target as HTMLSelectElement).value; this.convert(); }}>
-                        ${units.map(u => html`<option value="${u}">${u}</option>`)}
+                        ${units.map(u => html`<option value="${u}" ?selected=${u === this.toUnit}>${u}</option>`)}
                     </select>
                 </div>
-                <div class="bg-blue-50 p-4 rounded-lg">
-                    <div class="text-sm text-gray-600 mb-1">Result:</div>
-                    <div class="text-2xl font-bold text-blue-600">${this.result}</div>
-                    <t-copy-button .text=${this.result}></t-copy-button>
+                <div class="relative bg-blue-50 dark:bg-gray-800 p-4 rounded-lg">
+                    <div class="absolute top-2 end-2">
+                        <t-copy-button .text=${this.result}></t-copy-button>
+                    </div>
+                    <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">${this.result}</div>
                 </div>
             </div>
         `;

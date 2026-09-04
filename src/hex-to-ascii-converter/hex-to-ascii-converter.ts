@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('hex-to-ascii-converter')
 export class HexToAsciiConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    hexToAsciiConverterStyles];
+    WebComponentBase.styles,
+    hexToAsciiConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -47,9 +48,9 @@ export class HexToAsciiConverter extends WebComponentBase {
             readonly
             .value=${this.outputText}
           ></textarea>
-          ${this.outputText
-            ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ''}
+          <div class="py-2 text-right">
+            <t-copy-button .isIcon=${false} .disabled=${!this.outputText} .text=${this.outputText}></t-copy-button>
+          </div>
         </div>
       </div>
     `;

@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement("css-border-radius-generator")
 export class CssBorderRadiusGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    cssBorderRadiusGeneratorStyles];
+    WebComponentBase.styles,
+    cssBorderRadiusGeneratorStyles];
 
   @property({ type: Number }) topLeft = 0;
   @property({ type: Number }) topRight = 0;
@@ -78,10 +79,12 @@ export class CssBorderRadiusGenerator extends WebComponentBase {
           readonly
           .value=${this.outputText}
         ></textarea>
-        <t-copy-button
-          .text=${this.outputText}
-          .isIcon=${false}
-        ></t-copy-button>
+        <div class="py-2 text-right">
+          <t-copy-button
+            .text=${this.outputText}
+            .isIcon=${false}
+          ></t-copy-button>
+        </div>
       </div>
     `;
   }

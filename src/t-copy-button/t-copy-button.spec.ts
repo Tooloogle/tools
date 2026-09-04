@@ -20,6 +20,17 @@ describe('t-copy-button web component test', () => {
         expect(component).toBeInstanceOf(TCopyButton);
     });
 
+    it('should mark the button as disabled when disabled is set', async () => {
+        const component = window.document.createElement(componentTag) as TCopyButton;
+        component.disabled = true;
+        document.body.appendChild(component);
+
+        await component.updateComplete;
+
+        const button = component.renderRoot.querySelector('button');
+        expect(button?.hasAttribute('disabled')).toBe(true);
+    });
+
     afterEach(() => {
         document.body.innerHTML = '';
     });

@@ -39,12 +39,13 @@ export class AsciiToHexConverter extends WebComponentBase {
         <div>
           <label class="block mb-2 font-semibold">Hexadecimal Output:</label>
           <textarea class="form-textarea" readonly .value=${this.outputText} rows="8"></textarea>
-          ${this.outputText
-            ? html`<t-copy-button
-                .text=${this.outputText}
-                .isIcon=${false}
-              ></t-copy-button>`
-            : ''}
+          <div class="py-2 text-right">
+            <t-copy-button
+              .text=${this.outputText}
+              .isIcon=${false}
+              .disabled=${!this.outputText}
+            ></t-copy-button>
+          </div>
         </div>
       </div>
     `;

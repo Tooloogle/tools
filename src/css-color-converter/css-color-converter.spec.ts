@@ -1,9 +1,9 @@
 import { LitElement } from 'lit';
-import { RgbToHslConverter } from "./rgb-to-hsl-converter.js";
+import { CssColorConverter } from "./css-color-converter.js";
 
-describe('rgb-to-hsl-converter web component test', () => {
+describe('css-color-converter web component test', () => {
 
-    const componentTag = "rgb-to-hsl-converter";
+    const componentTag = "css-color-converter";
     
     it('should render web component', async () => {
         const component = window.document.createElement(componentTag) as LitElement;
@@ -15,9 +15,9 @@ describe('rgb-to-hsl-converter web component test', () => {
         expect(component.renderRoot).toBeTruthy();
     });
 
-    it('should be an instance of RgbToHslConverter', () => {
-        const component = window.document.createElement(componentTag) as RgbToHslConverter;
-        expect(component).toBeInstanceOf(RgbToHslConverter);
+    it('should be an instance of CssColorConverter', () => {
+        const component = window.document.createElement(componentTag) as CssColorConverter;
+        expect(component).toBeInstanceOf(CssColorConverter);
     });
 
     afterEach(() => {
