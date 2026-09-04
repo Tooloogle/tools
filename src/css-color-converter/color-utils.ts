@@ -36,9 +36,11 @@ export function parseHex(value: string): Rgba | null {
 }
 
 export function parseRgb(value: string): Rgba | null {
-  const match = value.match(
-    /rgba?\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*([01]?(?:\.\d+)?)\s*)?\)/i
-  );
+  const match = value
+    .trim()
+    .match(
+      /^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d*\.?\d+)\s*)?\)$/i
+    );
   if (!match) {
     return null;
   }
@@ -56,9 +58,11 @@ export function parseRgb(value: string): Rgba | null {
 }
 
 export function parseHsl(value: string): Rgba | null {
-  const match = value.match(
-    /hsla?\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})%?\s*,\s*(\d{1,3})%?\s*(?:,\s*([01]?(?:\.\d+)?)\s*)?\)/i
-  );
+  const match = value
+    .trim()
+    .match(
+      /^hsla?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%?\s*,\s*(\d{1,3})%?\s*(?:,\s*(\d*\.?\d+)\s*)?\)$/i
+    );
   if (!match) {
     return null;
   }
@@ -165,5 +169,5 @@ export function toHsl({ r, g, b, a }: Rgba): string {
 }
 
 function formatAlpha(a: number): string {
-  return `${parseFloat(a.toFixed(2))}`;
+  return `${parseFloat(a.toFixed(3))}`;
 }

@@ -25,6 +25,7 @@ export class XmlToJsonConverter extends WebComponentBase {
 
   private handleInput(e: Event) {
     this.inputText = (e.target as HTMLTextAreaElement).value;
+    this.file = null;
     this.process();
   }
 

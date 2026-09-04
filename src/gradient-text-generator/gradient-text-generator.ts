@@ -47,10 +47,14 @@ export class GradientTextGenerator extends WebComponentBase {
   private generateGradientCSS(): string {
     const gradient = this.getGradientStyle();
 
-    return `background: ${gradient};
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;`;
+    return `.gradient-text {
+  background: ${gradient};
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 48px;
+  font-weight: bold;
+}`;
   }
 
   // eslint-disable-next-line max-lines-per-function

@@ -91,9 +91,39 @@ function list(el: HTMLElement, ordered: boolean): string {
   return items
     .map((li, index) => {
       const marker = ordered ? `${index + 1}.` : '-';
-      const content = childrenToMarkdown(li).trim();
-      return `${marker} ${content}`;
+      const { text, nested } = listItemContent(li as HTMLElement);
+      let line = `${marker} ${text}`.trimEnd();
+
+      if (nested) {
+        line += `\n${indentLines(nested, ' '.repeat(marker.length + 1))}`;
+      }
+
+      return line;
     })
+    .join('\n');
+}
+
+function listItemContent(li: HTMLElement): { text: string; nested: string } {
+  let text = '';
+  const nestedParts: string[] = [];
+  li.childNodes.forEach((child) => {
+    if (child.nodeType === ELEMENT_NODE) {
+      const childTag = (child as HTMLElement).tagName.toLowerCase();
+      if (childTag === 'ul' || childTag === 'ol') {
+        nestedParts.push(list(child as HTMLElement, childTag === 'ol'));
+        return;
+      }
+    }
+
+    text += nodeToMarkdown(child);
+  });
+  return { text: text.trim(), nested: nestedParts.join('\n') };
+}
+
+function indentLines(text: string, pad: string): string {
+  return text
+    .split('\n')
+    .map((line) => (line ? pad + line : line))
     .join('\n');
 }
 

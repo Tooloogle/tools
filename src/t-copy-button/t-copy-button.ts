@@ -56,7 +56,7 @@ export class TCopyButton extends WebComponentBase {
   };
 
   private renderButtonContent = () => {
-    return html`<button class="btn btn-green btn-sm" ?disabled=${this.disabled}>Copy</button>`;
+    return html`<span class="btn btn-green btn-sm">Copy</span>`;
   };
 
   private resetTitle = () => {
