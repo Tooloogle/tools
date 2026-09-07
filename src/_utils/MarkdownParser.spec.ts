@@ -56,6 +56,21 @@ describe('markdownToHtml', () => {
             expect(out).toContain('<li>two</li>');
         });
 
+        it('renders ordered lists', () => {
+            const out = markdownToHtml('1. one\n2. two');
+            expect(out).toContain('<ol><li>one</li><li>two</li></ol>');
+        });
+
+        it('renders nested lists via indentation', () => {
+            const out = markdownToHtml('- parent\n  - child');
+            expect(out).toContain('<ul><li>parent<ul><li>child</li></ul></li></ul>');
+        });
+
+        it('renders nested ordered lists inside unordered items', () => {
+            const out = markdownToHtml('- parent\n   1. child');
+            expect(out).toContain('<ul><li>parent<ol><li>child</li></ol></li></ul>');
+        });
+
         it('renders blockquotes', () => {
             expect(markdownToHtml('> quoted')).toContain('<blockquote>quoted</blockquote>');
         });

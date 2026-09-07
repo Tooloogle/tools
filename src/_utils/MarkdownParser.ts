@@ -71,27 +71,11 @@ export function markdownToHtml(text: string): string {
     return `<blockquote>${content}</blockquote>\n`;
   });
 
-  // Unordered lists (merge consecutive list items)
-  result = result.replace(/(^[*-] .+\n?)+/gim, (block) => {
-    const items = block
-      .trim()
-      .split('\n')
-      .map((line) => line.replace(/^[*-] /, ''))
-      .map((item) => `<li>${item}</li>`)
-      .join('');
-    return `<ul>${items}</ul>\n`;
-  });
-
-  // Ordered lists (merge consecutive numbered items)
-  result = result.replace(/(^\d+\. .+\n?)+/gim, (block) => {
-    const items = block
-      .trim()
-      .split('\n')
-      .map((line) => line.replace(/^\d+\. /, ''))
-      .map((item) => `<li>${item}</li>`)
-      .join('');
-    return `<ol>${items}</ol>\n`;
-  });
+  // Lists — unordered, ordered, and nested via indentation
+  result = result.replace(
+    /(?:^[ \t]*(?:[*-]|\d+\.) .+\n?)+/gim,
+    (block) => renderList(block)
+  );
 
   // Paragraphs (double newline)
   result = result.replace(/\n\n/g, '</p><p>');
@@ -138,4 +122,47 @@ function sanitizeUrl(url: string): string {
   }
 
   return '';
+}
+
+interface ListLine {
+  indent: number;
+  ordered: boolean;
+  content: string;
+}
+
+function renderList(block: string): string {
+  const lines: ListLine[] = block
+    .replace(/\n$/, '')
+    .split('\n')
+    .map((line) => {
+      const match = line.match(/^([ \t]*)([*-]|\d+\.)\s+(.*)$/);
+      return {
+        indent: match ? match[1].length : 0,
+        ordered: match ? /\d/.test(match[2]) : false,
+        content: match ? match[3] : line.trim(),
+      };
+    });
+
+  let index = 0;
+
+  const build = (): string => {
+    const level = lines[index].indent;
+    const tag = lines[index].ordered ? 'ol' : 'ul';
+    let items = '';
+
+    while (index < lines.length && lines[index].indent === level) {
+      let content = lines[index].content;
+      index++;
+
+      if (index < lines.length && lines[index].indent > level) {
+        content += build();
+      }
+
+      items += `<li>${content}</li>`;
+    }
+
+    return `<${tag}>${items}</${tag}>`;
+  };
+
+  return `${build()}\n`;
 }
