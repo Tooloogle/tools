@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('camel-case-converter')
 export class CamelCaseConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    camelCaseConverterStyles];
+    WebComponentBase.styles,
+    camelCaseConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -18,9 +19,22 @@ export class CamelCaseConverter extends WebComponentBase {
   }
 
   private convert() {
-    this.outputText = this.inputText
-      .toLowerCase()
-      .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
+    const words = this.inputText
+      .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+      .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
+      .split(/[^a-zA-Z0-9]+/)
+      .filter(Boolean);
+
+    this.outputText = words
+      .map((word, i) => {
+        const lower = word.toLowerCase();
+        if (i === 0) {
+          return lower;
+        }
+
+        return lower.charAt(0).toUpperCase() + lower.slice(1);
+      })
+      .join('');
   }
 
   override render() {
@@ -42,12 +56,13 @@ export class CamelCaseConverter extends WebComponentBase {
             readonly
             .value=${this.outputText}
           ></textarea>
-          ${this.outputText
-            ? html`<t-copy-button
-                .text=${this.outputText}
-                .isIcon=${false}
-              ></t-copy-button>`
-            : ''}
+          <div class="py-2 text-right">
+            <t-copy-button
+              .text=${this.outputText}
+              .isIcon=${false}
+              .disabled=${!this.outputText}
+            ></t-copy-button>
+          </div>
         </div>
       </div>
     `;

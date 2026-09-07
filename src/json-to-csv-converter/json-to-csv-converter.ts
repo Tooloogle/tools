@@ -18,6 +18,7 @@ export class JsonToCsvConverter extends WebComponentBase {
     private onJsonInputChange(event: Event) {
         const inputElement = event.target as HTMLTextAreaElement;
         this.jsonString = inputElement.value;
+        this.convertJsonToCsv();
     }
 
     private onJsonFileUpload(event: CustomEvent<TFileDropzoneChangeDetail>) {
@@ -26,6 +27,7 @@ export class JsonToCsvConverter extends WebComponentBase {
             const reader = new FileReader();
             reader.onload = (e) => {
                 this.jsonString = e.target?.result as string;
+                this.convertJsonToCsv();
             };
 
             reader.readAsText(file);
@@ -45,6 +47,11 @@ export class JsonToCsvConverter extends WebComponentBase {
     }
 
     private convertJsonToCsv() {
+        if (!this.jsonString.trim()) {
+            this.csvString = '';
+            return;
+        }
+
         try {
             const parsed = JSON.parse(this.jsonString);
 
@@ -64,18 +71,16 @@ export class JsonToCsvConverter extends WebComponentBase {
                 return;
             }
 
-            const headers = Object.keys(firstRow as Record<string, unknown>);
-            const csvRows = [];
+            const headers = this.collectHeaders(parsed);
+            const csvRows: string[] = [];
 
             if (this.includeHeader) {
-                csvRows.push(headers.join(this.separator));
+                csvRows.push(headers.map(header => this.escapeCsv(header)).join(this.separator));
             }
 
-            parsed.forEach((row: Record<string, unknown>) => {
-                const values = headers.map(header => {
-                    const value = row[header] !== undefined ? row[header] : '';
-                    return `"${String(value).replace(/"/g, '""')}"`;
-                });
+            parsed.forEach((row) => {
+                const record = (row && typeof row === 'object' ? row : {}) as Record<string, unknown>;
+                const values = headers.map(header => this.escapeCsv(this.formatCell(record[header])));
                 csvRows.push(values.join(this.separator));
             });
 
@@ -85,17 +90,45 @@ export class JsonToCsvConverter extends WebComponentBase {
         }
     }
 
+    private collectHeaders(rows: unknown[]): string[] {
+        const keys = new Set<string>();
+        rows.forEach(row => {
+            if (row && typeof row === 'object' && !Array.isArray(row)) {
+                Object.keys(row).forEach(key => keys.add(key));
+            }
+        });
+        return Array.from(keys);
+    }
+
+    private formatCell(value: unknown): string {
+        if (value === undefined || value === null) {
+            return '';
+        }
+
+        return typeof value === 'object' ? JSON.stringify(value) : String(value);
+    }
+
+    private escapeCsv(value: string): string {
+        if (value.includes(this.separator) || /["\n\r]/.test(value)) {
+            return `"${value.replace(/"/g, '""')}"`;
+        }
+
+        return value;
+    }
+
     private onSeparatorChange(event: Event) {
         this.separator = (event.target as HTMLSelectElement).value;
+        this.convertJsonToCsv();
     }
 
     private onIncludeHeaderChange(event: Event) {
         this.includeHeader = (event.target as HTMLInputElement).checked;
+        this.convertJsonToCsv();
     }
 
     override render() {
         return html`
-            <div class="json-to-csv-converter">
+            <div class="json-to-csv-converter text-gray-900 dark:text-gray-100">
                 <div class="editor mb-4">
                     <textarea
                         class="form-textarea"
@@ -109,7 +142,6 @@ export class JsonToCsvConverter extends WebComponentBase {
                         label="Drop a JSON file here or click to browse"
                         @change=${this.onJsonFileUpload}
                     ></t-file-dropzone>
-                    <button class="btn btn-blue mt-2" @click=${this.convertJsonToCsv}>Convert to CSV</button>
                 </div>
 
                 <div class="config mb-4">
@@ -134,7 +166,7 @@ export class JsonToCsvConverter extends WebComponentBase {
                         placeholder="Converted CSV will appear here"
                         rows="10"
                     ></textarea>
-                    <button class="btn btn-blue mt-2" @click=${this.downloadCSV}>Download CSV</button>
+                    <button class="btn btn-blue mt-2 self-end" @click=${this.downloadCSV}>Download CSV</button>
                     <t-copy-button class="absolute top-3 end-2 text-blue" .text=${this.csvString}></t-copy-button>
                 </div>
             </div>

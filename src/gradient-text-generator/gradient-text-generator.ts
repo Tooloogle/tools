@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('gradient-text-generator')
 export class GradientTextGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    gradientTextGeneratorStyles];
+    WebComponentBase.styles,
+    gradientTextGeneratorStyles];
 
   @property({ type: String }) inputText = 'Gradient Text';
   @property({ type: String }) color1 = '#ff0000';
@@ -137,22 +138,26 @@ export class GradientTextGenerator extends WebComponentBase {
               </div>
             `
           : ''}
-        <div class="p-4 bg-white border rounded text-center">
-          <p class="font-bold mb-2">Preview:</p>
-          <div
-            style="background: ${gradientStyle}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 48px; font-weight: bold;"
-          >
-            ${this.inputText}
+        <div>
+          <label class="block mb-2 font-semibold">Preview:</label>
+          <div class="p-4 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded text-center">
+            <div
+              style="background: ${gradientStyle}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 48px; font-weight: bold;"
+            >
+              ${this.inputText}
+            </div>
           </div>
         </div>
         <div>
           <label class="block mb-2 font-semibold">CSS Code:</label>
           <textarea
-            class="form-textarea w-full h-40 font-mono text-sm"
+            class="form-textarea w-full h-32 font-mono text-sm"
             readonly
             .value=${cssCode}
           ></textarea>
-          <t-copy-button .text=${cssCode} .isIcon=${false}></t-copy-button>
+          <div class="py-2 text-right">
+            <t-copy-button .text=${cssCode} .isIcon=${false}></t-copy-button>
+          </div>
         </div>
       </div>
     `;

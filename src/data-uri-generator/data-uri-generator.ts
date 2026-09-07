@@ -115,12 +115,13 @@ export class DataUriGenerator extends WebComponentBase {
           readonly
           .value=${this.outputText}
         ></textarea>
-        ${hasValidOutput
-          ? html`<t-copy-button
-              .text=${this.outputText}
-              .isIcon=${false}
-            ></t-copy-button>`
-          : ""}
+        <div class="py-2 text-right">
+          <t-copy-button
+            .text=${this.outputText}
+            .isIcon=${false}
+            .disabled=${!hasValidOutput}
+          ></t-copy-button>
+        </div>
       </div>
     `;
   }

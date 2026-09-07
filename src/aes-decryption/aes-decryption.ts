@@ -8,7 +8,8 @@ import '../t-copy-button/index.js';
 @customElement('aes-decryption')
 export class AesDecryption extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    aesDecryptionStyles];
+    WebComponentBase.styles,
+    aesDecryptionStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) secretKey = '';
@@ -78,9 +79,9 @@ export class AesDecryption extends WebComponentBase {
             @input=${this.handleInputChange}
           ></textarea>
         </div>
-        ${this.error
-          ? html`<div class="text-red-600 text-sm">${this.error}</div>`
-          : ''}
+        <div class="text-red-600 dark:text-red-400 text-sm min-h-[1.25rem]">
+          ${this.error}
+        </div>
         <div>
           <label class="block mb-2 font-semibold">Decrypted Text:</label>
           <textarea
@@ -88,9 +89,9 @@ export class AesDecryption extends WebComponentBase {
             readonly
             .value=${this.outputText}
           ></textarea>
-          ${this.outputText
-            ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ''}
+          <div class="py-2 text-right">
+            <t-copy-button .isIcon=${false} .disabled=${!this.outputText} .text=${this.outputText}></t-copy-button>
+          </div>
         </div>
       </div>
     `;

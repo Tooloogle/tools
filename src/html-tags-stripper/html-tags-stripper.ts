@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('html-tags-stripper')
 export class HtmlTagsStripper extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    htmlTagsStripperStyles];
+    WebComponentBase.styles,
+    htmlTagsStripperStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -23,13 +24,15 @@ export class HtmlTagsStripper extends WebComponentBase {
       return;
     }
 
-    // Strip HTML tags
-    this.outputText = this.inputText.replace(/<[^>]*>/g, '');
+    // DOMParser does not execute scripts, so untrusted HTML is safe here.
+    const doc = new DOMParser().parseFromString(this.inputText, 'text/html');
+    doc.querySelectorAll('script, style').forEach((el) => el.remove());
+    this.outputText = (doc.body.textContent ?? '').trim();
   }
 
   override render() {
     return html`
-      <div class="space-y-4">
+      <div class="space-y-4 text-gray-900 dark:text-gray-100">
         <div>
           <label class="block mb-2 font-semibold">HTML Input:</label>
           <textarea
@@ -46,9 +49,9 @@ export class HtmlTagsStripper extends WebComponentBase {
             readonly
             .value=${this.outputText}
           ></textarea>
-          ${this.outputText
-            ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ''}
+          <div class="py-2 text-right">
+            <t-copy-button .isIcon=${false} .disabled=${!this.outputText} .text=${this.outputText}></t-copy-button>
+          </div>
         </div>
       </div>
     `;

@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('binary-to-text-converter')
 export class BinaryToTextConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    binaryToTextConverterStyles];
+    WebComponentBase.styles,
+    binaryToTextConverterStyles];
 
   @property({ type: String }) inputBinary = '';
   @property({ type: String }) outputText = '';
@@ -61,12 +62,13 @@ export class BinaryToTextConverter extends WebComponentBase {
             readonly
             .value=${this.outputText}
           ></textarea>
-          ${this.outputText
-            ? html`<t-copy-button
-                .text=${this.outputText}
-                .isIcon=${false}
-              ></t-copy-button>`
-            : ''}
+          <div class="py-2 text-right">
+            <t-copy-button
+              .text=${this.outputText}
+              .isIcon=${false}
+              .disabled=${!this.outputText}
+            ></t-copy-button>
+          </div>
         </div>
       </div>
     `;

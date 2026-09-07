@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('fibonacci-generator')
 export class FibonacciGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    fibonacciGeneratorStyles];
+    WebComponentBase.styles,
+    fibonacciGeneratorStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -56,9 +57,9 @@ export class FibonacciGenerator extends WebComponentBase {
             readonly
             .value=${this.outputText}
           ></textarea>
-          ${this.outputText
-            ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ''}
+          <div class="py-2 text-right">
+            <t-copy-button .isIcon=${false} .disabled=${!this.outputText} .text=${this.outputText}></t-copy-button>
+          </div>
         </div>
       </div>
     `;

@@ -64,7 +64,7 @@ export class FactorialCalculator extends WebComponentBase {
                     <div class="bg-blue-50 p-4 rounded-lg">
                         <div class="text-sm text-gray-600 mb-1">${this.inputNumber}! =</div>
                         <div class="text-2xl font-bold text-blue-600 break-all">${this.result}</div>
-                        <t-copy-button .text=${this.result}></t-copy-button>
+                        <t-copy-button .isIcon=${false} .text=${this.result}></t-copy-button>
                     </div>
                 ` : ''}
             </div>

@@ -42,7 +42,6 @@ The `@tooloogle/tools` package includes a large collection of self-contained too
 - `text-case-converter`: A straightforward tool that converts text between different cases (e.g., upper case, lower case, title case), helping users manipulate text easily for various needs.
 - `base64-to-image`: A convenient tool that converts Base64 encoded strings to image files, allowing users to quickly retrieve images from their encoded data.
 - `image-to-base64`: An efficient tool that converts image files to Base64 encoded strings, making it simple to embed images directly in HTML or CSS.
-- `hex-rgb`: A handy tool for converting hexadecimal color codes to RGB format, providing users with quick access to color values for design purposes.
 - `guid-generator`: A simple tool that generates globally unique identifiers (GUIDs), perfect for creating unique IDs for applications and databases.
 - `qr-code-generator`: A versatile tool that generates QR codes from URLs or text, offering customizable size and error correction options for various applications.
 - `bytes-to-string-converter`: A straightforward tool that converts byte arrays to readable strings, making it easier to interpret binary data.

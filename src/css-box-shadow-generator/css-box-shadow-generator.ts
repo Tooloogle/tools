@@ -6,7 +6,8 @@ import '../t-copy-button/index.js';
 @customElement('css-box-shadow-generator')
 export class CssBoxShadowGenerator extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    cssBoxShadowGeneratorStyles];
+    WebComponentBase.styles,
+    cssBoxShadowGeneratorStyles];
 
   @property({ type: Number }) offsetX = 0;
   @property({ type: Number }) offsetY = 4;
@@ -124,10 +125,12 @@ export class CssBoxShadowGenerator extends WebComponentBase {
             readonly
             .value=${this.outputText}
           ></textarea>
-          <t-copy-button
-            .text=${this.outputText}
-            .isIcon=${false}
-          ></t-copy-button>
+          <div class="py-2 text-right">
+            <t-copy-button
+              .text=${this.outputText}
+              .isIcon=${false}
+            ></t-copy-button>
+          </div>
         </div>
         <div>
           <label class="block mb-2 font-semibold">Preview:</label>

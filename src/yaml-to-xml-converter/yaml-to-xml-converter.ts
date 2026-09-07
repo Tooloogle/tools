@@ -5,6 +5,8 @@ import { customElement, property } from 'lit/decorators.js';
 import * as yaml from 'js-yaml';
 import { escapeXml, sanitizeXmlName } from '../_utils/XmlHelper.js';
 import '../t-copy-button/index.js';
+import '../t-file-dropzone/index.js';
+import type { TFileDropzoneChangeDetail } from '../t-file-dropzone/t-file-dropzone.js';
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   if (value === null || typeof value !== 'object') {
@@ -39,6 +41,34 @@ export class YamlToXmlConverter extends WebComponentBase {
   private handleInput(e: Event) {
     this.inputText = (e.target as HTMLTextAreaElement).value;
     this.process();
+  }
+
+  private handleFileUpload(e: CustomEvent<TFileDropzoneChangeDetail>) {
+    const file = e.detail.file;
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        this.inputText = event.target?.result as string;
+        this.process();
+      };
+
+      reader.readAsText(file);
+    }
+  }
+
+  private downloadXml() {
+    const blob = new Blob([this.outputText], {
+      type: 'application/xml;charset=utf-8;',
+    });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'output.xml');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   }
 
   private jsonToXml(obj: unknown, rootName = 'root'): string {
@@ -108,30 +138,43 @@ export class YamlToXmlConverter extends WebComponentBase {
   }
 
   override render() {
+    const hasOutput =
+      Boolean(this.outputText) && !this.outputText.startsWith('Error:');
+
     return html`
-      <div class="space-y-4">
+      <div class="space-y-4 text-gray-900 dark:text-gray-100">
         <div>
-          <label class="block mb-2 font-semibold">Input:</label>
+          <label class="block mb-2 font-semibold">YAML Input:</label>
           <textarea
-            class="form-textarea w-full h-32"
-            placeholder="Enter input..."
+            class="form-textarea w-full h-40 font-mono text-sm"
+            placeholder="name: John&#10;age: 30&#10;hobbies:&#10;  - reading"
             .value=${this.inputText}
             @input=${this.handleInput}
           ></textarea>
+          <t-file-dropzone
+            class="block mt-2"
+            accept="application/x-yaml,text/yaml,.yaml,.yml"
+            label="Drop a YAML file here or click to browse"
+            @change=${this.handleFileUpload}
+          ></t-file-dropzone>
         </div>
         <div>
-          <label class="block mb-2 font-semibold">Output:</label>
+          <label class="block mb-2 font-semibold">XML Output:</label>
           <textarea
-            class="form-textarea w-full h-32"
+            class="form-textarea w-full h-40 font-mono text-sm"
             readonly
             .value=${this.outputText}
           ></textarea>
-          ${this.outputText
-            ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ''}
-        </div>
-        <div class="text-xs text-gray-500">
-          <strong>Note:</strong> Convert YAML to XML format
+          <div class="flex items-center justify-end gap-2 py-2">
+            <button
+              class="btn btn-blue btn-sm"
+              ?disabled=${!hasOutput}
+              @click=${this.downloadXml}
+            >
+              Download XML
+            </button>
+            <t-copy-button .isIcon=${false} .disabled=${!hasOutput} .text=${this.outputText}></t-copy-button>
+          </div>
         </div>
       </div>
     `;

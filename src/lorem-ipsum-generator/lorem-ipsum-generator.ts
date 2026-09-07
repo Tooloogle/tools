@@ -92,7 +92,7 @@ export class LoremIpsumGenerator extends WebComponentBase {
                 </div>
 
                 <div class="relative">
-                    <div class="absolute top-2 right-4">
+                    <div class="absolute top-2 end-5">
                         <t-copy-button .text=${this.getText()}></t-copy-button>
                     </div>
                     <div class="p-4 pr-12 border border-gray-200 dark:border-gray-700 rounded max-h-96 overflow-auto text-sm leading-relaxed">

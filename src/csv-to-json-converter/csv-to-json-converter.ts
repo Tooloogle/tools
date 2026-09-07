@@ -21,46 +21,108 @@ export class CsvToJsonConverter extends WebComponentBase {
   private onCsvInputChange(event: Event) {
     const inputElement = event.target as HTMLTextAreaElement;
     this.csvString = inputElement.value;
+    this.convertCsvToJson();
   }
 
   private convertCsvToJson() {
-    const rows = this.csvString.split('\n');
-    const headers = rows[0].split(this.separator);
-    const jsonArray = rows.slice(1).map(row => {
-      const values = row.split(this.separator);
-      const jsonObject = headers.reduce((acc, header, index) => {
-        let value: number | string = values[index]?.trim() || '';
-        if (this.parseNumbers && !isNaN(Number(value))) {
-          value = Number(value);
-        } else if (this.parseJson) {
-          try {
-            value = JSON.parse(value);
-          } catch {
-            // Keep as string if JSON parsing fails
-          }
-        }
+    if (!this.csvString.trim()) {
+      this.jsonString = '';
+      return;
+    }
 
-        acc[header.trim()] = value;
-        return acc;
-      }, {} as Record<string, unknown>);
-      return jsonObject;
-    });
+    const rows = this.parseCsv(this.csvString, this.separator).filter(
+      row => !(row.length === 1 && row[0] === '')
+    );
+    if (rows.length === 0) {
+      this.jsonString = '';
+      return;
+    }
 
-    this.jsonString = this.outputAsArray
-      ? JSON.stringify(jsonArray, null, this.minifyOutput ? 0 : 2)
-      : JSON.stringify(jsonArray.reduce((acc: Record<string, unknown>, obj) => {
-        acc[String(obj[headers[0]] || '')] = obj;
-        return acc;
-      }, {} as Record<string, unknown>), null, this.minifyOutput ? 0 : 2);
+    const headers = rows[0].map(header => header.trim());
+    const records = rows.slice(1).map(row => this.rowToObject(headers, row));
+    const indent = this.minifyOutput ? 0 : 2;
+    const result = this.outputAsArray
+      ? records
+      : this.toKeyedObject(records, headers);
+
+    this.jsonString = JSON.stringify(result, null, indent);
   }
 
-  private formatJson() {
-    try {
-      const formattedJson = JSON.stringify(JSON.parse(this.jsonString), null, 2);
-      this.jsonString = formattedJson;
-    } catch (err) {
-      // Handle JSON formatting error if needed
+  private rowToObject(
+    headers: string[],
+    values: string[]
+  ): Record<string, unknown> {
+    return headers.reduce((acc, header, index) => {
+      acc[header] = this.parseValue(values[index]?.trim() ?? '');
+      return acc;
+    }, {} as Record<string, unknown>);
+  }
+
+  private parseValue(value: string): unknown {
+    if (this.parseNumbers && value !== '' && !isNaN(Number(value))) {
+      return Number(value);
     }
+
+    if (this.parseJson) {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return value;
+      }
+    }
+
+    return value;
+  }
+
+  private toKeyedObject(
+    records: Record<string, unknown>[],
+    headers: string[]
+  ): Record<string, unknown> {
+    return records.reduce((acc, obj) => {
+      acc[String(obj[headers[0]] ?? '')] = obj;
+      return acc;
+    }, {} as Record<string, unknown>);
+  }
+
+  // eslint-disable-next-line complexity
+  private parseCsv(text: string, separator: string): string[][] {
+    const rows: string[][] = [];
+    let field = '';
+    let row: string[] = [];
+    let inQuotes = false;
+
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      if (inQuotes) {
+        if (char === '"' && text[i + 1] === '"') {
+          field += '"';
+          i++;
+        } else if (char === '"') {
+          inQuotes = false;
+        } else {
+          field += char;
+        }
+      } else if (char === '"') {
+        inQuotes = true;
+      } else if (char === separator) {
+        row.push(field);
+        field = '';
+      } else if (char === '\n') {
+        row.push(field);
+        rows.push(row);
+        row = [];
+        field = '';
+      } else if (char !== '\r') {
+        field += char;
+      }
+    }
+
+    if (field !== '' || row.length > 0) {
+      row.push(field);
+      rows.push(row);
+    }
+
+    return rows;
   }
 
   private handleFileUpload(event: CustomEvent<TFileDropzoneChangeDetail>) {
@@ -70,6 +132,7 @@ export class CsvToJsonConverter extends WebComponentBase {
       const reader = new FileReader();
       reader.onload = (e) => {
         this.csvString = e.target?.result as string;
+        this.convertCsvToJson();
       };
 
       reader.readAsText(file);
@@ -90,23 +153,27 @@ export class CsvToJsonConverter extends WebComponentBase {
 
   private onParseNumbersChange(e: Event) {
     this.parseNumbers = (e.target as HTMLInputElement).checked;
+    this.convertCsvToJson();
   }
 
   private onOutputAsArrayChange(e: Event) {
     this.outputAsArray = (e.target as HTMLInputElement).checked;
+    this.convertCsvToJson();
   }
 
   private onMinifyOutputChange(e: Event) {
     this.minifyOutput = (e.target as HTMLInputElement).checked;
+    this.convertCsvToJson();
   }
 
   private onSeparatorChange(e: Event) {
     this.separator = (e.target as HTMLSelectElement).value;
+    this.convertCsvToJson();
   }
   // eslint-disable-next-line max-lines-per-function
   override render() {
     return html`
-      <div class="csv-to-json-converter">
+      <div class="csv-to-json-converter text-gray-900 dark:text-gray-100">
         <div class="editor mb-4">
           <textarea
             class="form-textarea"
@@ -120,7 +187,6 @@ export class CsvToJsonConverter extends WebComponentBase {
             label="Drop a CSV file here or click to browse"
             @change=${this.handleFileUpload}
           ></t-file-dropzone>
-          <button class="btn btn-blue mt-2" @click="${this.convertCsvToJson}">Convert to JSON</button>
         </div>
 
         <div class="config mb-4">
@@ -156,10 +222,9 @@ export class CsvToJsonConverter extends WebComponentBase {
             placeholder="Converted JSON will appear here"
             rows="10"
           ></textarea>
-          <button class="btn btn-blue mt-2" @click="${this.downloadJSON}">Download JSON</button>
-          <div class="absolute top-2 end-2">
-            <t-copy-button class="text-blue" .isIcon=${false} .text=${this.jsonString}></t-copy-button>
-            <button class="btn btn-blue btn-sm" @click="${this.formatJson}">Format JSON</button>
+          <button class="btn btn-blue mt-2 self-end" @click="${this.downloadJSON}">Download JSON</button>
+          <div class="absolute top-2 end-3">
+            <t-copy-button class="text-blue" .text=${this.jsonString}></t-copy-button>
           </div>
         </div>
       </div>

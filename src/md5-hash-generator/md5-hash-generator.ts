@@ -12,52 +12,34 @@ export class Md5HashGenerator extends WebComponentBase {
     md5HashGeneratorStyles];
 
   @property() input = '';
-  @property() hash = '';
+  @state() hash = '';
   @state() error = '';
-  @state() isGenerating = false;
 
   // Maximum allowed input size (100KB)
   private readonly MAX_INPUT_SIZE = 100 * 1024;
 
   private onInputChange(e: Event) {
-    this.error = '';
     this.input = (e.target as HTMLTextAreaElement).value;
+    this.process();
   }
 
-  private validateInput(): boolean {
-    if (!this.input.trim()) {
-      this.error = 'Please enter some text to generate hash';
-      return false;
+  private process() {
+    this.error = '';
+
+    if (!this.input) {
+      this.hash = '';
+      return;
     }
 
-    if (this.input.length > this.MAX_INPUT_SIZE) {
+    if (new Blob([this.input]).size > this.MAX_INPUT_SIZE) {
       this.error = `Input is too large (max ${
         this.MAX_INPUT_SIZE / 1024
       }KB allowed)`;
-      return false;
-    }
-
-    return true;
-  }
-
-  async generateHash() {
-    try {
-      if (!this.validateInput()) {
-        return;
-      }
-
-      this.isGenerating = true;
-      this.error = '';
-
-      await new Promise(requestAnimationFrame);
-      this.hash = md5(this.input);
-    } catch (err) {
-      console.error('MD5 generation failed:', err);
-      this.error = 'Failed to generate MD5 hash. Please try again.';
       this.hash = '';
-    } finally {
-      this.isGenerating = false;
+      return;
     }
+
+    this.hash = md5(this.input);
   }
 
   clearAll() {
@@ -66,9 +48,8 @@ export class Md5HashGenerator extends WebComponentBase {
     this.error = '';
   }
 
-  // eslint-disable-next-line max-lines-per-function
   override render() {
-    return html` <div>
+    return html` <div class="text-gray-900 dark:text-gray-100">
       <label class="block">
         <span class="inline-block py-1">Input Text</span>
         <textarea
@@ -82,41 +63,30 @@ export class Md5HashGenerator extends WebComponentBase {
       </label>
 
       ${this.error
-        ? html`<div class="text-red-500 mb-2">${this.error}</div>`
+        ? html`<div class="text-red-500 dark:text-red-400 mb-2">${this.error}</div>`
         : ''}
 
-      <div class="button-group">
+      <div class="flex gap-2">
         <button
-          class="btn btn-blue"
-          @click=${this.generateHash}
-          ?disabled=${!this.input || this.isGenerating}
-        >
-          ${this.isGenerating ? 'Generating...' : 'Generate MD5 Hash'}
-        </button>
-        <button
-          class="btn btn-red"
+          class="btn btn-red mt-1"
           @click=${this.clearAll}
-          ?disabled=${this.isGenerating}
+          ?disabled=${!this.input && !this.hash}
         >
-          Clear All
+          Clear
         </button>
       </div>
 
       ${this.hash
         ? html`
-            <label class="block">
-              <div class="flex items-center justify-between gap-1 mt-4">
-                <span class="inline-block py-1">MD5 Hash</span>
-                <t-copy-button .text=${this.hash}></t-copy-button>
+            <div class="mt-4">
+              <div class="card flex items-center justify-between gap-3">
+                <strong class="break-all font-mono">${this.hash}</strong>
+                <t-copy-button
+                  class="shrink-0"
+                  .isIcon=${true}
+                  .text=${this.hash}
+                ></t-copy-button>
               </div>
-              <input class="form-input" readonly .value=${this.hash} />
-            </label>
-
-            <div class="text-xs text-gray-500">
-              <strong>Note:</strong> MD5 is a one-way cryptographic hash
-              function. Always produces a 32-character hexadecimal hash (0-9,
-              a-f). The same input will always produce the same hash, but the
-              original text cannot be recovered from the hash.
             </div>
           `
         : ''}

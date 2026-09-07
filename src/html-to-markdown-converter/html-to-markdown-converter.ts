@@ -4,6 +4,7 @@ import htmlToMarkdownConverterStyles from './html-to-markdown-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { markdownToHtml } from '../_utils/MarkdownParser.js';
+import { htmlToMarkdown } from './html-to-markdown.js';
 import '../t-copy-button/index.js';
 
 @customElement('html-to-markdown-converter')
@@ -21,73 +22,9 @@ export class HtmlToMarkdownConverter extends WebComponentBase {
   }
 
   private process() {
-    if (!this.inputText.trim()) {
-      this.outputText = '';
-      return;
-    }
-
-    // Basic HTML to Markdown conversion
-    let markdown = this.inputText;
-
-    // Convert headers
-    markdown = markdown.replace(/<h1>(.*?)<\/h1>/gi, '# $1\n\n');
-    markdown = markdown.replace(/<h2>(.*?)<\/h2>/gi, '## $1\n\n');
-    markdown = markdown.replace(/<h3>(.*?)<\/h3>/gi, '### $1\n\n');
-    markdown = markdown.replace(/<h4>(.*?)<\/h4>/gi, '#### $1\n\n');
-    markdown = markdown.replace(/<h5>(.*?)<\/h5>/gi, '##### $1\n\n');
-    markdown = markdown.replace(/<h6>(.*?)<\/h6>/gi, '###### $1\n\n');
-
-    // Convert bold and italic
-    markdown = markdown.replace(/<strong>(.*?)<\/strong>/gi, '**$1**');
-    markdown = markdown.replace(/<b>(.*?)<\/b>/gi, '**$1**');
-    markdown = markdown.replace(/<em>(.*?)<\/em>/gi, '*$1*');
-    markdown = markdown.replace(/<i>(.*?)<\/i>/gi, '*$1*');
-
-    // Convert links
-    markdown = markdown.replace(
-      /<a\s+href=["'](.*?)["'][^>]*>(.*?)<\/a>/gi,
-      '[$2]($1)'
-    );
-
-    // Convert images
-    markdown = markdown.replace(
-      /<img\s+src=["'](.*?)["']\s+alt=["'](.*?)["'][^>]*>/gi,
-      '![$2]($1)'
-    );
-    markdown = markdown.replace(
-      /<img\s+alt=["'](.*?)["']\s+src=["'](.*?)["'][^>]*>/gi,
-      '![$1]($2)'
-    );
-
-    // Convert lists
-    markdown = markdown.replace(/<li>(.*?)<\/li>/gi, '- $1\n');
-    markdown = markdown.replace(/<ul[^>]*>/gi, '\n');
-    markdown = markdown.replace(/<\/ul>/gi, '\n');
-    markdown = markdown.replace(/<ol[^>]*>/gi, '\n');
-    markdown = markdown.replace(/<\/ol>/gi, '\n');
-
-    // Convert paragraphs and line breaks
-    markdown = markdown.replace(/<p>(.*?)<\/p>/gi, '$1\n\n');
-    markdown = markdown.replace(/<br\s*\/?>/gi, '\n');
-
-    // Convert code
-    markdown = markdown.replace(/<code>(.*?)<\/code>/gi, '`$1`');
-    markdown = markdown.replace(/<pre>(.*?)<\/pre>/gi, '```\n$1\n```');
-
-    // Remove remaining HTML tags
-    markdown = markdown.replace(/<[^>]+>/g, '');
-
-    // Decode HTML entities
-    markdown = markdown.replace(/&lt;/g, '<');
-    markdown = markdown.replace(/&gt;/g, '>');
-    markdown = markdown.replace(/&amp;/g, '&');
-    markdown = markdown.replace(/&quot;/g, '"');
-    markdown = markdown.replace(/&#39;/g, "'");
-
-    // Clean up extra newlines
-    markdown = markdown.replace(/\n{3,}/g, '\n\n');
-
-    this.outputText = markdown.trim();
+    this.outputText = this.inputText.trim()
+      ? htmlToMarkdown(this.inputText)
+      : '';
   }
 
   private getPreviewHtml(): string {
@@ -100,7 +37,7 @@ export class HtmlToMarkdownConverter extends WebComponentBase {
 
   override render() {
     return html`
-      <div class="space-y-4">
+      <div class="space-y-4 text-gray-900 dark:text-gray-100">
         <div>
           <label class="block mb-2 font-semibold">HTML Input:</label>
           <textarea
@@ -112,17 +49,19 @@ export class HtmlToMarkdownConverter extends WebComponentBase {
         </div>
 
         <div>
-          <div class="flex items-center justify-between mb-2">
-            <label class="font-semibold">Markdown Output:</label>
-            ${this.outputText
-              ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-              : ''}
+          <label class="block mb-2 font-semibold">Markdown Output:</label>
+          <div class="relative">
+            <textarea
+              class="form-textarea w-full h-40 font-mono text-sm pr-10"
+              readonly
+              .value=${this.outputText}
+            ></textarea>
+            <t-copy-button
+              class="absolute top-2 right-2"
+              .disabled=${!this.outputText}
+              .text=${this.outputText}
+            ></t-copy-button>
           </div>
-          <textarea
-            class="form-textarea w-full h-40 font-mono text-sm"
-            readonly
-            .value=${this.outputText}
-          ></textarea>
         </div>
 
         ${this.outputText
@@ -138,7 +77,7 @@ export class HtmlToMarkdownConverter extends WebComponentBase {
             `
           : ''}
 
-        <div class="text-xs text-gray-500">
+        <div class="text-xs text-gray-500 dark:text-gray-400">
           <strong>Note:</strong> Converts HTML to Markdown syntax. Supports
           headings, lists, bold, italic, links, images, and code.
         </div>

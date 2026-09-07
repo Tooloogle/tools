@@ -71,16 +71,11 @@ export function markdownToHtml(text: string): string {
     return `<blockquote>${content}</blockquote>\n`;
   });
 
-  // Unordered lists (merge consecutive list items)
-  result = result.replace(/(^[*-] .+\n?)+/gim, (block) => {
-    const items = block
-      .trim()
-      .split('\n')
-      .map((line) => line.replace(/^[*-] /, ''))
-      .map((item) => `<li>${item}</li>`)
-      .join('');
-    return `<ul>${items}</ul>\n`;
-  });
+  // Lists — unordered, ordered, and nested via indentation
+  result = result.replace(
+    /(?:^[ \t]*(?:[*-]|\d+\.) .+\n?)+/gim,
+    (block) => renderList(block)
+  );
 
   // Paragraphs (double newline)
   result = result.replace(/\n\n/g, '</p><p>');
@@ -127,4 +122,60 @@ function sanitizeUrl(url: string): string {
   }
 
   return '';
+}
+
+interface ListLine {
+  indent: number;
+  ordered: boolean;
+  content: string;
+}
+
+function renderList(block: string): string {
+  const lines: ListLine[] = block
+    .replace(/\n$/, '')
+    .split('\n')
+    .map((line) => {
+      const match = line.match(/^([ \t]*)([*-]|\d+\.)\s+(.*)$/);
+      return {
+        indent: match ? match[1].length : 0,
+        ordered: match ? /\d/.test(match[2]) : false,
+        content: match ? match[3] : line.trim(),
+      };
+    });
+
+  let index = 0;
+
+  const buildRun = (level: number): string => {
+    const ordered = lines[index].ordered;
+    const tag = ordered ? 'ol' : 'ul';
+    let items = '';
+
+    while (
+      index < lines.length &&
+      lines[index].indent === level &&
+      lines[index].ordered === ordered
+    ) {
+      let content = lines[index].content;
+      index++;
+
+      if (index < lines.length && lines[index].indent > level) {
+        content += buildLevel(lines[index].indent);
+      }
+
+      items += `<li>${content}</li>`;
+    }
+
+    return `<${tag}>${items}</${tag}>`;
+  };
+
+  const buildLevel = (level: number): string => {
+    let out = '';
+    while (index < lines.length && lines[index].indent === level) {
+      out += buildRun(level);
+    }
+
+    return out;
+  };
+
+  return `${buildLevel(lines[0].indent)}\n`;
 }

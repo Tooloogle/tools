@@ -3,6 +3,8 @@ import { WebComponentBase } from '../_web-component/WebComponentBase.js';
 import xmlToCsvConverterStyles from './xml-to-csv-converter.css.js';
 import { customElement, property } from 'lit/decorators.js';
 import '../t-copy-button/index.js';
+import '../t-file-dropzone/index.js';
+import type { TFileDropzoneChangeDetail } from '../t-file-dropzone/t-file-dropzone.js';
 
 @customElement('xml-to-csv-converter')
 export class XmlToCsvConverter extends WebComponentBase {
@@ -16,6 +18,34 @@ export class XmlToCsvConverter extends WebComponentBase {
   private handleInput(e: Event) {
     this.inputText = (e.target as HTMLTextAreaElement).value;
     this.process();
+  }
+
+  private handleFileUpload(e: CustomEvent<TFileDropzoneChangeDetail>) {
+    const file = e.detail.file;
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        this.inputText = event.target?.result as string;
+        this.process();
+      };
+
+      reader.readAsText(file);
+    }
+  }
+
+  private downloadCsv() {
+    const blob = new Blob([this.outputText], {
+      type: 'text/csv;charset=utf-8;',
+    });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'output.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   }
 
   private xmlToJson(xml: string): Array<Record<string, unknown>> {
@@ -60,25 +90,22 @@ export class XmlToCsvConverter extends WebComponentBase {
         return;
       }
 
-      // Get all unique keys
-      const keys = Array.from(new Set(data.flatMap(obj => Object.keys(obj))));
+      // Get all unique keys from object rows only
+      const keys = Array.from(
+        new Set(
+          data.flatMap(obj =>
+            obj && typeof obj === 'object' ? Object.keys(obj) : []
+          )
+        )
+      );
 
-      // Create CSV header
-      const header = keys.join(',');
-
-      // Create CSV rows
+      const header = keys.map(key => this.formatCell(key)).join(',');
       const rows = data.map(obj => {
-        return keys
-          .map(key => {
-            const value = obj[key];
-            const stringValue =
-              value !== undefined && value !== null ? String(value) : '';
-            // Escape quotes and wrap in quotes if contains comma
-            return stringValue.includes(',') || stringValue.includes('"')
-              ? `"${stringValue.replace(/"/g, '""')}"`
-              : stringValue;
-          })
-          .join(',');
+        const record = (obj && typeof obj === 'object' ? obj : {}) as Record<
+          string,
+          unknown
+        >;
+        return keys.map(key => this.formatCell(record[key])).join(',');
       });
 
       this.outputText = [header, ...rows].join('\n');
@@ -87,30 +114,55 @@ export class XmlToCsvConverter extends WebComponentBase {
     }
   }
 
+  private formatCell(value: unknown): string {
+    if (value === undefined || value === null) {
+      return '';
+    }
+
+    const raw =
+      typeof value === 'object' ? JSON.stringify(value) : String(value);
+    return /[",\n\r]/.test(raw) ? `"${raw.replace(/"/g, '""')}"` : raw;
+  }
+
   override render() {
+    const hasOutput =
+      Boolean(this.outputText) && !this.outputText.startsWith('Error:');
+
     return html`
-      <div class="space-y-4">
+      <div class="space-y-4 text-gray-900 dark:text-gray-100">
         <div>
-          <label class="block mb-2 font-semibold">Input:</label>
+          <label class="block mb-2 font-semibold">XML Input:</label>
           <textarea
-            class="form-textarea w-full h-32"
-            placeholder="Enter input..."
+            class="form-textarea w-full h-40 font-mono text-sm"
+            placeholder="&lt;rows&gt;&lt;row&gt;&lt;name&gt;John&lt;/name&gt;&lt;/row&gt;&lt;/rows&gt;"
             .value=${this.inputText}
             @input=${this.handleInput}
           ></textarea>
+          <t-file-dropzone
+            class="block mt-2"
+            accept="application/xml,text/xml,.xml"
+            label="Drop an XML file here or click to browse"
+            @change=${this.handleFileUpload}
+          ></t-file-dropzone>
         </div>
         <div>
-          <label class="block mb-2 font-semibold">Output:</label>
+          <label class="block mb-2 font-semibold">CSV Output:</label>
           <textarea
-            class="form-textarea w-full h-32"
+            class="form-textarea w-full h-40 font-mono text-sm"
             readonly
             .value=${this.outputText}
           ></textarea>
-          ${this.outputText
-            ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ''}
+          <div class="flex items-center justify-end gap-2 py-2">
+            <button
+              class="btn btn-blue btn-sm"
+              ?disabled=${!hasOutput}
+              @click=${this.downloadCsv}
+            >
+              Download CSV
+            </button>
+            <t-copy-button .isIcon=${false} .disabled=${!hasOutput} .text=${this.outputText}></t-copy-button>
+          </div>
         </div>
-        <div class="text-xs text-gray-500"><strong>Note:</strong> Convert XML to CSV</div>
       </div>
     `;
   }

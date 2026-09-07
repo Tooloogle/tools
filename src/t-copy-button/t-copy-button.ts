@@ -18,13 +18,16 @@ export class TCopyButton extends WebComponentBase {
   @property({ type: Boolean })
   copying = false;
 
+  @property({ type: Boolean })
+  disabled = false;
+
   @property({ type: String })
   override title = "Copy to clipboard";
 
   private copyTimeoutId?: number;
 
   async onClick() {
-    if (!this.text || !hasClipboard()) {
+    if (this.disabled || !this.text || !hasClipboard()) {
       return;
     }
 
@@ -53,7 +56,7 @@ export class TCopyButton extends WebComponentBase {
   };
 
   private renderButtonContent = () => {
-    return html`<button class="btn btn-green btn-sm">Copy</button>`;
+    return html`<span class="btn btn-green btn-sm">Copy</span>`;
   };
 
   private resetTitle = () => {
@@ -64,9 +67,12 @@ export class TCopyButton extends WebComponentBase {
     return html`
       <button
         type="button"
+        ?disabled=${this.disabled}
         class="copy-btn inline-block ${this.isIcon
           ? "px-1"
-          : ""} cursor-pointer text-slate-400 tooltip-wrapper"
+          : ""} ${this.disabled
+          ? "opacity-50 cursor-not-allowed"
+          : "cursor-pointer"} text-slate-400 tooltip-wrapper"
         @click=${this.onClick}
         @mouseleave=${this.resetTitle}
         aria-label=${this.title}

@@ -49,8 +49,14 @@ export class PasswordGenerator extends WebComponentBase {
 
   private renderPasswordWithCopyButton = () => {
     return html`
-      <strong class="break-all">${this.password}</strong>
-      <t-copy-button .text=${this.password}></t-copy-button>
+      <div class="card flex items-center justify-between gap-3">
+        <strong class="break-all font-mono">${this.password}</strong>
+        <t-copy-button
+          class="shrink-0"
+          .isIcon=${true}
+          .text=${this.password}
+        ></t-copy-button>
+      </div>
     `;
   };
 
@@ -68,7 +74,7 @@ export class PasswordGenerator extends WebComponentBase {
           @keyup=${this.handleLengthChange}
         />
       </label>
-      <div class="py-2 flex content-center">
+      <div class="py-2">
         ${when(this.password, this.renderPasswordWithCopyButton)}
       </div>
       <div class="text-end">

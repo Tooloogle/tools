@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement("json-to-sql-converter")
 export class JsonToSqlConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    jsonToSqlConverterStyles];
+    WebComponentBase.styles,
+    jsonToSqlConverterStyles];
 
   @property({ type: String }) inputText = "";
   @property({ type: String }) outputText = "";
@@ -70,9 +71,10 @@ export class JsonToSqlConverter extends WebComponentBase {
             return value ? "1" : "0";
           }
 
-          // Escape single quotes in strings
-          const stringValue = String(value).replace(/'/g, "''");
-          return `'${stringValue}'`;
+          // Serialize objects/arrays as JSON, then escape single quotes.
+          const raw =
+            typeof value === "object" ? JSON.stringify(value) : String(value);
+          return `'${raw.replace(/'/g, "''")}'`;
         });
 
         const sql = `INSERT INTO ${this.tableName} (${keys.join(
@@ -90,9 +92,10 @@ export class JsonToSqlConverter extends WebComponentBase {
     }
   }
 
+  // eslint-disable-next-line max-lines-per-function
   override render() {
     return html`
-      <div class="space-y-4">
+      <div class="space-y-4 text-gray-900 dark:text-gray-100">
         <div>
           <label class="block mb-2 font-semibold">Table Name:</label>
           <input
@@ -118,7 +121,9 @@ export class JsonToSqlConverter extends WebComponentBase {
 
         ${this.errorMessage
           ? html`
-              <div class="p-3 bg-red-100 text-red-700 rounded">
+              <div
+                class="p-3 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded"
+              >
                 ${this.errorMessage}
               </div>
             `
@@ -131,11 +136,11 @@ export class JsonToSqlConverter extends WebComponentBase {
             readonly
             .value=${this.outputText}
           ></textarea>
-          ${this.outputText
-            ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ""}
+          <div class="py-2 text-right">
+            <t-copy-button .isIcon=${false} .disabled=${!this.outputText} .text=${this.outputText}></t-copy-button>
+          </div>
         </div>
-        <p class="text-sm text-gray-600">
+        <p class="text-sm text-gray-600 dark:text-gray-400">
           Converts a JSON array of objects to SQL INSERT statements. Each object
           becomes one INSERT statement with properly escaped values.
         </p>
