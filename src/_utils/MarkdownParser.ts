@@ -82,6 +82,17 @@ export function markdownToHtml(text: string): string {
     return `<ul>${items}</ul>\n`;
   });
 
+  // Ordered lists (merge consecutive numbered items)
+  result = result.replace(/(^\d+\. .+\n?)+/gim, (block) => {
+    const items = block
+      .trim()
+      .split('\n')
+      .map((line) => line.replace(/^\d+\. /, ''))
+      .map((item) => `<li>${item}</li>`)
+      .join('');
+    return `<ol>${items}</ol>\n`;
+  });
+
   // Paragraphs (double newline)
   result = result.replace(/\n\n/g, '</p><p>');
 

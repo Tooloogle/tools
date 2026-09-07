@@ -63,12 +63,16 @@ export class CsvToXmlConverter extends WebComponentBase {
       });
 
       const data = result.data;
-      // papaparse reports non-fatal warnings (UndetectableDelimiter, ragged
-      // rows) in `errors` while still returning valid `data`; only fail when
-      // nothing parsed.
+      const fatalError = result.errors.find(
+        (e) => e.code !== 'UndetectableDelimiter'
+      );
+      if (fatalError) {
+        this.outputText = `Error: ${fatalError.message}`;
+        return;
+      }
+
       if (!data || data.length === 0) {
-        this.outputText =
-          result.errors.length > 0 ? `Error: ${result.errors[0].message}` : '';
+        this.outputText = '';
         return;
       }
 
