@@ -145,17 +145,21 @@ function renderList(block: string): string {
 
   let index = 0;
 
-  const build = (): string => {
-    const level = lines[index].indent;
-    const tag = lines[index].ordered ? 'ol' : 'ul';
+  const buildRun = (level: number): string => {
+    const ordered = lines[index].ordered;
+    const tag = ordered ? 'ol' : 'ul';
     let items = '';
 
-    while (index < lines.length && lines[index].indent === level) {
+    while (
+      index < lines.length &&
+      lines[index].indent === level &&
+      lines[index].ordered === ordered
+    ) {
       let content = lines[index].content;
       index++;
 
       if (index < lines.length && lines[index].indent > level) {
-        content += build();
+        content += buildLevel(lines[index].indent);
       }
 
       items += `<li>${content}</li>`;
@@ -164,5 +168,14 @@ function renderList(block: string): string {
     return `<${tag}>${items}</${tag}>`;
   };
 
-  return `${build()}\n`;
+  const buildLevel = (level: number): string => {
+    let out = '';
+    while (index < lines.length && lines[index].indent === level) {
+      out += buildRun(level);
+    }
+
+    return out;
+  };
+
+  return `${buildLevel(lines[0].indent)}\n`;
 }

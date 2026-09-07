@@ -71,6 +71,11 @@ describe('markdownToHtml', () => {
             expect(out).toContain('<ul><li>parent<ol><li>child</li></ol></li></ul>');
         });
 
+        it('splits mixed list types at the same indentation', () => {
+            const out = markdownToHtml('- bullet\n1. numbered');
+            expect(out).toContain('<ul><li>bullet</li></ul><ol><li>numbered</li></ol>');
+        });
+
         it('renders blockquotes', () => {
             expect(markdownToHtml('> quoted')).toContain('<blockquote>quoted</blockquote>');
         });
