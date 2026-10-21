@@ -76,6 +76,20 @@ describe('direct-to-whatsapp web component test', () => {
         expect(component.error).toBe('');
     });
 
+    it('synchronizes a prefilled recipient before the synchronous form payload is read', async () => {
+        const component = new DirectToWhatsApp();
+        component.phone = '+1 (202) 555-0123';
+        document.body.appendChild(component);
+        await component.updateComplete;
+        const form = component.shadowRoot!.querySelector('form')!;
+        const submit = new Event('submit', { cancelable: true });
+        expect(form.dispatchEvent(submit)).toBe(true);
+        expect(new FormData(form).get('phone')).toBe('12025550123');
+        component.phone = '+44 7700 900123';
+        form.dispatchEvent(new Event('submit', { cancelable: true }));
+        expect(new FormData(form).get('phone')).toBe('447700900123');
+    });
+
     afterEach(() => {
         document.body.innerHTML = '';
     });

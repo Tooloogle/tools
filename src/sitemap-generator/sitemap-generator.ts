@@ -102,6 +102,7 @@ export class SitemapGenerator extends WebComponentBase {
           </div>
           <textarea
             class="form-textarea w-full h-64 font-mono text-sm"
+            @input=${this.onOutputChange}
             .value=${this.outputText}
           ></textarea>
           <div class="flex items-center justify-end gap-2 py-2">
@@ -127,6 +128,10 @@ export class SitemapGenerator extends WebComponentBase {
         </div>
       </div>
     `;
+  }
+
+  private onOutputChange(event: Event) {
+    this.outputText = (event.target as HTMLTextAreaElement).value;
   }
 }
 

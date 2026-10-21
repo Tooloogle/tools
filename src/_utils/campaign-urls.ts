@@ -16,6 +16,14 @@ function parameterNames(url: URL): string[] {
     return [...names];
 }
 
+function filterQuery(url: URL, remove: (name: string) => boolean) {
+    const entries = url.search.slice(1).split('&').filter(entry => {
+        const name = new URLSearchParams(entry).keys().next().value ?? '';
+        return !remove(name);
+    });
+    url.search = entries.join('&');
+}
+
 export function readUtmFields(input: string): Record<string, string> {
     const url = parseWebUrl(input);
     const fields: Record<string, string> = {};
@@ -33,19 +41,17 @@ export function buildUtmUrl(input: string, fields: Record<string, string>): stri
         throw new Error('Enter a source, medium, and campaign.');
     }
 
-    for (const name of parameterNames(url)) {
-        if (UTM_FIELDS.some(field => name.toLowerCase() === `utm_${field}`)) {
-            url.searchParams.delete(name);
-        }
-    }
+    filterQuery(url, name => UTM_FIELDS.some(field => name.toLowerCase() === `utm_${field}`));
 
+    const campaign = new URLSearchParams();
     for (const field of UTM_FIELDS) {
         const value = fields[field]?.trim();
         if (value) {
-            url.searchParams.set(`utm_${field}`, value);
+            campaign.set(`utm_${field}`, value);
         }
     }
 
+    url.search += `${url.search ? '&' : '?'}${campaign}`;
     return url.href;
 }
 
@@ -60,9 +66,7 @@ export function cleanTrackingUrl(input: string, extraTrackers = false): CleanedU
         const normalized = name.toLowerCase();
         return normalized.startsWith('utm_') || (extraTrackers && CLICK_TRACKERS.has(normalized));
     });
-    for (const name of removed) {
-        url.searchParams.delete(name);
-    }
+    filterQuery(url, name => removed.includes(name));
 
     return { url: removed.length ? url.href : input.trim(), removed };
 }

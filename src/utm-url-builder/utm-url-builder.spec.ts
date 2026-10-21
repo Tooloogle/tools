@@ -38,6 +38,15 @@ describe('utm-url-builder web component test', () => {
         expect(url.searchParams.get('utm_source')).toBe('new & +');
         expect(url.searchParams.get('id')).toBe('5');
         expect(url.hash).toBe('#offer');
+        input.value = input.value.replace('/?', '/updated?').replace('#offer', '#changed');
+        input.dispatchEvent(new Event('input'));
+        await component.updateComplete;
+        expect(source.value).toBe('new & +');
+        expect(new URL(component.output).searchParams.get('utm_source')).toBe('new & +');
+        input.value = input.value.replace('utm_source=old', 'utm_source=imported');
+        input.dispatchEvent(new Event('input'));
+        await component.updateComplete;
+        expect(source.value).toBe('imported');
         expect(component.shadowRoot!.querySelector('t-copy-button')!.isIcon).toBe(false);
         const output = component.shadowRoot!.querySelector<HTMLInputElement>('[data-output]')!;
         expect(output.readOnly).toBe(true);

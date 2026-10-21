@@ -19,6 +19,16 @@ describe('campaign URLs', () => {
         expect(() => buildUtmUrl('https://example.test', { ...fields, campaign: ' ' })).toThrow();
     });
 
+    it('preserves encoded names, duplicate functional keys and non-UTF-8 query bytes', () => {
+        const query = 'token=%FF&q=a%20b&x=1&x=2&%74oken=%fe&flag';
+        const input = `https://example.test/?${query}&%75tm_source=old&UTM_SOURCE=other#offer`;
+        expect(buildUtmUrl(input, fields)).toContain(`?${query}&utm_source=Newsletter`);
+        expect(cleanTrackingUrl(input)).toEqual({
+            url: `https://example.test/?${query}#offer`,
+            removed: ['utm_source', 'UTM_SOURCE'],
+        });
+    });
+
     it('removes only UTM keys by default, including duplicates and mixed case', () => {
         const result = cleanTrackingUrl('https://example.test/path?UTM_Source=a&utm_source=b&utm_source=c&utm_custom=d&gclid=keep&ref=x&id=5#section');
         const url = new URL(result.url);

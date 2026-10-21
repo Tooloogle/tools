@@ -1,4 +1,4 @@
-import { html } from 'lit';
+import { html, type TemplateResult } from 'lit';
 
 export interface TextSelection {
     text: string;
@@ -48,20 +48,20 @@ export function formatSelection(selection: TextSelection, command: string): Text
         end: start === end ? caret : start + wrapped.length };
 }
 
-function renderInline(text: string) {
-    const parts = [];
-    const tokens = /`([^`\n]+)`|\*([^*\n]+)\*|_([^_\n]+)_|~([^~\n]+)~/g;
+function renderInline(text: string): (string | TemplateResult)[] {
+    const parts: (string | TemplateResult)[] = [];
+    const tokens = /`([^`\n]+)`|\*((?:`[^`\n]+`|[^*\n`])+)\*|_((?:`[^`\n]+`|[^_\n`])+)_|~((?:`[^`\n]+`|[^~\n`])+)~/g;
     let previous = 0;
     for (const match of text.matchAll(tokens)) {
         parts.push(text.slice(previous, match.index));
         if (match[1]) {
             parts.push(html`<code>${match[1]}</code>`);
         } else if (match[2]) {
-            parts.push(html`<strong>${match[2]}</strong>`);
+            parts.push(html`<strong>${renderInline(match[2])}</strong>`);
         } else if (match[3]) {
-            parts.push(html`<em>${match[3]}</em>`);
+            parts.push(html`<em>${renderInline(match[3])}</em>`);
         } else {
-            parts.push(html`<s>${match[4]}</s>`);
+            parts.push(html`<s>${renderInline(match[4])}</s>`);
         }
 
         previous = match.index + match[0].length;
@@ -71,24 +71,36 @@ function renderInline(text: string) {
     return parts;
 }
 
-function renderLine(line: string) {
-    if (line.startsWith('> ')) {
-        return html`<blockquote>${renderInline(line.slice(2))}</blockquote>`;
-    }
-
-    if (/^[-*] /.test(line)) {
-        return html`<div class="preview-bullet">${renderInline(line.slice(2))}</div>`;
-    }
-
-    return html`<div>${renderInline(line) || ''}<br ?hidden=${!!line} /></div>`;
-}
-
 export function renderMessagePreview(text: string) {
-    return text.split(/(```[\s\S]*?```)/g).map(part => {
-        if (part.startsWith('```') && part.endsWith('```')) {
-            return html`<code class="preview-code">${part.slice(3, -3)}</code>`;
+    const lines: { parts: (string | TemplateResult)[]; kind: string }[] = [{ parts: [], kind: '' }];
+    for (const part of text.split(/(```[\s\S]*?```)/g)) {
+        if (!part) {
+            continue;
         }
 
-        return part ? part.split('\n').map(renderLine) : '';
+        const code = part.startsWith('```') && part.endsWith('```');
+        const fragments = (code ? part.slice(3, -3) : part).split('\n');
+        fragments.forEach((fragment, index) => {
+            if (index) {
+                lines.push({ parts: [], kind: '' });
+            }
+
+            const line = lines[lines.length - 1];
+            if (!code && !line.parts.length && /^(> |[-*] )/.test(fragment)) {
+                line.kind = fragment.startsWith('> ') ? 'quote' : 'bullet';
+                fragment = fragment.slice(2);
+            }
+
+            line.parts.push(...(code ? [html`<code class="preview-code">${fragment}</code>`] : renderInline(fragment)));
+        });
+    }
+
+    return lines.map(line => {
+        if (line.kind === 'quote') {
+            return html`<blockquote>${line.parts}</blockquote>`;
+        }
+
+        return html`<div class=${line.kind === 'bullet' ? 'preview-bullet' : ''}>${line.parts}<br
+            ?hidden=${line.parts.some(part => part !== '')} /></div>`;
     });
 }

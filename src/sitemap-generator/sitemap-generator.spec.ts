@@ -40,6 +40,14 @@ describe('sitemap-generator web component test', () => {
         expect(copy.disabled).toBe(false);
         expect(copy.text).toBe(component.outputText);
         expect(copy.text).toContain('a=1&amp;b=2');
+        const output = root.querySelectorAll('textarea')[1];
+        output.value = '<urlset><!-- edited --></urlset>';
+        output.dispatchEvent(new Event('input'));
+        await component.updateComplete;
+        expect(component.outputText).toBe(output.value);
+        for (const button of root.querySelectorAll('t-copy-button')) {
+            expect(button.text).toBe(output.value);
+        }
         input.value = '';
         input.dispatchEvent(new Event('input'));
         await component.updateComplete;

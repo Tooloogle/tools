@@ -14,6 +14,7 @@ export class UtmUrlBuilder extends WebComponentBase {
     @property() output = '';
     @property() error = '';
     @state() private fields: Record<string, string> = {};
+    private importedFields: Record<string, string> = {};
 
     private refresh() {
         this.output = '';
@@ -33,9 +34,12 @@ export class UtmUrlBuilder extends WebComponentBase {
         this.input = (event.target as HTMLInputElement).value;
         try {
             const existing = readUtmFields(this.input);
-            if (Object.values(existing).some(Boolean)) {
+            const changed = UTM_FIELDS.some(field => existing[field] !== (this.importedFields[field] ?? ''));
+            if (changed && Object.values(existing).some(Boolean)) {
                 this.fields = existing;
             }
+
+            this.importedFields = existing;
         } catch {
             this.output = '';
         }
@@ -52,6 +56,7 @@ export class UtmUrlBuilder extends WebComponentBase {
     private reset() {
         this.input = '';
         this.fields = {};
+        this.importedFields = {};
         this.refresh();
     }
 

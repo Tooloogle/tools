@@ -41,6 +41,8 @@ export class DirectToWhatsApp extends WebComponentBase {
       return false;
     }
 
+    const phone = this.renderRoot.querySelector<HTMLInputElement>('input[name="phone"]')!;
+    phone.value = this.recipient;
     return true;
   }
 
