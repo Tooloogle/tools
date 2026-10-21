@@ -1,0 +1,2 @@
+:host { display: block; }
+:host :is(.form-input, .form-textarea) { color: inherit; }

@@ -240,7 +240,7 @@ export class RandomDataGenerator extends WebComponentBase {
       <button class="btn btn-blue btn-sm" @click=${this.generate}>
         Generate New
       </button>
-      <t-copy-button .text=${this.result} .isIcon=${false}></t-copy-button>
+      <t-copy-button size="sm" .text=${this.result} .isIcon=${false}></t-copy-button>
     `;
   }
 

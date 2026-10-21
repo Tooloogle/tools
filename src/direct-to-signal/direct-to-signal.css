@@ -1,0 +1,3 @@
+:host { display: block; }
+:host :is(.form-input, .form-textarea, .form-select) { color: inherit; }
+a[aria-disabled="true"] { pointer-events: none; opacity: 0.5; }

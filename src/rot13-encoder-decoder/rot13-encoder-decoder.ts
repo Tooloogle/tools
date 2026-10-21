@@ -29,30 +29,29 @@ export class Rot13EncoderDecoder extends WebComponentBase {
 
   override render() {
     return html`
-      <div class="space-y-4">
-        <div>
-          <label class="block mb-2 font-semibold">Input Text:</label>
+      <div class="space-y-4 text-gray-900 dark:text-gray-100">
+        <label class="block">
+          <span class="inline-block py-1">Input Text</span>
           <textarea
             class="form-textarea w-full h-32"
             placeholder="Enter text to encode/decode with ROT13..."
             .value=${this.inputText}
             @input=${this.handleInput}
           ></textarea>
-        </div>
+        </label>
         <div>
-          <label class="block mb-2 font-semibold">ROT13 Output:</label>
+          <div class="flex items-center justify-between">
+            <span class="inline-block py-1">ROT13 Output</span>
+            <t-copy-button
+              .disabled=${!this.outputText}
+              .text=${this.outputText}
+            ></t-copy-button>
+          </div>
           <textarea
             class="form-textarea w-full h-32"
             readonly
             .value=${this.outputText}
           ></textarea>
-          ${this.outputText
-            ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ''}
-        </div>
-        <div class="text-xs text-gray-500">
-          <strong>Note:</strong> ROT13 is a simple letter substitution cipher.
-          Applying it twice returns the original text.
         </div>
       </div>
     `;

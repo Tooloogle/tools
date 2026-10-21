@@ -40,7 +40,7 @@ export class GuidGenerator extends WebComponentBase {
 
               <div class="py-2 text-right">
                 <button class="btn btn-blue btn-sm" @click=${this.regenerateGuid}>Re-generate</button>
-                <t-copy-button .isIcon=${false} .text=${this.guid}></t-copy-button>
+                <t-copy-button size="sm" .isIcon=${false} .text=${this.guid}></t-copy-button>
              </div>
         `;
     }

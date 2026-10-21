@@ -80,7 +80,7 @@ export class MetaTagsGenerator extends WebComponentBase {
 
   override render() {
     return html`
-      <div class="space-y-4">
+      <div class="space-y-4 text-gray-900 dark:text-gray-100">
         ${this.renderInputFields()} ${this.renderOutput()}
       </div>
     `;
@@ -96,8 +96,8 @@ export class MetaTagsGenerator extends WebComponentBase {
 
   private renderTitleInput() {
     return html`
-      <div>
-        <label class="block mb-2 font-semibold">Page Title:</label>
+      <label class="block">
+        <span class="inline-block py-1">Page Title</span>
         <input
           type="text"
           class="form-input w-full"
@@ -105,30 +105,28 @@ export class MetaTagsGenerator extends WebComponentBase {
           .value=${this.title}
           @input=${this.handleInput('title')}
         />
-      </div>
+      </label>
     `;
   }
 
   private renderDescriptionInput() {
     return html`
-      <div>
-        <label class="block mb-2 font-semibold">Description:</label>
+      <label class="block">
+        <span class="inline-block py-1">Description</span>
         <textarea
           class="form-textarea w-full h-20"
           placeholder="A brief description of your page for search engines"
           .value=${this.description}
           @input=${this.handleInput('description')}
         ></textarea>
-      </div>
+      </label>
     `;
   }
 
   private renderKeywordsInput() {
     return html`
-      <div>
-        <label class="block mb-2 font-semibold"
-          >Keywords (comma-separated):</label
-        >
+      <label class="block">
+        <span class="inline-block py-1">Keywords (comma-separated)</span>
         <input
           type="text"
           class="form-input w-full"
@@ -136,14 +134,14 @@ export class MetaTagsGenerator extends WebComponentBase {
           .value=${this.keywords}
           @input=${this.handleInput('keywords')}
         />
-      </div>
+      </label>
     `;
   }
 
   private renderAuthorInput() {
     return html`
-      <div>
-        <label class="block mb-2 font-semibold">Author:</label>
+      <label class="block">
+        <span class="inline-block py-1">Author</span>
         <input
           type="text"
           class="form-input w-full"
@@ -151,38 +149,39 @@ export class MetaTagsGenerator extends WebComponentBase {
           .value=${this.author}
           @input=${this.handleInput('author')}
         />
-      </div>
+      </label>
     `;
   }
 
   private renderViewportInput() {
     return html`
-      <div>
-        <label class="block mb-2 font-semibold">Viewport:</label>
+      <label class="block">
+        <span class="inline-block py-1">Viewport</span>
         <input
           type="text"
           class="form-input w-full"
           .value=${this.viewport}
           @input=${this.handleInput('viewport')}
         />
-      </div>
+      </label>
     `;
   }
 
   private renderOutput() {
     return html`
       <div>
-        <label class="block mb-2 font-semibold"
-          >Generated HTML Meta Tags:</label
-        >
+        <div class="flex items-center justify-between">
+          <span class="inline-block py-1">Generated HTML Meta Tags</span>
+          <t-copy-button
+            .disabled=${!this.outputText}
+            .text=${this.outputText}
+          ></t-copy-button>
+        </div>
         <textarea
           class="form-textarea w-full h-32"
           readonly
           .value=${this.outputText}
         ></textarea>
-        ${this.outputText
-          ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-          : ''}
       </div>
     `;
   }

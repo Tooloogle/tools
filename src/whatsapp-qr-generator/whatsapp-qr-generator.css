@@ -1,0 +1,5 @@
+:host { display: block; }
+:host :is(.form-input, .form-textarea, .form-select) { color: inherit; }
+.qr-preview { width: min(100%, 300px); aspect-ratio: 1; margin-inline: auto; background: white; }
+.qr-preview svg { display: block; width: 100%; height: 100%; }
+a[aria-disabled="true"] { pointer-events: none; opacity: 0.5; }

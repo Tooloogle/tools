@@ -1,0 +1,4 @@
+:host { display: block; }
+:host :is(.form-input, .form-textarea, .form-select) { color: inherit; }
+.epoch-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 400px) { .epoch-controls { grid-template-columns: minmax(0, 1fr); } }

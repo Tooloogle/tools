@@ -138,7 +138,7 @@ export class XmlToYamlConverter extends WebComponentBase {
             >
               Download YAML
             </button>
-            <t-copy-button .isIcon=${false} .disabled=${!hasOutput} .text=${this.outputText}></t-copy-button>
+            <t-copy-button size="sm" .isIcon=${false} .disabled=${!hasOutput} .text=${this.outputText}></t-copy-button>
           </div>
         </div>
       </div>

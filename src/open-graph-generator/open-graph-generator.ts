@@ -107,7 +107,7 @@ export class OpenGraphGenerator extends WebComponentBase {
 
   override render() {
     return html`
-      <div class="space-y-4">
+      <div class="space-y-4 text-gray-900 dark:text-gray-100">
         ${this.renderInputFields()} ${this.renderOutput()}
         ${this.renderHelpText()}
       </div>
@@ -127,8 +127,8 @@ export class OpenGraphGenerator extends WebComponentBase {
 
   private renderTitleAndDescriptionInputs() {
     return html`
-      <div>
-        <label class="block mb-2 font-semibold">Title:</label>
+      <label class="block">
+        <span class="inline-block py-1">Title</span>
         <input
           type="text"
           class="form-input w-full"
@@ -136,24 +136,24 @@ export class OpenGraphGenerator extends WebComponentBase {
           .value=${this.title}
           @input=${this.handleInput("title")}
         />
-      </div>
+      </label>
 
-      <div>
-        <label class="block mb-2 font-semibold">Description:</label>
+      <label class="block">
+        <span class="inline-block py-1">Description</span>
         <textarea
           class="form-textarea w-full h-20"
           placeholder="Page description for social media sharing"
           .value=${this.description}
           @input=${this.handleInput("description")}
         ></textarea>
-      </div>
+      </label>
     `;
   }
 
   private renderUrlAndImageInputs() {
     return html`
-      <div>
-        <label class="block mb-2 font-semibold">URL:</label>
+      <label class="block">
+        <span class="inline-block py-1">URL</span>
         <input
           type="url"
           class="form-input w-full"
@@ -161,10 +161,10 @@ export class OpenGraphGenerator extends WebComponentBase {
           .value=${this.url}
           @input=${this.handleInput("url")}
         />
-      </div>
+      </label>
 
-      <div>
-        <label class="block mb-2 font-semibold">Image URL:</label>
+      <label class="block">
+        <span class="inline-block py-1">Image URL</span>
         <input
           type="url"
           class="form-input w-full"
@@ -172,14 +172,14 @@ export class OpenGraphGenerator extends WebComponentBase {
           .value=${this.image}
           @input=${this.handleInput("image")}
         />
-      </div>
+      </label>
     `;
   }
 
   private renderSiteNameInput() {
     return html`
-      <div>
-        <label class="block mb-2 font-semibold">Site Name:</label>
+      <label class="block">
+        <span class="inline-block py-1">Site Name</span>
         <input
           type="text"
           class="form-input w-full"
@@ -187,14 +187,14 @@ export class OpenGraphGenerator extends WebComponentBase {
           .value=${this.siteName}
           @input=${this.handleInput("siteName")}
         />
-      </div>
+      </label>
     `;
   }
 
   private renderTypeSelector() {
     return html`
-      <div>
-        <label class="block mb-2 font-semibold">Type:</label>
+      <label class="block">
+        <span class="inline-block py-1">Type</span>
         <select
           class="form-select w-full"
           .value=${this.type}
@@ -207,31 +207,32 @@ export class OpenGraphGenerator extends WebComponentBase {
           <option value="music.song">Music - Song</option>
           <option value="book">Book</option>
         </select>
-      </div>
+      </label>
     `;
   }
 
   private renderOutput() {
     return html`
       <div>
-        <label class="block mb-2 font-semibold"
-          >Generated Open Graph Tags:</label
-        >
+        <div class="flex items-center justify-between">
+          <span class="inline-block py-1">Generated Open Graph Tags</span>
+          <t-copy-button
+            .disabled=${!this.outputText}
+            .text=${this.outputText}
+          ></t-copy-button>
+        </div>
         <textarea
           class="form-textarea w-full h-48"
           readonly
           .value=${this.outputText}
         ></textarea>
-        ${this.outputText
-          ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-          : ""}
       </div>
     `;
   }
 
   private renderHelpText() {
     return html`
-      <div class="text-sm text-gray-600">
+      <div class="text-sm text-gray-600 dark:text-gray-400">
         Includes both Open Graph and Twitter Card meta tags for optimal social
         media sharing.
       </div>
