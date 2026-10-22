@@ -250,6 +250,7 @@ export class RobotsTxtGenerator extends WebComponentBase {
             Download robots.txt
           </button>
           <t-copy-button
+            size="sm"
             .text=${this.outputText}
             .isIcon=${false}
             .disabled=${!this.outputText}

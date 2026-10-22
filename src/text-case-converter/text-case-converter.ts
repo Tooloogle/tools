@@ -179,22 +179,22 @@ export class TextCaseConverter extends WebComponentBase {
     </label>
 
     <div class="col btns">
-        <button class="btn btn-blue" @click=${this.handleLowerClick}>lower case</button>
-        <button class="btn btn-blue" @click=${this.handleUpperClick}>UPPER CASE</button>
-        <button class="btn btn-blue" @click=${this.handleCapitalizeClick}>Capitalized Case</button>
-        <button class="btn btn-blue" @click=${this.handleSentenceClick}>Sentence case</button>
-        <button class="btn btn-blue" @click=${this.handleAlternateClick}>aLtErNaTiNg cAsE</button>
-        <button class="btn btn-blue" @click=${this.handleInverseClick}>iNVERSE cASE</button>
-        <button class="btn btn-blue" @click=${this.handleCamelClick}>camelCase</button>
-        <button class="btn btn-blue" @click=${this.handlePascalClick}>PascalCase</button>
-        <button class="btn btn-blue" @click=${this.handleSnakeClick}>snake_case</button>
-        <button class="btn btn-blue" @click=${this.handleKebabClick}>kebab-case</button>
-        <button class="btn btn-blue" @click=${this.handleConstantClick}>CONSTANT_CASE</button>
-        <button class="btn btn-blue" @click=${this.handleDotClick}>dot.case</button>
+        <button class="btn btn-blue btn-sm" @click=${this.handleLowerClick}>lower case</button>
+        <button class="btn btn-blue btn-sm" @click=${this.handleUpperClick}>UPPER CASE</button>
+        <button class="btn btn-blue btn-sm" @click=${this.handleCapitalizeClick}>Capitalized Case</button>
+        <button class="btn btn-blue btn-sm" @click=${this.handleSentenceClick}>Sentence case</button>
+        <button class="btn btn-blue btn-sm" @click=${this.handleAlternateClick}>aLtErNaTiNg cAsE</button>
+        <button class="btn btn-blue btn-sm" @click=${this.handleInverseClick}>iNVERSE cASE</button>
+        <button class="btn btn-blue btn-sm" @click=${this.handleCamelClick}>camelCase</button>
+        <button class="btn btn-blue btn-sm" @click=${this.handlePascalClick}>PascalCase</button>
+        <button class="btn btn-blue btn-sm" @click=${this.handleSnakeClick}>snake_case</button>
+        <button class="btn btn-blue btn-sm" @click=${this.handleKebabClick}>kebab-case</button>
+        <button class="btn btn-blue btn-sm" @click=${this.handleConstantClick}>CONSTANT_CASE</button>
+        <button class="btn btn-blue btn-sm" @click=${this.handleDotClick}>dot.case</button>
 
-        <t-copy-button .isIcon=${false} .text=${this.text}></t-copy-button>
-        <button class="btn btn-green" @click=${this.handleDownloadClick}>Download</button>
-        <button class="btn btn-red" @click=${this.clear}>Clear</button>
+        <t-copy-button size="sm" .isIcon=${false} .text=${this.text}></t-copy-button>
+        <button class="btn btn-green btn-sm" @click=${this.handleDownloadClick}>Download</button>
+        <button class="btn btn-red btn-sm" @click=${this.clear}>Clear</button>
     </div>
     `;
     }

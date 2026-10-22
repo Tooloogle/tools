@@ -13,6 +13,9 @@ export class TCopyButton extends WebComponentBase {
   isIcon = true;
 
   @property({ type: String })
+  size: "sm" | "md" = "md";
+
+  @property({ type: String })
   text = "";
 
   @property({ type: Boolean })
@@ -56,7 +59,7 @@ export class TCopyButton extends WebComponentBase {
   };
 
   private renderButtonContent = () => {
-    return html`<span class="btn btn-green btn-sm">Copy</span>`;
+    return html`<span class="btn btn-green ${this.size === "sm" ? "btn-sm" : ""}">Copy</span>`;
   };
 
   private resetTitle = () => {

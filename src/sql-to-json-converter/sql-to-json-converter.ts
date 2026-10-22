@@ -212,40 +212,41 @@ export class SqlToJsonConverter extends WebComponentBase {
 
   override render() {
     return html`
-      <div class="space-y-4">
-        <div>
-          <label class="block mb-2 font-semibold"
-            >SQL Table Format (Tab/Pipe/Comma Separated):</label
-          >
+      <div class="space-y-4 text-gray-900 dark:text-gray-100">
+        <label class="block">
+          <span class="inline-block py-1">SQL Table Format (Tab/Pipe/Comma Separated)</span>
           <textarea
             class="form-textarea w-full h-40"
             placeholder="id | name | age&#10;1 | John | 30&#10;2 | Jane | 25"
             .value=${this.inputText}
             @input=${this.handleInput}
           ></textarea>
-        </div>
+        </label>
 
         ${this.errorMessage
           ? html`
-              <div class="p-3 bg-red-100 text-red-700 rounded">
+              <div class="p-3 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded">
                 ${this.errorMessage}
               </div>
             `
           : ''}
 
         <div>
-          <label class="block mb-2 font-semibold">JSON Output:</label>
+          <div class="flex items-center justify-between">
+            <span class="inline-block py-1">JSON Output</span>
+            <t-copy-button
+              .disabled=${!this.outputText}
+              .text=${this.outputText}
+            ></t-copy-button>
+          </div>
           <textarea
-            class="form-textarea w-full h-40"
+            class="form-textarea w-full h-40 font-mono text-sm"
             readonly
             .value=${this.outputText}
           ></textarea>
-          ${this.outputText
-            ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ''}
         </div>
 
-        <div class="text-sm text-gray-600">
+        <div class="text-sm text-gray-600 dark:text-gray-400">
           Converts SQL table results (tab, pipe, or comma separated) to JSON
           array. First row should be headers, followed by data rows. Quoted
           values like <code>"Smith, John"</code> are supported. Numeric

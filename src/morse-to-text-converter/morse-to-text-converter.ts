@@ -47,7 +47,8 @@ const MORSE_TO_TEXT: { [key: string]: string } = {
 @customElement("morse-to-text-converter")
 export class MorseToTextConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    morseToTextConverterStyles];
+    WebComponentBase.styles,
+    morseToTextConverterStyles];
 
   @property({ type: String }) inputMorse = "";
   @property({ type: String }) outputText = "";
@@ -66,26 +67,29 @@ export class MorseToTextConverter extends WebComponentBase {
 
   override render() {
     return html`
-      <div class="space-y-4">
-        <div>
-          <label class="block mb-2 font-semibold">Morse Code Input:</label>
+      <div class="space-y-4 text-gray-900 dark:text-gray-100">
+        <label class="block">
+          <span class="inline-block py-1">Morse Code Input</span>
           <textarea
             class="form-textarea w-full h-32 font-mono text-lg"
             placeholder="Enter Morse code (e.g., .... . .-.. .-.. ---)..."
             .value=${this.inputMorse}
             @input=${this.handleInput}
           ></textarea>
-        </div>
+        </label>
         <div>
-          <label class="block mb-2 font-semibold">Text Output:</label>
+          <div class="flex items-center justify-between">
+            <span class="inline-block py-1">Text Output</span>
+            <t-copy-button
+              .disabled=${!this.outputText}
+              .text=${this.outputText}
+            ></t-copy-button>
+          </div>
           <textarea
             class="form-textarea w-full h-32"
             readonly
             .value=${this.outputText}
           ></textarea>
-          ${this.outputText
-            ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ""}
         </div>
       </div>
     `;

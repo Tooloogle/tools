@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('text-to-leetspeak')
 export class TextToLeetspeak extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    textToLeetspeakStyles];
+    WebComponentBase.styles,
+    textToLeetspeakStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputText = '';
@@ -37,26 +38,29 @@ export class TextToLeetspeak extends WebComponentBase {
 
   override render() {
     return html`
-      <div class="space-y-4">
-        <div>
-          <label class="block mb-2 font-semibold">Input Text:</label>
+      <div class="space-y-4 text-gray-900 dark:text-gray-100">
+        <label class="block">
+          <span class="inline-block py-1">Input Text</span>
           <textarea
             class="form-textarea w-full h-32"
             placeholder="Enter text to convert to leetspeak..."
             .value=${this.inputText}
             @input=${this.handleInput}
           ></textarea>
-        </div>
+        </label>
         <div>
-          <label class="block mb-2 font-semibold">L33t Sp34k Output:</label>
+          <div class="flex items-center justify-between">
+            <span class="inline-block py-1">L33t Sp34k Output</span>
+            <t-copy-button
+              .disabled=${!this.outputText}
+              .text=${this.outputText}
+            ></t-copy-button>
+          </div>
           <textarea
             class="form-textarea w-full h-32"
             readonly
             .value=${this.outputText}
           ></textarea>
-          ${this.outputText
-            ? html`<t-copy-button .text=${this.outputText}></t-copy-button>`
-            : ''}
         </div>
       </div>
     `;

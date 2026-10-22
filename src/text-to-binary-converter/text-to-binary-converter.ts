@@ -7,7 +7,8 @@ import '../t-copy-button/index.js';
 @customElement('text-to-binary-converter')
 export class TextToBinaryConverter extends WebComponentBase {
   static override styles = [
-    WebComponentBase.styles,    textToBinaryConverterStyles];
+    WebComponentBase.styles,
+    textToBinaryConverterStyles];
 
   @property({ type: String }) inputText = '';
   @property({ type: String }) outputBinary = '';
@@ -26,26 +27,29 @@ export class TextToBinaryConverter extends WebComponentBase {
 
   override render() {
     return html`
-      <div class="space-y-4">
-        <div>
-          <label class="block mb-2 font-semibold">Input Text:</label>
+      <div class="space-y-4 text-gray-900 dark:text-gray-100">
+        <label class="block">
+          <span class="inline-block py-1">Input Text</span>
           <textarea
             class="form-textarea w-full h-32"
             placeholder="Enter text to convert to binary..."
             .value=${this.inputText}
             @input=${this.handleInput}
           ></textarea>
-        </div>
+        </label>
         <div>
-          <label class="block mb-2 font-semibold">Binary Output:</label>
+          <div class="flex items-center justify-between">
+            <span class="inline-block py-1">Binary Output</span>
+            <t-copy-button
+              .disabled=${!this.outputBinary}
+              .text=${this.outputBinary}
+            ></t-copy-button>
+          </div>
           <textarea
-            class="form-textarea w-full h-32 font-mono"
+            class="form-textarea w-full h-32 font-mono text-sm"
             readonly
             .value=${this.outputBinary}
           ></textarea>
-          ${this.outputBinary
-            ? html`<t-copy-button .text=${this.outputBinary}></t-copy-button>`
-            : ''}
         </div>
       </div>
     `;

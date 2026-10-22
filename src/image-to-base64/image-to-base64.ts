@@ -71,7 +71,7 @@ export class ImageToBase64 extends WebComponentBase {
 
                 <div class="text-right">
                     <button class="btn btn-blue btn-sm" @click=${this.downloadBase64}>Download Base64 text</button>
-                    <t-copy-button .isIcon=${false} .text=${this.base64}></t-copy-button>
+                    <t-copy-button size="sm" .isIcon=${false} .text=${this.base64}></t-copy-button>
                 </div>
             </div>
         `;

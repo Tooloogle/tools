@@ -147,7 +147,12 @@
         </div>`;
 
         try {
-          const mod = await import(`../src/${tool}/${tool}.ts`);
+          const modules = import.meta.glob(['../src/*/*.ts', '!../src/**/*.spec.ts', '!../src/**/*.css.ts']);
+          const loadModule = modules[`../src/${tool}/${tool}.ts`];
+          if (!loadModule) {
+            throw new Error(`Tool module not found: ${tool}`);
+          }
+          const mod = await loadModule();
           mod?.default?.();
           container.innerHTML = `<${tool}></${tool}>`;
           localStorage.setItem('demo-selected-tool', tool);
