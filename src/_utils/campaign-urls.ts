@@ -18,10 +18,10 @@ function parameterNames(url: URL): string[] {
 
 function filterQuery(url: URL, remove: (name: string) => boolean) {
     const entries = url.search.slice(1).split('&').filter(entry => {
-        const name = new URLSearchParams(entry).keys().next().value ?? '';
+        const name = new URLSearchParams(`?${entry}`).keys().next().value ?? '';
         return !remove(name);
     });
-    url.search = entries.join('&');
+    url.search = entries.length ? `?${entries.join('&')}` : '';
 }
 
 export function readUtmFields(input: string): Record<string, string> {

@@ -30,6 +30,17 @@ describe('WhatsApp formatting', () => {
         expect(formatSelection(result, command)).toEqual(initial);
     });
 
+    it.each(['```one\n\ntwo```', '```one\n\n\ntwo```', '```\none\n```'])(
+        'keeps blank monospace lines visible in %s', text => {
+            const container = document.createElement('div');
+            render(renderMessagePreview(text), container);
+            const expected = text.slice(3, -3).split('\n');
+            expect([...container.children].map(line => line.textContent)).toEqual(expected);
+            [...container.children].forEach((line, index) => {
+                expect(line.querySelector('br')!.hidden).toBe(expected[index] !== '');
+            });
+        });
+
     it('inserts markers around a caret', () => {
         expect(formatSelection({ text: 'hello', start: 5, end: 5 }, 'bold')).toEqual({ text: 'hello**', start: 6, end: 6 });
     });

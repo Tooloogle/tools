@@ -39,6 +39,19 @@ describe('campaign URLs', () => {
         expect(url.hash).toBe('#section');
     });
 
+    it.each(['?utm_source=keep&?route=checkout', '?route=checkout&%3Futm_source=keep'])(
+        'preserves literal and encoded question marks in functional names: %s', query => {
+            const input = `https://example.test/?utm_source=old&${query}#offer`;
+            expect(cleanTrackingUrl(input)).toEqual({
+                url: `https://example.test/?${query}#offer`,
+                removed: ['utm_source'],
+            });
+            const built = buildUtmUrl(input, fields);
+            expect(built).toContain(`?${query}&utm_source=Newsletter`);
+            expect(new URL(built).searchParams.get('?utm_source')).toBe('keep');
+            expect(new URL(built).searchParams.get('?route')).toBe('checkout');
+        });
+
     it('removes known click trackers only when requested and preserves no-op input bytes', () => {
         expect(cleanTrackingUrl('https://example.test/?FBCLID=x&token=keep', true).url).toBe('https://example.test/?token=keep');
         const original = 'https://example.test/path?q=a%20b&token=secret#section';

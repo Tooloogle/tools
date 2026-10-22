@@ -91,7 +91,7 @@ export function renderMessagePreview(text: string) {
                 fragment = fragment.slice(2);
             }
 
-            line.parts.push(...(code ? [html`<code class="preview-code">${fragment}</code>`] : renderInline(fragment)));
+            line.parts.push(...(code && fragment ? [html`<code class="preview-code">${fragment}</code>`] : renderInline(fragment)));
         });
     }
 
